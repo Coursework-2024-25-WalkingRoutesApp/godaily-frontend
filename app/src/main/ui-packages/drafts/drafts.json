@@ -1,0 +1,161 @@
+{
+  "name": "drafts",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "gpagxTcBk24jfBU4fDyNfg",
+    "node": "2123:1501",
+    "version": "2169464805838297234",
+    "component-id": "b950e9f62819befa6c038fb48a3a5a324e124e35"
+  },
+  "default": "drafts",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "card"
+      },
+      {
+        "type": "group",
+        "id": "frameForText"
+      },
+      {
+        "type": "text",
+        "id": "draftsText"
+      },
+      {
+        "type": "text",
+        "id": "draftsCount"
+      }
+    ],
+    "modes": {
+      "drafts": {
+        "rules": [
+          {
+            "id": "top_level",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "main-axis-align": "start",
+            "cross-axis-align": "start",
+            "children": [
+              "card"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "card",
+            "padding": 10.0,
+            "border-radius": 10.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 167.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 97.0
+              }
+            },
+            "main-axis-align": "end",
+            "cross-axis-align": "start",
+            "children": [
+              "frameForText"
+            ],
+            "item-spacing": 5.0,
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 247.0588235294118,
+              "saturation": 0.13599999999999998,
+              "value": 0.9803921568627451
+            }
+          },
+          {
+            "id": "frameForText",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "cross-axis-align": "start",
+            "children": [
+              "draftsText",
+              "draftsCount"
+            ],
+            "item-spacing": -15.0,
+            "clip-content": false
+          },
+          {
+            "id": "draftsText",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 126.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 37.0
+              }
+            },
+            "text-content": "Черновики",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "line-height": 1.2102272851126534,
+            "typeface": "Inter"
+          },
+          {
+            "id": "draftsCount",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 126.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 24.0
+              }
+            },
+            "color": {
+              "alpha": 0.4980392156862745,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.0
+            },
+            "text-content": "1 маршрут",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "line-height": 1.2102272851126534,
+            "typeface": "Inter"
+          }
+        ]
+      }
+    }
+  },
+  "previews": [
+    {
+      "design": "drafts",
+      "size": {
+        "width": 167.0,
+        "height": 97.0
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

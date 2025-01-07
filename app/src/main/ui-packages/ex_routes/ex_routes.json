@@ -1,0 +1,167 @@
+{
+  "name": "ex_routes",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "gpagxTcBk24jfBU4fDyNfg",
+    "node": "2123:1517",
+    "version": "2169464805838297234",
+    "component-id": "f8e49d7c9a76cd33fbef425acf688b2cc97b68e1"
+  },
+  "default": "ex_routes",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "card"
+      },
+      {
+        "type": "group",
+        "id": "frameExRoutes"
+      },
+      {
+        "type": "text",
+        "id": "exRoutesText"
+      },
+      {
+        "type": "text",
+        "id": "exRoutesCount"
+      }
+    ],
+    "modes": {
+      "ex_routes": {
+        "rules": [
+          {
+            "id": "top_level",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "main-axis-align": "start",
+            "cross-axis-align": "start",
+            "children": [
+              "card"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "card",
+            "padding": 10.0,
+            "border-radius": 10.0,
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 164.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 97.0
+              }
+            },
+            "main-axis-align": "end",
+            "cross-axis-align": "start",
+            "children": [
+              "frameExRoutes"
+            ],
+            "item-spacing": 15.0,
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 68.57142857142857,
+              "saturation": 0.9130434782608695,
+              "value": 0.9921568627450981
+            }
+          },
+          {
+            "id": "frameExRoutes",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "cross-axis-align": "start",
+            "children": [
+              "exRoutesText",
+              "exRoutesCount"
+            ],
+            "item-spacing": 3.0,
+            "clip-content": false
+          },
+          {
+            "id": "exRoutesText",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 126.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 37.0
+              }
+            },
+            "color": {
+              "alpha": 1.0,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.058823529411764705
+            },
+            "text-content": "Пройденные маршруты",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "line-height": 1.2102272851126534,
+            "typeface": "Inter"
+          },
+          {
+            "id": "exRoutesCount",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 126.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 24.0
+              }
+            },
+            "color": {
+              "alpha": 0.4980392156862745,
+              "hue": 0.0,
+              "saturation": 0.0,
+              "value": 0.0
+            },
+            "text-content": "8 маршрутов",
+            "overflow": "visible",
+            "max-lines": -1,
+            "text-align": "left",
+            "line-height": 1.2102272851126534,
+            "typeface": "Inter"
+          }
+        ]
+      }
+    }
+  },
+  "previews": [
+    {
+      "design": "ex_routes",
+      "size": {
+        "width": 164.0,
+        "height": 97.0
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

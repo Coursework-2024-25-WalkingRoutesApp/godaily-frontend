@@ -1,0 +1,124 @@
+{
+  "name": "back",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "gpagxTcBk24jfBU4fDyNfg",
+    "node": "2123:1358",
+    "version": "2169464805838297234",
+    "component-id": "3659ea2f4dbb9f94ce4b02c8b6f82495c6a6b5cf"
+  },
+  "default": "back",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "back"
+      },
+      {
+        "type": "group",
+        "id": "Group 3"
+      },
+      {
+        "type": "vector",
+        "id": "Vector 2"
+      },
+      {
+        "type": "vector",
+        "id": "Ellipse 1"
+      }
+    ],
+    "modes": {
+      "back": {
+        "rules": [
+          {
+            "id": "top_level",
+            "is-structured": false,
+            "children": [
+              "back"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "back",
+            "is-structured": false,
+            "children": [
+              "Group 3",
+              "Vector 2"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Group 3",
+            "is-structured": false,
+            "children": [
+              "Ellipse 1"
+            ],
+            "clip-content": false
+          },
+          {
+            "id": "Vector 2",
+            "margin": {
+              "left": 13.0,
+              "top": 13.5,
+              "right": 12.0,
+              "bottom": 14.5
+            },
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": -1.25
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": -0.84716796875
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "vector_2.svg"
+          },
+          {
+            "id": "Ellipse 1",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": 1.0
+              }
+            },
+            "vector-content": "ellipse_1.svg"
+          }
+        ]
+      }
+    }
+  },
+  "previews": [
+    {
+      "design": "back",
+      "size": {
+        "width": 51.0,
+        "height": 51.0
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

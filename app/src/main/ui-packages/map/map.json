@@ -1,0 +1,76 @@
+{
+  "name": "map",
+  "version": 33,
+  "source-key": {
+    "type": "figma",
+    "file": "gpagxTcBk24jfBU4fDyNfg",
+    "node": "2123:1366",
+    "version": "2169464805838297234",
+    "component-id": "953fcef2cdf9596841abd10b439a7a719225e7db"
+  },
+  "default": "map",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "image",
+        "id": "png-transparent-computer-icons-map-symbol-map-icon-text-map-world-map-thumbnail 1"
+      }
+    ],
+    "modes": {
+      "map": {
+        "rules": [
+          {
+            "id": "top_level",
+            "padding": 9.0,
+            "border-radius": 25.4677734375,
+            "arrangement": "row",
+            "main-axis-align": "start",
+            "children": [
+              "png-transparent-computer-icons-map-symbol-map-icon-text-map-world-map-thumbnail 1"
+            ],
+            "item-spacing": 10.0,
+            "background-color": {
+              "alpha": 1.0,
+              "hue": 68.57142857142857,
+              "saturation": 0.9130434782608695,
+              "value": 0.9921568627450981
+            },
+            "clip-content": false
+          },
+          {
+            "id": "png-transparent-computer-icons-map-symbol-map-icon-text-map-world-map-thumbnail 1",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": 32.0
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": 32.0
+              }
+            },
+            "image-content": "png_transparent_computer_icons_map_symbol_map_icon_text_map_world_map_thumbnail_1.png",
+            "scale": "cover"
+          }
+        ]
+      }
+    }
+  },
+  "previews": [
+    {
+      "design": "map",
+      "size": {
+        "width": 50.935546875,
+        "height": 50.935546875
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}
