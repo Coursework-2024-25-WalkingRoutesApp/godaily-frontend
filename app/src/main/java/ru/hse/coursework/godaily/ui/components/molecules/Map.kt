@@ -13,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
+import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.lime
 
 @Composable
@@ -30,7 +31,7 @@ fun Map(onClick: () -> Unit) {
         Icon(
             painter = painterResource(id = R.drawable.map),
             contentDescription = null,
-            tint = Color.Black,
+            tint = black,
             modifier = Modifier.size(32.dp)
         )
     }

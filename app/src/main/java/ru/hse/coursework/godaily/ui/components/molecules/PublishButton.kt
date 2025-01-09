@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.ui.components.atoms.RouteNameSmall
+import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.lime
 
 @Composable
@@ -21,7 +22,7 @@ fun PublishButton(onClick: () -> Unit, text: String = "Опубликовать"
         shape = RoundedCornerShape(13.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = lime,
-            contentColor = Color.Black
+            contentColor = black
         ),
         contentPadding = PaddingValues(
             start = 16.dp,
