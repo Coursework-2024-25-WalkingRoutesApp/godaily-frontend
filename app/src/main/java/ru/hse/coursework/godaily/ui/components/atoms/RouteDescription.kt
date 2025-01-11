@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import ru.hse.coursework.godaily.ui.theme.routeDescription
-import ru.hse.coursework.godaily.ui.theme.routeNameSmall
 
 @Composable
 fun RouteDescription(text: String, style: TextStyle = routeDescription) {
@@ -20,8 +19,10 @@ fun RouteDescription(text: String, style: TextStyle = routeDescription) {
 @Preview
 @Composable
 fun RouteDescriptionPreview() {
-    RouteDescription("Прогулка по району Измайлово в Москве" +
-            " может стать увлекательным и запоминающимся опытом " +
-            "для любителей истории, культуры и природы. Также она " +
-            "не занимает много времени, что очень удобно!")
+    RouteDescription(
+        "Прогулка по району Измайлово в Москве" +
+                " может стать увлекательным и запоминающимся опытом " +
+                "для любителей истории, культуры и природы. Также она " +
+                "не занимает много времени, что очень удобно!"
+    )
 }

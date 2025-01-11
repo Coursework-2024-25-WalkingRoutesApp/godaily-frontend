@@ -8,14 +8,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import ru.hse.coursework.godaily.ui.theme.routeNameSmall
+import ru.hse.coursework.godaily.ui.theme.variableBold
 
 @Composable
-fun VariableMedium(
+fun VariableBold(
     text: String,
     fontSize: TextUnit,
     fontColor: Color = Color.Black,
-    style: TextStyle = routeNameSmall,
+    style: TextStyle = variableBold,
     modifier: Modifier = Modifier
 ) {
     Text(
@@ -23,12 +23,12 @@ fun VariableMedium(
         style = style,
         fontSize = fontSize,
         color = fontColor,
-        modifier = modifier,
+        modifier = modifier
     )
 }
 
 @Preview
 @Composable
-fun VariableMediumPreview() {
-    VariableMedium("Историческое измайлово", 11.sp)
+fun VariableBoldPreview() {
+    VariableBold("Историческое измайлово", 11.sp)
 }
