@@ -15,10 +15,10 @@ import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.lime
 
 @Composable
-fun ApplyButton(onClick: () -> Unit, text: String = "Применить") {
+fun PublishButtonBig(onClick: () -> Unit, text: String = "Опубликовать") {
     Button(
         onClick = onClick,
-        shape = RoundedCornerShape(13.dp),
+        shape = RoundedCornerShape(15.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = lime,
             contentColor = black
@@ -30,8 +30,8 @@ fun ApplyButton(onClick: () -> Unit, text: String = "Применить") {
             bottom = 10.dp
         ),
         modifier = Modifier
-            .width(141.dp)
-            .height(39.dp)
+            .width(260.dp)
+            .height(46.dp)
     ) {
         RouteNameSmall(text = text)
     }
@@ -39,6 +39,6 @@ fun ApplyButton(onClick: () -> Unit, text: String = "Применить") {
 
 @Preview
 @Composable
-fun ApplyButtonPreview() {
-    ApplyButton(onClick = {})
+fun PublishButtonBigPreview() {
+    PublishButtonBig(onClick = {})
 }

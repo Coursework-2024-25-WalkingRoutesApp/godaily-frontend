@@ -1,9 +1,11 @@
 package ru.hse.coursework.godaily.ui.components.molecules
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,7 +32,7 @@ import ru.hse.coursework.godaily.ui.theme.greyDark
 @Composable
 fun SortDropdown(
     options: List<String>,
-    initialSelection: String = "по умолчанию",
+    initialSelection: String = "ближе ко мне",
     onOptionSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -44,8 +46,10 @@ fun SortDropdown(
     ) {
         Row(
             modifier = Modifier
+                .fillMaxWidth()
                 .clickable { expanded = !expanded },
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
         ) {
             VariableLight(
                 text = selectedOption,
@@ -86,8 +90,8 @@ fun SortDropdown(
 @Composable
 fun SortDropdownPreview() {
     SortDropdown(
-        options = listOf("по умолчанию", "По цене", "По рейтингу", "По дате"),
-        initialSelection = "по умолчанию",
+        options = listOf("Длинные", "Короткие", "Ближе ко мне", "С высоким рейтингом"),
+        initialSelection = "Ближе ко мне",
         onOptionSelected = { selectedOption ->
             println("Selected option: $selectedOption")
         },

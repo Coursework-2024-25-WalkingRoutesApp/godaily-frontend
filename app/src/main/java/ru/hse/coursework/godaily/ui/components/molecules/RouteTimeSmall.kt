@@ -9,11 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
-import ru.hse.coursework.godaily.ui.theme.greyLight
 
 @Composable
 fun RouteTimeSmall(routeTime: String) {
@@ -24,7 +24,7 @@ fun RouteTimeSmall(routeTime: String) {
     Box(
         modifier = Modifier
             .width(calculatedWidth)
-            .height(23.dp)
+            .height(20.dp)
             .clip(
                 RoundedCornerShape(
                     topStart = 0.dp,
@@ -33,7 +33,7 @@ fun RouteTimeSmall(routeTime: String) {
                     bottomEnd = 6.dp
                 )
             )
-            .background(greyLight),
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
         VariableMedium(

@@ -8,13 +8,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.theme.black
-import ru.hse.coursework.godaily.ui.theme.lime
 import ru.hse.coursework.godaily.ui.theme.purpleDark
 
 @Composable

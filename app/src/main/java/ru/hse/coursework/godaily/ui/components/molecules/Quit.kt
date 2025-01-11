@@ -3,7 +3,6 @@ package ru.hse.coursework.godaily.ui.components.molecules
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
@@ -33,7 +32,7 @@ fun Quit(onClick: () -> Unit, text: String = "Сбросить") {
             .width(70.dp)
             .height(23.dp)
     ) {
-        VariableMedium(text, 13.sp, greyDark)
+        VariableMedium(text, 14.sp, greyDark)
     }
 }
 
