@@ -14,30 +14,30 @@ import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
 
 @Composable
-fun StarToggle(
+fun RadioButtonToggle(
     isChosen: Boolean,
     onToggle: (Boolean) -> Unit
 ) {
     IconButton(
         onClick = { onToggle(!isChosen) },
-        modifier = Modifier.size(35.dp, 35.dp)
+        modifier = Modifier.size(30.dp, 30.dp)
     ) {
         Icon(
-            painter = if (isChosen) painterResource(id = R.drawable.star_enabled) else painterResource(
-                id = R.drawable.star_disabled
+            painter = if (isChosen) painterResource(id = R.drawable.radio_button_enabled) else painterResource(
+                id = R.drawable.radio_button_disabled
             ),
             contentDescription = null,
-            modifier = Modifier.size(32.dp, 30.dp),
+            modifier = Modifier.size(25.dp, 25.dp),
             tint = Color.Unspecified
         )
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun StarTogglePreview() {
+fun RadioButtonTogglePreview() {
     val isChosen = remember { mutableStateOf(false) }
-    StarToggle(
+    RadioButtonToggle(
         isChosen = isChosen.value,
         onToggle = { isChosen.value = it }
     )
