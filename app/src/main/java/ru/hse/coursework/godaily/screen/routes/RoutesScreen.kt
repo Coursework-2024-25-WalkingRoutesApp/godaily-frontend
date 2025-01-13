@@ -1,4 +1,4 @@
-package ru.hse.coursework.godaily.ui.routes
+package ru.hse.coursework.godaily.screen.routes
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

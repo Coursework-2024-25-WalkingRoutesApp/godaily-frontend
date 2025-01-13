@@ -57,10 +57,8 @@ fun UserProfile(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 VariableMedium(
-                    text = userName, fontSize = 29.sp,
-                    modifier = Modifier
-                        .width(178.dp)
-                        .height(35.dp),
+                    text = userName,
+                    fontSize = 29.sp,
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
@@ -78,7 +76,7 @@ fun UserProfile(
 @Composable
 fun UserProfilePreview() {
     UserProfile(
-        userName = "Иван Иванов",
+        userName = "Иван",
         onEditProfileClick = {}
     )
 }

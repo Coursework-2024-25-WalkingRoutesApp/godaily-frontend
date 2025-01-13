@@ -1,4 +1,4 @@
-package ru.hse.coursework.godaily.model
+package ru.hse.coursework.godaily.core.domain.model
 
 import java.time.LocalTime
 

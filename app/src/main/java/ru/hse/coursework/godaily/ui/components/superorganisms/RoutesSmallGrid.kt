@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.model.Route
+import ru.hse.coursework.godaily.core.domain.model.Route
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 

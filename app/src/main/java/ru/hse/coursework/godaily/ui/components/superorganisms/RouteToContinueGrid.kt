@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.model.Route
+import ru.hse.coursework.godaily.core.domain.model.Route
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 
 @Composable

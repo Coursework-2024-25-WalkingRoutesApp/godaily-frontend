@@ -1,4 +1,4 @@
-package ru.hse.coursework.godaily.ui.home
+package ru.hse.coursework.godaily.screen.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

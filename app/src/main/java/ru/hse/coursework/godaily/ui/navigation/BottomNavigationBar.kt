@@ -18,9 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import ru.hse.coursework.godaily.ui.home.HomeScreen
-import ru.hse.coursework.godaily.ui.profile.ProfileScreen
-import ru.hse.coursework.godaily.ui.routes.RoutesScreen
+import ru.hse.coursework.godaily.screen.home.HomeScreen
+import ru.hse.coursework.godaily.screen.profile.ProfileScreen
+import ru.hse.coursework.godaily.screen.routes.RoutesScreen
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.purpleDark
 
@@ -39,14 +39,14 @@ fun BottomNavigationBar(navController: NavController) {
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = backStackEntry?.destination?.route
 
-        items.forEach {item ->
+        items.forEach { item ->
             NavigationBarItem(
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route)
                 },
                 icon = {
-                    Icon (
+                    Icon(
                         painterResource(id = item.icon),
                         contentDescription = null
                     )
