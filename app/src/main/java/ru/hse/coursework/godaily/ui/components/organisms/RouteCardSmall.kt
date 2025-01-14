@@ -22,6 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.rememberAsyncImagePainter
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.RouteNameSmall
 import ru.hse.coursework.godaily.ui.components.molecules.RouteLengthSmall
@@ -33,7 +34,7 @@ fun RouteCardSmall(
     distance: String,
     time: String,
     title: String,
-    imageRes: Int,
+    imageResUrl: String,
     categories: List<Int>,
     modifier: Modifier = Modifier
 ) {
@@ -45,7 +46,10 @@ fun RouteCardSmall(
     ) {
         Box {
             Image(
-                painter = painterResource(id = imageRes),
+                painter = rememberAsyncImagePainter(
+                    model = imageResUrl,
+                    error = painterResource(R.drawable.sample_route_image)
+                ),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
@@ -145,7 +149,7 @@ fun RouteCardSmallPreview() {
         distance = "4.6 км",
         time = "35-50 минут",
         title = "Историческое Измайлово",
-        imageRes = R.drawable.sample_route_image,
+        imageResUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlKC_brTH0YllYbrNf3gtJ6dSyGoDhI4eD-g&s",
         modifier = Modifier.padding(8.dp),
         categories = listOf(
             R.drawable.culture,

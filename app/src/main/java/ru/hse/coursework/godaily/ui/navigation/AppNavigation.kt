@@ -19,6 +19,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.hse.coursework.godaily.screen.home.HomeScreen
+import ru.hse.coursework.godaily.screen.profile.CompletedRoutesScreen
+import ru.hse.coursework.godaily.screen.profile.FavouriteRoutesScreen
 import ru.hse.coursework.godaily.screen.profile.ProfileScreen
 import ru.hse.coursework.godaily.screen.routes.RoutesScreen
 import ru.hse.coursework.godaily.ui.theme.greyDark
@@ -27,9 +29,9 @@ import ru.hse.coursework.godaily.ui.theme.purpleDark
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        NavigationItem.Home,
-        NavigationItem.Routes,
-        NavigationItem.Profile
+        BottomNavigationItem.Home,
+        BottomNavigationItem.Routes,
+        BottomNavigationItem.Profile
     )
 
     NavigationBar(
@@ -66,12 +68,32 @@ fun BottomNavigationBar(navController: NavController) {
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
-    NavHost(navController, startDestination = NavigationItem.Home.route) {
-        composable(NavigationItem.Home.route) { HomeScreen() }
-        composable(NavigationItem.Routes.route) { RoutesScreen() }
-        composable(NavigationItem.Profile.route) { ProfileScreen() }
+    NavHost(navController, startDestination = BottomNavigationItem.Home.route) {
+        composable(BottomNavigationItem.Home.route) { HomeScreen() }
+        composable(BottomNavigationItem.Routes.route) { RoutesScreen() }
+        composable(BottomNavigationItem.Profile.route) { ProfileNavigation() }
     }
 }
+
+@Composable
+fun ProfileNavigation() {
+    val profileNavController = rememberNavController()
+    NavHost(
+        navController = profileNavController,
+        startDestination = NavigationItem.ProfileMain.route
+    ) {
+        composable(NavigationItem.ProfileMain.route) {
+            ProfileScreen(profileNavController)
+        }
+        composable(NavigationItem.CompletedRoutes.route) {
+            CompletedRoutesScreen(profileNavController)
+        }
+        composable(NavigationItem.FavouriteRoutes.route) {
+            FavouriteRoutesScreen(profileNavController)
+        }
+    }
+}
+
 
 @Composable
 fun MainScreen() {

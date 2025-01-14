@@ -54,7 +54,6 @@ fun ReviewBox(
         VariableBold(text = "Опишите плюсы и минусы", fontSize = 17.sp)
         Spacer(modifier = Modifier.height(15.dp))
 
-        // Контейнер для текста с фиксированной высотой
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -65,7 +64,6 @@ fun ReviewBox(
         ) {
             val scrollState = rememberScrollState()
 
-            // Текстовое поле с прокруткой
             BasicTextField(
                 value = feedbackText.value,
                 onValueChange = {

@@ -6,16 +6,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ru.hse.coursework.godaily.R
+import ru.hse.coursework.godaily.core.data.model.RouteDTO
 import ru.hse.coursework.godaily.core.domain.profile.FetchProfileInfoUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val fetchProfileInfoUseCase: FetchProfileInfoUseCase
+    private val fetchProfileInfoUseCase: FetchProfileInfoUseCase,
 ) : ViewModel() {
 
-    // Состояние UI экрана
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState: StateFlow<ProfileUiState> = _uiState
 
@@ -28,19 +27,15 @@ class ProfileViewModel @Inject constructor(
             val profile = fetchProfileInfoUseCase.execute("")
             _uiState.value = _uiState.value.copy(
                 userName = profile.name,
-                profilePicture = R.drawable.default_profile_photo,//profile.photoUrl,
-                completedRoutesCount = profile.completedRoutes.count(),
-                favouriteRoutesCount = profile.favouriteRoutes.count()
+                profilePictureUrl = profile.photoUrl,//profile.photoUrl,
+                completedRoutes = profile.completedRoutes,
+                favouriteRoutes = profile.favouriteRoutes
             )
         }
     }
 
     fun onEditProfileClicked() {
         // Обработка перехода к редактированию профиля
-    }
-
-    fun onCompletedRoutesClicked() {
-        // Обработка перехода к экрану "Пройденные маршруты"
     }
 
     fun onFavouriteRoutesClicked() {
@@ -50,8 +45,8 @@ class ProfileViewModel @Inject constructor(
 
 data class ProfileUiState(
     val userName: String = "Ваше имя",
-    val profilePicture: Int = R.drawable.default_profile_photo,
-    val completedRoutesCount: Int = 0,
-    val favouriteRoutesCount: Int = 0
+    val profilePictureUrl: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG3RRs0ouk80nISkSjBII8TgTshOBcitVnJg&s",
+    val completedRoutes: List<RouteDTO> = listOf(),
+    val favouriteRoutes: List<RouteDTO> = listOf()
 )
 

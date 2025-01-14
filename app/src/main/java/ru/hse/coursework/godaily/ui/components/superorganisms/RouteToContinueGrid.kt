@@ -16,13 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.core.domain.model.Route
+import ru.hse.coursework.godaily.core.data.model.RouteDTO
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 
 @Composable
 fun RouteToContinueGrid(
-    routes: List<Route>,
+    routes: List<RouteDTO>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -50,7 +49,7 @@ fun RouteToContinueGrid(
                 RouteCardToContinue(
                     distance = "${route.length / 1000.0} км",
                     title = route.routeName,
-                    imageRes = route.routePreview,
+                    imageResUrl = route.routePreview,
                     modifier = Modifier.padding(end = 8.dp)
                 )
             }
@@ -63,60 +62,61 @@ fun RouteToContinueGrid(
 @Composable
 fun PreviewRouteToContinueGrid() {
     val sampleRoutes = listOf(
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
+        RouteDTO(
+            id = "101",
+            userId = "1",
+            routeName = "Mock Draft Route",
+            description = "This is a draft route",
+            duration = 60,
+            length = 5000,
+            startPoint = "Start Point",
+            endPoint = "End Point",
+            routePreview = "https://example.com/route_preview.jpg",
+            isDraft = true,
+            lastModifiedAt = "2025-01-12",
+            createdAt = "2025-01-01"
         ),
-        Route(
-
-            routeName = "Историческое Измайлово",
-            length = 4600,
-            routePreview = R.drawable.sample_route_image,
+        RouteDTO(
+            id = "101",
+            userId = "2",
+            routeName = "Mock Draft Route",
+            description = "This is a draft route",
+            duration = 60,
+            length = 5000,
+            startPoint = "Start Point",
+            endPoint = "End Point",
+            routePreview = "https://example.com/route_preview.jpg",
+            isDraft = true,
+            lastModifiedAt = "2025-01-12",
+            createdAt = "2025-01-01"
         ),
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
+        RouteDTO(
+            id = "101",
+            userId = "3",
+            routeName = "Mock Draft Route",
+            description = "This is a draft route",
+            duration = 60,
+            length = 5000,
+            startPoint = "Start Point",
+            endPoint = "End Point",
+            routePreview = "https://example.com/route_preview.jpg",
+            isDraft = true,
+            lastModifiedAt = "2025-01-12",
+            createdAt = "2025-01-01"
         ),
-        Route(
-
-            routeName = "Историческое Измайлово",
-            length = 4600,
-            routePreview = R.drawable.sample_route_image,
-        ),
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
-        ),
-        Route(
-
-            routeName = "Историческое Измайлово",
-            length = 4600,
-            routePreview = R.drawable.sample_route_image,
-        ),
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
-        ),
-        Route(
-
-            routeName = "Историческое Измайлово",
-            length = 4600,
-            routePreview = R.drawable.sample_route_image,
-        ),
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
-        ),
-        Route(
-
-            routeName = "Историческое Измайлово",
-            length = 4600,
-            routePreview = R.drawable.sample_route_image,
+        RouteDTO(
+            id = "101",
+            userId = "4",
+            routeName = "Mock Draft Route",
+            description = "This is a draft route",
+            duration = 60,
+            length = 5000,
+            startPoint = "Start Point",
+            endPoint = "End Point",
+            routePreview = "https://example.com/route_preview.jpg",
+            isDraft = true,
+            lastModifiedAt = "2025-01-12",
+            createdAt = "2025-01-01"
         ),
     )
     RouteToContinueGrid(routes = sampleRoutes)

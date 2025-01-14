@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Разрешение на доступ в интернет -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ui.GoDailyApp"
         android:allowBackup="true"

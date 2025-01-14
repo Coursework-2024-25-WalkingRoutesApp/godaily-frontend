@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.rememberAsyncImagePainter
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.RouteNameSmall
 import ru.hse.coursework.godaily.ui.components.molecules.RouteLengthSmall
@@ -27,7 +28,7 @@ import ru.hse.coursework.godaily.ui.theme.purpleDark
 fun RouteCardToContinue(
     distance: String,
     title: String,
-    imageRes: Int,
+    imageResUrl: String,
     modifier: Modifier = Modifier
 ) {
     // TODO: сделать градиент динамически подстраиваемым под текст, ограничить длину текста на поля в логике
@@ -38,7 +39,10 @@ fun RouteCardToContinue(
     ) {
         Box {
             Image(
-                painter = painterResource(id = imageRes),
+                painter = rememberAsyncImagePainter(
+                    model = imageResUrl,
+                    error = painterResource(R.drawable.sample_route_image)
+                ),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
@@ -86,7 +90,7 @@ fun RouteCardToContinuePreview() {
     RouteCardToContinue(
         distance = "4.6 км",
         title = "Историческое Измайлово",
-        imageRes = R.drawable.sample_route_image,
+        imageResUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlKC_brTH0YllYbrNf3gtJ6dSyGoDhI4eD-g&s",
         modifier = Modifier.padding(8.dp),
     )
 }

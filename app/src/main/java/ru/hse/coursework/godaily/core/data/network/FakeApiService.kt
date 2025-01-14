@@ -12,7 +12,7 @@ class FakeApiService : ApiService {
         userName: String,
         email: String,
         password: String,
-        userPhoto: String?
+        userPhoto: String
     ): UserDTO {
         return UserDTO(
             id = "1",
@@ -38,7 +38,7 @@ class FakeApiService : ApiService {
             id = userId,
             userName = "Test User",
             email = "testuser@example.com",
-            userPhoto = "https://i.pinimg.com/236x/c6/00/f2/c600f276b3f7cafcd572402ac86e489b.jpg"
+            userPhoto = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG3RRs0ouk80nISkSjBII8TgTshOBcitVnJg&s"
         )
     }
 
@@ -128,7 +128,175 @@ class FakeApiService : ApiService {
                 isDraft = false,
                 lastModifiedAt = "2025-01-12",
                 createdAt = "2025-01-01"
-            )
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
+            RouteDTO(
+                id = "104",
+                userId = userId,
+                routeName = "Completed Route",
+                description = "This is a completed route",
+                duration = 45,
+                length = 3000,
+                startPoint = "Mountain Base",
+                endPoint = "Summit",
+                routePreview = "https://example.com/completed_route.jpg",
+                isDraft = false,
+                lastModifiedAt = "2025-01-12",
+                createdAt = "2025-01-01"
+            ),
         )
     }
 

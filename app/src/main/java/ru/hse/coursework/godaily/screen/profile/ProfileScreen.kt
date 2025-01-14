@@ -15,14 +15,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import ru.hse.coursework.godaily.ui.components.organisms.CompletedRoutes
 import ru.hse.coursework.godaily.ui.components.organisms.FavouriteRoutes
 import ru.hse.coursework.godaily.ui.components.organisms.UserProfile
+import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
 
 //TODO: 1) Редактировать профиль побольше размер 2) Обработать переходы на редактирование профиля, пройденные маршруты, Израбнное
 @Composable
 fun ProfileScreen(
+    navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -42,7 +45,7 @@ fun ProfileScreen(
         ) {
             UserProfile(
                 userName = state.userName,
-                profilePicture = state.profilePicture,
+                profilePictureUrl = state.profilePictureUrl,
                 onEditProfileClick = { viewModel.onEditProfileClicked() }
             )
         }
@@ -54,14 +57,14 @@ fun ProfileScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             CompletedRoutes(
-                routeCount = state.completedRoutesCount,
-                onClick = { viewModel.onCompletedRoutesClicked() }
+                routeCount = state.completedRoutes.count(),
+                onClick = { navController.navigate(NavigationItem.CompletedRoutes.route) }
             )
 
             Spacer(modifier = Modifier.width(15.dp))
             FavouriteRoutes(
-                routeCount = state.favouriteRoutesCount,
-                onClick = { viewModel.onFavouriteRoutesClicked() }
+                routeCount = state.favouriteRoutes.count(),
+                onClick = { navController.navigate(NavigationItem.FavouriteRoutes.route) }
             )
         }
     }

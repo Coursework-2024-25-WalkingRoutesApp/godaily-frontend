@@ -15,13 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.core.domain.model.Route
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
+import ru.hse.coursework.godaily.core.data.model.RouteDTO
 
 @Composable
 fun RouteVerticalGrid(
-    routes: List<Route>,
+    routes: List<RouteDTO>,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -43,7 +41,7 @@ fun RouteVerticalGrid(
                         distance = "${route.length / 1000.0} км",
                         time = formatDuration(route.duration),
                         title = route.routeName,
-                        imageRes = route.routePreview,
+                        imageResUrl = route.routePreview,
                         categories = listOf(
                             R.drawable.culture,
                             R.drawable.coffee,
@@ -65,68 +63,70 @@ fun RouteVerticalGrid(
 }
 
 //TODO: Убрать функцию, сделать нормальную работу с маршрутами
-fun formatDuration(duration: LocalTime): String {
-    return duration.format(DateTimeFormatter.ofPattern("mm")) + " минут"
+fun formatDuration(duration: Int): String {
+    return "$duration минут"
 }
 
 @Preview
 @Composable
 fun PreviewRouteVerticalGrid() {
     val sampleRoutes = listOf(
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
-            duration = LocalTime.of(0, 45)
+        RouteDTO(
+            id = "101",
+            userId = "1",
+            routeName = "Mock Draft Route",
+            description = "This is a draft route",
+            duration = 60,
+            length = 5000,
+            startPoint = "Start Point",
+            endPoint = "End Point",
+            routePreview = "https://example.com/route_preview.jpg",
+            isDraft = true,
+            lastModifiedAt = "2025-01-12",
+            createdAt = "2025-01-01"
         ),
-        Route(
-            routeName = "Историческое Измайлово",
-            length = 4600,
-            routePreview = R.drawable.sample_route_image,
-            duration = LocalTime.of(0, 50)
+        RouteDTO(
+            id = "101",
+            userId = "2",
+            routeName = "Mock Draft Route",
+            description = "This is a draft route",
+            duration = 60,
+            length = 5000,
+            startPoint = "Start Point",
+            endPoint = "End Point",
+            routePreview = "https://example.com/route_preview.jpg",
+            isDraft = true,
+            lastModifiedAt = "2025-01-12",
+            createdAt = "2025-01-01"
         ),
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
-            duration = LocalTime.of(0, 30)
+        RouteDTO(
+            id = "101",
+            userId = "3",
+            routeName = "Mock Draft Route",
+            description = "This is a draft route",
+            duration = 60,
+            length = 5000,
+            startPoint = "Start Point",
+            endPoint = "End Point",
+            routePreview = "https://example.com/route_preview.jpg",
+            isDraft = true,
+            lastModifiedAt = "2025-01-12",
+            createdAt = "2025-01-01"
         ),
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
-            duration = LocalTime.of(0, 45)
+        RouteDTO(
+            id = "101",
+            userId = "4",
+            routeName = "Mock Draft Route",
+            description = "This is a draft route",
+            duration = 60,
+            length = 5000,
+            startPoint = "Start Point",
+            endPoint = "End Point",
+            routePreview = "https://example.com/route_preview.jpg",
+            isDraft = true,
+            lastModifiedAt = "2025-01-12",
+            createdAt = "2025-01-01"
         ),
-        Route(
-            routeName = "Историческое Измайлово",
-            length = 4600,
-            routePreview = R.drawable.sample_route_image,
-            duration = LocalTime.of(0, 50)
-        ),
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
-            duration = LocalTime.of(0, 30)
-        ),
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
-            duration = LocalTime.of(0, 45)
-        ),
-        Route(
-            routeName = "Историческое Измайлово",
-            length = 4600,
-            routePreview = R.drawable.sample_route_image,
-            duration = LocalTime.of(0, 50)
-        ),
-        Route(
-            routeName = "Профсоюзная Зеленая тропа",
-            length = 3000,
-            routePreview = R.drawable.sample_route_image,
-            duration = LocalTime.of(0, 30)
-        )
     )
     RouteVerticalGrid(routes = sampleRoutes)
 }

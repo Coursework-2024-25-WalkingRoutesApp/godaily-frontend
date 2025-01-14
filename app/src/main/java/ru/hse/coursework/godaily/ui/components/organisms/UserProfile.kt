@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.rememberAsyncImagePainter
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.VariableLight
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
@@ -29,14 +30,17 @@ import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 fun UserProfile(
     userName: String,
     onEditProfileClick: () -> Unit,
-    profilePicture: Int = R.drawable.default_profile_photo
+    profilePictureUrl: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG3RRs0ouk80nISkSjBII8TgTshOBcitVnJg&s"
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = profilePicture),
+            painter = rememberAsyncImagePainter(
+                model = profilePictureUrl,
+                error = painterResource(R.drawable.default_profile_photo)
+            ),
             contentDescription = "User Profile Picture",
             modifier = Modifier
                 .size(159.dp)

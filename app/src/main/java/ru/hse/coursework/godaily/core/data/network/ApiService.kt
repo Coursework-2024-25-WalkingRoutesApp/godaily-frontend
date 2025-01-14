@@ -11,7 +11,7 @@ interface ApiService {
         userName: String,
         email: String,
         password: String,
-        userPhoto: String?
+        userPhoto: String
     ): UserDTO
 
     // Вход в приложение
