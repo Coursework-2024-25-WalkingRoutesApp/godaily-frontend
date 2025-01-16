@@ -17,11 +17,12 @@ import ru.hse.coursework.godaily.ui.theme.lime
 @Composable
 fun FavouriteToggle(
     isFavorite: Boolean,
-    onToggle: (Boolean) -> Unit
+    onToggle: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     IconButton(
         onClick = { onToggle(!isFavorite) },
-        modifier = Modifier.size(40.dp, 35.dp)
+        modifier = modifier.size(40.dp, 35.dp)
     ) {
         Icon(
             painter = if (isFavorite) painterResource(id = R.drawable.heart_enabled) else painterResource(
@@ -29,7 +30,7 @@ fun FavouriteToggle(
             ),
             contentDescription = null,
             modifier = Modifier.size(35.dp, 32.dp),
-            tint = if (isFavorite) lime else greyDark
+            tint = greyDark
         )
     }
 }

@@ -16,12 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.hse.coursework.godaily.core.data.model.Category
+import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
 import ru.hse.coursework.godaily.core.data.model.RouteDTO
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 
 @Composable
 fun RouteToContinueGrid(
-    routes: List<RouteDTO>,
+    routes: List<RouteCardDTO>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -62,62 +64,30 @@ fun RouteToContinueGrid(
 @Composable
 fun PreviewRouteToContinueGrid() {
     val sampleRoutes = listOf(
-        RouteDTO(
-            id = "101",
-            userId = "1",
-            routeName = "Mock Draft Route",
-            description = "This is a draft route",
-            duration = 60,
-            length = 5000,
-            startPoint = "Start Point",
-            endPoint = "End Point",
-            routePreview = "https://example.com/route_preview.jpg",
-            isDraft = true,
-            lastModifiedAt = "2025-01-12",
-            createdAt = "2025-01-01"
+        RouteCardDTO(
+            "1",
+            "Исторический центр",
+            120,
+            5000,
+            "City Center URL",
+            listOf(Category.Coffee, Category.Nature)
         ),
-        RouteDTO(
-            id = "101",
-            userId = "2",
-            routeName = "Mock Draft Route",
-            description = "This is a draft route",
-            duration = 60,
-            length = 5000,
-            startPoint = "Start Point",
-            endPoint = "End Point",
-            routePreview = "https://example.com/route_preview.jpg",
-            isDraft = true,
-            lastModifiedAt = "2025-01-12",
-            createdAt = "2025-01-01"
+        RouteCardDTO(
+            "2",
+            "Природная тропа",
+            240,
+            8000,
+            "City Center URL",
+            listOf(Category.Metro, Category.Coffee)
         ),
-        RouteDTO(
-            id = "101",
-            userId = "3",
-            routeName = "Mock Draft Route",
-            description = "This is a draft route",
-            duration = 60,
-            length = 5000,
-            startPoint = "Start Point",
-            endPoint = "End Point",
-            routePreview = "https://example.com/route_preview.jpg",
-            isDraft = true,
-            lastModifiedAt = "2025-01-12",
-            createdAt = "2025-01-01"
-        ),
-        RouteDTO(
-            id = "101",
-            userId = "4",
-            routeName = "Mock Draft Route",
-            description = "This is a draft route",
-            duration = 60,
-            length = 5000,
-            startPoint = "Start Point",
-            endPoint = "End Point",
-            routePreview = "https://example.com/route_preview.jpg",
-            isDraft = true,
-            lastModifiedAt = "2025-01-12",
-            createdAt = "2025-01-01"
-        ),
+        RouteCardDTO(
+            "3",
+            "Красивое Измайлово",
+            60,
+            3000,
+            "City Center URL",
+            listOf(Category.Culture, Category.Metro)
+        )
     )
     RouteToContinueGrid(routes = sampleRoutes)
 }

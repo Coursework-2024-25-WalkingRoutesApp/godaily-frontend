@@ -12,9 +12,9 @@ class FetchProfileInfoUseCase @Inject constructor(
         val completedRoutes = api.getUserCompletedRoutes(userId)
         val favourites = api.getUserFavouriteRoutes(userId)
         return ProfileInfo(
-            id = userDto.id,
-            name = userDto.userName,
-            photoUrl = userDto.userPhoto,
+            email = userDto.email,
+            username = userDto.username,
+            photoUrl = userDto.photoURL,
             completedRoutes = completedRoutes,
             favouriteRoutes = favourites
         )

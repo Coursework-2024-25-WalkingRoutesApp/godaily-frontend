@@ -15,11 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.core.data.model.RouteDTO
+import ru.hse.coursework.godaily.core.data.model.Category
+import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
 
 @Composable
 fun RouteVerticalGrid(
-    routes: List<RouteDTO>,
+    routes: List<RouteCardDTO>,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -42,12 +43,14 @@ fun RouteVerticalGrid(
                         time = formatDuration(route.duration),
                         title = route.routeName,
                         imageResUrl = route.routePreview,
-                        categories = listOf(
-                            R.drawable.culture,
-                            R.drawable.coffee,
-                            R.drawable.metro,
-                            R.drawable.nature
-                        ),
+                        categories = route.categories.map { category ->
+                            when (category) {
+                                Category.Culture -> R.drawable.culture
+                                Category.Coffee -> R.drawable.coffee
+                                Category.Metro -> R.drawable.metro
+                                Category.Nature -> R.drawable.nature
+                            }
+                        },
                         modifier = Modifier
                             .weight(1f)
                             .padding(bottom = 13.dp)
@@ -62,71 +65,41 @@ fun RouteVerticalGrid(
     }
 }
 
+
 //TODO: Убрать функцию, сделать нормальную работу с маршрутами
 fun formatDuration(duration: Int): String {
     return "$duration минут"
 }
 
+
 @Preview
 @Composable
 fun PreviewRouteVerticalGrid() {
     val sampleRoutes = listOf(
-        RouteDTO(
-            id = "101",
-            userId = "1",
-            routeName = "Mock Draft Route",
-            description = "This is a draft route",
-            duration = 60,
-            length = 5000,
-            startPoint = "Start Point",
-            endPoint = "End Point",
-            routePreview = "https://example.com/route_preview.jpg",
-            isDraft = true,
-            lastModifiedAt = "2025-01-12",
-            createdAt = "2025-01-01"
+        RouteCardDTO(
+            "1",
+            "Исторический центр",
+            120,
+            5000,
+            "City Center URL",
+            listOf(Category.Coffee, Category.Nature)
         ),
-        RouteDTO(
-            id = "101",
-            userId = "2",
-            routeName = "Mock Draft Route",
-            description = "This is a draft route",
-            duration = 60,
-            length = 5000,
-            startPoint = "Start Point",
-            endPoint = "End Point",
-            routePreview = "https://example.com/route_preview.jpg",
-            isDraft = true,
-            lastModifiedAt = "2025-01-12",
-            createdAt = "2025-01-01"
+        RouteCardDTO(
+            "2",
+            "Природная тропа",
+            240,
+            8000,
+            "City Center URL",
+            listOf(Category.Metro, Category.Coffee)
         ),
-        RouteDTO(
-            id = "101",
-            userId = "3",
-            routeName = "Mock Draft Route",
-            description = "This is a draft route",
-            duration = 60,
-            length = 5000,
-            startPoint = "Start Point",
-            endPoint = "End Point",
-            routePreview = "https://example.com/route_preview.jpg",
-            isDraft = true,
-            lastModifiedAt = "2025-01-12",
-            createdAt = "2025-01-01"
-        ),
-        RouteDTO(
-            id = "101",
-            userId = "4",
-            routeName = "Mock Draft Route",
-            description = "This is a draft route",
-            duration = 60,
-            length = 5000,
-            startPoint = "Start Point",
-            endPoint = "End Point",
-            routePreview = "https://example.com/route_preview.jpg",
-            isDraft = true,
-            lastModifiedAt = "2025-01-12",
-            createdAt = "2025-01-01"
-        ),
+        RouteCardDTO(
+            "3",
+            "Красивое Измайлово",
+            60,
+            3000,
+            "City Center URL",
+            listOf(Category.Culture, Category.Metro)
+        )
     )
     RouteVerticalGrid(routes = sampleRoutes)
 }

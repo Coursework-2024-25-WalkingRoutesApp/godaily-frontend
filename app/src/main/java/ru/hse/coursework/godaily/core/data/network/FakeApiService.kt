@@ -1,380 +1,122 @@
 package ru.hse.coursework.godaily.core.data.network
 
-
-import ru.hse.coursework.godaily.core.data.model.ReviewDTO
-import ru.hse.coursework.godaily.core.data.model.RouteDTO
-import ru.hse.coursework.godaily.core.data.model.UserDTO
+import ru.hse.coursework.godaily.core.data.model.*
+import java.time.LocalDateTime
 
 class FakeApiService : ApiService {
 
-    // Регистрация нового пользователя
+    private val fakeUser = UserDTO("Test User", "testuser@example.com", "fakePhotoUrl")
+
+    private val fakeRoutes = listOf(
+        RouteCardDTO("1", "City Tour", 120, 5000, "City Center URL", listOf(Category.Coffee, Category.Nature)),
+        RouteCardDTO("2", "Mountain Hike", 240, 8000, "City Center URL", listOf(Category.Metro, Category.Coffee)),
+        RouteCardDTO("3", "Beach Walk", 60, 3000, "City Center URL", listOf(Category.Culture, Category.Metro))
+    )
+
     override suspend fun registerUser(
-        userName: String,
         email: String,
         password: String,
+        username: String,
         userPhoto: String
-    ): UserDTO {
-        return UserDTO(
-            id = "1",
-            userName = userName,
-            email = email,
-            userPhoto = userPhoto
-        )
+    ): String {
+        return "mock_jwt_token"
     }
 
-    // Вход в приложение
     override suspend fun loginUser(email: String, password: String): String {
-        return "mock_token_123"
+        return "mock_jwt_token"
     }
 
-    // Выход пользователя
     override suspend fun logoutUser(): Boolean {
         return true
     }
 
-    // Достать информацию о пользователе
-    override suspend fun getUserInfo(userId: String): UserDTO {
-        return UserDTO(
-            id = userId,
-            userName = "Test User",
-            email = "testuser@example.com",
-            userPhoto = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG3RRs0ouk80nISkSjBII8TgTshOBcitVnJg&s"
-        )
+    override suspend fun getUserInfo(jwt: String): UserDTO {
+        return fakeUser
     }
 
-    // Сохранение маршрута (публикация)
-    override suspend fun publishRoute(route: RouteDTO): Boolean {
+    override suspend fun publishRoute(jwt: String, route: RouteDTO): Boolean {
         return true
     }
 
-    // Сохранение маршрута (черновик)
-    override suspend fun saveRouteToDrafts(route: RouteDTO): Boolean {
+    override suspend fun saveRouteToDrafts(jwt: String, route: RouteDTO): Boolean {
         return true
     }
 
-    // Достать черновики пользователя
-    override suspend fun getUserDrafts(userId: String): List<RouteDTO> {
-        return listOf(
-            RouteDTO(
-                id = "101",
-                userId = userId,
-                routeName = "Mock Draft Route",
-                description = "This is a draft route",
-                duration = 60,
-                length = 5000,
-                startPoint = "Start Point",
-                endPoint = "End Point",
-                routePreview = "https://example.com/route_preview.jpg",
-                isDraft = true,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            )
-        )
+    override suspend fun getUserDrafts(jwt: String): List<RouteCardDTO> {
+        return fakeRoutes
     }
 
-    // Достать опубликованные маршруты пользователя
-    override suspend fun getUserPublishedRoutes(userId: String): List<RouteDTO> {
-        return listOf(
-            RouteDTO(
-                id = "102",
-                userId = userId,
-                routeName = "Published Route",
-                description = "This is a published route",
-                duration = 90,
-                length = 8000,
-                startPoint = "City Center",
-                endPoint = "Park",
-                routePreview = "https://example.com/published_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            )
-        )
+    override suspend fun getUserPublishedRoutes(jwt: String): List<RouteCardDTO> {
+        return fakeRoutes
     }
 
-    // Достать избранные маршруты пользователя
-    override suspend fun getUserFavouriteRoutes(userId: String): List<RouteDTO> {
-        return listOf(
-            RouteDTO(
-                id = "103",
-                userId = userId,
-                routeName = "Favourite Route",
-                description = "This is a favourite route",
-                duration = 120,
-                length = 10000,
-                startPoint = "Station",
-                endPoint = "Beach",
-                routePreview = "https://example.com/favourite_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            )
-        )
+    override suspend fun getUserCompletedRoutes(jwt: String): List<RouteCardDTO> {
+        return fakeRoutes
     }
 
-    // Достать пройденные маршруты пользователя
-    override suspend fun getUserCompletedRoutes(userId: String): List<RouteDTO> {
-        return listOf(
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-            RouteDTO(
-                id = "104",
-                userId = userId,
-                routeName = "Completed Route",
-                description = "This is a completed route",
-                duration = 45,
-                length = 3000,
-                startPoint = "Mountain Base",
-                endPoint = "Summit",
-                routePreview = "https://example.com/completed_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            ),
-        )
+    override suspend fun getUserFavouriteRoutes(jwt: String): List<RouteCardDTO> {
+        return fakeRoutes.take(2)
     }
 
-    // Добавление маршрута в Избранное
-    override suspend fun addRouteToFavorites(userId: String, routeId: String): Boolean {
+    override suspend fun addRouteToFavorites(jwt: String, routeId: String): Boolean {
         return true
     }
 
-    // Удаление маршрута
-    override suspend fun deleteRoute(routeId: String): Boolean {
+    override suspend fun removeRouteFromFavorites(jwt: String, routeId: String): Boolean {
         return true
     }
 
-    // Получение подробной информации о маршруте
-    override suspend fun getRouteDetails(routeId: String): RouteDTO {
+    override suspend fun deleteRoute(jwt: String, routeId: String): Boolean {
+        return true
+    }
+
+    override suspend fun getRouteDetails(jwt: String, routeId: String): RouteDTO {
         return RouteDTO(
-            id = routeId,
-            userId = "1",
-            routeName = "Detailed Route",
-            description = "Detailed information about this route",
-            duration = 120,
-            length = 10000,
-            startPoint = "City Center",
-            endPoint = "Park",
-            routePreview = "https://example.com/route_details.jpg",
-            isDraft = false,
-            lastModifiedAt = "2025-01-12",
-            createdAt = "2025-01-01"
+            routeId, "City Tour Detailed", "Detailed description", 120, 5000,
+            "City Center", "City Park", "mockPreviewUrl", false, listOf(), listOf(Category.Coffee, Category.Metro)
         )
     }
 
-    // Создание сессии маршрута
-    override suspend fun createRouteSession(userId: String, routeId: String): Boolean {
+    override suspend fun getReviews(jwt: String, routeId: String): List<ReviewDTO> {
+        return listOf(
+            ReviewDTO("User1", routeId, 5, "Great route!",  LocalDateTime.now()),
+            ReviewDTO("User2", routeId, 4,"Loved it!", LocalDateTime.now())
+        )
+    }
+
+    override suspend fun createRouteSession(jwt: String, routeSession: RouteSessionDTO): Boolean {
         return true
     }
 
-    // Сохранение отзыва
-    override suspend fun saveReview(review: ReviewDTO): Boolean {
+    override suspend fun updateRouteSession(jwt: String, routeSession: RouteSessionDTO): Boolean {
         return true
     }
 
-    // Получение маршрутов, отсортированных по рейтингу
-    override suspend fun getRoutesSortedByRating(): List<RouteDTO> {
-        return listOf(
-            RouteDTO(
-                id = "105",
-                userId = "1",
-                routeName = "Top Rated Route",
-                description = "A route with the highest ratings",
-                duration = 180,
-                length = 15000,
-                startPoint = "Museum",
-                endPoint = "Lake",
-                routePreview = "https://example.com/top_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            )
-        )
+    override suspend fun saveReview(jwt: String, routeId: String, review: ReviewDTO): Boolean {
+        return true
     }
 
-    // Фильтрация маршрутов
-    override suspend fun filterRoutesByCategory(category: String): List<RouteDTO> {
-        return listOf(
-            RouteDTO(
-                id = "106",
-                userId = "2",
-                routeName = "Filtered Route",
-                description = "A route filtered by category $category",
-                duration = 60,
-                length = 4000,
-                startPoint = "Market",
-                endPoint = "Hill",
-                routePreview = "https://example.com/filtered_route.jpg",
-                isDraft = false,
-                lastModifiedAt = "2025-01-12",
-                createdAt = "2025-01-01"
-            )
-        )
+    override suspend fun getRoutesSortedByDistance(jwt: String, userCoordinate: String): List<RouteCardDTO> {
+        return fakeRoutes
+    }
+
+    override suspend fun getRoutesSortedByLengthDesc(jwt: String): List<RouteCardDTO> {
+        return fakeRoutes
+    }
+
+    override suspend fun getRoutesSortedByLengthAsc(jwt: String): List<RouteCardDTO> {
+        return fakeRoutes
+    }
+
+    override suspend fun getRoutesSortedByRating(jwt: String): List<RouteCardDTO> {
+        return fakeRoutes
+    }
+
+    override suspend fun filterRoutesByCategoryAndDistance(
+        jwt: String,
+        userCoordinate: String,
+        category: Category
+    ): List<RouteCardDTO> {
+        return fakeRoutes
     }
 }

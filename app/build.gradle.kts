@@ -68,10 +68,12 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.3.1")
     implementation("androidx.navigation:navigation-compose:2.8.3")
     implementation("androidx.compose.ui:ui-text")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0")
 
     //Coil
     implementation("io.coil-kt.coil3:coil-compose:3.0.4")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.4")
+
 
     // Hilt
     ksp("com.google.dagger:hilt-compiler:2.52")
