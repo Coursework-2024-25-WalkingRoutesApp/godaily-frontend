@@ -1,6 +1,6 @@
 package ru.hse.coursework.godaily.core.data.model
 
-data class RouteDTO(
+data class RoutePageDTO(
     val id: String,
     val routeName: String,
     val description: String,
@@ -9,7 +9,7 @@ data class RouteDTO(
     val startPoint: String,
     val endPoint: String,
     val routePreview: String,
-    val isDraft: Boolean,
+    val isFavourite: Boolean,
     val coordinates: List<RouteCoordinateDTO>,
     val categories: List<Category>
 )
