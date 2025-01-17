@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.ReviewDTO
 import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
-import ru.hse.coursework.godaily.ui.components.molecules.StartButton
 import ru.hse.coursework.godaily.ui.components.organisms.RouteImageForDetailsCard
 import ru.hse.coursework.godaily.ui.components.organisms.RouteRatingForDetailsCard
 import ru.hse.coursework.godaily.ui.components.organisms.RouteTagsWithFavourite
@@ -21,14 +20,13 @@ import java.time.LocalDateTime
 
 
 @Composable
-fun RouteCard(
+fun RouteDetailsCard(
     route: RoutePageDTO,
     mark: Double,
     reviewsCount: Int,
     onBackClick: () -> Unit,
     onMapClick: () -> Unit,
-    onFavouriteToggle: (Boolean) -> Unit,
-    onStartClick: () -> Unit
+    onFavouriteToggle: (Boolean) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -48,8 +46,6 @@ fun RouteCard(
             onFavouriteToggle = onFavouriteToggle
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         RouteTitleDurationForDetailsCard(route = route)
 
         ScrollableDescription(description = route.description)
@@ -58,17 +54,13 @@ fun RouteCard(
             rating = mark,
             reviewsCount = reviewsCount
         )
-
-
-
-        StartButton(onClick = onStartClick)
     }
 }
 
 
 @Preview(showBackground = true)
 @Composable
-fun RouteCardPreview() {
+fun RouteDetailsCardPreview() {
     val route = RoutePageDTO(
         id = "1",
         routeName = "Измайловский Кремль",
@@ -93,13 +85,12 @@ fun RouteCardPreview() {
         )
     )
 
-    RouteCard(
+    RouteDetailsCard(
         route = route,
         mark = 4.7,
         reviewsCount = 79,
         onBackClick = {},
         onMapClick = {},
         onFavouriteToggle = {},
-        onStartClick = {}
     )
 }

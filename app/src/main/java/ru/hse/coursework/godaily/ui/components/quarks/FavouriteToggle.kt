@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.theme.greyDark
-import ru.hse.coursework.godaily.ui.theme.lime
 
 @Composable
 fun FavouriteToggle(

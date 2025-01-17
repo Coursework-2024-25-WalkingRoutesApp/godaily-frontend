@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import ru.hse.coursework.godaily.screen.RouteDetailsScreen
 import ru.hse.coursework.godaily.screen.home.HomeScreen
 import ru.hse.coursework.godaily.screen.profile.CompletedRoutesScreen
 import ru.hse.coursework.godaily.screen.profile.FavouriteRoutesScreen
@@ -67,7 +68,7 @@ fun BottomNavigationBar(navController: NavController) {
 
 
 @Composable
-fun AppNavigation(navController: NavHostController) {
+fun BottomNavigation(navController: NavHostController) {
     NavHost(navController, startDestination = BottomNavigationItem.Home.route) {
         composable(BottomNavigationItem.Home.route) { HomeScreen() }
         composable(BottomNavigationItem.Routes.route) { RoutesScreen() }
@@ -91,6 +92,12 @@ fun ProfileNavigation() {
         composable(NavigationItem.FavouriteRoutes.route) {
             FavouriteRoutesScreen(profileNavController)
         }
+        composable(NavigationItem.RouteDetails.route + "/{routeId}") { backStackEntry ->
+            val routeId = backStackEntry.arguments?.getString("routeId")
+            if (routeId != null) {
+                RouteDetailsScreen(profileNavController, routeId)
+            }
+        }
     }
 }
 
@@ -100,7 +107,7 @@ fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(bottomBar = { BottomNavigationBar(navController) }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            AppNavigation(navController)
+            BottomNavigation(navController)
         }
     }
 }

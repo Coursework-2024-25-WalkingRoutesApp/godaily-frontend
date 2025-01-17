@@ -16,7 +16,7 @@ import ru.hse.coursework.godaily.ui.components.atoms.RouteDescription
 fun ScrollableDescription(description: String, modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
-            .height(150.dp)
+            .height(130.dp)
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(start = 16.dp, end = 16.dp)

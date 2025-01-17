@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
-import ru.hse.coursework.godaily.core.data.model.RouteDTO
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 
 @Composable

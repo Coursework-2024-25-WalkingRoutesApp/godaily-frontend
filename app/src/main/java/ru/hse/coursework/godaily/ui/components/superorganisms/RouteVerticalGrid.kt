@@ -21,6 +21,7 @@ import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
 @Composable
 fun RouteVerticalGrid(
     routes: List<RouteCardDTO>,
+    onRouteClick: (RouteCardDTO) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -51,6 +52,7 @@ fun RouteVerticalGrid(
                                 Category.Nature -> R.drawable.nature
                             }
                         },
+                        onCardClick = { onRouteClick(route) },
                         modifier = Modifier
                             .weight(1f)
                             .padding(bottom = 13.dp)
@@ -101,5 +103,5 @@ fun PreviewRouteVerticalGrid() {
             listOf(Category.Culture, Category.Metro)
         )
     )
-    RouteVerticalGrid(routes = sampleRoutes)
+    RouteVerticalGrid(routes = sampleRoutes, onRouteClick = {})
 }

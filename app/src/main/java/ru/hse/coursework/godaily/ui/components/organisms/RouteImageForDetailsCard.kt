@@ -42,7 +42,7 @@ fun RouteImageForDetailsCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Back(onClick = onBackClick)

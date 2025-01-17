@@ -19,6 +19,7 @@ import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteVerticalGrid
+import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 import ru.hse.coursework.godaily.ui.theme.greyDark
 
 //TODO: обработать нажатие на маршруты
@@ -56,7 +57,12 @@ fun FavouriteRoutesScreen(
             }
         } else {
             Spacer(modifier = Modifier.height(16.dp))
-            RouteVerticalGrid(routes = state.favouriteRoutes)
+            RouteVerticalGrid(
+                routes = state.favouriteRoutes,
+                onRouteClick = { route ->
+                    navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
+                }
+            )
         }
     }
 }

@@ -15,7 +15,7 @@ import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.lime
 
 @Composable
-fun StartButton(onClick: () -> Unit, text: String = "В путь") {
+fun StartButton(onClick: () -> Unit, text: String = "В путь", modifier: Modifier = Modifier) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(13.dp),
@@ -29,7 +29,7 @@ fun StartButton(onClick: () -> Unit, text: String = "В путь") {
             end = 16.dp,
             bottom = 10.dp
         ),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(50.dp)
     ) {

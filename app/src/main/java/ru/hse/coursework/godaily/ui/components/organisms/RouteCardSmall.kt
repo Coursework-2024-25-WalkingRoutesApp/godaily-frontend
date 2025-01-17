@@ -36,13 +36,15 @@ fun RouteCardSmall(
     title: String,
     imageResUrl: String,
     categories: List<Int>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCardClick: () -> Unit
 ) {
     // TODO: сделать градиент динамически подстраиваемым под текст, ограничить длину текста на поля в логике
     Card(
         modifier = modifier
             .size(width = 165.dp, height = 220.dp),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        onClick = onCardClick
     ) {
         Box {
             Image(
@@ -156,6 +158,7 @@ fun RouteCardSmallPreview() {
             R.drawable.coffee,
             R.drawable.metro,
             R.drawable.nature
-        )
+        ),
+        onCardClick = {}
     )
 }

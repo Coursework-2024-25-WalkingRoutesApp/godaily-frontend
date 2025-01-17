@@ -1,6 +1,12 @@
 package ru.hse.coursework.godaily.core.data.network
 
-import ru.hse.coursework.godaily.core.data.model.*
+import ru.hse.coursework.godaily.core.data.model.Category
+import ru.hse.coursework.godaily.core.data.model.ReviewDTO
+import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
+import ru.hse.coursework.godaily.core.data.model.RouteDTO
+import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
+import ru.hse.coursework.godaily.core.data.model.RouteSessionDTO
+import ru.hse.coursework.godaily.core.data.model.UserDTO
 import java.time.LocalDateTime
 
 class FakeApiService : ApiService {
@@ -8,9 +14,30 @@ class FakeApiService : ApiService {
     private val fakeUser = UserDTO("Test User", "testuser@example.com", "fakePhotoUrl")
 
     private val fakeRoutes = listOf(
-        RouteCardDTO("1", "City Tour", 120, 5000, "City Center URL", listOf(Category.Coffee, Category.Nature)),
-        RouteCardDTO("2", "Mountain Hike", 240, 8000, "City Center URL", listOf(Category.Metro, Category.Coffee)),
-        RouteCardDTO("3", "Beach Walk", 60, 3000, "City Center URL", listOf(Category.Culture, Category.Metro))
+        RouteCardDTO(
+            "1",
+            "City Tour",
+            120,
+            5000,
+            "City Center URL",
+            listOf(Category.Coffee, Category.Nature)
+        ),
+        RouteCardDTO(
+            "2",
+            "Mountain Hike",
+            240,
+            8000,
+            "City Center URL",
+            listOf(Category.Metro, Category.Coffee)
+        ),
+        RouteCardDTO(
+            "3",
+            "Beach Walk",
+            60,
+            3000,
+            "City Center URL",
+            listOf(Category.Culture, Category.Metro)
+        )
     )
 
     override suspend fun registerUser(
@@ -70,17 +97,26 @@ class FakeApiService : ApiService {
         return true
     }
 
-    override suspend fun getRouteDetails(jwt: String, routeId: String): RouteDTO {
-        return RouteDTO(
-            routeId, "City Tour Detailed", "Detailed description", 120, 5000,
-            "City Center", "City Park", "mockPreviewUrl", false, listOf(), listOf(Category.Coffee, Category.Metro)
+    override suspend fun getRouteDetails(jwt: String, routeId: String): RoutePageDTO {
+        return RoutePageDTO(
+            id = "1",
+            routeName = "Измайловский Кремль",
+            description = "Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы.",
+            duration = 27,
+            length = 2500,
+            startPoint = "р-он. Измайлово",
+            endPoint = "Измайловское шоссе, 73",
+            routePreview = "https://via.placeholder.com/300",
+            isFavourite = false,
+            coordinates = emptyList(),
+            categories = listOf(Category.Culture, Category.Coffee, Category.Metro, Category.Nature)
         )
     }
 
     override suspend fun getReviews(jwt: String, routeId: String): List<ReviewDTO> {
         return listOf(
-            ReviewDTO("User1", routeId, 5, "Great route!",  LocalDateTime.now()),
-            ReviewDTO("User2", routeId, 4,"Loved it!", LocalDateTime.now())
+            ReviewDTO("User1", routeId, 5, "Great route!", LocalDateTime.now()),
+            ReviewDTO("User2", routeId, 4, "Loved it!", LocalDateTime.now())
         )
     }
 
@@ -96,7 +132,10 @@ class FakeApiService : ApiService {
         return true
     }
 
-    override suspend fun getRoutesSortedByDistance(jwt: String, userCoordinate: String): List<RouteCardDTO> {
+    override suspend fun getRoutesSortedByDistance(
+        jwt: String,
+        userCoordinate: String
+    ): List<RouteCardDTO> {
         return fakeRoutes
     }
 

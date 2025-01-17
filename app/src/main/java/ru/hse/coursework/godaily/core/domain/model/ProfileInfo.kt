@@ -1,7 +1,6 @@
 package ru.hse.coursework.godaily.core.domain.model
 
 import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
-import ru.hse.coursework.godaily.core.data.model.RouteDTO
 
 data class ProfileInfo(
     val email: String,
