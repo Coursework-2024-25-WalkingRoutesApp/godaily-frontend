@@ -1,4 +1,4 @@
-package ru.hse.coursework.godaily.screen
+package ru.hse.coursework.godaily.screen.routedetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
-import ru.hse.coursework.godaily.core.domain.FetchRouteDetailsUseCase
+import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
 import javax.inject.Inject
 
 @HiltViewModel

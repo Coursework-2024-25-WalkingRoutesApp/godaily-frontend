@@ -1,12 +1,15 @@
 package ru.hse.coursework.godaily.ui.components.superorganisms
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.core.data.model.ReviewDTO
 import ru.hse.coursework.godaily.ui.components.organisms.ReviewCard
 import java.time.LocalDateTime
@@ -32,6 +35,7 @@ fun ReviewGrid(
                 mark = review.mark,
                 reviewText = review.reviewText
             )
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -69,7 +73,7 @@ fun ReviewGridPreview() {
         ),
         ReviewDTO(
             username = "Котеночек",
-            photoURL = "https://example.com/photo4.jpg",
+            photoURL = "https://amicus-vet.ru/images/statii/a582d6cs-960.jpg",
             mark = 5,
             reviewText = "Ничего не знаю, у меня лапки",
             createdAt = LocalDateTime.of(2024, 1, 12, 18, 45, 0, 0)

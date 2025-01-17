@@ -1,4 +1,4 @@
-package ru.hse.coursework.godaily.screen
+package ru.hse.coursework.godaily.screen.routedetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteDetailsCard
+import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
 @Composable
 fun RouteDetailsScreen(
@@ -34,7 +35,8 @@ fun RouteDetailsScreen(
             reviewsCount = state.reviewsCount,
             onBackClick = { navController.popBackStack() },
             onMapClick = { /*TODO*/ },
-            onFavouriteToggle = { /*TODO*/ }
+            onFavouriteToggle = { /*TODO*/ },
+            onReviewsClick = {navController.navigate(NavigationItem.RouteReviews.route + "/${routeId}")}
         )
 
         Spacer(modifier = Modifier.weight(1f))

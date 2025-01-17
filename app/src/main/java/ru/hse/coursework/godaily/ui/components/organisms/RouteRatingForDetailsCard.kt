@@ -1,5 +1,6 @@
 package ru.hse.coursework.godaily.ui.components.organisms
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,10 +23,12 @@ import ru.hse.coursework.godaily.ui.components.atoms.VariableLight
 import ru.hse.coursework.godaily.ui.theme.greyDark
 
 
+//TODO: отзывы не склоняется, а должно
 @Composable
 fun RouteRatingForDetailsCard(
     rating: Double,
-    reviewsCount: Int
+    reviewsCount: Int,
+    onReviewsClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -50,7 +53,8 @@ fun RouteRatingForDetailsCard(
         }
 
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable { onReviewsClick() }
         ) {
             VariableLight(text = "$reviewsCount отзывов", fontSize = 15.sp, fontColor = greyDark)
             Spacer(modifier = Modifier.width(8.dp))
@@ -71,7 +75,8 @@ fun RouteRatingForDetailsCard(
 fun RouteRatingForDetailsCardPreview() {
     RouteRatingForDetailsCard(
         rating = 4.75,
-        reviewsCount = 79
+        reviewsCount = 79,
+        onReviewsClick = {}
     )
 }
 

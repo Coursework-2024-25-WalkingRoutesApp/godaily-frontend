@@ -18,11 +18,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import ru.hse.coursework.godaily.screen.RouteDetailsScreen
+import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsScreen
 import ru.hse.coursework.godaily.screen.home.HomeScreen
 import ru.hse.coursework.godaily.screen.profile.CompletedRoutesScreen
 import ru.hse.coursework.godaily.screen.profile.FavouriteRoutesScreen
 import ru.hse.coursework.godaily.screen.profile.ProfileScreen
+import ru.hse.coursework.godaily.screen.routedetails.RouteReviewsScreen
 import ru.hse.coursework.godaily.screen.routes.RoutesScreen
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.purpleDark
@@ -96,6 +97,12 @@ fun ProfileNavigation() {
             val routeId = backStackEntry.arguments?.getString("routeId")
             if (routeId != null) {
                 RouteDetailsScreen(profileNavController, routeId)
+            }
+        }
+        composable(NavigationItem.RouteReviews.route + "/{routeId}") { backStackEntry ->
+            val routeId = backStackEntry.arguments?.getString("routeId")
+            if (routeId != null) {
+                RouteReviewsScreen(profileNavController, routeId)
             }
         }
     }

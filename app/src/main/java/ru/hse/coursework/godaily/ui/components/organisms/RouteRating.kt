@@ -34,6 +34,7 @@ import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.greyLight
 
+//TODO: оценки склонение
 @Composable
 fun RouteRating(
     rating: Double,
@@ -48,7 +49,6 @@ fun RouteRating(
             .border(width = 3.dp, color = greyLight, shape = RoundedCornerShape(15.dp))
             .clip(RoundedCornerShape(15.dp))
             .size(338.dp, 139.dp)
-            .background(Color.White)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Row(
@@ -76,7 +76,7 @@ fun RouteRating(
                                     }
                                 ),
                                 contentDescription = null,
-                                modifier = Modifier.size(11.dp),
+                                modifier = Modifier.size(13.dp),
                                 tint = Color.Unspecified
                             )
                         }

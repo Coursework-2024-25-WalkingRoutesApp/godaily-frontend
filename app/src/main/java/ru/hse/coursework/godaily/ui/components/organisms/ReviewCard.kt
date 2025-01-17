@@ -3,6 +3,7 @@ package ru.hse.coursework.godaily.ui.components.organisms
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,16 +45,9 @@ fun ReviewCard(
     mark: Int,
     reviewText: String
 ) {
-    Card(
-        colors = CardColors(
-            containerColor = Color.Unspecified,
-            contentColor = Color.Unspecified,
-            disabledContainerColor = Color.Unspecified,
-            disabledContentColor = Color.Unspecified
-        ),
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
     ) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {

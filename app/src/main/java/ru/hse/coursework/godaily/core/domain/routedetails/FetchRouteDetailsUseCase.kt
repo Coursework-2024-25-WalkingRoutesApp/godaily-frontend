@@ -1,4 +1,4 @@
-package ru.hse.coursework.godaily.core.domain
+package ru.hse.coursework.godaily.core.domain.routedetails
 
 import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
 import ru.hse.coursework.godaily.core.data.network.ApiService

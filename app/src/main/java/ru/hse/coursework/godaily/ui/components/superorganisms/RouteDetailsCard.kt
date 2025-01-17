@@ -26,7 +26,8 @@ fun RouteDetailsCard(
     reviewsCount: Int,
     onBackClick: () -> Unit,
     onMapClick: () -> Unit,
-    onFavouriteToggle: (Boolean) -> Unit
+    onFavouriteToggle: (Boolean) -> Unit,
+    onReviewsClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -52,7 +53,8 @@ fun RouteDetailsCard(
 
         RouteRatingForDetailsCard(
             rating = mark,
-            reviewsCount = reviewsCount
+            reviewsCount = reviewsCount,
+            onReviewsClick = onReviewsClick
         )
     }
 }
@@ -92,5 +94,6 @@ fun RouteDetailsCardPreview() {
         onBackClick = {},
         onMapClick = {},
         onFavouriteToggle = {},
+        onReviewsClick = {}
     )
 }
