@@ -41,7 +41,7 @@ fun ReviewGrid(
 }
 
 fun formatDate(date: LocalDateTime): String {
-    val formatter = DateTimeFormatter.ofPattern("yy.MM.dd")
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yy")
     return date.format(formatter)
 }
 
@@ -51,6 +51,7 @@ fun formatDate(date: LocalDateTime): String {
 fun ReviewGridPreview() {
     val sampleReviews = listOf(
         ReviewDTO(
+            userId = "0",
             username = "Иван Иванов",
             photoURL = "https://example.com/photo1.jpg",
             mark = 5,
@@ -58,6 +59,7 @@ fun ReviewGridPreview() {
             createdAt = LocalDateTime.of(2023, 12, 25, 14, 30, 0, 0)
         ),
         ReviewDTO(
+            userId = "2",
             username = "Мария Петрова",
             photoURL = "https://example.com/photo2.jpg",
             mark = 4,
@@ -65,6 +67,7 @@ fun ReviewGridPreview() {
             createdAt = LocalDateTime.of(2024, 1, 10, 9, 15, 0, 0)
         ),
         ReviewDTO(
+            userId = "3",
             username = "Алексей Браун",
             photoURL = "https://example.com/photo3.jpg",
             mark = 3,
@@ -72,6 +75,7 @@ fun ReviewGridPreview() {
             createdAt = LocalDateTime.of(2024, 1, 12, 18, 45, 0, 0)
         ),
         ReviewDTO(
+            userId = "1",
             username = "Котеночек",
             photoURL = "https://amicus-vet.ru/images/statii/a582d6cs-960.jpg",
             mark = 5,

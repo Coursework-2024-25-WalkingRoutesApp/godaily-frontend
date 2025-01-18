@@ -17,8 +17,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
 import ru.hse.coursework.godaily.ui.components.molecules.Back
-import ru.hse.coursework.godaily.ui.components.organisms.RouteRating
+import ru.hse.coursework.godaily.ui.components.organisms.RouteRatingWithChoice
+import ru.hse.coursework.godaily.ui.components.organisms.RouteRatingWithoutChoice
 import ru.hse.coursework.godaily.ui.components.superorganisms.ReviewGrid
+import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
 @Composable
 fun RouteReviewsScreen(
@@ -49,11 +51,22 @@ fun RouteReviewsScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
-            RouteRating(
-                rating = state.rating,
-                reviewsCount = state.reviewsCount,
-                onRatingSelected = {/*TODO*/}
-            )
+            if (state.curUserReview != null) {
+                RouteRatingWithoutChoice(
+                    rating = state.rating,
+                    reviewsCount = state.reviewsCount,
+                )
+            }
+            else {
+                RouteRatingWithChoice(
+                    rating = state.rating,
+                    reviewsCount = state.reviewsCount,
+                    onRatingSelected = {mark ->
+                        navController.navigate(NavigationItem.RouteRate.route + "/${routeId}/${mark}")
+                    }
+                )
+            }
+
         }
 
         Spacer(modifier = Modifier.height(16.dp))

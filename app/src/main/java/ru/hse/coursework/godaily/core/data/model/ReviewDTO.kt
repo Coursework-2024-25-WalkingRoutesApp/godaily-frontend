@@ -3,6 +3,7 @@ package ru.hse.coursework.godaily.core.data.model
 import java.time.LocalDateTime
 
 data class ReviewDTO(
+    val userId: String,
     val username: String,
     val photoURL: String,
     val mark: Int,

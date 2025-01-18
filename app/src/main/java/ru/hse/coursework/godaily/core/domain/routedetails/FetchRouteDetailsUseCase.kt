@@ -9,7 +9,7 @@ class FetchRouteDetailsUseCase @Inject constructor(
 ) {
     suspend fun execute(routeId: String): RouteDetails {
         val routePageDTO = api.getRouteDetails("", routeId)
-        val reviews = api.getReviews("", routeId)
+        val reviews = api.getReviewsInfo("", routeId).reviews
 
         val averageMark = if (reviews.isNotEmpty()) {
             reviews.sumOf { it.mark } / reviews.size.toDouble()

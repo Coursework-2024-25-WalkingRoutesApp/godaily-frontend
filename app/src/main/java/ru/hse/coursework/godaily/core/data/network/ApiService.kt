@@ -2,6 +2,7 @@ package ru.hse.coursework.godaily.core.data.network
 
 import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.ReviewDTO
+import ru.hse.coursework.godaily.core.data.model.ReviewsInfoDTO
 import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
 import ru.hse.coursework.godaily.core.data.model.RouteDTO
 import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
@@ -58,7 +59,7 @@ interface ApiService {
     suspend fun getRouteDetails(jwt: String, routeId: String): RoutePageDTO
 
     // Получение отзывов о маршруте
-    suspend fun getReviews(jwt: String, routeId: String): List<ReviewDTO>
+    suspend fun getReviewsInfo(jwt: String, routeId: String): ReviewsInfoDTO
 
     // Создание сессии маршрута
     suspend fun createRouteSession(jwt: String, routeSession: RouteSessionDTO): Boolean

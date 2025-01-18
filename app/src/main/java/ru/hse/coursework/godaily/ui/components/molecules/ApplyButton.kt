@@ -15,7 +15,7 @@ import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.lime
 
 @Composable
-fun ApplyButton(onClick: () -> Unit, text: String = "Применить") {
+fun ApplyButton(onClick: () -> Unit, text: String = "Применить", modifier: Modifier = Modifier) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(13.dp),
@@ -29,7 +29,7 @@ fun ApplyButton(onClick: () -> Unit, text: String = "Применить") {
             end = 16.dp,
             bottom = 10.dp
         ),
-        modifier = Modifier
+        modifier = modifier
             .width(141.dp)
             .height(39.dp)
     ) {

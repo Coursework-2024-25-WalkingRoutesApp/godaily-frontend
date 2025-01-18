@@ -36,7 +36,7 @@ fun RouteDetailsScreen(
             onBackClick = { navController.popBackStack() },
             onMapClick = { /*TODO*/ },
             onFavouriteToggle = { /*TODO*/ },
-            onReviewsClick = {navController.navigate(NavigationItem.RouteReviews.route + "/${routeId}")}
+            onReviewsClick = { navController.navigate(NavigationItem.RouteReviews.route + "/${routeId}") }
         )
 
         Spacer(modifier = Modifier.weight(1f))

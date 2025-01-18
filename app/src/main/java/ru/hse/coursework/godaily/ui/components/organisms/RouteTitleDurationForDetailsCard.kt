@@ -20,7 +20,7 @@ import ru.hse.coursework.godaily.ui.components.molecules.RouteDurationInfo
 
 @Composable
 fun RouteTitleDurationForDetailsCard(
-    route: RoutePageDTO
+    route: RoutePageDTO,
 ) {
     Row(
         modifier = Modifier

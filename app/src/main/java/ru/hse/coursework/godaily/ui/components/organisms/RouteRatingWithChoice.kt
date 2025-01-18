@@ -1,6 +1,5 @@
 package ru.hse.coursework.godaily.ui.components.organisms
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +35,7 @@ import ru.hse.coursework.godaily.ui.theme.greyLight
 
 //TODO: оценки склонение
 @Composable
-fun RouteRating(
+fun RouteRatingWithChoice(
     rating: Double,
     reviewsCount: Int,
     onRatingSelected: (Int) -> Unit,
@@ -48,7 +47,7 @@ fun RouteRating(
         modifier = modifier
             .border(width = 3.dp, color = greyLight, shape = RoundedCornerShape(15.dp))
             .clip(RoundedCornerShape(15.dp))
-            .size(338.dp, 139.dp)
+            .size(375.dp, 139.dp)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Row(
@@ -136,8 +135,8 @@ fun RouteRating(
 
 @Preview
 @Composable
-fun RouteRatingPreview() {
-    RouteRating(
+fun RouteRatingWithChoicePreview() {
+    RouteRatingWithChoice(
         rating = 3.5,
         reviewsCount = 6,
         onRatingSelected = { selectedRating ->

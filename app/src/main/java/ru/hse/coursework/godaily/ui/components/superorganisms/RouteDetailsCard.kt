@@ -79,6 +79,7 @@ fun RouteDetailsCardPreview() {
 
     val reviews = listOf(
         ReviewDTO(
+            userId = "1",
             username = "Игорь",
             photoURL = "https://via.placeholder.com/40",
             mark = 5,

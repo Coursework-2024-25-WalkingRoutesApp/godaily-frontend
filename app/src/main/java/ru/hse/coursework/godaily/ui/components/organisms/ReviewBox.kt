@@ -38,7 +38,8 @@ import ru.hse.coursework.godaily.ui.theme.greyDark
 @Composable
 fun ReviewBox(
     feedbackText: MutableState<String>,
-    maxCharacters: Int = 1000
+    maxCharacters: Int = 1000,
+    modifier: Modifier = Modifier,
 ) {
     val containerBackgroundColor = Color.Transparent
     val textFieldBackgroundColor = Color.White
@@ -46,7 +47,7 @@ fun ReviewBox(
     val isMaxReached = feedbackText.value.length == maxCharacters
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .width(305.dp)
             .background(containerBackgroundColor)
             .padding(15.dp)

@@ -7,10 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.ReviewDTO
-import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
-import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteReviewsUseCase
-import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +22,7 @@ class RouteReviewsViewModel @Inject constructor(
         viewModelScope.launch {
             val routeReviews = fetchRouteReviewsUseCase.execute(routeId)
             _uiState.value = RouteReviewsUiState(
+                curUserReview = routeReviews.curUserReview,
                 reviews = routeReviews.routes,
                 rating = routeReviews.rating,
                 reviewsCount = routeReviews.reviewsCount
@@ -34,6 +32,7 @@ class RouteReviewsViewModel @Inject constructor(
 }
 
 data class RouteReviewsUiState(
+    val curUserReview: ReviewDTO? = null,
     val reviews: List<ReviewDTO> = listOf(),
     val rating: Double = 0.toDouble(),
     val reviewsCount: Int = 0,
