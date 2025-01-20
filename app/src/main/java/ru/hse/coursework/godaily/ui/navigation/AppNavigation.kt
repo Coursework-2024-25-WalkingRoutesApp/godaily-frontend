@@ -74,57 +74,9 @@ fun BottomNavigationBar(navController: NavController) {
 @Composable
 fun BottomNavigation(navController: NavHostController) {
     NavHost(navController, startDestination = BottomNavigationItem.Home.route) {
-        composable(BottomNavigationItem.Home.route) { HomeScreen() }
+        composable(BottomNavigationItem.Home.route) { HomeNavigation() }
         composable(BottomNavigationItem.Routes.route) { RoutesScreen() }
         composable(BottomNavigationItem.Profile.route) { ProfileNavigation() }
-    }
-}
-
-@Composable
-fun ProfileNavigation() {
-    val profileNavController = rememberNavController()
-    NavHost(
-        navController = profileNavController,
-        startDestination = NavigationItem.ProfileMain.route
-    ) {
-        composable(NavigationItem.ProfileMain.route) {
-            ProfileScreen(profileNavController)
-        }
-        composable(NavigationItem.CompletedRoutes.route) {
-            CompletedRoutesScreen(profileNavController)
-        }
-        composable(NavigationItem.FavouriteRoutes.route) {
-            FavouriteRoutesScreen(profileNavController)
-        }
-        composable(NavigationItem.RouteDetails.route + "/{routeId}") { backStackEntry ->
-            val routeId = backStackEntry.arguments?.getString("routeId")
-            if (routeId != null) {
-                RouteDetailsScreen(profileNavController, routeId)
-            }
-        }
-        composable(NavigationItem.RouteReviews.route + "/{routeId}") { backStackEntry ->
-            val routeId = backStackEntry.arguments?.getString("routeId")
-            if (routeId != null) {
-                RouteReviewsScreen(profileNavController, routeId)
-            }
-        }
-        composable(
-            route = NavigationItem.RouteRate.route + "/{routeId}/{mark}",
-            arguments = listOf(
-                navArgument(name = "routeId") {
-                    type = NavType.StringType
-                },
-                navArgument(name = "mark") {
-                    type = NavType.IntType
-                },
-            )
-        ) { backStackEntry ->
-            val routeId = backStackEntry.arguments?.getString("routeId")
-            val mark = backStackEntry.arguments?.getInt("mark")
-            if (routeId != null && mark != null) {
-                RateRouteScreen(profileNavController, routeId, mark)
-            }
-        }
     }
 }
 

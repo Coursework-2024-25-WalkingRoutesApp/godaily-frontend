@@ -1,0 +1,62 @@
+package ru.hse.coursework.godaily.ui.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import ru.hse.coursework.godaily.screen.profile.CompletedRoutesScreen
+import ru.hse.coursework.godaily.screen.profile.FavouriteRoutesScreen
+import ru.hse.coursework.godaily.screen.profile.ProfileScreen
+import ru.hse.coursework.godaily.screen.routedetails.RateRouteScreen
+import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsScreen
+import ru.hse.coursework.godaily.screen.routedetails.RouteReviewsScreen
+
+@Composable
+fun ProfileNavigation() {
+    val profileNavController = rememberNavController()
+    NavHost(
+        navController = profileNavController,
+        startDestination = NavigationItem.ProfileMain.route
+    ) {
+        composable(NavigationItem.ProfileMain.route) {
+            ProfileScreen(profileNavController)
+        }
+        composable(NavigationItem.CompletedRoutes.route) {
+            CompletedRoutesScreen(profileNavController)
+        }
+        composable(NavigationItem.FavouriteRoutes.route) {
+            FavouriteRoutesScreen(profileNavController)
+        }
+        composable(NavigationItem.RouteDetails.route + "/{routeId}") { backStackEntry ->
+            val routeId = backStackEntry.arguments?.getString("routeId")
+            if (routeId != null) {
+                RouteDetailsScreen(profileNavController, routeId)
+            }
+        }
+        composable(NavigationItem.RouteReviews.route + "/{routeId}") { backStackEntry ->
+            val routeId = backStackEntry.arguments?.getString("routeId")
+            if (routeId != null) {
+                RouteReviewsScreen(profileNavController, routeId)
+            }
+        }
+        composable(
+            route = NavigationItem.RouteRate.route + "/{routeId}/{mark}",
+            arguments = listOf(
+                navArgument(name = "routeId") {
+                    type = NavType.StringType
+                },
+                navArgument(name = "mark") {
+                    type = NavType.IntType
+                },
+            )
+        ) { backStackEntry ->
+            val routeId = backStackEntry.arguments?.getString("routeId")
+            val mark = backStackEntry.arguments?.getInt("mark")
+            if (routeId != null && mark != null) {
+                RateRouteScreen(profileNavController, routeId, mark)
+            }
+        }
+    }
+}

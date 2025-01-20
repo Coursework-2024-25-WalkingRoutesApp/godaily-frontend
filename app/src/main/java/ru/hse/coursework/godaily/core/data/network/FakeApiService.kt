@@ -21,7 +21,7 @@ class FakeApiService : ApiService {
             120,
             5000,
             "City Center URL",
-            listOf(Category.Coffee, Category.Nature)
+            listOf(Category.COFFEE, Category.NATURE)
         ),
         RouteCardDTO(
             "2",
@@ -29,7 +29,7 @@ class FakeApiService : ApiService {
             240,
             8000,
             "City Center URL",
-            listOf(Category.Metro, Category.Coffee)
+            listOf(Category.METRO, Category.COFFEE)
         ),
         RouteCardDTO(
             "3",
@@ -37,7 +37,7 @@ class FakeApiService : ApiService {
             60,
             3000,
             "City Center URL",
-            listOf(Category.Culture, Category.Metro)
+            listOf(Category.CULTURE, Category.METRO)
         )
     )
 
@@ -110,7 +110,7 @@ class FakeApiService : ApiService {
             routePreview = "https://via.placeholder.com/300",
             isFavourite = false,
             coordinates = emptyList(),
-            categories = listOf(Category.Culture, Category.Coffee, Category.Metro, Category.Nature)
+            categories = listOf(Category.CULTURE, Category.COFFEE, Category.METRO, Category.NATURE)
         )
     }
 

@@ -36,10 +36,10 @@ fun RouteTagsWithFavourite(
         ) {
             categories.forEach { category ->
                 val tag = when (category) {
-                    Category.Nature -> "природный"
-                    Category.Coffee -> "кафе_по_пути"
-                    Category.Metro -> "у_метро"
-                    Category.Culture -> "культурный"
+                    Category.NATURE -> "природный"
+                    Category.COFFEE -> "кафе_по_пути"
+                    Category.METRO -> "у_метро"
+                    Category.CULTURE -> "культурный"
                 }
                 Tag(tag = tag)
             }
@@ -57,7 +57,7 @@ fun RouteTagsWithFavourite(
 @Composable
 fun RouteTagsWithFavouritePreview() {
     RouteTagsWithFavourite(
-        categories = listOf(Category.Culture, Category.Coffee, Category.Nature, Category.Metro),
+        categories = listOf(Category.CULTURE, Category.COFFEE, Category.NATURE, Category.METRO),
         isFavorite = true,
         onFavouriteToggle = {}
     )

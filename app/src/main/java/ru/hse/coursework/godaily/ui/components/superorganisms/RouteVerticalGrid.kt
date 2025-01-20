@@ -46,10 +46,10 @@ fun RouteVerticalGrid(
                         imageResUrl = route.routePreview,
                         categories = route.categories.map { category ->
                             when (category) {
-                                Category.Culture -> R.drawable.culture
-                                Category.Coffee -> R.drawable.coffee
-                                Category.Metro -> R.drawable.metro
-                                Category.Nature -> R.drawable.nature
+                                Category.CULTURE -> R.drawable.culture
+                                Category.COFFEE -> R.drawable.coffee
+                                Category.METRO -> R.drawable.metro
+                                Category.NATURE -> R.drawable.nature
                             }
                         },
                         onCardClick = { onRouteClick(route) },
@@ -84,7 +84,7 @@ fun PreviewRouteVerticalGrid() {
             120,
             5000,
             "City Center URL",
-            listOf(Category.Coffee, Category.Nature)
+            listOf(Category.COFFEE, Category.NATURE)
         ),
         RouteCardDTO(
             "2",
@@ -92,7 +92,7 @@ fun PreviewRouteVerticalGrid() {
             240,
             8000,
             "City Center URL",
-            listOf(Category.Metro, Category.Coffee)
+            listOf(Category.METRO, Category.COFFEE)
         ),
         RouteCardDTO(
             "3",
@@ -100,7 +100,7 @@ fun PreviewRouteVerticalGrid() {
             60,
             3000,
             "City Center URL",
-            listOf(Category.Culture, Category.Metro)
+            listOf(Category.CULTURE, Category.METRO)
         )
     )
     RouteVerticalGrid(routes = sampleRoutes, onRouteClick = {})

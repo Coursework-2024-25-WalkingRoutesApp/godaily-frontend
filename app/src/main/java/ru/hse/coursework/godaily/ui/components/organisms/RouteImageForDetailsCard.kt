@@ -65,7 +65,7 @@ fun RouteImageForDetailsCardPreview() {
         routePreview = "https://via.placeholder.com/300",
         isFavourite = false,
         coordinates = emptyList(),
-        categories = listOf(Category.Culture, Category.Coffee, Category.Metro, Category.Nature)
+        categories = listOf(Category.CULTURE, Category.COFFEE, Category.METRO, Category.NATURE)
     )
     RouteImageForDetailsCard(
         route = route,

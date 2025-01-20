@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -23,8 +25,7 @@ import ru.hse.coursework.godaily.ui.theme.greyLight
 
 @Composable
 fun SearchBar(
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
+    text: MutableState<String>,
     placeholder: String = "Поиск",
     modifier: Modifier = Modifier
 ) {
@@ -38,13 +39,15 @@ fun SearchBar(
             )
             .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
-        if (value.text.isEmpty()) {
+        if (text.value.isEmpty()) {
             VariableLight(text = placeholder, fontSize = 16.sp, fontColor = greyDark)
         }
 
         BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
+            value = text.value,
+            onValueChange = {
+                text.value = it
+            },
             textStyle = TextStyle(
                 fontFamily = RobotoFontFamily,
                 fontWeight = FontWeight.Light,
@@ -60,7 +63,6 @@ fun SearchBar(
 @Composable
 fun SearchBarPreview() {
     SearchBar(
-        value = TextFieldValue(""),
-        onValueChange = {}
+        text = mutableStateOf("")
     )
 }
