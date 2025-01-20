@@ -44,9 +44,6 @@ class RateRouteViewModel @Inject constructor(
         reviewText.value = reviewTextValue
     }
 
-
-
-    //TODO: баг с звездочками на экране - все белые, а должно быть mark закрашенных
     fun loadRateReviewDetails(routeId: String, mark: Int) {
         viewModelScope.launch {
             val routeDetails = fetchRouteDetailsUseCase.execute(routeId)

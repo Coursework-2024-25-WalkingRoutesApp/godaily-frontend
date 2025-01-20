@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import ru.hse.coursework.godaily.core.data.model.Category
+import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
 import ru.hse.coursework.godaily.core.data.model.SortOption
 import ru.hse.coursework.godaily.screen.profile.ProfileViewModel
 import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
@@ -31,6 +34,7 @@ import ru.hse.coursework.godaily.ui.components.organisms.CompletedRoutes
 import ru.hse.coursework.godaily.ui.components.organisms.FavouriteRoutes
 import ru.hse.coursework.godaily.ui.components.organisms.SearchToolbar
 import ru.hse.coursework.godaily.ui.components.organisms.UserProfile
+import ru.hse.coursework.godaily.ui.components.superorganisms.RouteToContinueGrid
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteVerticalGrid
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 import ru.hse.coursework.godaily.ui.theme.greyDark
@@ -38,9 +42,16 @@ import ru.hse.coursework.godaily.ui.theme.greyDark
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val state by viewModel.uiState.collectAsState()
+    val routesForGrid = viewModel.routesForGrid
+    val unfinishedRoutes = viewModel.unfinishedRoutes
+    val searchValue = viewModel.searchValue
+    val selectedCategories = viewModel.selectedCategories
+    val selectedSortOption = viewModel.selectedSortOption
+
+    //TODO: поиск координаты
+    viewModel.loadHomeScreenInfo("")
 
     Column(
         modifier = Modifier
@@ -49,7 +60,7 @@ fun HomeScreen(
 
         HeaderWithBackground(header = "Маршруты для вас")
 
-        if (state.completedRoutes.isEmpty()) {
+        if (routesForGrid.isEmpty() && unfinishedRoutes.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -62,6 +73,11 @@ fun HomeScreen(
                 )
             }
         } else {
+            if (unfinishedRoutes.isNotEmpty()) {
+                RouteToContinueGrid(routes = unfinishedRoutes)
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -78,10 +94,9 @@ fun HomeScreen(
 
 
             Spacer(modifier = Modifier.height(16.dp))
-
-            //TODO: подставить маршруты главной
+            
             RouteVerticalGrid(
-                routes = state.completedRoutes,
+                routes = routesForGrid,
                 onRouteClick = { route ->
                     navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
                 }

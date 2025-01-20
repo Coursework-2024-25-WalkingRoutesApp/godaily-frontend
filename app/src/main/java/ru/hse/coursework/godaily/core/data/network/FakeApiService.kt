@@ -86,6 +86,10 @@ class FakeApiService : ApiService {
         return fakeRoutes.take(2)
     }
 
+    override suspend fun getUserUnfinishedRoutes(jwt: String): List<RouteCardDTO> {
+        return fakeRoutes.take(3)
+    }
+
     override suspend fun addRouteToFavorites(jwt: String, routeId: String): Boolean {
         return true
     }
@@ -188,7 +192,15 @@ class FakeApiService : ApiService {
     override suspend fun filterRoutesByCategoryAndDistance(
         jwt: String,
         userCoordinate: String,
-        category: Category
+        categories: List<Category>
+    ): List<RouteCardDTO> {
+        return fakeRoutes
+    }
+
+    override suspend fun getRoutesBySearchValue(
+        jwt: String,
+        userCoordinate: String,
+        searchValue: String
     ): List<RouteCardDTO> {
         return fakeRoutes
     }

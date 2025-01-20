@@ -46,6 +46,8 @@ interface ApiService {
     // Получение избранных маршрутов пользователя
     suspend fun getUserFavouriteRoutes(jwt: String): List<RouteCardDTO>
 
+    suspend fun getUserUnfinishedRoutes(jwt: String): List<RouteCardDTO>
+
     // Добавление маршрута в избранное
     suspend fun addRouteToFavorites(jwt: String, routeId: String): Boolean
 
@@ -86,6 +88,13 @@ interface ApiService {
     suspend fun filterRoutesByCategoryAndDistance(
         jwt: String,
         userCoordinate: String,
-        category: Category
+        categories: List<Category>
+    ): List<RouteCardDTO>
+
+    // Поиск маршрутов по названию
+    suspend fun getRoutesBySearchValue(
+        jwt: String,
+        userCoordinate: String,
+        searchValue: String
     ): List<RouteCardDTO>
 }

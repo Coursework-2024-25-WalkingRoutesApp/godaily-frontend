@@ -23,20 +23,21 @@ fun HeaderWithBackground(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(150.dp)
     ) {
         Image(
             painter = painterResource(id = R.drawable.background_photo),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            alignment = Alignment.BottomCenter
         )
 
         HeaderBig(
             text = header,
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = 16.dp, bottom = 40.dp)
+                .padding(start = 16.dp, bottom = 20.dp)
         )
     }
 }
