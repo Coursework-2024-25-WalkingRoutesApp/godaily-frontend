@@ -34,15 +34,19 @@ fun CompletedRoutesScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
     ) {
-        Back(
-            onClick = { navController.popBackStack() }
-        )
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+            Back(
+                onClick = { navController.popBackStack() }
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        HeaderBig(text = "Пройденные маршруты")
+            HeaderBig(text = "Пройденные маршруты")
+        }
 
         if (state.completedRoutes.isEmpty()) {
             Box(

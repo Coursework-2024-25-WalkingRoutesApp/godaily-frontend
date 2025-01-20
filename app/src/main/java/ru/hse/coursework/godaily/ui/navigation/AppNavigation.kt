@@ -16,20 +16,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import ru.hse.coursework.godaily.screen.home.HomeScreen
-import ru.hse.coursework.godaily.screen.profile.CompletedRoutesScreen
-import ru.hse.coursework.godaily.screen.profile.FavouriteRoutesScreen
-import ru.hse.coursework.godaily.screen.profile.ProfileScreen
-import ru.hse.coursework.godaily.screen.routedetails.RateRouteScreen
-import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsScreen
-import ru.hse.coursework.godaily.screen.routedetails.RouteReviewsScreen
-import ru.hse.coursework.godaily.screen.routes.RoutesScreen
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.purpleDark
 
@@ -77,7 +67,7 @@ fun BottomNavigationBar(navController: NavController) {
 fun BottomNavigation(navController: NavHostController) {
     NavHost(navController, startDestination = BottomNavigationItem.Home.route) {
         composable(BottomNavigationItem.Home.route) { HomeNavigation() }
-        composable(BottomNavigationItem.Routes.route) { RoutesScreen() }
+        composable(BottomNavigationItem.Routes.route) { RoutesNavigation() }
         composable(BottomNavigationItem.Profile.route) { ProfileNavigation() }
     }
 }

@@ -5,18 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
-import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
 import ru.hse.coursework.godaily.core.data.model.SortOption
 import ru.hse.coursework.godaily.core.domain.home.FetchRoutesBySearchValue
 import ru.hse.coursework.godaily.core.domain.home.FetchRoutesForHomeScreenUseCase
 import ru.hse.coursework.godaily.core.domain.home.FetchUnfinishedRoutesUseCase
 import ru.hse.coursework.godaily.core.domain.home.FilterRoutesUseCase
-import ru.hse.coursework.godaily.core.domain.profile.FetchProfileInfoUseCase
 import javax.inject.Inject
 
 @HiltViewModel

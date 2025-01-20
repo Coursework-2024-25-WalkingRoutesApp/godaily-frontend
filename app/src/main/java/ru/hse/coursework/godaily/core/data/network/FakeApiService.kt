@@ -38,6 +38,78 @@ class FakeApiService : ApiService {
             3000,
             "City Center URL",
             listOf(Category.CULTURE, Category.METRO)
+        ),
+        RouteCardDTO(
+            "1",
+            "City Tour",
+            120,
+            5000,
+            "City Center URL",
+            listOf(Category.COFFEE, Category.NATURE)
+        ),
+        RouteCardDTO(
+            "2",
+            "Mountain Hike",
+            240,
+            8000,
+            "City Center URL",
+            listOf(Category.METRO, Category.COFFEE)
+        ),
+        RouteCardDTO(
+            "3",
+            "Beach Walk",
+            60,
+            3000,
+            "City Center URL",
+            listOf(Category.CULTURE, Category.METRO)
+        ),
+        RouteCardDTO(
+            "1",
+            "City Tour",
+            120,
+            5000,
+            "City Center URL",
+            listOf(Category.COFFEE, Category.NATURE)
+        ),
+        RouteCardDTO(
+            "2",
+            "Mountain Hike",
+            240,
+            8000,
+            "City Center URL",
+            listOf(Category.METRO, Category.COFFEE)
+        ),
+        RouteCardDTO(
+            "3",
+            "Beach Walk",
+            60,
+            3000,
+            "City Center URL",
+            listOf(Category.CULTURE, Category.METRO)
+        ),
+        RouteCardDTO(
+            "1",
+            "City Tour",
+            120,
+            5000,
+            "City Center URL",
+            listOf(Category.COFFEE, Category.NATURE)
+        ),
+        RouteCardDTO(
+            "2",
+            "Mountain Hike",
+            240,
+            8000,
+            "City Center URL",
+            listOf(Category.METRO, Category.COFFEE)
+        ),
+        RouteCardDTO(
+            "3",
+            "Beach Walk",
+            60,
+            3000,
+            "City Center URL",
+            listOf(Category.CULTURE, Category.METRO)
         )
     )
 

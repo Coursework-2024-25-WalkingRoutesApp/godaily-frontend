@@ -32,7 +32,8 @@ class FetchRouteReviewsUseCase @Inject constructor(
 
     private fun sortReviews(reviews: List<ReviewDTO>, curUserReview: ReviewDTO?): List<ReviewDTO> {
         return if (curUserReview != null) {
-            listOf(curUserReview) + reviews.filter { it != curUserReview }.sortedByDescending { it.createdAt }
+            listOf(curUserReview) + reviews.filter { it != curUserReview }
+                .sortedByDescending { it.createdAt }
         } else {
             reviews.sortedByDescending { it.createdAt }
         }

@@ -26,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.SortOption
 import ru.hse.coursework.godaily.ui.components.atoms.VariableLight
 import ru.hse.coursework.godaily.ui.theme.greyDark
@@ -58,7 +57,7 @@ fun SortDropdown(
                     SortOption.CLOSER_TO_ME -> "ближе ко мне"
                     SortOption.HIGH_RATING -> "с высоким рейтингом"
                     SortOption.LONG -> "длинные"
-                    SortOption.SHORT  -> "короткие"
+                    SortOption.SHORT -> "короткие"
                 },
                 fontSize = 16.sp,
                 fontColor = greyDark,
@@ -85,15 +84,16 @@ fun SortDropdown(
                         expanded = false
                         onOptionSelected(option)
                     },
-                    text = { Text(
-                        when (option) {
-                            SortOption.CLOSER_TO_ME -> "ближе ко мне"
-                            SortOption.HIGH_RATING -> "с высоким рейтингом"
-                            SortOption.LONG -> "длинные"
-                            SortOption.SHORT  -> "короткие"
-                        },
-                        color = greyDark
-                    )
+                    text = {
+                        Text(
+                            when (option) {
+                                SortOption.CLOSER_TO_ME -> "ближе ко мне"
+                                SortOption.HIGH_RATING -> "с высоким рейтингом"
+                                SortOption.LONG -> "длинные"
+                                SortOption.SHORT -> "короткие"
+                            },
+                            color = greyDark
+                        )
                     }
                 )
             }
@@ -106,7 +106,12 @@ fun SortDropdown(
 @Composable
 fun SortDropdownPreview() {
     SortDropdown(
-        options = listOf(SortOption.SHORT, SortOption.LONG, SortOption.HIGH_RATING, SortOption.CLOSER_TO_ME),
+        options = listOf(
+            SortOption.SHORT,
+            SortOption.LONG,
+            SortOption.HIGH_RATING,
+            SortOption.CLOSER_TO_ME
+        ),
         initialSelection = SortOption.CLOSER_TO_ME,
         onOptionSelected = { selectedOption ->
             println("Selected option: $selectedOption")

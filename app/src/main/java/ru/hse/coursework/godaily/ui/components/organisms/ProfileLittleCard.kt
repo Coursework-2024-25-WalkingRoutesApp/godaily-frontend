@@ -28,7 +28,8 @@ fun ProfileLittleCard(
     type: String = "Черновики",
     cardColor: Color = purpleLight,
     routeCount: Int,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     val secondaryTextColor = greyDark
     val routeLabel = when {
@@ -38,7 +39,7 @@ fun ProfileLittleCard(
     }
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .size(width = 167.dp, height = 97.dp)
             .clip(RoundedCornerShape(10.dp))
             .clickable(onClick = onClick),

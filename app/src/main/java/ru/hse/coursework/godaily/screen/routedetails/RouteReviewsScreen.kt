@@ -56,12 +56,11 @@ fun RouteReviewsScreen(
                     rating = state.rating,
                     reviewsCount = state.reviewsCount,
                 )
-            }
-            else {
+            } else {
                 RouteRatingWithChoice(
                     rating = state.rating,
                     reviewsCount = state.reviewsCount,
-                    onRatingSelected = {mark ->
+                    onRatingSelected = { mark ->
                         navController.navigate(NavigationItem.RouteRate.route + "/${routeId}/${mark}")
                     }
                 )

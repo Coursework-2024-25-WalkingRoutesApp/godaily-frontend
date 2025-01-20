@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -17,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
@@ -81,7 +79,12 @@ fun SearchAndFilterBarPreview() {
         searchValue = mutableStateOf(""),
         //onSearchValueChange = { println("Search: $it") },
         filterIconClick = { println("SortOption button clicked") },
-        sortOptions = listOf(SortOption.CLOSER_TO_ME, SortOption.HIGH_RATING, SortOption.LONG, SortOption.SHORT),
+        sortOptions = listOf(
+            SortOption.CLOSER_TO_ME,
+            SortOption.HIGH_RATING,
+            SortOption.LONG,
+            SortOption.SHORT
+        ),
         onSortOptionSelected = { selectedOption -> println("Sort selected: $selectedOption") },
     )
 }

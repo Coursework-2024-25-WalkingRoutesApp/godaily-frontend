@@ -35,13 +35,18 @@ fun FavouriteRoutesScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Back(
-            onClick = { navController.popBackStack() }
-        )
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+            Back(
+                onClick = { navController.popBackStack() }
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        HeaderBig(text = "Избранные маршруты")
+            HeaderBig(text = "Избранные маршруты")
+        }
 
         if (state.favouriteRoutes.isEmpty()) {
             Box(
