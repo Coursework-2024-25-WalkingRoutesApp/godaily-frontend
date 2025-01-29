@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import ru.hse.coursework.godaily.screen.map.MapScreen
 import ru.hse.coursework.godaily.screen.routedetails.RateRouteScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteReviewsScreen
@@ -49,6 +50,10 @@ fun RoutesNavigation() {
             if (routeId != null && mark != null) {
                 RateRouteScreen(routesNavController, routeId, mark)
             }
+        }
+
+        composable(NavigationItem.RouteCreation.route) {
+            MapScreen(routesNavController)
         }
     }
 }

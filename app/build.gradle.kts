@@ -1,3 +1,18 @@
+import java.util.Properties
+
+val mapkitApiKey: String by extra {
+    val properties = Properties()
+    val localPropertiesFile = project.rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { properties.load(it) }
+    }
+    val value = properties.getProperty("MAPKIT_API_KEY", "")
+    if (value.isEmpty()) {
+        throw InvalidUserDataException("MapKit API key is not provided. Set your API key in the project's local.properties file: MAPKIT_API_KEY=<your-api-key-value>.")
+    }
+    value
+}
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -22,6 +37,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "MAPKIT_API_KEY", "\"$mapkitApiKey\"")
     }
 
     buildTypes {
@@ -88,6 +105,12 @@ dependencies {
     //Logging
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    //Map
+    implementation("com.yandex.android:maps.mobile:4.10.1-full")
+
+    //Easy Permissions
+    implementation("pub.devrel:easypermissions:3.0.0")
 
     // Test
     testImplementation("junit:junit:4.13.2")
