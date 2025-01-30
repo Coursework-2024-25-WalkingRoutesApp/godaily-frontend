@@ -112,6 +112,10 @@ dependencies {
     //Easy Permissions
     implementation("pub.devrel:easypermissions:3.0.0")
 
+    //Image Cropper
+    implementation("com.vanniktech:android-image-cropper:4.6.0")
+    implementation("com.github.yalantis:ucrop:2.2.10")
+
     // Test
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")

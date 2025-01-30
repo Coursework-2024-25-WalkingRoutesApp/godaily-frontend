@@ -18,6 +18,10 @@ sealed class NavigationItem(val route: String, val title: String) {
     data object RoutesMain : NavigationItem("routes_main", "Мои маршруты")
 
     // Map
-    data object RouteCreation : NavigationItem("route_creation", "Создание маршрута")
+    data object RouteCreationOnMap :
+        NavigationItem("route_creation_on_map", "Создание маршрута на карте")
+
+    data object RouteCreationInfo :
+        NavigationItem("route_creation_info", "Заполнение информации о маршруте")
 
 }

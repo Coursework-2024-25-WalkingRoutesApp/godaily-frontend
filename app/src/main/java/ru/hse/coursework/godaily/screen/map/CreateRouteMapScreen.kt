@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -11,17 +12,21 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.CameraPosition
 import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
+import ru.hse.coursework.godaily.ui.components.molecules.ApplyButton
 import ru.hse.coursework.godaily.ui.components.molecules.Back
-import ru.hse.coursework.godaily.ui.components.organisms.YandexMapCreateRouteView
+import ru.hse.coursework.godaily.ui.components.molecules.Question
+import ru.hse.coursework.godaily.ui.components.superorganisms.CreateRouteView
+import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
 @Composable
-fun MapScreen(
-    navController: NavController
+//TODO: не сохраняется стейт карты и точек
+fun CreateRouteMapScreen(
+    navController: NavController,
+    viewModel: CreateRouteViewModel = hiltViewModel()
 ) {
     DisposableEffect(Unit) {
         MapKitFactory.getInstance().onStart()
@@ -47,12 +52,27 @@ fun MapScreen(
             Spacer(modifier = Modifier.width(16.dp))
 
             HeaderBig(text = "Создание маршрута")
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Question(onClick = {/*TODO*/ })
+
         }
 
-        YandexMapCreateRouteView(
+        CreateRouteView(
+            //TODO: заменить точки
+            routePoints = viewModel.routePoints,
             modifier = Modifier
-                .padding(start = 30.dp, end = 30.dp, top = 50.dp, bottom = 100.dp),
-            routePoints = mutableListOf()
+                .padding(start = 30.dp, end = 30.dp, top = 16.dp)
+                .weight(1f)
+        )
+
+        ApplyButton(
+            onClick = { navController.navigate(NavigationItem.RouteCreationInfo.route) },
+            text = "Готово!",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 30.dp, end = 30.dp, top = 16.dp, bottom = 16.dp)
         )
     }
 }

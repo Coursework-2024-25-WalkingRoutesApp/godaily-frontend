@@ -61,6 +61,8 @@ fun YandexMapCreateRouteView(
 
                 map.move(startCameraPosition)
                 map.addInputListener(inputListener)
+
+                updateRoute(map, routePoints, startIcon, midIcon, endIcon)
             }
         },
         modifier = modifier.fillMaxSize()
@@ -69,7 +71,7 @@ fun YandexMapCreateRouteView(
 
 private fun updateRoute(
     map: Map,
-    routePoints: List<Point>,
+    routePoints: MutableList<Point>,
     startIcon: ImageProvider,
     midIcon: ImageProvider,
     endIcon: ImageProvider
@@ -111,7 +113,7 @@ private fun updateRoute(
 
 private fun setPlacemarks(
     map: Map,
-    points: List<Point>,
+    points: MutableList<Point>,
     startIcon: ImageProvider,
     midIcon: ImageProvider,
     endIcon: ImageProvider,

@@ -72,7 +72,7 @@ fun RoutesScreen(
         }
 
         CreateButton(
-            onClick = { navController.navigate(NavigationItem.RouteCreation.route) },
+            onClick = { navController.navigate(NavigationItem.RouteCreationOnMap.route) },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(start = 16.dp, end = 16.dp, bottom = 10.dp)
