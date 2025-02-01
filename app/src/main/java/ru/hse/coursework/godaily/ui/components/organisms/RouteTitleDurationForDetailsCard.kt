@@ -13,14 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.core.data.model.Category
-import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
+import ru.hse.coursework.godaily.core.data.model.RouteDto
+import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.ui.components.atoms.RouteDestinations
 import ru.hse.coursework.godaily.ui.components.atoms.RouteNameBig
 import ru.hse.coursework.godaily.ui.components.molecules.RouteDurationInfo
+import java.time.LocalTime
+import java.util.UUID
 
 @Composable
 fun RouteTitleDurationForDetailsCard(
-    route: RoutePageDTO,
+    route: RoutePageDto,
 ) {
     Row(
         modifier = Modifier
@@ -29,13 +32,13 @@ fun RouteTitleDurationForDetailsCard(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            RouteNameBig(text = route.routeName)
+            RouteNameBig(text = route.routeName?: "")
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Row(verticalAlignment = Alignment.CenterVertically) {
 
-                RouteDestinations(start = route.startPoint, end = route.endPoint)
+                RouteDestinations(start = route.startPoint?: "", end = route.endPoint?: "")
             }
         }
 
@@ -55,18 +58,23 @@ fun RouteTitleDurationForDetailsCard(
 @Preview(showBackground = true)
 @Composable
 fun RouteTitleDurationForDetailsCardPreview() {
-    val route = RoutePageDTO(
-        id = "1",
+    val route = RoutePageDto(
+        id = UUID.randomUUID(),
         routeName = "Измайловский Кремль",
-        description = "Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы.",
-        duration = 27,
+        description = "Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы.",
+        duration = LocalTime.ofSecondOfDay(120 * 60),
         length = 2500,
         startPoint = "р-он. Измайлово",
         endPoint = "Измайловское шоссе, 73",
         routePreview = "https://via.placeholder.com/300",
         isFavourite = false,
-        coordinates = emptyList(),
-        categories = listOf(Category.CULTURE, Category.COFFEE, Category.METRO, Category.NATURE)
+        routeCoordinate = emptyList(),
+        categories = listOf(
+            RouteDto.Category(UUID.randomUUID(), "Coffee"),
+            RouteDto.Category(UUID.randomUUID(), "Culture"),
+            RouteDto.Category(UUID.randomUUID(), "Nature"),
+            RouteDto.Category(UUID.randomUUID(), "Metro")
+        )
     )
     RouteTitleDurationForDetailsCard(
         route = route,

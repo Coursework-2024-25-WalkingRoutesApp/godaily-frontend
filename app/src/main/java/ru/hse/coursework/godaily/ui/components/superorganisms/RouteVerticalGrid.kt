@@ -16,12 +16,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.data.model.Category
-import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
+import ru.hse.coursework.godaily.core.data.model.RouteCardDto
+import ru.hse.coursework.godaily.core.data.model.RouteDto
+import java.time.LocalTime
+import java.util.UUID
 
 @Composable
 fun RouteVerticalGrid(
-    routes: List<RouteCardDTO>,
-    onRouteClick: (RouteCardDTO) -> Unit,
+    routes: List<RouteCardDto>,
+    onRouteClick: (RouteCardDto) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberScrollState()
@@ -40,18 +43,20 @@ fun RouteVerticalGrid(
             ) {
                 routePair.forEach { route ->
                     RouteCardSmall(
-                        distance = "${route.length / 1000.0} км",
+                        distance = "${route.distanceToUser / 1000.0} км",
                         time = formatDuration(route.duration),
-                        title = route.routeName,
-                        imageResUrl = route.routePreview,
-                        categories = route.categories.map { category ->
-                            when (category) {
-                                Category.CULTURE -> R.drawable.culture
-                                Category.COFFEE -> R.drawable.coffee
-                                Category.METRO -> R.drawable.metro
-                                Category.NATURE -> R.drawable.nature
+                        title = route.routeName?: "Название",
+                        imageResUrl = route.routePreview?: "",
+                        categories = route.categories?.map { category ->
+                            when (category.categoryName) {
+                                "Culture" -> R.drawable.culture
+                                "Coffee" -> R.drawable.coffee
+                                "Metro" -> R.drawable.metro
+                                "Nature" -> R.drawable.nature
+                                //TODO: добавить unexpected icon
+                                else -> R.drawable.end_point
                             }
-                        },
+                        } ?: emptyList(),
                         onCardClick = { onRouteClick(route) },
                         modifier = Modifier
                             .weight(1f)
@@ -69,7 +74,10 @@ fun RouteVerticalGrid(
 
 
 //TODO: Убрать функцию, сделать нормальную работу с маршрутами
-fun formatDuration(duration: Int): String {
+fun formatDuration(duration: LocalTime?): String {
+    if (duration == null) {
+        return "0 минут"
+    }
     return "$duration минут"
 }
 
@@ -78,29 +86,146 @@ fun formatDuration(duration: Int): String {
 @Composable
 fun PreviewRouteVerticalGrid() {
     val sampleRoutes = listOf(
-        RouteCardDTO(
-            "1",
-            "Исторический центр",
-            120,
+        RouteCardDto(
+            UUID.randomUUID(),
+            "City Tour",
+            LocalTime.ofSecondOfDay(120 * 60),
             5000,
             "City Center URL",
-            listOf(Category.COFFEE, Category.NATURE)
+            3.5,
+            listOf(RouteDto.Category(UUID.randomUUID(), "Culture"))
         ),
-        RouteCardDTO(
-            "2",
-            "Природная тропа",
-            240,
+        RouteCardDto(
+            UUID.randomUUID(),
+            "Mountain Hike",
+            LocalTime.ofSecondOfDay(120 * 60),
             8000,
             "City Center URL",
-            listOf(Category.METRO, Category.COFFEE)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Metro")
+            )
         ),
-        RouteCardDTO(
-            "3",
-            "Красивое Измайлово",
-            60,
+        RouteCardDto(
+            UUID.randomUUID(),
+            "Beach Walk",
+            LocalTime.ofSecondOfDay(60 * 60),
             3000,
             "City Center URL",
-            listOf(Category.CULTURE, Category.METRO)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
+        ),
+        RouteCardDto(
+            UUID.randomUUID(),
+            "City Tour",
+            LocalTime.ofSecondOfDay(120 * 60),
+            5000,
+            "City Center URL",
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
+        ),
+        RouteCardDto(
+            UUID.randomUUID(),
+            "Mountain Hike",
+            LocalTime.ofSecondOfDay(240 * 60),
+            8000,
+            "City Center URL",
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Metro"),
+                RouteDto.Category(UUID.randomUUID(), "Coffee")
+            )
+        ),
+        RouteCardDto(
+            UUID.randomUUID(),
+            "Beach Walk",
+            LocalTime.ofSecondOfDay(60 * 60),
+            3000,
+            "City Center URL",
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Culture"),
+                RouteDto.Category(UUID.randomUUID(), "Metro")
+            )
+        ),
+        RouteCardDto(
+            UUID.randomUUID(),
+            "City Tour",
+            LocalTime.ofSecondOfDay(120 * 60),
+            5000,
+            "City Center URL",
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
+        ),
+        RouteCardDto(
+            UUID.randomUUID(),
+            "Mountain Hike",
+            LocalTime.ofSecondOfDay(240 * 60),
+            8000,
+            "City Center URL",
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
+        ),
+        RouteCardDto(
+            UUID.randomUUID(),
+            "Beach Walk",
+            LocalTime.ofSecondOfDay(60 * 60),
+            3000,
+            "City Center URL",
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
+        ),
+        RouteCardDto(
+            UUID.randomUUID(),
+            "City Tour",
+            LocalTime.ofSecondOfDay(120 * 60),
+            5000,
+            "City Center URL",
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
+        ),
+        RouteCardDto(
+            UUID.randomUUID(),
+            "Mountain Hike",
+            LocalTime.ofSecondOfDay(240 * 60),
+            8000,
+            "City Center URL",
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
+        ),
+        RouteCardDto(
+            UUID.randomUUID(),
+            "Beach Walk",
+            LocalTime.ofSecondOfDay(60 * 60),
+            3000,
+            "City Center URL",
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
         )
     )
     RouteVerticalGrid(routes = sampleRoutes, onRouteClick = {})

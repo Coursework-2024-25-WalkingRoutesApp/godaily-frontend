@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ru.hse.coursework.godaily.core.data.model.ReviewDTO
+import ru.hse.coursework.godaily.core.data.model.ReviewDto
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteReviewsUseCase
 import javax.inject.Inject
 
@@ -32,8 +32,8 @@ class RouteReviewsViewModel @Inject constructor(
 }
 
 data class RouteReviewsUiState(
-    val curUserReview: ReviewDTO? = null,
-    val reviews: List<ReviewDTO> = listOf(),
+    val curUserReview: ReviewDto.ReviewInfoDto? = null,
+    val reviews: List<ReviewDto.ReviewInfoDto> = listOf(),
     val rating: Double = 0.toDouble(),
     val reviewsCount: Int = 0,
 )

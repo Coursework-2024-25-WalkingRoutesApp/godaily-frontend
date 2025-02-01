@@ -1,6 +1,6 @@
 package ru.hse.coursework.godaily.core.domain.routedetails
 
-import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
+import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.core.data.network.ApiService
 import javax.inject.Inject
 
@@ -9,10 +9,10 @@ class FetchRouteDetailsUseCase @Inject constructor(
 ) {
     suspend fun execute(routeId: String): RouteDetails {
         val routePageDTO = api.getRouteDetails("", routeId)
-        val reviews = api.getReviewsInfo("", routeId).reviews
+        val reviews = api.getReviews("", routeId).reviews
 
         val averageMark = if (reviews.isNotEmpty()) {
-            reviews.sumOf { it.mark } / reviews.size.toDouble()
+            reviews.sumOf { it.rating } / reviews.size.toDouble()
         } else {
             0.toDouble()
         }
@@ -27,7 +27,7 @@ class FetchRouteDetailsUseCase @Inject constructor(
 }
 
 data class RouteDetails(
-    val route: RoutePageDTO,
+    val route: RoutePageDto,
     val mark: Double,
     val reviewsCount: Int
 )

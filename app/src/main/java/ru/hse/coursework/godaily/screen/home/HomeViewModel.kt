@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.Category
-import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
+import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.SortOption
 import ru.hse.coursework.godaily.core.domain.home.FetchRoutesBySearchValue
 import ru.hse.coursework.godaily.core.domain.home.FetchRoutesForHomeScreenUseCase
@@ -23,18 +23,18 @@ class HomeViewModel @Inject constructor(
     private val filterRoutesUseCase: FilterRoutesUseCase
 ) : ViewModel() {
 
-    val routesForGrid: MutableList<RouteCardDTO> = mutableListOf()
-    val unfinishedRoutes: MutableList<RouteCardDTO> = mutableListOf()
+    val routesForGrid: MutableList<RouteCardDto> = mutableListOf()
+    val unfinishedRoutes: MutableList<RouteCardDto> = mutableListOf()
     val searchValue: MutableState<String> = mutableStateOf("")
     val selectedCategories: MutableList<Category> = mutableListOf()
     val selectedSortOption: MutableState<SortOption> = mutableStateOf(SortOption.CLOSER_TO_ME)
 
-    fun updateRoutesForGrid(routes: List<RouteCardDTO>) {
+    fun updateRoutesForGrid(routes: List<RouteCardDto>) {
         routesForGrid.clear()
         routesForGrid.addAll(routes)
     }
 
-    fun updateUnfinishedRoutes(routes: List<RouteCardDTO>) {
+    fun updateUnfinishedRoutes(routes: List<RouteCardDto>) {
         unfinishedRoutes.clear()
         unfinishedRoutes.addAll(routes)
     }

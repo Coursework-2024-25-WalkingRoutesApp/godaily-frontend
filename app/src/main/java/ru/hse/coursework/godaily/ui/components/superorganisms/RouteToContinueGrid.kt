@@ -16,13 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.hse.coursework.godaily.core.data.model.Category
-import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
+import ru.hse.coursework.godaily.core.data.model.RouteCardDto
+import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
+import java.time.LocalTime
+import java.util.UUID
 
 @Composable
 fun RouteToContinueGrid(
-    routes: List<RouteCardDTO>,
+    routes: List<RouteCardDto>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -48,9 +50,9 @@ fun RouteToContinueGrid(
 
             routes.forEach { route ->
                 RouteCardToContinue(
-                    distance = "${route.length / 1000.0} км",
-                    title = route.routeName,
-                    imageResUrl = route.routePreview,
+                    distance = "${route.distanceToUser / 1000.0} км",
+                    title = route.routeName ?: "Название",
+                    imageResUrl = route.routePreview ?: "",
                     modifier = Modifier.padding(end = 8.dp)
                 )
             }
@@ -63,29 +65,38 @@ fun RouteToContinueGrid(
 @Composable
 fun PreviewRouteToContinueGrid() {
     val sampleRoutes = listOf(
-        RouteCardDTO(
-            "1",
-            "Исторический центр",
-            120,
+        RouteCardDto(
+            UUID.randomUUID(),
+            "City Tour",
+            LocalTime.ofSecondOfDay(120 * 60),
             5000,
             "City Center URL",
-            listOf(Category.COFFEE, Category.NATURE)
+            3.5,
+            listOf(RouteDto.Category(UUID.randomUUID(), "Culture"))
         ),
-        RouteCardDTO(
-            "2",
-            "Природная тропа",
-            240,
+        RouteCardDto(
+            UUID.randomUUID(),
+            "Mountain Hike",
+            LocalTime.ofSecondOfDay(120 * 60),
             8000,
             "City Center URL",
-            listOf(Category.METRO, Category.COFFEE)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Metro")
+            )
         ),
-        RouteCardDTO(
-            "3",
-            "Красивое Измайлово",
-            60,
+        RouteCardDto(
+            UUID.randomUUID(),
+            "Beach Walk",
+            LocalTime.ofSecondOfDay(60 * 60),
             3000,
             "City Center URL",
-            listOf(Category.CULTURE, Category.METRO)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
         )
     )
     RouteToContinueGrid(routes = sampleRoutes)

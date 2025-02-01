@@ -54,10 +54,12 @@ fun SortDropdown(
         ) {
             VariableLight(
                 text = when (selectedOption) {
+                    //TODO: переделать
                     SortOption.CLOSER_TO_ME -> "ближе ко мне"
                     SortOption.HIGH_RATING -> "с высоким рейтингом"
                     SortOption.LONG -> "длинные"
                     SortOption.SHORT -> "короткие"
+                    SortOption.UNDEFINED -> "неизвестный"
                 },
                 fontSize = 16.sp,
                 fontColor = greyDark,
@@ -86,11 +88,13 @@ fun SortDropdown(
                     },
                     text = {
                         Text(
+                            //todo: переделать
                             when (option) {
                                 SortOption.CLOSER_TO_ME -> "ближе ко мне"
                                 SortOption.HIGH_RATING -> "с высоким рейтингом"
                                 SortOption.LONG -> "длинные"
                                 SortOption.SHORT -> "короткие"
+                                SortOption.UNDEFINED -> "неизвестный"
                             },
                             color = greyDark
                         )

@@ -4,5 +4,6 @@ enum class SortOption {
     LONG,
     SHORT,
     HIGH_RATING,
-    CLOSER_TO_ME
+    CLOSER_TO_ME,
+    UNDEFINED
 }

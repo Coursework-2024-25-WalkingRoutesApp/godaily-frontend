@@ -113,7 +113,6 @@ dependencies {
     implementation("pub.devrel:easypermissions:3.0.0")
 
     //Image Cropper
-    implementation("com.vanniktech:android-image-cropper:4.6.0")
     implementation("com.github.yalantis:ucrop:2.2.10")
 
     // Test

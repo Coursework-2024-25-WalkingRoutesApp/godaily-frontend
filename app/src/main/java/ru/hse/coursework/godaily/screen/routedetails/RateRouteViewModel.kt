@@ -6,33 +6,34 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
+import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class RateRouteViewModel @Inject constructor(
     private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase
 ) : ViewModel() {
-    val route: MutableState<RoutePageDTO> = mutableStateOf(
-        RoutePageDTO(
-            "",
-            "",
-            "",
-            0,
-            0,
-            "",
-            "",
-            "",
-            false,
-            listOf(),
-            listOf()
+    val route: MutableState<RoutePageDto> = mutableStateOf(
+        RoutePageDto(
+            id = UUID.randomUUID(),
+            routeName = null,
+            description = null,
+            duration = null,
+            length = null,
+            startPoint = null,
+            endPoint = null,
+            routePreview = null,
+            isFavourite = null,
+            routeCoordinate = null,
+            categories = null
         )
     )
     val mark: MutableState<Int> = mutableStateOf(5)
     val reviewText: MutableState<String> = mutableStateOf("")
 
-    fun updateRoute(routeValue: RoutePageDTO) {
+    fun updateRoute(routeValue: RoutePageDto) {
         route.value = routeValue
     }
 

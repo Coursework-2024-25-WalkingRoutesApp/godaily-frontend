@@ -1,115 +1,161 @@
 package ru.hse.coursework.godaily.core.data.network
 
 import ru.hse.coursework.godaily.core.data.model.Category
-import ru.hse.coursework.godaily.core.data.model.ReviewDTO
-import ru.hse.coursework.godaily.core.data.model.ReviewsInfoDTO
-import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
-import ru.hse.coursework.godaily.core.data.model.RouteDTO
-import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
-import ru.hse.coursework.godaily.core.data.model.RouteSessionDTO
-import ru.hse.coursework.godaily.core.data.model.UserDTO
+import ru.hse.coursework.godaily.core.data.model.ReviewDto
+import ru.hse.coursework.godaily.core.data.model.RouteCardDto
+import ru.hse.coursework.godaily.core.data.model.RouteDto
+import ru.hse.coursework.godaily.core.data.model.RoutePageDto
+import ru.hse.coursework.godaily.core.data.model.RouteSessionDto
+import ru.hse.coursework.godaily.core.data.model.UserDto
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.util.UUID
 
 class FakeApiService : ApiService {
 
-    private val fakeUser = UserDTO("Test User", "testuser@example.com", "fakePhotoUrl")
+    private val fakeUser = UserDto("Test User", "testuser@example.com", "fakePhotoUrl")
 
     private val fakeRoutes = listOf(
-        RouteCardDTO(
-            "1",
+        RouteCardDto(
+            UUID.randomUUID(),
             "City Tour",
-            120,
+            LocalTime.ofSecondOfDay(120 * 60),
             5000,
             "City Center URL",
-            listOf(Category.COFFEE, Category.NATURE)
+            3.5,
+            listOf(RouteDto.Category(UUID.randomUUID(), "Culture"))
         ),
-        RouteCardDTO(
-            "2",
+        RouteCardDto(
+            UUID.randomUUID(),
             "Mountain Hike",
-            240,
+            LocalTime.ofSecondOfDay(120 * 60),
             8000,
             "City Center URL",
-            listOf(Category.METRO, Category.COFFEE)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Metro")
+            )
         ),
-        RouteCardDTO(
-            "3",
+        RouteCardDto(
+            UUID.randomUUID(),
             "Beach Walk",
-            60,
+            LocalTime.ofSecondOfDay(60 * 60),
             3000,
             "City Center URL",
-            listOf(Category.CULTURE, Category.METRO)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
         ),
-        RouteCardDTO(
-            "1",
+        RouteCardDto(
+            UUID.randomUUID(),
             "City Tour",
-            120,
+            LocalTime.ofSecondOfDay(120 * 60),
             5000,
             "City Center URL",
-            listOf(Category.COFFEE, Category.NATURE)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
         ),
-        RouteCardDTO(
-            "2",
+        RouteCardDto(
+            UUID.randomUUID(),
             "Mountain Hike",
-            240,
+            LocalTime.ofSecondOfDay(240 * 60),
             8000,
             "City Center URL",
-            listOf(Category.METRO, Category.COFFEE)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Metro"),
+                RouteDto.Category(UUID.randomUUID(), "Coffee")
+            )
         ),
-        RouteCardDTO(
-            "3",
+        RouteCardDto(
+            UUID.randomUUID(),
             "Beach Walk",
-            60,
+            LocalTime.ofSecondOfDay(60 * 60),
             3000,
             "City Center URL",
-            listOf(Category.CULTURE, Category.METRO)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Culture"),
+                RouteDto.Category(UUID.randomUUID(), "Metro")
+            )
         ),
-        RouteCardDTO(
-            "1",
+        RouteCardDto(
+            UUID.randomUUID(),
             "City Tour",
-            120,
+            LocalTime.ofSecondOfDay(120 * 60),
             5000,
             "City Center URL",
-            listOf(Category.COFFEE, Category.NATURE)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
         ),
-        RouteCardDTO(
-            "2",
+        RouteCardDto(
+            UUID.randomUUID(),
             "Mountain Hike",
-            240,
+            LocalTime.ofSecondOfDay(240 * 60),
             8000,
             "City Center URL",
-            listOf(Category.METRO, Category.COFFEE)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
         ),
-        RouteCardDTO(
-            "3",
+        RouteCardDto(
+            UUID.randomUUID(),
             "Beach Walk",
-            60,
+            LocalTime.ofSecondOfDay(60 * 60),
             3000,
             "City Center URL",
-            listOf(Category.CULTURE, Category.METRO)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
         ),
-        RouteCardDTO(
-            "1",
+        RouteCardDto(
+            UUID.randomUUID(),
             "City Tour",
-            120,
+            LocalTime.ofSecondOfDay(120 * 60),
             5000,
             "City Center URL",
-            listOf(Category.COFFEE, Category.NATURE)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
         ),
-        RouteCardDTO(
-            "2",
+        RouteCardDto(
+            UUID.randomUUID(),
             "Mountain Hike",
-            240,
+            LocalTime.ofSecondOfDay(240 * 60),
             8000,
             "City Center URL",
-            listOf(Category.METRO, Category.COFFEE)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
         ),
-        RouteCardDTO(
-            "3",
+        RouteCardDto(
+            UUID.randomUUID(),
             "Beach Walk",
-            60,
+            LocalTime.ofSecondOfDay(60 * 60),
             3000,
             "City Center URL",
-            listOf(Category.CULTURE, Category.METRO)
+            3.5,
+            listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Nature")
+            )
         )
     )
 
@@ -130,35 +176,35 @@ class FakeApiService : ApiService {
         return true
     }
 
-    override suspend fun getUserInfo(jwt: String): UserDTO {
+    override suspend fun getUserInfo(jwt: String): UserDto {
         return fakeUser
     }
 
-    override suspend fun publishRoute(jwt: String, route: RouteDTO): Boolean {
+    override suspend fun publishRoute(jwt: String, route: RouteDto): Boolean {
         return true
     }
 
-    override suspend fun saveRouteToDrafts(jwt: String, route: RouteDTO): Boolean {
+    override suspend fun saveRouteToDrafts(jwt: String, route: RouteDto): Boolean {
         return true
     }
 
-    override suspend fun getUserDrafts(jwt: String): List<RouteCardDTO> {
+    override suspend fun getUserDrafts(jwt: String): List<RouteCardDto> {
         return fakeRoutes
     }
 
-    override suspend fun getUserPublishedRoutes(jwt: String): List<RouteCardDTO> {
+    override suspend fun getUserPublishedRoutes(jwt: String): List<RouteCardDto> {
         return fakeRoutes
     }
 
-    override suspend fun getUserCompletedRoutes(jwt: String): List<RouteCardDTO> {
+    override suspend fun getUserCompletedRoutes(jwt: String): List<RouteCardDto> {
         return fakeRoutes
     }
 
-    override suspend fun getUserFavouriteRoutes(jwt: String): List<RouteCardDTO> {
+    override suspend fun getUserFavouriteRoutes(jwt: String): List<RouteCardDto> {
         return fakeRoutes.take(2)
     }
 
-    override suspend fun getUserUnfinishedRoutes(jwt: String): List<RouteCardDTO> {
+    override suspend fun getUserUnfinishedRoutes(jwt: String): List<RouteCardDto> {
         return fakeRoutes.take(3)
     }
 
@@ -174,55 +220,60 @@ class FakeApiService : ApiService {
         return true
     }
 
-    override suspend fun getRouteDetails(jwt: String, routeId: String): RoutePageDTO {
-        return RoutePageDTO(
-            id = "1",
+    override suspend fun getRouteDetails(jwt: String, routeId: String): RoutePageDto {
+        return RoutePageDto(
+            id = UUID.randomUUID(),
             routeName = "Измайловский Кремль",
             description = "Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы.",
-            duration = 27,
+            duration = LocalTime.ofSecondOfDay(120 * 60),
             length = 2500,
             startPoint = "р-он. Измайлово",
             endPoint = "Измайловское шоссе, 73",
             routePreview = "https://via.placeholder.com/300",
             isFavourite = false,
-            coordinates = emptyList(),
-            categories = listOf(Category.CULTURE, Category.COFFEE, Category.METRO, Category.NATURE)
+            routeCoordinate = emptyList(),
+            categories = listOf(
+                RouteDto.Category(UUID.randomUUID(), "Coffee"),
+                RouteDto.Category(UUID.randomUUID(), "Culture"),
+                RouteDto.Category(UUID.randomUUID(), "Nature"),
+                RouteDto.Category(UUID.randomUUID(), "Metro")
+            )
         )
     }
 
-    override suspend fun getReviewsInfo(jwt: String, routeId: String): ReviewsInfoDTO {
-        return ReviewsInfoDTO(
-            userId = "90",
+    override suspend fun getReviews(jwt: String, routeId: String): ReviewDto {
+        return ReviewDto(
+            curUserId = UUID.randomUUID(),
             listOf(
-                ReviewDTO(
-                    userId = "0",
-                    username = "Иван Иванов",
-                    photoURL = "https://example.com/photo1.jpg",
-                    mark = 5,
+                ReviewDto.ReviewInfoDto(
+                    userId = UUID.randomUUID(),
+                    userName = "Иван Иванов",
+                    userPhotoUrl = "https://example.com/photo1.jpg",
+                    rating = 5,
                     reviewText = "Этот маршрут превзошел все мои ожидания! Я давно искал что-то подобное — живописные виды, разнообразные ландшафты и интересные достопримечательности. Он идеально подходит для тех, кто хочет увидеть как можно больше за короткое время. Очень понравилось, что на пути были предусмотрены места для отдыха с видом на красивые пейзажи. Обязательно буду рекомендовать своим друзьям, а сам вернусь еще не раз!",
                     createdAt = LocalDateTime.of(2023, 12, 25, 14, 30, 0, 0)
                 ),
-                ReviewDTO(
-                    userId = "2",
-                    username = "Мария Петрова",
-                    photoURL = "https://example.com/photo2.jpg",
-                    mark = 4,
+                ReviewDto.ReviewInfoDto(
+                    userId = UUID.randomUUID(),
+                    userName = "Мария Петрова",
+                    userPhotoUrl = "https://example.com/photo2.jpg",
+                    rating = 4,
                     reviewText = "Маршрут хороший, но не без недостатков. В целом, он довольно интересный, с красивыми видами и множеством остановок, где можно сделать фото. Однако были некоторые участки, где я чувствовала себя не совсем комфортно: узкие тропинки и недостаточно указателей на некоторых поворотах. Я думаю, что это можно улучшить. В целом, это было приятное путешествие, и я бы снова попробовала пройти этот маршрут.",
                     createdAt = LocalDateTime.of(2024, 1, 10, 9, 15, 0, 0)
                 ),
-                ReviewDTO(
-                    userId = "3",
-                    username = "Алексей Браун",
-                    photoURL = "https://example.com/photo3.jpg",
-                    mark = 3,
+                ReviewDto.ReviewInfoDto(
+                    userId = UUID.randomUUID(),
+                    userName = "Алексей Браун",
+                    userPhotoUrl = "https://example.com/photo3.jpg",
+                    rating = 3,
                     reviewText = "Маршрут в целом нормальный, но мне показалось, что он слишком простой и не особо захватывающий. Местами не хватает интересных моментов. Для новичков, наверное, будет хорошо, но для более опытных туристов я бы посоветовал выбрать что-то более сложное и увлекательное. В целом, прогулка прошла без особых проблем, но я ожидал большего.",
                     createdAt = LocalDateTime.of(2024, 1, 12, 18, 45, 0, 0)
                 ),
-                ReviewDTO(
-                    userId = "1",
-                    username = "Котеночек",
-                    photoURL = "https://amicus-vet.ru/images/statii/a582d6cs-960.jpg",
-                    mark = 5,
+                ReviewDto.ReviewInfoDto(
+                    userId = UUID.randomUUID(),
+                    userName = "Котеночек",
+                    userPhotoUrl = "https://amicus-vet.ru/images/statii/a582d6cs-960.jpg",
+                    rating = 5,
                     reviewText = "Ничего не знаю, у меня лапки",
                     createdAt = LocalDateTime.of(2024, 1, 12, 18, 45, 0, 0)
                 )
@@ -230,34 +281,34 @@ class FakeApiService : ApiService {
         )
     }
 
-    override suspend fun createRouteSession(jwt: String, routeSession: RouteSessionDTO): Boolean {
+    override suspend fun createRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean {
         return true
     }
 
-    override suspend fun updateRouteSession(jwt: String, routeSession: RouteSessionDTO): Boolean {
+    override suspend fun updateRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean {
         return true
     }
 
-    override suspend fun saveReview(jwt: String, routeId: String, review: ReviewDTO): Boolean {
+    override suspend fun saveReview(jwt: String, routeId: String, review: ReviewDto): Boolean {
         return true
     }
 
     override suspend fun getRoutesSortedByDistance(
         jwt: String,
         userCoordinate: String
-    ): List<RouteCardDTO> {
+    ): List<RouteCardDto> {
         return fakeRoutes
     }
 
-    override suspend fun getRoutesSortedByLengthDesc(jwt: String): List<RouteCardDTO> {
+    override suspend fun getRoutesSortedByLengthDesc(jwt: String): List<RouteCardDto> {
         return fakeRoutes
     }
 
-    override suspend fun getRoutesSortedByLengthAsc(jwt: String): List<RouteCardDTO> {
+    override suspend fun getRoutesSortedByLengthAsc(jwt: String): List<RouteCardDto> {
         return fakeRoutes
     }
 
-    override suspend fun getRoutesSortedByRating(jwt: String): List<RouteCardDTO> {
+    override suspend fun getRoutesSortedByRating(jwt: String): List<RouteCardDto> {
         return fakeRoutes
     }
 
@@ -265,7 +316,7 @@ class FakeApiService : ApiService {
         jwt: String,
         userCoordinate: String,
         categories: List<Category>
-    ): List<RouteCardDTO> {
+    ): List<RouteCardDto> {
         return fakeRoutes
     }
 
@@ -273,7 +324,7 @@ class FakeApiService : ApiService {
         jwt: String,
         userCoordinate: String,
         searchValue: String
-    ): List<RouteCardDTO> {
+    ): List<RouteCardDto> {
         return fakeRoutes
     }
 }

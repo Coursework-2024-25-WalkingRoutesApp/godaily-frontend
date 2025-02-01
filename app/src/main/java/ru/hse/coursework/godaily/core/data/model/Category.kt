@@ -4,5 +4,6 @@ enum class Category {
     CULTURE,
     COFFEE,
     NATURE,
-    METRO
+    METRO,
+    UNDEFINED
 }

@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
+import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.domain.profile.FetchProfileInfoUseCase
 import javax.inject.Inject
 
@@ -28,7 +28,7 @@ class ProfileViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(
                 email = profile.email,
                 userName = profile.username,
-                profilePictureUrl = profile.photoUrl,
+                profilePictureUrl = profile.photoUrl?: "",
                 completedRoutes = profile.completedRoutes,
                 favouriteRoutes = profile.favouriteRoutes
             )
@@ -48,7 +48,7 @@ data class ProfileUiState(
     val email: String = "email",
     val userName: String = "Ваше имя",
     val profilePictureUrl: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG3RRs0ouk80nISkSjBII8TgTshOBcitVnJg&s",
-    val completedRoutes: List<RouteCardDTO> = listOf(),
-    val favouriteRoutes: List<RouteCardDTO> = listOf()
+    val completedRoutes: List<RouteCardDto> = listOf(),
+    val favouriteRoutes: List<RouteCardDto> = listOf()
 )
 

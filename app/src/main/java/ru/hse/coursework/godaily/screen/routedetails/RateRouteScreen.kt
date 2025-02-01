@@ -56,10 +56,10 @@ fun RateRouteScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         RateRouteCard(
-            title = routeState.value.routeName,
-            startPoint = routeState.value.startPoint,
-            endPoint = routeState.value.endPoint,
-            imageUrl = routeState.value.routePreview,
+            title = routeState.value.routeName?: "",
+            startPoint = routeState.value.startPoint?: "",
+            endPoint = routeState.value.endPoint?: "",
+            imageUrl = routeState.value.routePreview?: "",
             mark = markState,
             reviewText = reviewTextState
         )

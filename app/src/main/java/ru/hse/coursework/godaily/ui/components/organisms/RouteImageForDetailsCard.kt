@@ -15,14 +15,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.core.data.model.Category
-import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
+import ru.hse.coursework.godaily.core.data.model.RouteDto
+import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.molecules.Map
+import java.time.LocalTime
+import java.util.UUID
 
 @Composable
 fun RouteImageForDetailsCard(
-    route: RoutePageDTO,
+    route: RoutePageDto,
     onBackClick: () -> Unit,
     onMapClick: () -> Unit,
 ) {
@@ -54,18 +56,23 @@ fun RouteImageForDetailsCard(
 @Preview
 @Composable
 fun RouteImageForDetailsCardPreview() {
-    val route = RoutePageDTO(
-        id = "1",
+    val route = RoutePageDto(
+        id = UUID.randomUUID(),
         routeName = "Измайловский Кремль",
-        description = "Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы.",
-        duration = 27,
+        description = "Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы.",
+        duration = LocalTime.ofSecondOfDay(120 * 60),
         length = 2500,
         startPoint = "р-он. Измайлово",
         endPoint = "Измайловское шоссе, 73",
         routePreview = "https://via.placeholder.com/300",
         isFavourite = false,
-        coordinates = emptyList(),
-        categories = listOf(Category.CULTURE, Category.COFFEE, Category.METRO, Category.NATURE)
+        routeCoordinate = emptyList(),
+        categories = listOf(
+            RouteDto.Category(UUID.randomUUID(), "Coffee"),
+            RouteDto.Category(UUID.randomUUID(), "Culture"),
+            RouteDto.Category(UUID.randomUUID(), "Nature"),
+            RouteDto.Category(UUID.randomUUID(), "Metro")
+        )
     )
     RouteImageForDetailsCard(
         route = route,

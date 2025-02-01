@@ -1,13 +1,12 @@
 package ru.hse.coursework.godaily.core.data.network
 
 import ru.hse.coursework.godaily.core.data.model.Category
-import ru.hse.coursework.godaily.core.data.model.ReviewDTO
-import ru.hse.coursework.godaily.core.data.model.ReviewsInfoDTO
-import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
-import ru.hse.coursework.godaily.core.data.model.RouteDTO
-import ru.hse.coursework.godaily.core.data.model.RoutePageDTO
-import ru.hse.coursework.godaily.core.data.model.RouteSessionDTO
-import ru.hse.coursework.godaily.core.data.model.UserDTO
+import ru.hse.coursework.godaily.core.data.model.ReviewDto
+import ru.hse.coursework.godaily.core.data.model.RouteCardDto
+import ru.hse.coursework.godaily.core.data.model.RouteDto
+import ru.hse.coursework.godaily.core.data.model.RoutePageDto
+import ru.hse.coursework.godaily.core.data.model.RouteSessionDto
+import ru.hse.coursework.godaily.core.data.model.UserDto
 
 interface ApiService {
 
@@ -26,27 +25,27 @@ interface ApiService {
     suspend fun logoutUser(): Boolean
 
     // Получение информации о текущем пользователе
-    suspend fun getUserInfo(jwt: String): UserDTO
+    suspend fun getUserInfo(jwt: String): UserDto
 
     // Сохранение маршрута (публикация)
-    suspend fun publishRoute(jwt: String, route: RouteDTO): Boolean
+    suspend fun publishRoute(jwt: String, route: RouteDto): Boolean
 
     // Сохранение маршрута в черновики
-    suspend fun saveRouteToDrafts(jwt: String, route: RouteDTO): Boolean
+    suspend fun saveRouteToDrafts(jwt: String, route: RouteDto): Boolean
 
     // Получение черновиков пользователя
-    suspend fun getUserDrafts(jwt: String): List<RouteCardDTO>
+    suspend fun getUserDrafts(jwt: String): List<RouteCardDto>
 
     // Получение опубликованных маршрутов пользователя
-    suspend fun getUserPublishedRoutes(jwt: String): List<RouteCardDTO>
+    suspend fun getUserPublishedRoutes(jwt: String): List<RouteCardDto>
 
     // Получение пройденных маршрутов пользователя
-    suspend fun getUserCompletedRoutes(jwt: String): List<RouteCardDTO>
+    suspend fun getUserCompletedRoutes(jwt: String): List<RouteCardDto>
 
     // Получение избранных маршрутов пользователя
-    suspend fun getUserFavouriteRoutes(jwt: String): List<RouteCardDTO>
+    suspend fun getUserFavouriteRoutes(jwt: String): List<RouteCardDto>
 
-    suspend fun getUserUnfinishedRoutes(jwt: String): List<RouteCardDTO>
+    suspend fun getUserUnfinishedRoutes(jwt: String): List<RouteCardDto>
 
     // Добавление маршрута в избранное
     suspend fun addRouteToFavorites(jwt: String, routeId: String): Boolean
@@ -58,43 +57,43 @@ interface ApiService {
     suspend fun deleteRoute(jwt: String, routeId: String): Boolean
 
     // Получение подробной информации о маршруте
-    suspend fun getRouteDetails(jwt: String, routeId: String): RoutePageDTO
+    suspend fun getRouteDetails(jwt: String, routeId: String): RoutePageDto
 
     // Получение отзывов о маршруте
-    suspend fun getReviewsInfo(jwt: String, routeId: String): ReviewsInfoDTO
+    suspend fun getReviews(jwt: String, routeId: String): ReviewDto
 
     // Создание сессии маршрута
-    suspend fun createRouteSession(jwt: String, routeSession: RouteSessionDTO): Boolean
+    suspend fun createRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean
 
     // Обновление полей сессии маршрута
-    suspend fun updateRouteSession(jwt: String, routeSession: RouteSessionDTO): Boolean
+    suspend fun updateRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean
 
     // Сохранение отзыва о маршруте
-    suspend fun saveReview(jwt: String, routeId: String, review: ReviewDTO): Boolean
+    suspend fun saveReview(jwt: String, routeId: String, review: ReviewDto): Boolean
 
     // Сортировка маршрутов по удаленности
-    suspend fun getRoutesSortedByDistance(jwt: String, userCoordinate: String): List<RouteCardDTO>
+    suspend fun getRoutesSortedByDistance(jwt: String, userCoordinate: String): List<RouteCardDto>
 
     // Сортировка маршрутов по длине (длинные)
-    suspend fun getRoutesSortedByLengthDesc(jwt: String): List<RouteCardDTO>
+    suspend fun getRoutesSortedByLengthDesc(jwt: String): List<RouteCardDto>
 
     // Сортировка маршрутов по длине (короткие)
-    suspend fun getRoutesSortedByLengthAsc(jwt: String): List<RouteCardDTO>
+    suspend fun getRoutesSortedByLengthAsc(jwt: String): List<RouteCardDto>
 
     // Сортировка маршрутов по рейтингу
-    suspend fun getRoutesSortedByRating(jwt: String): List<RouteCardDTO>
+    suspend fun getRoutesSortedByRating(jwt: String): List<RouteCardDto>
 
     // Фильтрация маршрутов по категории и сортировка по удаленности
     suspend fun filterRoutesByCategoryAndDistance(
         jwt: String,
         userCoordinate: String,
         categories: List<Category>
-    ): List<RouteCardDTO>
+    ): List<RouteCardDto>
 
     // Поиск маршрутов по названию
     suspend fun getRoutesBySearchValue(
         jwt: String,
         userCoordinate: String,
         searchValue: String
-    ): List<RouteCardDTO>
+    ): List<RouteCardDto>
 }

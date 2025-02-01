@@ -1,6 +1,6 @@
 package ru.hse.coursework.godaily.core.domain.home
 
-import ru.hse.coursework.godaily.core.data.model.RouteCardDTO
+import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.network.ApiService
 import javax.inject.Inject
 
@@ -10,7 +10,7 @@ class FetchRoutesBySearchValue @Inject constructor(
     suspend fun execute(
         userCoordinate: String,
         searchValue: String
-    ): List<RouteCardDTO> {
+    ): List<RouteCardDto> {
         return api.getRoutesBySearchValue("", userCoordinate, searchValue)
     }
 }

@@ -12,13 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.core.data.model.Category
+import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.ui.components.molecules.Tag
 import ru.hse.coursework.godaily.ui.components.quarks.FavouriteToggle
+import java.util.UUID
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RouteTagsWithFavourite(
-    categories: List<Category>,
+    categories: List<RouteDto.Category>,
     isFavorite: Boolean,
     onFavouriteToggle: (Boolean) -> Unit
 ) {
@@ -35,11 +37,12 @@ fun RouteTagsWithFavourite(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             categories.forEach { category ->
-                val tag = when (category) {
-                    Category.NATURE -> "природный"
-                    Category.COFFEE -> "кафе_по_пути"
-                    Category.METRO -> "у_метро"
-                    Category.CULTURE -> "культурный"
+                val tag = when (category.categoryName) {
+                    "Nature" -> "природный"
+                    "Coffee" -> "кафе_по_пути"
+                    "Metro" -> "у_метро"
+                    "Culture" -> "культурный"
+                    else -> ""
                 }
                 Tag(tag = tag)
             }
@@ -57,7 +60,12 @@ fun RouteTagsWithFavourite(
 @Composable
 fun RouteTagsWithFavouritePreview() {
     RouteTagsWithFavourite(
-        categories = listOf(Category.CULTURE, Category.COFFEE, Category.NATURE, Category.METRO),
+        categories = listOf(
+            RouteDto.Category(UUID.randomUUID(), "Nature"),
+            RouteDto.Category(UUID.randomUUID(), "Coffee"),
+            RouteDto.Category(UUID.randomUUID(), "Culture"),
+            RouteDto.Category(UUID.randomUUID(), "Metro")
+        ),
         isFavorite = true,
         onFavouriteToggle = {}
     )
