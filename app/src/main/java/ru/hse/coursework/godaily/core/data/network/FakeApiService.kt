@@ -1,7 +1,9 @@
 package ru.hse.coursework.godaily.core.data.network
 
+import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
+import ru.hse.coursework.godaily.core.data.model.ReviewPublishDto
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
@@ -180,12 +182,8 @@ class FakeApiService : ApiService {
         return fakeUser
     }
 
-    override suspend fun publishRoute(jwt: String, route: RouteDto): Boolean {
-        return true
-    }
-
-    override suspend fun saveRouteToDrafts(jwt: String, route: RouteDto): Boolean {
-        return true
+    override suspend fun addRoute(jwt: String, route: RouteDto): Response<String> {
+        return Response.success("Данные успешно сохранены")
     }
 
     override suspend fun getUserDrafts(jwt: String): List<RouteCardDto> {
@@ -208,12 +206,12 @@ class FakeApiService : ApiService {
         return fakeRoutes.take(3)
     }
 
-    override suspend fun addRouteToFavorites(jwt: String, routeId: String): Boolean {
-        return true
+    override suspend fun addRouteToFavorites(jwt: String, routeId: UUID): Response<String> {
+        return Response.success("Данные успешно сохранены")
     }
 
-    override suspend fun removeRouteFromFavorites(jwt: String, routeId: String): Boolean {
-        return true
+    override suspend fun removeRouteFromFavorites(jwt: String, routeId: UUID): Response<String> {
+        return Response.success("Данные успешно сохранены")
     }
 
     override suspend fun deleteRoute(jwt: String, routeId: String): Boolean {
@@ -289,8 +287,8 @@ class FakeApiService : ApiService {
         return true
     }
 
-    override suspend fun saveReview(jwt: String, routeId: String, review: ReviewDto): Boolean {
-        return true
+    override suspend fun saveReview(jwt: String, review: ReviewPublishDto): Response<String> {
+        return Response.success("Данные успешно сохранены")
     }
 
     override suspend fun getRoutesSortedByDistance(

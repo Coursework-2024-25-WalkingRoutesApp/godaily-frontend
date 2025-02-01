@@ -8,12 +8,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
+import ru.hse.coursework.godaily.core.domain.routedetails.SaveReviewUseCase
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class RateRouteViewModel @Inject constructor(
-    private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase
+    private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase,
+    private val saveReviewUseCase: SaveReviewUseCase
 ) : ViewModel() {
     val route: MutableState<RoutePageDto> = mutableStateOf(
         RoutePageDto(
@@ -25,7 +27,7 @@ class RateRouteViewModel @Inject constructor(
             startPoint = null,
             endPoint = null,
             routePreview = null,
-            isFavourite = null,
+            isFavourite = false,
             routeCoordinate = null,
             categories = null
         )
@@ -52,4 +54,21 @@ class RateRouteViewModel @Inject constructor(
             updateMark(mark)
         }
     }
+
+    fun saveReview() {
+        viewModelScope.launch {
+            val response = saveReviewUseCase.execute(
+                route.value.id,
+                reviewText.value,
+                mark.value
+            )
+
+            if (response.isSuccessful) {
+                //TODO
+            } else {
+                //TODO
+            }
+        }
+    }
+
 }

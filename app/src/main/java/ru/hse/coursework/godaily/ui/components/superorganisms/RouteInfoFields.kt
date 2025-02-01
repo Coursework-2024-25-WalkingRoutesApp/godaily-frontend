@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.components.molecules.CustomTextField
-import ru.hse.coursework.godaily.ui.components.quarks.SelectableList
+import ru.hse.coursework.godaily.ui.components.organisms.SelectableList
 import ru.hse.coursework.godaily.ui.theme.greyDark
 
 @Composable

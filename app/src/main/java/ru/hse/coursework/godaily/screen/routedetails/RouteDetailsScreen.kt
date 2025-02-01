@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,7 +22,10 @@ fun RouteDetailsScreen(
     routeId: String,
     viewModel: RouteDetailsViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.uiState.collectAsState()
+    val routeState = viewModel.route
+    val markState = viewModel.mark
+    val reviewsCount = viewModel.reviewsCount
+    val isFavourite = viewModel.isFavourite
 
     viewModel.loadRouteDetails(routeId)
 
@@ -30,12 +34,20 @@ fun RouteDetailsScreen(
             .fillMaxSize()
     ) {
         RouteDetailsCard(
-            route = state.route,
-            mark = state.mark,
-            reviewsCount = state.reviewsCount,
+            route = routeState.value,
+            mark = markState.value,
+            isFavourite = isFavourite,
+            reviewsCount = reviewsCount.value,
             onBackClick = { navController.popBackStack() },
             onMapClick = { /*TODO*/ },
-            onFavouriteToggle = { /*TODO*/ },
+            onFavouriteToggle = { boolValue ->
+                if (!boolValue) {
+                    viewModel.addRouteToFavourites()
+                } else {
+                    viewModel.removeRouteFromFavourites()
+                }
+                viewModel.updateIsFavourite()
+            },
             onReviewsClick = { navController.navigate(NavigationItem.RouteReviews.route + "/${routeId}") }
         )
 

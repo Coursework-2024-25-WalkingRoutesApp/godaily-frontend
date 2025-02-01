@@ -1,50 +1,67 @@
 package ru.hse.coursework.godaily.screen.routedetails
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
+import ru.hse.coursework.godaily.core.domain.routedetails.AddRouteToFavouritesUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
+import ru.hse.coursework.godaily.core.domain.routedetails.RemoveRouteFromFavouritesUseCase
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class RouteDetailsViewModel @Inject constructor(
-    private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase
+    private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase,
+    private val addRouteToFavouritesUseCase: AddRouteToFavouritesUseCase,
+    private val removeRouteFromFavouritesUseCase: RemoveRouteFromFavouritesUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(RouteDetailsUiState())
-    val uiState: StateFlow<RouteDetailsUiState> = _uiState
+    val route: MutableState<RoutePageDto> = mutableStateOf(
+        RoutePageDto(
+            id = UUID.randomUUID(),
+            routeName = null,
+            description = null,
+            duration = null,
+            length = null,
+            startPoint = null,
+            endPoint = null,
+            routePreview = null,
+            isFavourite = false,
+            routeCoordinate = null,
+            categories = null
+        )
+    )
+    val mark: MutableState<Double> = mutableStateOf(5.0)
+    val reviewsCount: MutableState<Int> = mutableStateOf(0)
+    val isFavourite: MutableState<Boolean> = mutableStateOf(false)
 
     fun loadRouteDetails(routeId: String) {
         viewModelScope.launch {
             val routeDetails = fetchRouteDetailsUseCase.execute(routeId)
-            _uiState.value = RouteDetailsUiState(
-                route = routeDetails.route,
-                mark = routeDetails.mark,
-                reviewsCount = routeDetails.reviewsCount
-            )
+            route.value = routeDetails.route
+            mark.value = routeDetails.mark
+            reviewsCount.value = routeDetails.reviewsCount
+            isFavourite.value = route.value.isFavourite
         }
     }
-}
 
-data class RouteDetailsUiState(
-    val route: RoutePageDto = RoutePageDto(
-        UUID.randomUUID(),
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        listOf(),
-        listOf()
-    ),
-    val mark: Double = 0.toDouble(),
-    val reviewsCount: Int = 0
-)
+    fun addRouteToFavourites() {
+        viewModelScope.launch {
+            addRouteToFavouritesUseCase.execute(route.value.id)
+        }
+    }
+
+    fun removeRouteFromFavourites() {
+        viewModelScope.launch {
+            removeRouteFromFavouritesUseCase.execute(route.value.id)
+        }
+    }
+
+    fun updateIsFavourite() {
+        isFavourite.value = !isFavourite.value
+    }
+}

@@ -1,12 +1,15 @@
 package ru.hse.coursework.godaily.core.data.network
 
+import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
+import ru.hse.coursework.godaily.core.data.model.ReviewPublishDto
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.core.data.model.RouteSessionDto
 import ru.hse.coursework.godaily.core.data.model.UserDto
+import java.util.UUID
 
 interface ApiService {
 
@@ -27,11 +30,8 @@ interface ApiService {
     // Получение информации о текущем пользователе
     suspend fun getUserInfo(jwt: String): UserDto
 
-    // Сохранение маршрута (публикация)
-    suspend fun publishRoute(jwt: String, route: RouteDto): Boolean
-
-    // Сохранение маршрута в черновики
-    suspend fun saveRouteToDrafts(jwt: String, route: RouteDto): Boolean
+    // Сохранение маршрута
+    suspend fun addRoute(jwt: String, route: RouteDto): Response<String>
 
     // Получение черновиков пользователя
     suspend fun getUserDrafts(jwt: String): List<RouteCardDto>
@@ -48,10 +48,10 @@ interface ApiService {
     suspend fun getUserUnfinishedRoutes(jwt: String): List<RouteCardDto>
 
     // Добавление маршрута в избранное
-    suspend fun addRouteToFavorites(jwt: String, routeId: String): Boolean
+    suspend fun addRouteToFavorites(jwt: String, routeId: UUID): Response<String>
 
     // Удаление маршрута из избранного
-    suspend fun removeRouteFromFavorites(jwt: String, routeId: String): Boolean
+    suspend fun removeRouteFromFavorites(jwt: String, routeId: UUID): Response<String>
 
     // Удаление маршрута, созданного пользователем
     suspend fun deleteRoute(jwt: String, routeId: String): Boolean
@@ -69,7 +69,7 @@ interface ApiService {
     suspend fun updateRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean
 
     // Сохранение отзыва о маршруте
-    suspend fun saveReview(jwt: String, routeId: String, review: ReviewDto): Boolean
+    suspend fun saveReview(jwt: String, review: ReviewPublishDto): Response<String>
 
     // Сортировка маршрутов по удаленности
     suspend fun getRoutesSortedByDistance(jwt: String, userCoordinate: String): List<RouteCardDto>

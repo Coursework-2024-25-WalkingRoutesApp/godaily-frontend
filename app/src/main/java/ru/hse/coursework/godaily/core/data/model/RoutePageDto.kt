@@ -12,7 +12,7 @@ data class RoutePageDto(
     var startPoint: String?,
     var endPoint: String?,
     var routePreview: String?,
-    var isFavourite: Boolean?,
+    var isFavourite: Boolean,
     var routeCoordinate: List<RouteDto.RouteCoordinate>?,
     var categories: List<RouteDto.Category>?
 )

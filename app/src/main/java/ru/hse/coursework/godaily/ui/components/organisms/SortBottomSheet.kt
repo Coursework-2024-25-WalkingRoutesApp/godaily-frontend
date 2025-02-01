@@ -30,7 +30,6 @@ import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.components.molecules.ApplyButton
 import ru.hse.coursework.godaily.ui.components.molecules.Quit
-import ru.hse.coursework.godaily.ui.components.quarks.SelectableList
 import ru.hse.coursework.godaily.ui.theme.greyDark
 
 @Composable

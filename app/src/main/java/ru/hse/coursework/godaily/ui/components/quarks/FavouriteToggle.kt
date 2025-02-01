@@ -20,7 +20,7 @@ fun FavouriteToggle(
     modifier: Modifier = Modifier
 ) {
     IconButton(
-        onClick = { onToggle(!isFavorite) },
+        onClick = { onToggle(isFavorite) },
         modifier = modifier.size(40.dp, 35.dp)
     ) {
         Icon(
@@ -40,6 +40,6 @@ fun FavouriteTogglePreview() {
     val isFavorite = remember { mutableStateOf(false) }
     FavouriteToggle(
         isFavorite = isFavorite.value,
-        onToggle = { isFavorite.value = it }
+        onToggle = { isFavorite.value = !it }
     )
 }

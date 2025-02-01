@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,7 +24,7 @@ import java.util.UUID
 @Composable
 fun RouteTagsWithFavourite(
     categories: List<RouteDto.Category>,
-    isFavorite: Boolean,
+    isFavorite: MutableState<Boolean>,
     onFavouriteToggle: (Boolean) -> Unit
 ) {
     Row(
@@ -49,7 +52,7 @@ fun RouteTagsWithFavourite(
         }
 
         FavouriteToggle(
-            isFavorite = isFavorite,
+            isFavorite = isFavorite.value,
             onToggle = onFavouriteToggle,
             modifier = Modifier.padding(start = 8.dp)
         )
@@ -59,6 +62,9 @@ fun RouteTagsWithFavourite(
 @Preview(showBackground = true)
 @Composable
 fun RouteTagsWithFavouritePreview() {
+    val isFavorite = remember {
+        mutableStateOf(false)
+    }
     RouteTagsWithFavourite(
         categories = listOf(
             RouteDto.Category(UUID.randomUUID(), "Nature"),
@@ -66,8 +72,8 @@ fun RouteTagsWithFavouritePreview() {
             RouteDto.Category(UUID.randomUUID(), "Culture"),
             RouteDto.Category(UUID.randomUUID(), "Metro")
         ),
-        isFavorite = true,
-        onFavouriteToggle = {}
+        isFavorite = isFavorite,
+        onFavouriteToggle = {isFavorite.value = it}
     )
 }
 

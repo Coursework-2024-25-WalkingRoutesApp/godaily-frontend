@@ -1,4 +1,4 @@
-package ru.hse.coursework.godaily.ui.components.quarks
+package ru.hse.coursework.godaily.ui.components.organisms
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.R
+import ru.hse.coursework.godaily.ui.components.quarks.CheckboxToggle
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.lime
 
