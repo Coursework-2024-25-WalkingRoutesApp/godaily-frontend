@@ -1,6 +1,7 @@
 package ru.hse.coursework.godaily.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,13 +15,13 @@ import ru.hse.coursework.godaily.screen.routedetails.RouteReviewsScreen
 import ru.hse.coursework.godaily.screen.routes.RoutesScreen
 
 @Composable
-fun RoutesNavigation() {
+fun RoutesNavigation(bottomNavHostController: NavHostController) {
     val routesNavController = rememberNavController()
     NavHost(
         navController = routesNavController,
-        startDestination = NavigationItem.HomeMain.route
+        startDestination = NavigationItem.RoutesMain.route
     ) {
-        composable(NavigationItem.HomeMain.route) {
+        composable(NavigationItem.RoutesMain.route) {
             RoutesScreen(routesNavController)
         }
         composable(NavigationItem.RouteDetails.route + "/{routeId}") { backStackEntry ->
@@ -58,7 +59,7 @@ fun RoutesNavigation() {
         }
 
         composable(NavigationItem.RouteCreationInfo.route) {
-            CreateRouteInfoScreen(routesNavController)
+            CreateRouteInfoScreen(routesNavController, bottomNavHostController)
         }
     }
 }

@@ -28,7 +28,7 @@ class ProfileViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(
                 email = profile.email,
                 userName = profile.username,
-                profilePictureUrl = profile.photoUrl?: "",
+                profilePictureUrl = profile.photoUrl ?: "",
                 completedRoutes = profile.completedRoutes,
                 favouriteRoutes = profile.favouriteRoutes
             )

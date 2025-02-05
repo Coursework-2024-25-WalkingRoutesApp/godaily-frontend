@@ -1,12 +1,9 @@
 package ru.hse.coursework.godaily.core.domain.routedetails
 
 import retrofit2.Response
-import ru.hse.coursework.godaily.core.data.model.ReviewDto
 import ru.hse.coursework.godaily.core.data.model.ReviewPublishDto
-import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.network.ApiService
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.util.UUID
 import javax.inject.Inject
 

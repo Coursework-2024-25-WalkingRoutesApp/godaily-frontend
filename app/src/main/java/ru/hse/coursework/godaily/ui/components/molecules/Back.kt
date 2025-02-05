@@ -16,7 +16,10 @@ import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.lime
 
 @Composable
-fun Back(onClick: () -> Unit) {
+fun Back(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Button(
         onClick = onClick,
         shape = CircleShape,
@@ -24,7 +27,7 @@ fun Back(onClick: () -> Unit) {
             containerColor = lime,
         ),
         contentPadding = PaddingValues(0.dp),
-        modifier = Modifier
+        modifier = modifier
             .size(51.dp)
     ) {
         Icon(

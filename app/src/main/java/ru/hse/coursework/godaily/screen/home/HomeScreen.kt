@@ -1,22 +1,28 @@
 package ru.hse.coursework.godaily.screen.home
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.unit.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import ru.hse.coursework.godaily.core.data.model.SortOption
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.components.molecules.HeaderWithBackground
 import ru.hse.coursework.godaily.ui.components.organisms.SearchToolbar
+import ru.hse.coursework.godaily.ui.components.organisms.SortBottomSheet
+import ru.hse.coursework.godaily.ui.components.organisms.SortBottomSheetSingleChoice
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteToContinueGrid
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteVerticalGrid
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 import ru.hse.coursework.godaily.ui.theme.greyDark
-import ru.hse.coursework.godaily.ui.components.organisms.SortBottomSheet
-import ru.hse.coursework.godaily.ui.components.organisms.SortBottomSheetSingleChoice
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,8 +68,8 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                //TODO: подумать над багом с выбором и применением
                 SearchToolbar(
+                    //TODO: поиск по названию сделать
                     searchValue = searchValue,
                     filterIconClick = { showFilterSheet.value = true },
                     sortClick = { showSortSheet.value = true },

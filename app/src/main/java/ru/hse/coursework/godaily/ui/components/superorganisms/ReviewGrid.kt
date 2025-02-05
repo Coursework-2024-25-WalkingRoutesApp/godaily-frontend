@@ -31,10 +31,10 @@ fun ReviewGrid(
         reviews.forEach { review ->
             ReviewCard(
                 userName = review.userName,
-                photoUrl = review.userPhotoUrl?: "",
+                photoUrl = review.userPhotoUrl ?: "",
                 date = formatDate(review.createdAt),
                 mark = review.rating,
-                reviewText = review.reviewText?: ""
+                reviewText = review.reviewText ?: ""
             )
             Spacer(modifier = Modifier.height(16.dp))
         }

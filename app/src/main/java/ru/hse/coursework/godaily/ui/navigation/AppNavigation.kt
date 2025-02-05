@@ -64,10 +64,10 @@ fun BottomNavigationBar(navController: NavController) {
 
 
 @Composable
-fun BottomNavigation(navController: NavHostController) {
-    NavHost(navController, startDestination = BottomNavigationItem.Home.route) {
+fun BottomNavigation(bottomNavController: NavHostController) {
+    NavHost(bottomNavController, startDestination = BottomNavigationItem.Home.route) {
         composable(BottomNavigationItem.Home.route) { HomeNavigation() }
-        composable(BottomNavigationItem.Routes.route) { RoutesNavigation() }
+        composable(BottomNavigationItem.Routes.route) { RoutesNavigation(bottomNavController) }
         composable(BottomNavigationItem.Profile.route) { ProfileNavigation() }
     }
 }

@@ -16,7 +16,10 @@ import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.purpleDark
 
 @Composable
-fun Question(onClick: () -> Unit) {
+fun Question(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Button(
         onClick = onClick,
         shape = CircleShape,
@@ -24,7 +27,7 @@ fun Question(onClick: () -> Unit) {
             containerColor = purpleDark,
         ),
         contentPadding = PaddingValues(0.dp),
-        modifier = Modifier
+        modifier = modifier
             .size(38.dp)
     ) {
         Icon(

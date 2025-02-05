@@ -29,25 +29,37 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.yalantis.ucrop.UCrop
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
+import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.molecules.HeaderWithBackground
 import ru.hse.coursework.godaily.ui.components.molecules.PublishButton
+import ru.hse.coursework.godaily.ui.components.molecules.Question
 import ru.hse.coursework.godaily.ui.components.molecules.ToDraftsButton
+import ru.hse.coursework.godaily.ui.components.organisms.NewPublishDialog
+import ru.hse.coursework.godaily.ui.components.organisms.PublishWarningDialog
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteInfoFields
+import ru.hse.coursework.godaily.ui.navigation.BottomNavigationItem
+import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import java.io.File
 
+//TODO: реорганизовать класс
 @Composable
 fun CreateRouteInfoScreen(
     navController: NavController,
+    bottomNavController: NavHostController,
     viewModel: CreateRouteViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val selectedImageUri = remember { mutableStateOf<Uri?>(null) }
+
+    val showPublishWarningDialog = viewModel.showPublishWarningDialog
+    val showNewPublishDialog = viewModel.showNewPublishDialog
 
     val cropLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
@@ -73,7 +85,24 @@ fun CreateRouteInfoScreen(
                 .fillMaxSize()
                 .padding(bottom = 65.dp)
         ) {
-            HeaderWithBackground(header = "Создай свой маршрут")
+            Box {
+                HeaderWithBackground(header = "Создай свой маршрут")
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(16.dp)
+                ) {
+                    Back(
+                        onClick = { navController.popBackStack() }
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Question(onClick = {/*TODO*/ })
+
+                }
+            }
+
 
             Column(
                 modifier = Modifier
@@ -82,6 +111,7 @@ fun CreateRouteInfoScreen(
                     .padding(horizontal = 16.dp)
             ) {
                 RouteInfoFields(
+                    // удаляются значения, если переходить туда-сюда по экранам
                     title = viewModel.routeTitle,
                     description = viewModel.routeDescription,
                     startPoint = viewModel.startPoint,
@@ -127,10 +157,38 @@ fun CreateRouteInfoScreen(
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 .align(Alignment.BottomCenter),
         ) {
-            ToDraftsButton(onClick = { /*TODO*/ })
+            //TODO проверка полей
+            ToDraftsButton(onClick = { viewModel.saveRouteToDrafts() })
             Spacer(modifier = Modifier.weight(1f))
-            PublishButton(onClick = { /*TODO*/ })
+            PublishButton(onClick = {
+                /*TODO*/
+                showPublishWarningDialog.value = true
+            })
         }
+    }
+
+    if (showPublishWarningDialog.value) {
+        PublishWarningDialog(
+            showDialog = showPublishWarningDialog,
+            onPublishClick = {
+                viewModel.publishRoute()
+                //TODO: Увед после публикации условие прописать
+                showNewPublishDialog.value = true
+            }
+        )
+    }
+
+    if (showNewPublishDialog.value) {
+        NewPublishDialog(
+            showDialog = showNewPublishDialog,
+            onMyRoutesClick = {
+                navController.navigate(NavigationItem.RoutesMain.route)
+            },
+            onHomeClick = {
+                //TODO не перещелкивается главная в боттом навигейшн
+                bottomNavController.navigate(BottomNavigationItem.Home.route)
+            }
+        )
     }
 }
 

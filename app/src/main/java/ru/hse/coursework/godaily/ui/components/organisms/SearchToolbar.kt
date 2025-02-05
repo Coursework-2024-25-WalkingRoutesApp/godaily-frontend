@@ -19,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.core.data.model.SortOption
 import ru.hse.coursework.godaily.ui.components.molecules.SearchBar
 import ru.hse.coursework.godaily.ui.components.molecules.SortDropdown
 import ru.hse.coursework.godaily.ui.theme.greyDark

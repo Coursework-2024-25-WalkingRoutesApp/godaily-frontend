@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import java.time.LocalTime
@@ -45,8 +44,8 @@ fun RouteVerticalGrid(
                     RouteCardSmall(
                         distance = "${route.distanceToUser / 1000.0} км",
                         time = formatDuration(route.duration),
-                        title = route.routeName?: "Название",
-                        imageResUrl = route.routePreview?: "",
+                        title = route.routeName ?: "Название",
+                        imageResUrl = route.routePreview ?: "",
                         categories = route.categories?.map { category ->
                             when (category.categoryName) {
                                 "Culture" -> R.drawable.culture

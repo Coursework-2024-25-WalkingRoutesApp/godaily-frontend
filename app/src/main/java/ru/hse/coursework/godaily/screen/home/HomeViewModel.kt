@@ -2,14 +2,11 @@ package ru.hse.coursework.godaily.screen.home
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
-import ru.hse.coursework.godaily.core.data.model.SortOption
 import ru.hse.coursework.godaily.core.domain.home.FetchRoutesBySearchValue
 import ru.hse.coursework.godaily.core.domain.home.FetchRoutesForHomeScreenUseCase
 import ru.hse.coursework.godaily.core.domain.home.FetchUnfinishedRoutesUseCase
