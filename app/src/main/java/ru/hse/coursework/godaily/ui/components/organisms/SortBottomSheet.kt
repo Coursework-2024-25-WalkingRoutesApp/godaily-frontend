@@ -31,22 +31,22 @@ fun SortBottomSheet(
     onReset: () -> Unit,
     showFilterSheet: MutableState<Boolean>
 ) {
+    val localSelectedItems: MutableState<Set<Int>> = mutableStateOf(setOf())
+    localSelectedItems.value = selectedItems.value
+
     ModalBottomSheet(
         onDismissRequest = { showFilterSheet.value = false },
         modifier = Modifier
             .fillMaxWidth()
-            .height(330.dp) // Ограничение высоты, чтобы кнопка не уходила
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceBetween // Разделяет блоки и кнопку
+                modifier = Modifier.fillMaxWidth(),
             ) {
-                // 🔹 Верхняя часть с заголовком и кнопкой сброса
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -57,23 +57,28 @@ fun SortBottomSheet(
                         fontSize = 20.sp,
                     )
 
-                    Quit(onClick = onReset)
+                    Quit(onClick = {
+                        onReset()
+                        showFilterSheet.value = false
+                    })
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // 🔹 Список фильтров (SelectableList)
-                SelectableList(selectedItems = selectedItems)
+                SelectableList(selectedItems = localSelectedItems)
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // 🔹 Кнопка "Применить"
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(),
                     contentAlignment = Alignment.BottomCenter
                 ) {
-                    ApplyButton(onClick = { onApply(selectedItems.value) })
+                    ApplyButton(onClick = {
+                        onApply(selectedItems.value)
+                        selectedItems.value = localSelectedItems.value
+                        showFilterSheet.value = false
+                    })
                 }
             }
         }

@@ -30,30 +30,32 @@ import ru.hse.coursework.godaily.ui.components.quarks.RadioButtonToggle
 @Composable
 fun SortBottomSheetSingleChoice(
     selectedOption: MutableState<Int>,
+    chosenSortOptionText: MutableState<String>,
     onApply: (Int) -> Unit,
     onReset: () -> Unit,
     showSortSheet: MutableState<Boolean>,
     options: List<String> = listOf(
+        "Ближе ко мне",
+        "С высоким рейтингом",
         "Длинные",
         "Короткие",
-        "Ближе ко мне",
-        "С высоким рейтингом"
     )
 ) {
+    val localSelectedItem: MutableState<Int> = mutableStateOf(0)
+    localSelectedItem.value = selectedOption.value
+
     ModalBottomSheet(
         onDismissRequest = { showSortSheet.value = false },
         modifier = Modifier
             .fillMaxWidth()
-            .height(330.dp)
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -65,12 +67,15 @@ fun SortBottomSheetSingleChoice(
                         fontSize = 20.sp,
                     )
 
-                    Quit(onClick = onReset)
+                    Quit(onClick = {
+                        onReset()
+                        chosenSortOptionText.value = options[selectedOption.value]
+                        showSortSheet.value = false
+                    })
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // 🔹 Выбор опций
                 Column(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.fillMaxWidth()
@@ -80,12 +85,12 @@ fun SortBottomSheetSingleChoice(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { selectedOption.value = index }
+                                .clickable { localSelectedItem.value = index }
                         ) {
                             RadioButtonToggle(
-                                isChosen = selectedOption.value == index,
+                                isChosen = localSelectedItem.value == index,
                                 onToggle = { isChosen ->
-                                    if (isChosen) selectedOption.value = index
+                                    if (isChosen) localSelectedItem.value = index
                                 }
                             )
                             Spacer(modifier = Modifier.width(8.dp))
@@ -99,13 +104,18 @@ fun SortBottomSheetSingleChoice(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // 🔹 Кнопка "Применить"
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(),
                     contentAlignment = Alignment.BottomCenter
                 ) {
-                    ApplyButton(onClick = { onApply(selectedOption.value) })
+                    ApplyButton(onClick = {
+                        onApply(localSelectedItem.value)
+                        chosenSortOptionText.value = options[localSelectedItem.value]
+                        selectedOption.value = localSelectedItem.value
+                        showSortSheet.value = false
+                    }
+                    )
                 }
             }
         }
@@ -119,6 +129,7 @@ fun SortBottomSheetSingleChoicePreview() {
         selectedOption = mutableStateOf(1),
         onApply = { selected -> println("Выбрана опция: $selected") },
         onReset = {},
-        showSortSheet = mutableStateOf(true)
+        showSortSheet = mutableStateOf(true),
+        chosenSortOptionText = mutableStateOf("Ближе ко мне")
     )
 }

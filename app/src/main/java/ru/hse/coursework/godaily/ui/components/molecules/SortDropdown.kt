@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,39 +34,28 @@ import ru.hse.coursework.godaily.ui.theme.greyDark
 
 @Composable
 fun SortDropdown(
-    options: List<SortOption>,
-    initialSelection: SortOption = SortOption.CLOSER_TO_ME,
-    onOptionSelected: (SortOption) -> Unit,
+    onSortClick: () -> Unit,
+    chosenSortOption: MutableState<String>,
     modifier: Modifier = Modifier
 ) {
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf(initialSelection) }
-
     Box(
         modifier = modifier
-            .width(129.dp)
+            .wrapContentWidth()
             .height(18.dp)
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .clickable { expanded = !expanded },
+                .wrapContentWidth()
+                .clickable { onSortClick() },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End
         ) {
             VariableLight(
-                text = when (selectedOption) {
-                    //TODO: переделать
-                    SortOption.CLOSER_TO_ME -> "ближе ко мне"
-                    SortOption.HIGH_RATING -> "с высоким рейтингом"
-                    SortOption.LONG -> "длинные"
-                    SortOption.SHORT -> "короткие"
-                    SortOption.UNDEFINED -> "неизвестный"
-                },
+                text = chosenSortOption.value,
                 fontSize = 16.sp,
                 fontColor = greyDark,
             )
-            Spacer(modifier = Modifier.size(8.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Icon(
                 painter = painterResource(id = R.drawable.arrow_dropdown),
                 contentDescription = null,
@@ -74,34 +65,6 @@ fun SortDropdown(
                     .padding(top = 3.dp)
             )
         }
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    onClick = {
-                        selectedOption = option
-                        expanded = false
-                        onOptionSelected(option)
-                    },
-                    text = {
-                        Text(
-                            //todo: переделать
-                            when (option) {
-                                SortOption.CLOSER_TO_ME -> "ближе ко мне"
-                                SortOption.HIGH_RATING -> "с высоким рейтингом"
-                                SortOption.LONG -> "длинные"
-                                SortOption.SHORT -> "короткие"
-                                SortOption.UNDEFINED -> "неизвестный"
-                            },
-                            color = greyDark
-                        )
-                    }
-                )
-            }
-        }
     }
 }
 
@@ -110,16 +73,8 @@ fun SortDropdown(
 @Composable
 fun SortDropdownPreview() {
     SortDropdown(
-        options = listOf(
-            SortOption.SHORT,
-            SortOption.LONG,
-            SortOption.HIGH_RATING,
-            SortOption.CLOSER_TO_ME
-        ),
-        initialSelection = SortOption.CLOSER_TO_ME,
-        onOptionSelected = { selectedOption ->
-            println("Selected option: $selectedOption")
-        },
+        onSortClick = {},
+        chosenSortOption = mutableStateOf("С высоким рейтингом"),
         modifier = Modifier
     )
 }

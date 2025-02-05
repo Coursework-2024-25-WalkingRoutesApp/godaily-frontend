@@ -29,15 +29,11 @@ fun HomeScreen(
     val searchValue = viewModel.searchValue
     val selectedCategories = viewModel.selectedCategories
     val selectedSortOption = viewModel.selectedSortOption
+    val showFilterSheet = viewModel.showFilterSheet
+    val showSortSheet = viewModel.showSortSheet
+    val chosenSortOptionText = viewModel.chosenSortOptionText
 
-    // Управление видимостью BottomSheet
-    val showFilterSheet = remember { mutableStateOf(false) }
-    val showSortSheet = remember { mutableStateOf(false) }
-
-    // Состояние выбранных фильтров и сортировки
-    val selectedFilters = remember { mutableStateOf(setOf<Int>()) }
-    val selectedSort = remember { mutableStateOf(0) }
-
+    //TODO: координаты
     viewModel.loadHomeScreenInfo("")
 
     Column(
@@ -62,21 +58,16 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
-            // SearchToolbar с кнопками фильтров и сортировки
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
+                //TODO: подумать над багом с выбором и применением
                 SearchToolbar(
                     searchValue = searchValue,
-                    filterIconClick = { showFilterSheet.value = true }, // Открываем BottomSheet фильтров
-                    sortOptions = listOf(
-                        SortOption.CLOSER_TO_ME,
-                        SortOption.HIGH_RATING,
-                        SortOption.LONG,
-                        SortOption.SHORT
-                    ),
-                    onSortOptionSelected = { showSortSheet.value = true } // Открываем BottomSheet сортировки
+                    filterIconClick = { showFilterSheet.value = true },
+                    sortClick = { showSortSheet.value = true },
+                    chosenSortOption = chosenSortOptionText
                 )
             }
 
@@ -91,37 +82,30 @@ fun HomeScreen(
         }
     }
 
-    // **Фильтр BottomSheet**
     if (showFilterSheet.value) {
-        ModalBottomSheet(
-            onDismissRequest = { showFilterSheet.value = false }
-        ) {
-            /*SortBottomSheet(
-                selectedItems = selectedFilters,
-                onClose = { showFilterSheet.value = false },
-                onApply = { selected ->
-                    selectedFilters.value = selected
-                    showFilterSheet.value = false
-                },
-                onReset = { selectedFilters.value = emptySet() }
-            )*/
-        }
+        SortBottomSheet(
+            showFilterSheet = showFilterSheet,
+            selectedItems = selectedCategories,
+            onApply = { selected ->
+                selectedCategories.value = selected
+                showFilterSheet.value = false
+                //TODO: обновление маршрутов
+            },
+            onReset = { selectedCategories.value = emptySet() }
+        )
     }
 
-    // **Сортировка BottomSheet**
     if (showSortSheet.value) {
-        ModalBottomSheet(
-            onDismissRequest = { showSortSheet.value = false }
-        ) {
-            /*SortBottomSheetSingleChoice(
-                selectedOption = selectedSort.value,
-                onClose = { showSortSheet.value = false },
-                onApply = { selected ->
-                    selectedSort.value = selected
-                    showSortSheet.value = false
-                },
-                onReset = { selectedSort.value = 0 }
-            )*/
-        }
+        SortBottomSheetSingleChoice(
+            showSortSheet = showSortSheet,
+            selectedOption = selectedSortOption,
+            chosenSortOptionText = chosenSortOptionText,
+            onApply = { selected ->
+                selectedSortOption.value = selected
+                showSortSheet.value = false
+                //TODO: обновление маршрутов
+            },
+            onReset = { selectedSortOption.value = 0 }
+        )
     }
 }

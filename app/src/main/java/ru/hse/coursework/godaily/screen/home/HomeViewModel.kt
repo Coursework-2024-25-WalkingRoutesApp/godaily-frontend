@@ -2,6 +2,7 @@ package ru.hse.coursework.godaily.screen.home
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +27,11 @@ class HomeViewModel @Inject constructor(
     val routesForGrid: MutableList<RouteCardDto> = mutableListOf()
     val unfinishedRoutes: MutableList<RouteCardDto> = mutableListOf()
     val searchValue: MutableState<String> = mutableStateOf("")
-    val selectedCategories: MutableList<Category> = mutableListOf()
-    val selectedSortOption: MutableState<SortOption> = mutableStateOf(SortOption.CLOSER_TO_ME)
+    val selectedCategories: MutableState<Set<Int>> = mutableStateOf(setOf())
+    val selectedSortOption: MutableState<Int> = mutableStateOf(0)
+    val showFilterSheet = mutableStateOf(false)
+    val showSortSheet = mutableStateOf(false)
+    val chosenSortOptionText = mutableStateOf("Ближе ко мне")
 
     fun updateRoutesForGrid(routes: List<RouteCardDto>) {
         routesForGrid.clear()
@@ -41,15 +45,6 @@ class HomeViewModel @Inject constructor(
 
     fun updateSearchValue(text: String) {
         searchValue.value = text
-    }
-
-    fun updateSelectedCategories(categories: List<Category>) {
-        selectedCategories.clear()
-        selectedCategories.addAll(categories)
-    }
-
-    fun updateSelectedSortOption(option: SortOption) {
-        selectedSortOption.value = option
     }
 
     fun loadHomeScreenInfo(userCoordinate: String) {

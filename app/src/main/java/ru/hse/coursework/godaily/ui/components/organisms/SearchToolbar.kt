@@ -29,8 +29,8 @@ fun SearchToolbar(
     searchValue: MutableState<String>,
     //onSearchValueChange: (TextFieldValue) -> Unit,
     filterIconClick: () -> Unit,
-    sortOptions: List<SortOption>,
-    onSortOptionSelected: (SortOption) -> Unit,
+    sortClick: () -> Unit,
+    chosenSortOption: MutableState<String>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -63,10 +63,8 @@ fun SearchToolbar(
             Spacer(modifier = Modifier.weight(1f))
 
             SortDropdown(
-                options = sortOptions,
-                initialSelection = sortOptions.first(),
-                onOptionSelected = onSortOptionSelected,
-                modifier = Modifier.align(Alignment.CenterVertically)
+                onSortClick = sortClick,
+                chosenSortOption = chosenSortOption
             )
         }
     }
@@ -79,12 +77,7 @@ fun SearchAndFilterBarPreview() {
         searchValue = mutableStateOf(""),
         //onSearchValueChange = { println("Search: $it") },
         filterIconClick = { println("SortOption button clicked") },
-        sortOptions = listOf(
-            SortOption.CLOSER_TO_ME,
-            SortOption.HIGH_RATING,
-            SortOption.LONG,
-            SortOption.SHORT
-        ),
-        onSortOptionSelected = { selectedOption -> println("Sort selected: $selectedOption") },
+        sortClick = {},
+        chosenSortOption = mutableStateOf("ближе ко мне")
     )
 }
