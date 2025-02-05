@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,14 +27,16 @@ fun RateRouteScreen(
     navController: NavController,
     routeId: String,
     mark: Int,
-    viewModel: RateRouteViewModel = hiltViewModel(),
+    viewModel: RouteDetailsViewModel = hiltViewModel(),
 ) {
     val routeState = viewModel.route
-    val markState = viewModel.mark
+    val markState = viewModel.userMark
     val reviewTextState = viewModel.reviewText
 
+    LaunchedEffect(routeId, mark) {
+        viewModel.loadRateReviewDetails(routeId, mark)
+    }
 
-    viewModel.loadRateReviewDetails(routeId, mark)
 
     Column(
         modifier = Modifier

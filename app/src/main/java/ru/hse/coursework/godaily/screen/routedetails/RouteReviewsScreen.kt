@@ -9,8 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,11 +25,19 @@ import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 fun RouteReviewsScreen(
     navController: NavController,
     routeId: String,
-    viewModel: RouteReviewsViewModel = hiltViewModel(),
+    viewModel: RouteDetailsViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.uiState.collectAsState()
 
-    viewModel.loadRouteReviews(routeId)
+    val curUserReview = viewModel.curUserReview
+    val reviews = viewModel.reviews
+    val averageMark = viewModel.averageMark
+    val reviewsCount = viewModel.reviewsCount
+
+
+    LaunchedEffect(routeId) {
+        viewModel.loadRouteReviews(routeId)
+        println(reviews.value.size)
+    }
 
     Column(
         modifier = Modifier
@@ -51,15 +58,15 @@ fun RouteReviewsScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
-            if (state.curUserReview != null) {
+            if (curUserReview != null) {
                 RouteRatingWithoutChoice(
-                    rating = state.rating,
-                    reviewsCount = state.reviewsCount,
+                    rating = averageMark.value,
+                    reviewsCount = reviewsCount.value,
                 )
             } else {
                 RouteRatingWithChoice(
-                    rating = state.rating,
-                    reviewsCount = state.reviewsCount,
+                    rating = averageMark.value,
+                    reviewsCount = reviewsCount.value,
                     onRatingSelected = { mark ->
                         navController.navigate(NavigationItem.RouteRate.route + "/${routeId}/${mark}")
                     }
@@ -70,7 +77,7 @@ fun RouteReviewsScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ReviewGrid(reviews = state.reviews)
+        ReviewGrid(reviews = reviews.value)
     }
 }
 

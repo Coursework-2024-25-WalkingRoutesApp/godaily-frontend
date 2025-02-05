@@ -19,7 +19,7 @@ class FetchRouteReviewsUseCase @Inject constructor(
 
         return RouteReviewsInfo(
             curUserReview = curUserReview,
-            routes = sortedReviews,
+            reviews = sortedReviews,
             rating = rating,
             reviewsCount = reviews.size
         )
@@ -57,7 +57,7 @@ class FetchRouteReviewsUseCase @Inject constructor(
 
 data class RouteReviewsInfo(
     val curUserReview: ReviewDto.ReviewInfoDto?,
-    val routes: List<ReviewDto.ReviewInfoDto>,
+    val reviews: List<ReviewDto.ReviewInfoDto>,
     val rating: Double,
     val reviewsCount: Int
 )

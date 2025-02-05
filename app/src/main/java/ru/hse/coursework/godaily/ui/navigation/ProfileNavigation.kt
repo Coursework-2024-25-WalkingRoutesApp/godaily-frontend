@@ -42,18 +42,18 @@ fun ProfileNavigation() {
             }
         }
         composable(
-            route = NavigationItem.RouteRate.route + "/{routeId}/{mark}",
+            route = NavigationItem.RouteRate.route + "/{routeId}/{averageMark}",
             arguments = listOf(
                 navArgument(name = "routeId") {
                     type = NavType.StringType
                 },
-                navArgument(name = "mark") {
+                navArgument(name = "averageMark") {
                     type = NavType.IntType
                 },
             )
         ) { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")
-            val mark = backStackEntry.arguments?.getInt("mark")
+            val mark = backStackEntry.arguments?.getInt("averageMark")
             if (routeId != null && mark != null) {
                 RateRouteScreen(profileNavController, routeId, mark)
             }
