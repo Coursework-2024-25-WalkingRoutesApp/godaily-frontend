@@ -26,7 +26,7 @@ import ru.hse.coursework.godaily.ui.theme.greyDark
 @Composable
 fun SearchToolbar(
     searchValue: MutableState<String>,
-    //onSearchValueChange: (TextFieldValue) -> Unit,
+    onSearchValueChange: (String) -> Unit,
     filterIconClick: () -> Unit,
     sortClick: () -> Unit,
     chosenSortOption: MutableState<String>,
@@ -40,7 +40,8 @@ fun SearchToolbar(
         SearchBar(
             text = searchValue,
             placeholder = "Поиск",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            onValueChange = onSearchValueChange
         )
 
         Spacer(modifier = Modifier.height(13.dp))
@@ -72,9 +73,10 @@ fun SearchToolbar(
 @Preview(showBackground = true)
 @Composable
 fun SearchAndFilterBarPreview() {
+    val searchValue = mutableStateOf("")
     SearchToolbar(
-        searchValue = mutableStateOf(""),
-        //onSearchValueChange = { println("Search: $it") },
+        searchValue = searchValue,
+        onSearchValueChange = { searchValue.value = it },
         filterIconClick = { println("SortOption button clicked") },
         sortClick = {},
         chosenSortOption = mutableStateOf("ближе ко мне")

@@ -19,6 +19,7 @@ class HomeViewModel @Inject constructor(
     private val fetchRoutesBySearchValue: FetchRoutesBySearchValue,
     private val fetchUnfinishedRoutesUseCase: FetchUnfinishedRoutesUseCase,
     private val filterRoutesUseCase: FilterRoutesUseCase
+    //private val sortRoutesUseCase: SortRoutesUseCase
 ) : ViewModel() {
 
     val routesForGrid: MutableList<RouteCardDto> = mutableListOf()
@@ -53,5 +54,27 @@ class HomeViewModel @Inject constructor(
             updateUnfinishedRoutes(loadedUnfinishedRoutes)
         }
     }
+
+    fun filterRoutes() {
+        //TODO
+        viewModelScope.launch {
+            updateRoutesForGrid(filterRoutesUseCase.execute("", selectedCategories.value))
+        }
+    }
+
+    fun sortRoutes() {
+        //TODO реализовать у себя
+        viewModelScope.launch {
+            //updateRoutesForGrid(sortRoutesUseCase.execute("", selectedSortOption.value))
+        }
+    }
+
+    fun searchRoutes() {
+        //TODO возможный сброс сортировки и фильтров
+        viewModelScope.launch {
+            updateRoutesForGrid(fetchRoutesBySearchValue.execute("", searchValue.value))
+        }
+    }
+
 
 }

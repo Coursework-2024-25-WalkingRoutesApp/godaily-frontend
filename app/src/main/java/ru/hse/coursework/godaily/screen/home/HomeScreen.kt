@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +23,6 @@ import ru.hse.coursework.godaily.ui.components.superorganisms.RouteVerticalGrid
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 import ru.hse.coursework.godaily.ui.theme.greyDark
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -69,8 +67,11 @@ fun HomeScreen(
                 contentAlignment = Alignment.Center
             ) {
                 SearchToolbar(
-                    //TODO: поиск по названию сделать
                     searchValue = searchValue,
+                    onSearchValueChange = {
+                        searchValue.value = it
+                        viewModel.searchRoutes()
+                    },
                     filterIconClick = { showFilterSheet.value = true },
                     sortClick = { showSortSheet.value = true },
                     chosenSortOption = chosenSortOptionText
@@ -95,7 +96,7 @@ fun HomeScreen(
             onApply = { selected ->
                 selectedCategories.value = selected
                 showFilterSheet.value = false
-                //TODO: обновление маршрутов
+                viewModel.filterRoutes()
             },
             onReset = { selectedCategories.value = emptySet() }
         )
@@ -109,7 +110,7 @@ fun HomeScreen(
             onApply = { selected ->
                 selectedSortOption.value = selected
                 showSortSheet.value = false
-                //TODO: обновление маршрутов
+                viewModel.sortRoutes()
             },
             onReset = { selectedSortOption.value = 0 }
         )

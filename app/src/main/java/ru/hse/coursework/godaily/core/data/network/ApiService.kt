@@ -1,7 +1,6 @@
 package ru.hse.coursework.godaily.core.data.network
 
 import retrofit2.Response
-import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
 import ru.hse.coursework.godaily.core.data.model.ReviewPublishDto
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
@@ -87,7 +86,7 @@ interface ApiService {
     suspend fun filterRoutesByCategoryAndDistance(
         jwt: String,
         userCoordinate: String,
-        categories: List<Category>
+        categories: Set<Int>
     ): List<RouteCardDto>
 
     // Поиск маршрутов по названию

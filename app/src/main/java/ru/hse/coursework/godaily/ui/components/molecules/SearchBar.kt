@@ -26,7 +26,8 @@ import ru.hse.coursework.godaily.ui.theme.greyLight
 fun SearchBar(
     text: MutableState<String>,
     placeholder: String = "Поиск",
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onValueChange: (String) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -44,9 +45,7 @@ fun SearchBar(
 
         BasicTextField(
             value = text.value,
-            onValueChange = {
-                text.value = it
-            },
+            onValueChange = onValueChange,
             textStyle = TextStyle(
                 fontFamily = RobotoFontFamily,
                 fontWeight = FontWeight.Light,
@@ -61,7 +60,9 @@ fun SearchBar(
 @Preview
 @Composable
 fun SearchBarPreview() {
+    val text = mutableStateOf("")
     SearchBar(
-        text = mutableStateOf("")
+        text = text,
+        onValueChange = { text.value = it }
     )
 }
