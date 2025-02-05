@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.ui.components.atoms.RouteDestinations
@@ -32,13 +31,13 @@ fun RouteTitleDurationForDetailsCard(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            RouteNameBig(text = route.routeName?: "")
+            RouteNameBig(text = route.routeName ?: "")
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Row(verticalAlignment = Alignment.CenterVertically) {
 
-                RouteDestinations(start = route.startPoint?: "", end = route.endPoint?: "")
+                RouteDestinations(start = route.startPoint ?: "", end = route.endPoint ?: "")
             }
         }
 

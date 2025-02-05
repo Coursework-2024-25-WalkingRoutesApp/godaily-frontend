@@ -19,7 +19,7 @@ fun Quit(onClick: () -> Unit, text: String = "Сбросить") {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.White,
+            containerColor = Color.Transparent,
             contentColor = greyDark
         ),
         contentPadding = PaddingValues(

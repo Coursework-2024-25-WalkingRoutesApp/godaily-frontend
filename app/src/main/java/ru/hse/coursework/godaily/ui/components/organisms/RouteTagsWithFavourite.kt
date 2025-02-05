@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.hse.coursework.godaily.core.data.model.Category
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.ui.components.molecules.Tag
 import ru.hse.coursework.godaily.ui.components.quarks.FavouriteToggle
@@ -73,7 +72,7 @@ fun RouteTagsWithFavouritePreview() {
             RouteDto.Category(UUID.randomUUID(), "Metro")
         ),
         isFavorite = isFavorite,
-        onFavouriteToggle = {isFavorite.value = it}
+        onFavouriteToggle = { isFavorite.value = it }
     )
 }
 

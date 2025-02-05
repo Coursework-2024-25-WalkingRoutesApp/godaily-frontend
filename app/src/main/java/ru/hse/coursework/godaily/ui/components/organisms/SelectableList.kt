@@ -1,5 +1,6 @@
 package ru.hse.coursework.godaily.ui.components.organisms
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,7 +39,8 @@ fun SelectableList(
 ) {
     Column(
         modifier = Modifier
-            .width(331.dp)
+            .width(331.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items.forEachIndexed { index, item ->
             SelectableListItem(
