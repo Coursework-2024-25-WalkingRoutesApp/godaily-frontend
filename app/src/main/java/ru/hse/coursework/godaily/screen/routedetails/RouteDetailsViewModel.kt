@@ -16,6 +16,7 @@ import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCa
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteReviewsUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.RemoveRouteFromFavouritesUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.SaveReviewUseCase
+import ru.hse.coursework.godaily.core.domain.service.UuidService
 import java.util.UUID
 import javax.inject.Inject
 
@@ -25,7 +26,8 @@ class RouteDetailsViewModel @Inject constructor(
     private val addRouteToFavouritesUseCase: AddRouteToFavouritesUseCase,
     private val removeRouteFromFavouritesUseCase: RemoveRouteFromFavouritesUseCase,
     private val saveReviewUseCase: SaveReviewUseCase,
-    private val fetchRouteReviewsUseCase: FetchRouteReviewsUseCase
+    private val fetchRouteReviewsUseCase: FetchRouteReviewsUseCase,
+    private val uuidService: UuidService
 ) : ViewModel() {
 
     val route: MutableState<RoutePageDto> = mutableStateOf(
@@ -67,34 +69,44 @@ class RouteDetailsViewModel @Inject constructor(
     }
 
     fun loadRateReviewDetails(routeId: String, mark: Int) {
-        viewModelScope.launch {
-            val routeDetails = fetchRouteDetailsUseCase.execute(routeId)
-            updateRoute(routeDetails.route)
-            updateMark(mark)
+        val routeIdUUID = uuidService.getUUIDFromString(routeId)
+        if (routeIdUUID != null) {
+            viewModelScope.launch {
+                val routeDetails = fetchRouteDetailsUseCase.execute(routeIdUUID)
+                updateRoute(routeDetails.route)
+                updateMark(mark)
+            }
         }
     }
 
     fun loadRouteReviews(routeId: String) {
-        viewModelScope.launch {
-            val routeReviews = fetchRouteReviewsUseCase.execute(routeId)
-            curUserReview = if (routeReviews.curUserReview == null) {
-                null
-            } else {
-                mutableStateOf(routeReviews.curUserReview)
+        val routeIdUUID = uuidService.getUUIDFromString(routeId)
+        if (routeIdUUID != null) {
+            viewModelScope.launch {
+                val routeReviews = fetchRouteReviewsUseCase.execute(routeIdUUID)
+                curUserReview = if (routeReviews.curUserReview == null) {
+                    null
+                } else {
+                    mutableStateOf(routeReviews.curUserReview)
+                }
+
+                _reviews.value = routeReviews.reviews
+                averageMark.value = routeReviews.rating
+                reviewsCount.value = routeReviews.reviewsCount
             }
-            _reviews.value = routeReviews.reviews
-            averageMark.value = routeReviews.rating
-            reviewsCount.value = routeReviews.reviewsCount
         }
     }
 
     fun loadRouteDetails(routeId: String) {
-        viewModelScope.launch {
-            val routeDetails = fetchRouteDetailsUseCase.execute(routeId)
-            route.value = routeDetails.route
-            averageMark.value = routeDetails.mark
-            reviewsCount.value = routeDetails.reviewsCount
-            isFavourite.value = route.value.isFavourite
+        val routeIdUUID = uuidService.getUUIDFromString(routeId)
+        if (routeIdUUID != null) {
+            viewModelScope.launch {
+                val routeDetails = fetchRouteDetailsUseCase.execute(routeIdUUID)
+                route.value = routeDetails.route
+                averageMark.value = routeDetails.mark
+                reviewsCount.value = routeDetails.reviewsCount
+                isFavourite.value = route.value.isFavourite
+            }
         }
     }
 

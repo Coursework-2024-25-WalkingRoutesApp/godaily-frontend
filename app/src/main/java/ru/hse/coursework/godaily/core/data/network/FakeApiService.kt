@@ -213,11 +213,11 @@ class FakeApiService : ApiService {
         return Response.success("Данные успешно сохранены")
     }
 
-    override suspend fun deleteRoute(jwt: String, routeId: String): Boolean {
+    override suspend fun deleteRoute(jwt: String, routeId: UUID): Boolean {
         return true
     }
 
-    override suspend fun getRouteDetails(jwt: String, routeId: String): RoutePageDto {
+    override suspend fun getRouteDetails(jwt: String, routeId: UUID): RoutePageDto {
         return RoutePageDto(
             id = UUID.randomUUID(),
             routeName = "Измайловский Кремль",
@@ -238,7 +238,7 @@ class FakeApiService : ApiService {
         )
     }
 
-    override suspend fun getReviews(jwt: String, routeId: String): ReviewDto {
+    override suspend fun getReviews(jwt: String, routeId: UUID): ReviewDto {
         return ReviewDto(
             curUserId = UUID.randomUUID(),
             listOf(

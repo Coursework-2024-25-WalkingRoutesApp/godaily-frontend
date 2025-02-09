@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
         if (locationPermissionGranted) {
             Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
         } else {
+            //TODO увед, что приложение работает только с геолокацией
             Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
         }
     }

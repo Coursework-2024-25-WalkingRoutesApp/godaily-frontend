@@ -5,6 +5,7 @@ import ru.hse.coursework.godaily.core.domain.model.ProfileInfo
 import javax.inject.Inject
 
 //TODO: реорганизовать расположение классов
+//TODO путаница с jwt и ID
 class FetchProfileInfoUseCase @Inject constructor(
     private val api: ApiService
 ) {

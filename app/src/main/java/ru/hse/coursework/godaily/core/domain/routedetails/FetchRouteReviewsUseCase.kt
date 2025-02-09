@@ -8,7 +8,7 @@ import javax.inject.Inject
 class FetchRouteReviewsUseCase @Inject constructor(
     private val api: ApiService
 ) {
-    suspend fun execute(routeId: String): RouteReviewsInfo {
+    suspend fun execute(routeId: UUID): RouteReviewsInfo {
 
         val reviewsInfo = fetchReviewsInfo(routeId)
         val reviews = reviewsInfo.reviews
@@ -25,7 +25,7 @@ class FetchRouteReviewsUseCase @Inject constructor(
         )
     }
 
-    private suspend fun fetchReviewsInfo(routeId: String) = api.getReviews("", routeId)
+    private suspend fun fetchReviewsInfo(routeId: UUID) = api.getReviews("", routeId)
 
     private fun findCurrentUserReview(
         reviews: List<ReviewDto.ReviewInfoDto>,

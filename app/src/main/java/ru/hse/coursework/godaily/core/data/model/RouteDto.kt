@@ -1,14 +1,13 @@
 package ru.hse.coursework.godaily.core.data.model
 
-import java.time.LocalTime
 import java.util.UUID
 
 data class RouteDto(
     var id: UUID,
     var routeName: String?,
     var description: String?,
-    var duration: LocalTime?,
-    var length: Long?,
+    var duration: Double,
+    var length: Double,
     var startPoint: String?,
     var endPoint: String?,
     var routePreview: String?,

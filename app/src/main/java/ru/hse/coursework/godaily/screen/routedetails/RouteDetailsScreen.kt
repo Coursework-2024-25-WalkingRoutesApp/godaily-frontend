@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteDetailsCard
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
+import java.util.UUID
 
 @Composable
 fun RouteDetailsScreen(

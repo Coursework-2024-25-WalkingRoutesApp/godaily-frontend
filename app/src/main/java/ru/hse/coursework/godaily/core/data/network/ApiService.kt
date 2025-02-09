@@ -53,13 +53,13 @@ interface ApiService {
     suspend fun removeRouteFromFavorites(jwt: String, routeId: UUID): Response<String>
 
     // Удаление маршрута, созданного пользователем
-    suspend fun deleteRoute(jwt: String, routeId: String): Boolean
+    suspend fun deleteRoute(jwt: String, routeId: UUID): Boolean
 
     // Получение подробной информации о маршруте
-    suspend fun getRouteDetails(jwt: String, routeId: String): RoutePageDto
+    suspend fun getRouteDetails(jwt: String, routeId: UUID): RoutePageDto
 
     // Получение отзывов о маршруте
-    suspend fun getReviews(jwt: String, routeId: String): ReviewDto
+    suspend fun getReviews(jwt: String, routeId: UUID): ReviewDto
 
     // Создание сессии маршрута
     suspend fun createRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean

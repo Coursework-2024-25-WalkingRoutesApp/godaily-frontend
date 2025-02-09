@@ -32,7 +32,6 @@ fun CreateRouteView(
             )
         }
 
-        // Карта для выбора точек маршрута
         YandexMapCreateRouteView(
             routePoints = routePoints,
             modifier = Modifier.fillMaxSize()
