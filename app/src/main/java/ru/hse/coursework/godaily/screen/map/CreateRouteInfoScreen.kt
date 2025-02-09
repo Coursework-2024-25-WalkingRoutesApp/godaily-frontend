@@ -33,6 +33,8 @@ import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.yalantis.ucrop.UCrop
 import ru.hse.coursework.godaily.R
+import ru.hse.coursework.godaily.core.domain.service.CropProfilePhotoService
+import ru.hse.coursework.godaily.core.domain.service.CropRoutePreviewService
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.molecules.HeaderWithBackground
@@ -56,7 +58,7 @@ fun CreateRouteInfoScreen(
     viewModel: CreateRouteViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val selectedImageUri = remember { mutableStateOf<Uri?>(null) }
+    val selectedImageUri = viewModel.selectedImageUri
 
     val showPublishWarningDialog = viewModel.showPublishWarningDialog
     val showNewPublishDialog = viewModel.showNewPublishDialog
@@ -74,7 +76,7 @@ fun CreateRouteInfoScreen(
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri: Uri? ->
-            uri?.let { startCrop(it, context, cropLauncher) }
+            uri?.let { CropRoutePreviewService().startCrop(it, context, cropLauncher) }
         }
     )
 
@@ -111,7 +113,7 @@ fun CreateRouteInfoScreen(
                     .padding(horizontal = 16.dp)
             ) {
                 RouteInfoFields(
-                    // удаляются значения, если переходить туда-сюда по экранам
+                    //TODO удаляются значения, если переходить туда-сюда по экранам
                     title = viewModel.routeTitle,
                     description = viewModel.routeDescription,
                     startPoint = viewModel.startPoint,
@@ -192,27 +194,3 @@ fun CreateRouteInfoScreen(
     }
 }
 
-private fun startCrop(
-    uri: Uri,
-    context: android.content.Context,
-    cropLauncher: androidx.activity.result.ActivityResultLauncher<android.content.Intent>
-) {
-    val destinationUri = Uri.fromFile(File(context.cacheDir, "cropped_image.jpg"))
-
-    val uCrop = UCrop.of(uri, destinationUri)
-        .withAspectRatio(3f, 4f)
-        .withMaxResultSize(1080, 1080)
-        .withOptions(getCropOptions())
-
-    cropLauncher.launch(uCrop.getIntent(context))
-}
-
-private fun getCropOptions(): UCrop.Options {
-    return UCrop.Options().apply {
-        setCompressionQuality(100)
-        setHideBottomControls(false)
-        setFreeStyleCropEnabled(false)
-        setShowCropGrid(true)
-        //setCircleDimmedLayer(true)
-    }
-}
