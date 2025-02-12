@@ -1,9 +1,11 @@
 package ru.hse.coursework.godaily.screen.routedetails
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,6 +16,7 @@ import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.core.domain.routedetails.AddRouteToFavouritesUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteReviewsUseCase
+import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteSessionUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.RemoveRouteFromFavouritesUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.SaveReviewUseCase
 import ru.hse.coursework.godaily.core.domain.service.UuidService
@@ -27,6 +30,7 @@ class RouteDetailsViewModel @Inject constructor(
     private val removeRouteFromFavouritesUseCase: RemoveRouteFromFavouritesUseCase,
     private val saveReviewUseCase: SaveReviewUseCase,
     private val fetchRouteReviewsUseCase: FetchRouteReviewsUseCase,
+    private val fetchRouteSessionUseCase: FetchRouteSessionUseCase,
     private val uuidService: UuidService
 ) : ViewModel() {
 
@@ -51,7 +55,12 @@ class RouteDetailsViewModel @Inject constructor(
     val userMark: MutableState<Int> = mutableStateOf(5)
     val reviewText: MutableState<String> = mutableStateOf("")
     var curUserReview: MutableState<ReviewDto.ReviewInfoDto>? = null
-    //val reviews: MutableList<ReviewDto.ReviewInfoDto> = mutableListOf()
+
+    //TODO: загрузка данных о точках маршрута добавить
+    val routePoints = mutableStateListOf<Point>()
+    val passedPoints = mutableStateListOf<Point>()
+
+    var isFinished = mutableStateOf(false)
 
     private val _reviews = MutableStateFlow<List<ReviewDto.ReviewInfoDto>>(emptyList())
     val reviews: StateFlow<List<ReviewDto.ReviewInfoDto>> = _reviews.asStateFlow()
@@ -106,6 +115,22 @@ class RouteDetailsViewModel @Inject constructor(
                 averageMark.value = routeDetails.mark
                 reviewsCount.value = routeDetails.reviewsCount
                 isFavourite.value = route.value.isFavourite
+            }
+        }
+    }
+
+    fun loadSessionPoints(routeId: String) {
+        val routeIdUUID = uuidService.getUUIDFromString(routeId)
+        if (routeIdUUID != null) {
+            viewModelScope.launch {
+                val routeSession = fetchRouteSessionUseCase.execute(routeIdUUID)
+                routePoints.clear()
+                routePoints.addAll(routeSession.routePoints)
+
+                passedPoints.clear()
+                passedPoints.addAll(routeSession.passedRoutePoints)
+
+                isFinished.value = routeSession.isFinished
             }
         }
     }

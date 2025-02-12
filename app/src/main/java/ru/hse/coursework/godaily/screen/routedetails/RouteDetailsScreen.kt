@@ -54,7 +54,7 @@ fun RouteDetailsScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         StartButton(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate(NavigationItem.RoutePassing.route + "/${routeId}") },
             modifier = Modifier
                 .padding(16.dp)
         )

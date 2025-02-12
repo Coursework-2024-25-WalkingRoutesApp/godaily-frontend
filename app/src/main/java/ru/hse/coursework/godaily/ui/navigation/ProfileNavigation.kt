@@ -11,6 +11,7 @@ import ru.hse.coursework.godaily.screen.profile.FavouriteRoutesScreen
 import ru.hse.coursework.godaily.screen.profile.ProfileScreen
 import ru.hse.coursework.godaily.screen.routedetails.RateRouteScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsScreen
+import ru.hse.coursework.godaily.screen.routedetails.RoutePassingScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteReviewsScreen
 
 @Composable
@@ -33,6 +34,12 @@ fun ProfileNavigation() {
             val routeId = backStackEntry.arguments?.getString("routeId")
             if (routeId != null) {
                 RouteDetailsScreen(profileNavController, routeId)
+            }
+        }
+        composable(NavigationItem.RoutePassing.route + "/{routeId}") { backStackEntry ->
+            val routeId = backStackEntry.arguments?.getString("routeId")
+            if (routeId != null) {
+                RoutePassingScreen(profileNavController, routeId)
             }
         }
         composable(NavigationItem.RouteReviews.route + "/{routeId}") { backStackEntry ->

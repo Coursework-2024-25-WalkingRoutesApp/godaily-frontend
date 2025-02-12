@@ -6,14 +6,10 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.AndroidEntryPoint
 import ru.hse.coursework.godaily.BuildConfig
-import ru.hse.coursework.godaily.ui.components.superorganisms.YandexMapNavigationView
+import ru.hse.coursework.godaily.ui.navigation.MainScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -39,6 +35,7 @@ class MainActivity : ComponentActivity() {
         MapKitFactory.initialize(this)
 
         setContent {
+            /*
             DisposableEffect(Unit) {
                 MapKitFactory.getInstance().onStart()
 
@@ -65,8 +62,8 @@ class MainActivity : ComponentActivity() {
             YandexMapNavigationView(
                 routePoints = testPoints,
                 passedPoints = passedPoints
-            )
-            //MainScreen()
+            )*/
+            MainScreen()
         }
 
         requestLocationPermission()

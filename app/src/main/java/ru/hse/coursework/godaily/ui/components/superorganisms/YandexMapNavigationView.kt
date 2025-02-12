@@ -43,7 +43,7 @@ fun YandexMapNavigationView(
     passedPoints: SnapshotStateList<Point>
 ) {
     val context = LocalContext.current
-    val currentPointIndex = remember { mutableStateOf(0) }
+    val currentPointIndex = mutableStateOf(passedPoints.size)
     val startIcon = ImageProvider.fromResource(context, R.drawable.start)
     val midIcon = ImageProvider.fromResource(context, R.drawable.point)
     val endIcon = ImageProvider.fromResource(context, R.drawable.finish)
@@ -62,7 +62,18 @@ fun YandexMapNavigationView(
             update = { view ->
                 val map = view.mapWindow.map
                 if (routePoints.isNotEmpty()) {
-                    map.move(CameraPosition(routePoints[0], 14.0f, 0.0f, 0.0f))
+                    map.move(
+                        CameraPosition(routePoints[0], 14.0f, 0.0f, 0.0f),
+                        Animation(Animation.Type.SMOOTH, 1.5f),
+                        null
+                    )
+                }
+                if (passedPoints.isNotEmpty()) {
+                    map.move(
+                        CameraPosition(passedPoints.last(), 14.0f, 0.0f, 0.0f),
+                        Animation(Animation.Type.SMOOTH, 1.5f),
+                        null
+                    )
                 }
                 updateRoute(
                     map, routePoints, passedPoints,
@@ -78,11 +89,12 @@ fun YandexMapNavigationView(
             onNextPointClick = {
                 if (currentPointIndex.value < routePoints.size) {
                     val newPoint = routePoints[currentPointIndex.value]
+                    val map = mapView.mapWindow.map
                     passedPoints.add(newPoint)
                     currentPointIndex.value++
 
-                    mapView.mapWindow.map.move(
-                        CameraPosition(newPoint, 14.0f, 0.0f, 0.0f),
+                    map.move(
+                        CameraPosition(newPoint, 10.0f, 0.0f, 0.0f), // 1️⃣ Отдаляем
                         Animation(Animation.Type.SMOOTH, 1.5f),
                         null
                     )
@@ -184,7 +196,6 @@ private fun updatePassedRouteSegments(
         }
     }
 }
-
 
 private fun setPlacemarks(
     map: Map,

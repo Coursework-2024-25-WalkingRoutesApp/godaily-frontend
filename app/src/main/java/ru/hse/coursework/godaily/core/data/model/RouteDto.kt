@@ -17,6 +17,8 @@ data class RouteDto(
 ) {
 
     data class RouteCoordinate(
+        var id: UUID,
+        var routeId: UUID,
         var latitude: Double?,
         var longitude: Double?,
         var orderNumber: Int?

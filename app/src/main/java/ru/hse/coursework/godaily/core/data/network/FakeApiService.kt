@@ -1,5 +1,6 @@
 package ru.hse.coursework.godaily.core.data.network
 
+import com.yandex.mapkit.geometry.Point
 import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
 import ru.hse.coursework.godaily.core.data.model.ReviewPublishDto
@@ -13,6 +14,40 @@ import java.time.LocalTime
 import java.util.UUID
 
 class FakeApiService : ApiService {
+
+    val routeId = UUID.randomUUID()
+
+    val userCheckpoints = mutableListOf<RouteSessionDto.UserCheckpoint>()
+
+    val routeCoordinates = listOf(
+        Point(55.6600, 37.5100),
+        Point(55.6780, 37.5250),
+        Point(55.6900, 37.5450),
+        Point(55.7050, 37.5600),
+        Point(55.7200, 37.5800),
+        Point(55.7350, 37.6000),
+        Point(55.7450, 37.6100),
+        Point(55.7550, 37.6200),
+        Point(55.7600, 37.6250),
+        Point(55.7700, 37.6300)
+    ).mapIndexed { index, point ->
+        val pointId = UUID.fromString(String.format("00000000-0000-0000-0000-%012d", index + 1))
+
+        userCheckpoints.add(
+            RouteSessionDto.UserCheckpoint(
+                coordinateId = pointId,
+                createdAt = LocalDateTime.now()
+            )
+        )
+
+        RouteDto.RouteCoordinate(
+            id = pointId,
+            routeId = routeId,
+            latitude = point.latitude,
+            longitude = point.longitude,
+            orderNumber = index + 1
+        )
+    }
 
     private val fakeUser = UserDto("Test User", "testuser@example.com", "fakePhotoUrl")
 
@@ -228,7 +263,7 @@ class FakeApiService : ApiService {
             endPoint = "Измайловское шоссе, 73",
             routePreview = "https://via.placeholder.com/300",
             isFavourite = false,
-            routeCoordinate = emptyList(),
+            routeCoordinate = routeCoordinates,
             categories = listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Culture"),
@@ -284,6 +319,17 @@ class FakeApiService : ApiService {
 
     override suspend fun updateRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean {
         return true
+    }
+
+    override suspend fun getRouteSession(jwt: String, routeId: UUID): RouteSessionDto {
+        return RouteSessionDto(
+            id = UUID.randomUUID(),
+            routeId = routeId,
+            isFinished = false,
+            startedAt = LocalDateTime.now().minusHours(1),
+            endedAt = null,
+            userCheckpoint = userCheckpoints.dropLast(5)
+        )
     }
 
     override suspend fun saveReview(jwt: String, review: ReviewPublishDto): Response<String> {

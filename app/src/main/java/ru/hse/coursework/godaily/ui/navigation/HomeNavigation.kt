@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import ru.hse.coursework.godaily.screen.home.HomeScreen
 import ru.hse.coursework.godaily.screen.routedetails.RateRouteScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsScreen
+import ru.hse.coursework.godaily.screen.routedetails.RoutePassingScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteReviewsScreen
 
 @Composable
@@ -31,6 +32,13 @@ fun HomeNavigation() {
             val routeId = backStackEntry.arguments?.getString("routeId")
             if (routeId != null) {
                 RouteReviewsScreen(homeNavController, routeId)
+            }
+        }
+
+        composable(NavigationItem.RoutePassing.route + "/{routeId}") { backStackEntry ->
+            val routeId = backStackEntry.arguments?.getString("routeId")
+            if (routeId != null) {
+                RoutePassingScreen(homeNavController, routeId)
             }
         }
         composable(
