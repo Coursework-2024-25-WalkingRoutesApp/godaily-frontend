@@ -20,7 +20,6 @@ import ru.hse.coursework.godaily.ui.components.organisms.RouteRatingWithChoice
 import ru.hse.coursework.godaily.ui.components.organisms.RouteRatingWithoutChoice
 import ru.hse.coursework.godaily.ui.components.superorganisms.ReviewGrid
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
-import java.util.UUID
 
 @Composable
 fun RouteReviewsScreen(

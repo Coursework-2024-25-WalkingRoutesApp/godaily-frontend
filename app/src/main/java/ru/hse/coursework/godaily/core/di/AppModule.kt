@@ -7,7 +7,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.hse.coursework.godaily.core.domain.location.LocationService
-import ru.hse.coursework.godaily.core.domain.service.RouteYandexService
 import ru.hse.coursework.godaily.core.domain.service.UuidService
 import javax.inject.Singleton
 

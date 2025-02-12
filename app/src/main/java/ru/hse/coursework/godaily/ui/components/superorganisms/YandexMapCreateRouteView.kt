@@ -1,4 +1,4 @@
-package ru.hse.coursework.godaily.ui.components.organisms
+package ru.hse.coursework.godaily.ui.components.superorganisms
 
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +12,7 @@ import com.yandex.mapkit.RequestPoint
 import com.yandex.mapkit.RequestPointType
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.IconStyle
 import com.yandex.mapkit.map.InputListener
 import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.mapview.MapView
@@ -39,9 +40,9 @@ fun YandexMapCreateRouteView(
 ) {
     val context = LocalContext.current
 
-    val startIcon = ImageProvider.fromResource(context, R.drawable.end_point)
-    val midIcon = ImageProvider.fromResource(context, R.drawable.mid_point)
-    val endIcon = ImageProvider.fromResource(context, R.drawable.end_point)
+    val startIcon = ImageProvider.fromResource(context, R.drawable.start)
+    val midIcon = ImageProvider.fromResource(context, R.drawable.point)
+    val endIcon = ImageProvider.fromResource(context, R.drawable.finish)
 
     val inputListener = remember(context) {
         object : InputListener {
@@ -128,6 +129,7 @@ private fun setPlacemarks(
                     else -> midIcon
                 }
             )
+            setIconStyle(IconStyle().apply { scale = 0.7f })
         }
     }
 

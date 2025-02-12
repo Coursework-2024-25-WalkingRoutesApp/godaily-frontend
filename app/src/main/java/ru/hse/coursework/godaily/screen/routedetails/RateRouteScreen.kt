@@ -19,7 +19,6 @@ import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
 import ru.hse.coursework.godaily.ui.components.molecules.ApplyButton
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.superorganisms.RateRouteCard
-import java.util.UUID
 
 
 //TODO: исправить viewmodel

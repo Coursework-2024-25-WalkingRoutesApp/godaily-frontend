@@ -53,7 +53,7 @@ fun RouteVerticalGrid(
                                 "Metro" -> R.drawable.metro
                                 "Nature" -> R.drawable.nature
                                 //TODO: добавить unexpected icon
-                                else -> R.drawable.end_point
+                                else -> R.drawable.point
                             }
                         } ?: emptyList(),
                         onCardClick = { onRouteClick(route) },

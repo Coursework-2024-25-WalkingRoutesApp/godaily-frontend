@@ -34,7 +34,7 @@ class CreateRouteViewModel @Inject constructor(
     val showNewPublishDialog: MutableState<Boolean> = mutableStateOf(false)
 
     suspend fun loadRouteData(routeId: String?) {
-        val routeIdUUID = routeId?.let {uuidService.getUUIDFromString(routeId)}
+        val routeIdUUID = routeId?.let { uuidService.getUUIDFromString(routeId) }
         if (routeIdUUID != null) {
             viewModelScope.launch {
                 val route = fetchRouteDetailsUseCase.execute(routeIdUUID)

@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yandex.mapkit.geometry.Point
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
-import ru.hse.coursework.godaily.ui.components.organisms.YandexMapCreateRouteView
 
 @Composable
 fun CreateRouteView(

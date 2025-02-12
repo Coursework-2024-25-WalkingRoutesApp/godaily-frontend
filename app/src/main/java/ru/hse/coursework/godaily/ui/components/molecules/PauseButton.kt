@@ -12,30 +12,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.ui.components.atoms.RouteNameSmall
 import ru.hse.coursework.godaily.ui.theme.black
-import ru.hse.coursework.godaily.ui.theme.lime
+import ru.hse.coursework.godaily.ui.theme.purpleDark
 
 @Composable
-fun PublishButton(
-    onClick: () -> Unit,
-    text: String = "Опубликовать",
-    modifier: Modifier = Modifier
-) {
+fun PauseButton(onClick: () -> Unit, text: String = "Пауза", modifier: Modifier = Modifier) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(13.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = lime,
+            containerColor = purpleDark,
             contentColor = black
         ),
         contentPadding = PaddingValues(
             start = 16.dp,
-            top = 10.dp,
+            top = 5.dp,
             end = 16.dp,
-            bottom = 10.dp
+            bottom = 5.dp
         ),
         modifier = modifier
-            .width(169.dp)
-            .height(39.dp)
+            .width(90.dp)
+            .height(34.dp)
     ) {
         RouteNameSmall(text = text)
     }
@@ -43,6 +39,6 @@ fun PublishButton(
 
 @Preview
 @Composable
-fun PublishButtonPreview() {
-    PublishButton(onClick = {})
+fun PauseButtonPreview() {
+    PauseButton(onClick = {})
 }
