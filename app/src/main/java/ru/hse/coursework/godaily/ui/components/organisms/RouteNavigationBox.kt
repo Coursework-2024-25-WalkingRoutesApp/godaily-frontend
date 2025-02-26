@@ -3,7 +3,6 @@ package ru.hse.coursework.godaily.ui.components.organisms
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -43,12 +42,10 @@ fun RouteNavigationBox(
         skipHiddenState = true
     )
     val scaffoldState = rememberBottomSheetScaffoldState(sheetState)
-
     val descriptionColor by animateColorAsState(
-        targetValue = if (sheetState.currentValue == SheetValue.Expanded) Color.Black else greyLight,
-        label = "",
+        if (sheetState.currentValue == SheetValue.Expanded) Color.Black else greyLight,
+        label = ""
     )
-
 
     BottomSheetScaffold(
         modifier = modifier,
@@ -56,34 +53,41 @@ fun RouteNavigationBox(
         sheetPeekHeight = 200.dp,
         sheetContent = {
             Column(
-                modifier = Modifier
+                Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp)
+                    .padding(16.dp)
                     .height(300.dp)
             ) {
-                PauseButton(
-                    onClick = onPauseClick,
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 16.dp, bottom = 16.dp)
-                )
-                VariableMedium(
-                    text = "$nextPointTitle: $distanceToNextPoint",
-                    fontSize = 21.sp
-                )
-                ScrollableDescription(
-                    modifier = Modifier.padding(top = 5.dp, start = 0.dp, end = 16.dp),
-                    description = nextPointSubtitle,
-                    color = descriptionColor
-                )
-                Spacer(modifier = Modifier.weight(1f))
+                when (nextPointTitle) {
+                    "Финиш" -> VariableMedium(
+                        text = nextPointTitle,
+                        fontSize = 21.sp,
+                        modifier = Modifier.padding(top = 40.dp)
+                    )
+
+                    else -> {
+                        PauseButton(
+                            onClick = onPauseClick,
+                            modifier = Modifier.align(Alignment.End)
+                        )
+                        VariableMedium(
+                            text = "$nextPointTitle: ${distanceToNextPoint.ifEmpty { "0м" }}",
+                            fontSize = 21.sp
+                        )
+                        nextPointSubtitle.takeIf { it.isNotBlank() }?.let {
+                            ScrollableDescription(
+                                description = it,
+                                color = descriptionColor,
+                                modifier = Modifier.padding(top = 5.dp, end = 16.dp)
+                            )
+                        }
+                    }
+                }
             }
         }
     ) {}
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Box(Modifier.fillMaxSize()) {
         PublishButton(
             onClick = onNextPointClick,
             text = onNextPointText,
@@ -94,6 +98,7 @@ fun RouteNavigationBox(
         )
     }
 }
+
 
 @Preview
 @Composable

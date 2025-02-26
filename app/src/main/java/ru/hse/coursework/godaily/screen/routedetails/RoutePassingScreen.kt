@@ -30,6 +30,7 @@ fun RoutePassingScreen(
     }
 
     LaunchedEffect(routeId) {
+        viewModel.loadRouteDetails(routeId)
         viewModel.loadSessionPoints(routeId)
     }
 
@@ -44,6 +45,7 @@ fun RoutePassingScreen(
         )
 
         YandexMapNavigationView(
+            routeTitle = viewModel.route.value.routeName ?: "Маршрут",
             routePoints = viewModel.routePoints,
             passedPoints = viewModel.passedPoints
         )

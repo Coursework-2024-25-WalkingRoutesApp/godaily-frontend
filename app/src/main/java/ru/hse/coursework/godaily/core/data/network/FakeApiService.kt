@@ -330,7 +330,7 @@ class FakeApiService : ApiService {
             isFinished = false,
             startedAt = LocalDateTime.now().minusHours(1),
             endedAt = null,
-            userCheckpoint = userCheckpoints.dropLast(5)
+            userCheckpoint = emptyList()//userCheckpoints.dropLast(5)
         )
     }
 

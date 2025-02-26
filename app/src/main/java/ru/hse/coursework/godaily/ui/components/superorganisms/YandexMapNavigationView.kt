@@ -33,12 +33,14 @@ import com.yandex.runtime.image.ImageProvider
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
 import ru.hse.coursework.godaily.ui.components.organisms.RouteNavigationBox
+import ru.hse.coursework.godaily.ui.components.organisms.RouteStartBox
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
 
 @Composable
 fun YandexMapNavigationView(
     modifier: Modifier = Modifier,
+    routeTitle: String,
     routePoints: List<TitledPoint>,
     passedPoints: SnapshotStateList<TitledPoint>
 ) {
@@ -83,31 +85,56 @@ fun YandexMapNavigationView(
             }
         )
 
-        RouteNavigationBox(
-            modifier = Modifier
-                .align(Alignment.BottomCenter),
-            onNextPointClick = {
-                if (currentPointIndex.value < routePoints.size) {
-                    val newPoint = routePoints[currentPointIndex.value]
-                    val map = mapView.mapWindow.map
-                    passedPoints.add(newPoint)
-                    currentPointIndex.value++
+        val nextPoint = if (currentPointIndex.value < routePoints.size) {
+            routePoints[currentPointIndex.value]
+        } else null
 
-                    map.move(
-                        CameraPosition(newPoint.point, 10.0f, 0.0f, 0.0f), // 1️⃣ Отдаляем
-                        Animation(Animation.Type.SMOOTH, 1.5f),
-                        null
-                    )
+        if (currentPointIndex.value == 0) {
+            RouteStartBox(
+                onStartClick = {
+                    if (routePoints.isNotEmpty()) {
+                        passedPoints.add(routePoints.first())
+                        currentPointIndex.value++
+                    }
+                },
+                routeTitle = routeTitle,
+                startPoint = routePoints.firstOrNull()?.title ?: "Начальная точка"
+            )
+        } else {
+            RouteNavigationBox(
+                distanceToNextPoint = "" /*TODO*/,
+                nextPointTitle = nextPoint?.title ?: "Финиш",
+                nextPointSubtitle = nextPoint?.description ?: "",
+                onNextPointText = if (nextPoint == null) "Завершить" else "Следующая точка",
+                modifier = Modifier
+                    .align(Alignment.BottomCenter),
+                onNextPointClick = {
+                    if (nextPoint != null) {
+                        if (currentPointIndex.value < routePoints.size) {
+                            val newPoint = routePoints[currentPointIndex.value]
+                            val map = mapView.mapWindow.map
+                            passedPoints.add(newPoint)
+                            currentPointIndex.value++
 
-                    updateRoute(
-                        mapView.mapWindow.map, routePoints, passedPoints,
-                        startIcon, midIcon, endIcon,
-                        passedIconStart, passedIconPoint, passedIconFinish
-                    )
-                }
-            },
-            onPauseClick = { /*TODO*/ }
-        )
+                            map.move(
+                                CameraPosition(newPoint.point, 10.0f, 0.0f, 0.0f), // 1️⃣ Отдаляем
+                                Animation(Animation.Type.SMOOTH, 1.5f),
+                                null
+                            )
+
+                            updateRoute(
+                                mapView.mapWindow.map, routePoints, passedPoints,
+                                startIcon, midIcon, endIcon,
+                                passedIconStart, passedIconPoint, passedIconFinish
+                            )
+                        }
+                    } else {
+                        /*TODO*/
+                    }
+                },
+                onPauseClick = { /*TODO*/ }
+            )
+        }
     }
 }
 
