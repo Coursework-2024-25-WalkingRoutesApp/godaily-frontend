@@ -19,6 +19,7 @@ import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteReviewsUseCa
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteSessionUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.RemoveRouteFromFavouritesUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.SaveReviewUseCase
+import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
 import ru.hse.coursework.godaily.core.domain.service.UuidService
 import java.util.UUID
 import javax.inject.Inject
@@ -57,8 +58,8 @@ class RouteDetailsViewModel @Inject constructor(
     var curUserReview: MutableState<ReviewDto.ReviewInfoDto>? = null
 
     //TODO: загрузка данных о точках маршрута добавить
-    val routePoints = mutableStateListOf<Point>()
-    val passedPoints = mutableStateListOf<Point>()
+    val routePoints = mutableStateListOf<TitledPoint>()
+    val passedPoints = mutableStateListOf<TitledPoint>()
 
     var isFinished = mutableStateOf(false)
 

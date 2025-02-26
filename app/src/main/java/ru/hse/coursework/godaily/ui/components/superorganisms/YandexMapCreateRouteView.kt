@@ -3,6 +3,8 @@ package ru.hse.coursework.godaily.ui.components.superorganisms
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
@@ -25,6 +27,8 @@ import com.yandex.mapkit.transport.masstransit.TimeOptions
 import com.yandex.runtime.Error
 import com.yandex.runtime.image.ImageProvider
 import ru.hse.coursework.godaily.R
+import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
+import ru.hse.coursework.godaily.ui.components.organisms.AddPointTitleDialog
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
 
 @Composable
@@ -36,7 +40,8 @@ fun YandexMapCreateRouteView(
         0.0f,
         0.0f
     ),
-    routePoints: MutableList<Point>
+    showAddPointTitleDialog: MutableState<Boolean>,
+    routePoints: MutableList<TitledPoint>
 ) {
     val context = LocalContext.current
 
@@ -44,10 +49,15 @@ fun YandexMapCreateRouteView(
     val midIcon = ImageProvider.fromResource(context, R.drawable.point)
     val endIcon = ImageProvider.fromResource(context, R.drawable.finish)
 
+    val selectedPoint = remember { mutableStateOf<TitledPoint?>(null) }
+
     val inputListener = remember(context) {
         object : InputListener {
             override fun onMapTap(map: Map, point: Point) {
-                routePoints.add(point)
+                val newPoint = TitledPoint(point, "", "")
+                routePoints.add(newPoint)
+                selectedPoint.value = newPoint
+                showAddPointTitleDialog.value = true
                 updateRoute(map, routePoints, startIcon, midIcon, endIcon)
             }
 
@@ -59,20 +69,37 @@ fun YandexMapCreateRouteView(
         factory = { _ ->
             MapView(context).apply {
                 val map = mapWindow.map
-
                 map.move(startCameraPosition)
                 map.addInputListener(inputListener)
-
                 updateRoute(map, routePoints, startIcon, midIcon, endIcon)
             }
         },
         modifier = modifier.fillMaxSize()
     )
+
+    selectedPoint.value?.let { point ->
+        if (showAddPointTitleDialog.value) {
+            AddPointTitleDialog(
+                showDialog = showAddPointTitleDialog,
+                title = remember { mutableStateOf(point.title) },
+                description = remember { mutableStateOf(point.description) },
+                onSaveClick = { title, description ->
+                    point.title = title
+                    point.description = description
+                    showAddPointTitleDialog.value = false
+                },
+                onKeepWithNoTitleClick = {
+                    showAddPointTitleDialog.value = false
+                }
+            )
+        }
+    }
 }
+
 
 private fun updateRoute(
     map: Map,
-    routePoints: MutableList<Point>,
+    routePoints: MutableList<TitledPoint>,
     startIcon: ImageProvider,
     midIcon: ImageProvider,
     endIcon: ImageProvider
@@ -85,7 +112,7 @@ private fun updateRoute(
 
     val pedestrianRouter = TransportFactory.getInstance().createPedestrianRouter()
     val requestPoints =
-        routePoints.map { RequestPoint(it, RequestPointType.WAYPOINT, null, null, null) }
+        routePoints.map { RequestPoint(it.point, RequestPointType.WAYPOINT, null, null, null) }
 
     pedestrianRouter.requestRoutes(
         requestPoints,
@@ -114,14 +141,14 @@ private fun updateRoute(
 
 private fun setPlacemarks(
     map: Map,
-    points: MutableList<Point>,
+    points: MutableList<TitledPoint>,
     startIcon: ImageProvider,
     midIcon: ImageProvider,
     endIcon: ImageProvider,
 ) {
     points.forEachIndexed { index, point ->
         map.mapObjects.addPlacemark().apply {
-            geometry = point
+            geometry = point.point
             setIcon(
                 when (index) {
                     0 -> startIcon

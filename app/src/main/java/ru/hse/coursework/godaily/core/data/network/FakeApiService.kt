@@ -45,7 +45,9 @@ class FakeApiService : ApiService {
             routeId = routeId,
             latitude = point.latitude,
             longitude = point.longitude,
-            orderNumber = index + 1
+            orderNumber = index + 1,
+            title = "Точка $index",
+            description = "Описание точки"
         )
     }
 

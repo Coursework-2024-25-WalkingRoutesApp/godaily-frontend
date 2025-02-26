@@ -36,6 +36,8 @@ fun CreateRouteMapScreen(
         }
     }
 
+    //TODO: загрузка уже проставленных точек
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,6 +62,7 @@ fun CreateRouteMapScreen(
         }
 
         CreateRouteView(
+            showAddPointTitleDialog = viewModel.showAddPointTitleDialog,
             //TODO: заменить точки
             routePoints = viewModel.routePoints,
             modifier = Modifier

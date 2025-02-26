@@ -15,7 +15,11 @@ class FetchRouteSessionUseCase @Inject constructor(
         val routeCoordinates = routePageDTO.routeCoordinate?.mapNotNull { coordinate ->
             coordinate.latitude?.let { lat ->
                 coordinate.longitude?.let { lon ->
-                    Point(lat, lon)
+                    TitledPoint(
+                        Point(lat, lon),
+                        coordinate.title ?: "",
+                        coordinate.description ?: ""
+                    )
                 }
             }
         } ?: emptyList()
@@ -25,7 +29,11 @@ class FetchRouteSessionUseCase @Inject constructor(
                 ?.let { coordinate ->
                     coordinate.latitude?.let { lat ->
                         coordinate.longitude?.let { lon ->
-                            Point(lat, lon)
+                            TitledPoint(
+                                Point(lat, lon),
+                                coordinate.title ?: "",
+                                coordinate.description ?: ""
+                            )
                         }
                     }
                 }
@@ -39,8 +47,13 @@ class FetchRouteSessionUseCase @Inject constructor(
     }
 }
 
+data class TitledPoint(
+    val point: Point,
+    var title: String,
+    var description: String,
+)
 data class RoutePointsSession(
     val isFinished: Boolean,
-    val routePoints: List<Point>,
-    val passedRoutePoints: List<Point>
+    val routePoints: List<TitledPoint>,
+    val passedRoutePoints: List<TitledPoint>
 )

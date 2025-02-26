@@ -4,15 +4,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yandex.mapkit.geometry.Point
+import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 
 @Composable
 fun CreateRouteView(
-    routePoints: MutableList<Point>,
+    showAddPointTitleDialog: MutableState<Boolean>,
+    routePoints: MutableList<TitledPoint>,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.fillMaxSize()) {
@@ -32,6 +35,7 @@ fun CreateRouteView(
         }
 
         YandexMapCreateRouteView(
+            showAddPointTitleDialog = showAddPointTitleDialog,
             routePoints = routePoints,
             modifier = Modifier.fillMaxSize()
         )

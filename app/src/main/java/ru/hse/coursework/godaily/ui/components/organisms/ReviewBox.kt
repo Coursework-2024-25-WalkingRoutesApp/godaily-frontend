@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.ui.components.atoms.VariableBold
 import ru.hse.coursework.godaily.ui.components.atoms.VariableLight
+import ru.hse.coursework.godaily.ui.components.molecules.CustomTextWindow
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyDark
@@ -55,55 +56,7 @@ fun ReviewBox(
         VariableBold(text = "Опишите плюсы и минусы", fontSize = 17.sp)
         Spacer(modifier = Modifier.height(15.dp))
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(142.dp)
-                .background(textFieldBackgroundColor, RoundedCornerShape(8.dp))
-                .border(width = 1.dp, color = borderColor, shape = RoundedCornerShape(8.dp))
-                .padding(8.dp)
-        ) {
-            val scrollState = rememberScrollState()
-
-            BasicTextField(
-                value = feedbackText.value,
-                onValueChange = {
-                    if (it.length <= maxCharacters) {
-                        feedbackText.value = it
-                    }
-                },
-                textStyle = TextStyle(
-                    fontFamily = RobotoFontFamily,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 15.sp,
-                    color = black,
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(scrollState),
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Default),
-                keyboardActions = KeyboardActions.Default,
-                decorationBox = { innerTextField ->
-                    if (feedbackText.value.isEmpty()) {
-                        VariableLight(
-                            text = "Оставьте отзыв...",
-                            fontSize = 15.sp,
-                            fontColor = greyDark
-                        )
-                    }
-                    innerTextField()
-                }
-            )
-        }
-
-        Text(
-            text = "${feedbackText.value.length} / $maxCharacters",
-            fontSize = 12.sp,
-            color = if (isMaxReached) Color.Red else greyDark,
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(top = 10.dp, end = 10.dp, bottom = 4.dp)
-        )
+        CustomTextWindow(text = feedbackText)
     }
 }
 

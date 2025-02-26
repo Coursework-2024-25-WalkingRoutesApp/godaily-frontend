@@ -32,6 +32,7 @@ import com.yandex.mapkit.transport.masstransit.TimeOptions
 import com.yandex.runtime.Error
 import com.yandex.runtime.image.ImageProvider
 import ru.hse.coursework.godaily.R
+import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
 import ru.hse.coursework.godaily.ui.components.organisms.RouteNavigationBox
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
@@ -39,8 +40,8 @@ import ru.hse.coursework.godaily.ui.theme.purpleRoutes
 @Composable
 fun YandexMapNavigationView(
     modifier: Modifier = Modifier,
-    routePoints: List<Point>,
-    passedPoints: SnapshotStateList<Point>
+    routePoints: List<TitledPoint>,
+    passedPoints: SnapshotStateList<TitledPoint>
 ) {
     val context = LocalContext.current
     val currentPointIndex = mutableStateOf(passedPoints.size)
@@ -63,14 +64,14 @@ fun YandexMapNavigationView(
                 val map = view.mapWindow.map
                 if (routePoints.isNotEmpty()) {
                     map.move(
-                        CameraPosition(routePoints[0], 14.0f, 0.0f, 0.0f),
+                        CameraPosition(routePoints[0].point, 14.0f, 0.0f, 0.0f),
                         Animation(Animation.Type.SMOOTH, 1.5f),
                         null
                     )
                 }
                 if (passedPoints.isNotEmpty()) {
                     map.move(
-                        CameraPosition(passedPoints.last(), 14.0f, 0.0f, 0.0f),
+                        CameraPosition(passedPoints.last().point, 14.0f, 0.0f, 0.0f),
                         Animation(Animation.Type.SMOOTH, 1.5f),
                         null
                     )
@@ -94,7 +95,7 @@ fun YandexMapNavigationView(
                     currentPointIndex.value++
 
                     map.move(
-                        CameraPosition(newPoint, 10.0f, 0.0f, 0.0f), // 1️⃣ Отдаляем
+                        CameraPosition(newPoint.point, 10.0f, 0.0f, 0.0f), // 1️⃣ Отдаляем
                         Animation(Animation.Type.SMOOTH, 1.5f),
                         null
                     )
@@ -114,8 +115,8 @@ fun YandexMapNavigationView(
 
 private fun updateRoute(
     map: Map,
-    routePoints: List<Point>,
-    passedPoints: SnapshotStateList<Point>,
+    routePoints: List<TitledPoint>,
+    passedPoints: SnapshotStateList<TitledPoint>,
     startIcon: ImageProvider,
     midIcon: ImageProvider,
     endIcon: ImageProvider,
@@ -126,7 +127,7 @@ private fun updateRoute(
     if (routePoints.size > 1) {
         val pedestrianRouter = TransportFactory.getInstance().createPedestrianRouter()
         val requestPoints =
-            routePoints.map { RequestPoint(it, RequestPointType.WAYPOINT, null, null, null) }
+            routePoints.map { RequestPoint(it.point, RequestPointType.WAYPOINT, null, null, null) }
 
         pedestrianRouter.requestRoutes(
             requestPoints,
@@ -167,7 +168,7 @@ private fun updateRoute(
 private fun updatePassedRouteSegments(
     map: Map,
     routeGeometry: Polyline,
-    passedPoints: List<Point>
+    passedPoints: List<TitledPoint>
 ) {
     if (passedPoints.isEmpty()) {
         map.mapObjects.addPolyline(routeGeometry).apply {
@@ -180,7 +181,7 @@ private fun updatePassedRouteSegments(
     val lastPassedPoint = passedPoints.last()
 
     val routePassedPoints =
-        routePoints.takeWhile { it.latitude != lastPassedPoint.latitude && it.longitude != lastPassedPoint.longitude } + lastPassedPoint
+        routePoints.takeWhile { it.latitude != lastPassedPoint.point.latitude && it.longitude != lastPassedPoint.point.longitude } + lastPassedPoint.point
     val routeNotPassedPoints = routePoints.drop(routePassedPoints.size)
 
     if (routeNotPassedPoints.isNotEmpty()) {
@@ -199,18 +200,18 @@ private fun updatePassedRouteSegments(
 
 private fun setPlacemarks(
     map: Map,
-    points: List<Point>,
+    points: List<TitledPoint>,
     startIcon: ImageProvider,
     midIcon: ImageProvider,
     endIcon: ImageProvider,
     passedIconStart: ImageProvider,
     passedIconPoint: ImageProvider,
     passedIconFinish: ImageProvider,
-    passedPoints: SnapshotStateList<Point>
+    passedPoints: SnapshotStateList<TitledPoint>
 ) {
     points.forEachIndexed { index, point ->
         val isPassed =
-            passedPoints.any { it.latitude == point.latitude && it.longitude == point.longitude }
+            passedPoints.any { it.point.latitude == point.point.latitude && it.point.longitude == point.point.longitude }
         val icon = when {
             index == 0 && isPassed -> passedIconStart
             index == 0 -> startIcon
@@ -221,7 +222,7 @@ private fun setPlacemarks(
         }
 
         map.mapObjects.addPlacemark().apply {
-            geometry = point
+            geometry = point.point
             setIcon(icon)
             setIconStyle(IconStyle().apply { scale = 0.7f })
         }

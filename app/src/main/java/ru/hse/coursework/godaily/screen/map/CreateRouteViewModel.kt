@@ -10,6 +10,7 @@ import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
+import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
 import ru.hse.coursework.godaily.core.domain.routes.SaveRouteUseCase
 import ru.hse.coursework.godaily.core.domain.service.UuidService
 import java.util.UUID
@@ -27,11 +28,12 @@ class CreateRouteViewModel @Inject constructor(
     val routeDescription: MutableState<String> = mutableStateOf("")
     val startPoint: MutableState<String> = mutableStateOf("")
     val endPoint: MutableState<String> = mutableStateOf("")
-    val routePoints = mutableStateListOf<Point>()
+    val routePoints = mutableStateListOf<TitledPoint>()
     val chosenCategories: MutableState<Set<Int>> = mutableStateOf(setOf())
     val selectedImageUri: MutableState<Uri?> = mutableStateOf(null)
     val showPublishWarningDialog: MutableState<Boolean> = mutableStateOf(false)
     val showNewPublishDialog: MutableState<Boolean> = mutableStateOf(false)
+    val showAddPointTitleDialog: MutableState<Boolean> = mutableStateOf(false)
 
     suspend fun loadRouteData(routeId: String?) {
         val routeIdUUID = routeId?.let { uuidService.getUUIDFromString(routeId) }

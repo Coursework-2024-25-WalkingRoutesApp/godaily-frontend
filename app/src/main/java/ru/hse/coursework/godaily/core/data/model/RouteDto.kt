@@ -21,7 +21,9 @@ data class RouteDto(
         var routeId: UUID,
         var latitude: Double?,
         var longitude: Double?,
-        var orderNumber: Int?
+        var orderNumber: Int?,
+        val title: String?,
+        val description: String?
     )
 
     data class Category(
