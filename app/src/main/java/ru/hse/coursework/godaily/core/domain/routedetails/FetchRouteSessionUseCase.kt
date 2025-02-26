@@ -52,6 +52,7 @@ data class TitledPoint(
     var title: String,
     var description: String,
 )
+
 data class RoutePointsSession(
     val isFinished: Boolean,
     val routePoints: List<TitledPoint>,

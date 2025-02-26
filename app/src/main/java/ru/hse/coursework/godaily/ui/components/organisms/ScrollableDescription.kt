@@ -8,20 +8,24 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.ui.components.atoms.RouteDescription
 
 @Composable
-fun ScrollableDescription(description: String, modifier: Modifier = Modifier) {
+fun ScrollableDescription(
+    description: String,
+    modifier: Modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+    color: Color = Color.Black
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(130.dp)
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
-            .padding(start = 16.dp, end = 16.dp)
     ) {
-        RouteDescription(text = description, modifier = modifier)
+        RouteDescription(text = description, modifier = modifier, color = color)
     }
 }
 

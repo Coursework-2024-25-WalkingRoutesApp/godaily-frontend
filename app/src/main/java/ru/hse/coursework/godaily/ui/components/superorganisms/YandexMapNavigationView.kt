@@ -17,7 +17,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.RequestPoint
 import com.yandex.mapkit.RequestPointType
-import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.geometry.Polyline
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.IconStyle

@@ -28,7 +28,6 @@ import ru.hse.coursework.godaily.ui.components.molecules.CustomTextField
 import ru.hse.coursework.godaily.ui.components.molecules.CustomTextWindow
 import ru.hse.coursework.godaily.ui.components.molecules.PublishButtonBig
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
-import ru.hse.coursework.godaily.ui.theme.greyDark
 
 @Composable
 fun AddPointTitleDialog(
