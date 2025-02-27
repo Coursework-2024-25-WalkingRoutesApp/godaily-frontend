@@ -16,7 +16,7 @@ import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.lime
 
 @Composable
-fun Map(onClick: () -> Unit) {
+fun RouteInfo(onClick: () -> Unit, modifier: Modifier = Modifier) {
     Button(
         onClick = onClick,
         shape = CircleShape,
@@ -24,11 +24,11 @@ fun Map(onClick: () -> Unit) {
             containerColor = lime,
         ),
         contentPadding = PaddingValues(0.dp),
-        modifier = Modifier
+        modifier = modifier
             .size(51.dp)
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.map_view),
+            painter = painterResource(id = R.drawable.route_info),
             contentDescription = null,
             tint = black,
             modifier = Modifier.size(32.dp)
@@ -38,6 +38,6 @@ fun Map(onClick: () -> Unit) {
 
 @Preview
 @Composable
-fun MapPreview() {
-    Map(onClick = {})
+fun RouteInfoPreview() {
+    RouteInfo(onClick = {})
 }

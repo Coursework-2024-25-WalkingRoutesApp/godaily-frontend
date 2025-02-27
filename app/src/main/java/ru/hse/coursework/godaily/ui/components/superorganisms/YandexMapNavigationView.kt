@@ -51,100 +51,6 @@ import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.greyLight
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
 
-//@Composable
-//fun YandexMapNavigationView(modifier: Modifier = Modifier) {
-//    val context = LocalContext.current
-//    val mapView = remember { MapView(context) }
-//
-//    val locationPermissionLauncher = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.RequestPermission()
-//    ) { isGranted ->
-//        if (isGranted) {
-//            mapView.mapWindow.map.apply {
-//                val userLocationLayer =
-//                    MapKitFactory.getInstance().createUserLocationLayer(mapView.mapWindow).apply {
-//                        isVisible = true
-//                        isHeadingEnabled = true
-//                    }
-//                userLocationLayer.cameraPosition()?.let {
-//                    move(it)
-//                }
-//            }
-//        } else {
-//            Toast.makeText(context, "Геолокация не разрешена", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//
-//    LaunchedEffect(Unit) {
-//        mapView.onStart()
-//        MapKitFactory.getInstance().onStart()
-//
-//        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-//            != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-//        }
-//    }
-//
-//    DisposableEffect(Unit) {
-//        onDispose {
-//            mapView.onStop()
-//            MapKitFactory.getInstance().onStop()
-//        }
-//    }
-//
-//    AndroidView(
-//        factory = { ctx ->
-//            mapView.apply {
-//                val map = mapWindow.map
-//
-//                val userLocationLayer =
-//                    MapKitFactory.getInstance().createUserLocationLayer(mapWindow).apply {
-//                        isVisible = ContextCompat.checkSelfPermission(
-//                            context,
-//                            Manifest.permission.ACCESS_FINE_LOCATION
-//                        ) == PackageManager.PERMISSION_GRANTED
-//                        isHeadingEnabled = isVisible
-//                    }
-//
-//                userLocationLayer.cameraPosition()?.let {
-//                    map.move(it)
-//                }
-//
-//
-//                userLocationLayer.setObjectListener(object : UserLocationObjectListener {
-//                    override fun onObjectAdded(userLocationView: UserLocationView) {
-//                        userLocationLayer.resetAnchor()
-//                        userLocationView.arrow.setIcon(
-//                            ImageProvider.fromResource(
-//                                context,
-//                                R.drawable.geolocation
-//                            )
-//                        )
-//                        userLocationView.pin.setIcon(
-//                            ImageProvider.fromResource(
-//                                context,
-//                                R.drawable.geolocation
-//                            )
-//                        )
-//
-//                        userLocationView.accuracyCircle.fillColor = ColorUtils.setAlphaComponent(
-//                            greyLight.toArgb(), 153
-//                        )
-//
-//                    }
-//
-//                    override fun onObjectRemoved(p0: UserLocationView) {}
-//                    override fun onObjectUpdated(p0: UserLocationView, p1: ObjectEvent) {
-//                    }
-//                })
-//            }
-//        },
-//        modifier = modifier.fillMaxSize()
-//    )
-//}
-
-
 @Composable
 fun YandexMapNavigationView(
     modifier: Modifier = Modifier,
@@ -214,11 +120,6 @@ fun YandexMapNavigationView(
                             ) == PackageManager.PERMISSION_GRANTED
                             isHeadingEnabled = isVisible
                         }
-
-                    userLocationLayer.cameraPosition()?.let {
-                        map.move(it)
-                    }
-
 
                     userLocationLayer.setObjectListener(object : UserLocationObjectListener {
                         override fun onObjectAdded(userLocationView: UserLocationView) {

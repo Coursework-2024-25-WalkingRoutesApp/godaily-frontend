@@ -37,17 +37,16 @@ fun RoutePassingScreen(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
+        YandexMapNavigationView(
+            routeTitle = viewModel.route.value.routeName ?: "Маршрут",
+            routePoints = viewModel.routePoints,
+            passedPoints = viewModel.passedPoints
+        )
         Back(
             onClick = { navController.popBackStack() },
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(16.dp)
-        )
-
-        YandexMapNavigationView(
-            routeTitle = viewModel.route.value.routeName ?: "Маршрут",
-            routePoints = viewModel.routePoints,
-            passedPoints = viewModel.passedPoints
         )
     }
 }
