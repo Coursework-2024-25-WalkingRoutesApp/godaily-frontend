@@ -1,7 +1,10 @@
 package ru.hse.coursework.godaily.ui
 
 import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +13,7 @@ import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
 import ru.hse.coursework.godaily.BuildConfig
 import ru.hse.coursework.godaily.ui.navigation.MainScreen
+import ru.hse.coursework.godaily.ui.notification.ToastManager
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -21,52 +25,32 @@ class MainActivity : ComponentActivity() {
             permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true ||
                     permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
         if (locationPermissionGranted) {
-            Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+            ToastManager(this).showToast("Разрешение получено")
+            MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)
+            MapKitFactory.initialize(this)
+
         } else {
-            //TODO увед, что приложение работает только с геолокацией
-            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            ToastManager(this).showToast(
+                "Приложение работает только с использованием геолокации",
+                Toast.LENGTH_LONG
+            )
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri: Uri = Uri.fromParts("package", packageName, null)
+            intent.data = uri
+            startActivity(intent)
+
+            finish()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)
-        MapKitFactory.initialize(this)
+        requestLocationPermission()
 
         setContent {
-            /*
-            DisposableEffect(Unit) {
-                MapKitFactory.getInstance().onStart()
-
-                onDispose {
-                    MapKitFactory.getInstance().onStop()
-                }
-            }
-            //TODO
-            val testPoints = listOf(
-                Point(55.6600, 37.5100), // Юго-Западная окраина Москвы
-                Point(55.6780, 37.5250),
-                Point(55.6900, 37.5450),
-                Point(55.7050, 37.5600),
-                Point(55.7200, 37.5800),
-                Point(55.7350, 37.6000),
-                Point(55.7450, 37.6100),
-                Point(55.7550, 37.6200), // Центр Москвы
-                Point(55.7600, 37.6250),
-                Point(55.7700, 37.6300)  // Финальная точка ближе к северу
-            )
-
-            val passedPoints = remember { mutableStateListOf<Point>() }
-
-            YandexMapNavigationView(
-                routePoints = testPoints,
-                passedPoints = passedPoints
-            )*/
             MainScreen()
         }
-
-        requestLocationPermission()
     }
 
     private fun requestLocationPermission() {
