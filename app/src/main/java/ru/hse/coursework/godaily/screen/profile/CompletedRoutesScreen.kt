@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -29,7 +27,6 @@ fun CompletedRoutesScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.uiState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -48,7 +45,7 @@ fun CompletedRoutesScreen(
             HeaderBig(text = "Пройденные маршруты")
         }
 
-        if (state.completedRoutes.isEmpty()) {
+        if (viewModel.completedRoutes.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -63,7 +60,7 @@ fun CompletedRoutesScreen(
         } else {
             Spacer(modifier = Modifier.height(16.dp))
             RouteVerticalGrid(
-                routes = state.completedRoutes,
+                routes = viewModel.completedRoutes,
                 onRouteClick = { route ->
                     navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
                 }

@@ -1,10 +1,12 @@
 package ru.hse.coursework.godaily.screen.profile
 
+import android.net.Uri
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.domain.profile.FetchProfileInfoUseCase
@@ -15,8 +17,16 @@ class ProfileViewModel @Inject constructor(
     private val fetchProfileInfoUseCase: FetchProfileInfoUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ProfileUiState())
-    val uiState: StateFlow<ProfileUiState> = _uiState
+    val email: MutableState<String> = mutableStateOf("email")
+    val userName: MutableState<String> = mutableStateOf("Ваше имя")
+    val profilePictureUrl: MutableState<String> =
+        mutableStateOf("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG3RRs0ouk80nISkSjBII8TgTshOBcitVnJg&s")
+    val completedRoutes = mutableStateListOf<RouteCardDto>()
+    val favouriteRoutes = mutableStateListOf<RouteCardDto>()
+
+    val selectedImageUri: MutableState<Uri?> = mutableStateOf(null)
+    val editedUserName = mutableStateOf(userName.value)
+    //TODO решить, какие тут еще штуки можно менять в редактировании
 
     init {
         loadUserData()
@@ -25,30 +35,24 @@ class ProfileViewModel @Inject constructor(
     private fun loadUserData() {
         viewModelScope.launch {
             val profile = fetchProfileInfoUseCase.execute("")
-            _uiState.value = _uiState.value.copy(
-                email = profile.email,
-                userName = profile.username,
-                profilePictureUrl = profile.photoUrl ?: "",
-                completedRoutes = profile.completedRoutes,
-                favouriteRoutes = profile.favouriteRoutes
-            )
+            email.value = profile.email
+            userName.value = profile.username
+            profilePictureUrl.value = profile.photoUrl ?: ""
+
+            completedRoutes.clear()
+            completedRoutes.addAll(profile.completedRoutes)
+
+            favouriteRoutes.clear()
+            favouriteRoutes.addAll(profile.favouriteRoutes)
         }
     }
 
     fun onEditProfileClicked() {
-        // Обработка перехода к редактированию профиля
+        // TODO Обработка перехода к редактированию профиля
     }
 
     fun onFavouriteRoutesClicked() {
-        // Обработка перехода к экрану "Избранное"
+        // TODO Обработка перехода к экрану "Избранное"
     }
 }
-
-data class ProfileUiState(
-    val email: String = "email",
-    val userName: String = "Ваше имя",
-    val profilePictureUrl: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG3RRs0ouk80nISkSjBII8TgTshOBcitVnJg&s",
-    val completedRoutes: List<RouteCardDto> = listOf(),
-    val favouriteRoutes: List<RouteCardDto> = listOf()
-)
 

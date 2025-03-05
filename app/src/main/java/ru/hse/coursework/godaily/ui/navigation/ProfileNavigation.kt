@@ -6,7 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import ru.hse.coursework.godaily.screen.profile.AboutUsScreen
 import ru.hse.coursework.godaily.screen.profile.CompletedRoutesScreen
+import ru.hse.coursework.godaily.screen.profile.EditProfileScreen
 import ru.hse.coursework.godaily.screen.profile.FavouriteRoutesScreen
 import ru.hse.coursework.godaily.screen.profile.ProfileScreen
 import ru.hse.coursework.godaily.screen.routedetails.RateRouteScreen
@@ -29,6 +31,12 @@ fun ProfileNavigation() {
         }
         composable(NavigationItem.FavouriteRoutes.route) {
             FavouriteRoutesScreen(profileNavController)
+        }
+        composable(NavigationItem.EditProfile.route) {
+            EditProfileScreen(profileNavController)
+        }
+        composable(NavigationItem.AboutProgram.route) {
+            AboutUsScreen(profileNavController)
         }
         composable(NavigationItem.RouteDetails.route + "/{routeId}") { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")

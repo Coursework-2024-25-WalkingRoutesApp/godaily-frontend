@@ -5,6 +5,8 @@ sealed class NavigationItem(val route: String, val title: String) {
     data object ProfileMain : NavigationItem("profile_main", "Профиль")
     data object CompletedRoutes : NavigationItem("completed_routes", "Пройденные маршруты")
     data object FavouriteRoutes : NavigationItem("favourite_routes", "Избранные маршруты")
+    data object EditProfile : NavigationItem("edit_profile", "Редактирование профиля")
+    data object AboutProgram : NavigationItem("about_program", "О программе")
 
     // Route Details
     data object RouteDetails : NavigationItem("route_details", "Детали маршрута")

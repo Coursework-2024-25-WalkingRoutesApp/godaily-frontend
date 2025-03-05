@@ -10,12 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import ru.hse.coursework.godaily.ui.components.molecules.AboutButton
 import ru.hse.coursework.godaily.ui.components.organisms.CompletedRoutes
 import ru.hse.coursework.godaily.ui.components.organisms.FavouriteRoutes
 import ru.hse.coursework.godaily.ui.components.organisms.UserProfile
@@ -28,25 +28,31 @@ fun ProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
-    val state by viewModel.uiState.collectAsState()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(30.dp))
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
+        ) {
+            AboutButton(onClick = { navController.navigate(NavigationItem.AboutProgram.route) })
+        }
+        Spacer(modifier = Modifier.height(20.dp))
 
         Column(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             UserProfile(
-                userName = state.userName,
-                profilePictureUrl = state.profilePictureUrl,
-                onEditProfileClick = { viewModel.onEditProfileClicked() }
+                userName = viewModel.userName.value,
+                profilePictureUrl = viewModel.profilePictureUrl.value,
+                onEditProfileClick = { navController.navigate(NavigationItem.EditProfile.route) }
             )
         }
 
@@ -57,13 +63,13 @@ fun ProfileScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             CompletedRoutes(
-                routeCount = state.completedRoutes.count(),
+                routeCount = viewModel.completedRoutes.count(),
                 onClick = { navController.navigate(NavigationItem.CompletedRoutes.route) }
             )
 
             Spacer(modifier = Modifier.width(15.dp))
             FavouriteRoutes(
-                routeCount = state.favouriteRoutes.count(),
+                routeCount = viewModel.favouriteRoutes.count(),
                 onClick = { navController.navigate(NavigationItem.FavouriteRoutes.route) }
             )
         }
