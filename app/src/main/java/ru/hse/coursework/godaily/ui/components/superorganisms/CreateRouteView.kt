@@ -23,13 +23,13 @@ fun CreateRouteView(
             VariableMedium(
                 text = "Выберите старт маршрута",
                 fontSize = 24.sp,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp, start = 16.dp)
             )
         } else {
             VariableMedium(
                 text = "Выберите следующую точку",
                 fontSize = 24.sp,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp, start = 16.dp)
             )
         }
 

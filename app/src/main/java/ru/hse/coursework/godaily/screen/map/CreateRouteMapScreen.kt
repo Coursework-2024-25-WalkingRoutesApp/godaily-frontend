@@ -1,5 +1,6 @@
 package ru.hse.coursework.godaily.screen.map
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -61,21 +62,25 @@ fun CreateRouteMapScreen(
 
         }
 
-        CreateRouteView(
-            showAddPointTitleDialog = viewModel.showAddPointTitleDialog,
-            //TODO: заменить точки
-            routePoints = viewModel.routePoints,
-            modifier = Modifier
-                .padding(start = 30.dp, end = 30.dp, top = 16.dp)
-                .weight(1f)
-        )
+        Box() {
+            CreateRouteView(
+                showAddPointTitleDialog = viewModel.showAddPointTitleDialog,
+                //TODO: заменить точки
+                routePoints = viewModel.routePoints,
+                modifier = Modifier
+                    .padding(start = 0.dp, end = 0.dp, top = 16.dp)
+            )
 
-        ApplyButton(
-            onClick = { navController.navigate(NavigationItem.RouteCreationInfo.route) },
-            text = "Готово!",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 30.dp, end = 30.dp, top = 16.dp, bottom = 16.dp)
-        )
+            ApplyButton(
+                onClick = { navController.navigate(NavigationItem.RouteCreationInfo.route) },
+                text = "Готово!",
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(start = 30.dp, end = 30.dp, top = 16.dp, bottom = 25.dp)
+            )
+        }
+
+
     }
 }
