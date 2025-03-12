@@ -1,6 +1,7 @@
 package ru.hse.coursework.godaily.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,7 +18,7 @@ import ru.hse.coursework.godaily.screen.routedetails.RoutePassingScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteReviewsScreen
 
 @Composable
-fun ProfileNavigation() {
+fun ProfileNavigation(bottomNavHostController: NavHostController) {
     val profileNavController = rememberNavController()
     NavHost(
         navController = profileNavController,
@@ -47,7 +48,7 @@ fun ProfileNavigation() {
         composable(NavigationItem.RoutePassing.route + "/{routeId}") { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")
             if (routeId != null) {
-                RoutePassingScreen(profileNavController, routeId)
+                RoutePassingScreen(bottomNavHostController, profileNavController, routeId)
             }
         }
         composable(NavigationItem.RouteReviews.route + "/{routeId}") { backStackEntry ->

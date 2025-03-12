@@ -40,7 +40,7 @@ fun RoutesNavigation(bottomNavHostController: NavHostController) {
         composable(NavigationItem.RoutePassing.route + "/{routeId}") { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")
             if (routeId != null) {
-                RoutePassingScreen(routesNavController, routeId)
+                RoutePassingScreen(bottomNavHostController, routesNavController, routeId)
             }
         }
         composable(

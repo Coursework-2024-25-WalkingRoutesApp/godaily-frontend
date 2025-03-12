@@ -27,7 +27,6 @@ import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.RequestPoint
 import com.yandex.mapkit.RequestPointType
-import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.geometry.Polyline
 import com.yandex.mapkit.layers.ObjectEvent
 import com.yandex.mapkit.map.CameraPosition
@@ -59,7 +58,8 @@ fun YandexMapNavigationView(
     routeTitle: String,
     routePoints: List<TitledPoint>,
     passedPoints: SnapshotStateList<TitledPoint>,
-    viewModel: RouteDetailsViewModel
+    viewModel: RouteDetailsViewModel,
+    onPauseClick: () -> Unit,
 ) {
     val context = LocalContext.current
     val currentPointIndex = mutableStateOf(passedPoints.size)
@@ -236,7 +236,7 @@ fun YandexMapNavigationView(
                         /*TODO*/
                     }
                 },
-                onPauseClick = { /*TODO*/ }
+                onPauseClick = onPauseClick
             )
         }
     }

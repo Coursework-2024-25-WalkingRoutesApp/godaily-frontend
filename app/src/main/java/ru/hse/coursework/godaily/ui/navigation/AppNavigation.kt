@@ -66,9 +66,9 @@ fun BottomNavigationBar(navController: NavController) {
 @Composable
 fun BottomNavigation(bottomNavController: NavHostController) {
     NavHost(bottomNavController, startDestination = BottomNavigationItem.Home.route) {
-        composable(BottomNavigationItem.Home.route) { HomeNavigation() }
+        composable(BottomNavigationItem.Home.route) { HomeNavigation(bottomNavController) }
         composable(BottomNavigationItem.Routes.route) { RoutesNavigation(bottomNavController) }
-        composable(BottomNavigationItem.Profile.route) { ProfileNavigation() }
+        composable(BottomNavigationItem.Profile.route) { ProfileNavigation(bottomNavController) }
     }
 }
 
@@ -76,7 +76,10 @@ fun BottomNavigation(bottomNavController: NavHostController) {
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    Scaffold(bottomBar = { BottomNavigationBar(navController) }) { innerPadding ->
+
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController) }
+    ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             BottomNavigation(navController)
         }
