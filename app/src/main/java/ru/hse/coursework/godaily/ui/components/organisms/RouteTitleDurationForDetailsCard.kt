@@ -17,7 +17,8 @@ import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.ui.components.atoms.RouteDestinations
 import ru.hse.coursework.godaily.ui.components.atoms.RouteNameBig
 import ru.hse.coursework.godaily.ui.components.molecules.RouteDurationInfo
-import java.time.LocalTime
+import ru.hse.coursework.godaily.ui.components.superorganisms.formatDistance
+import ru.hse.coursework.godaily.ui.components.superorganisms.formatDuration
 import java.util.UUID
 
 @Composable
@@ -42,14 +43,14 @@ fun RouteTitleDurationForDetailsCard(
         }
 
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Spacer(modifier = Modifier.height(0.dp))
-            RouteDurationInfo(duration = "${route.duration} мин")
+            RouteDurationInfo(duration = formatDuration(route.duration))
 
             // Расстояние
-            RouteDurationInfo(duration = "${route.length} м")
+            RouteDurationInfo(duration = formatDistance(route.length))
         }
     }
 }
@@ -61,8 +62,8 @@ fun RouteTitleDurationForDetailsCardPreview() {
         id = UUID.randomUUID(),
         routeName = "Измайловский Кремль",
         description = "Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы.",
-        duration = LocalTime.ofSecondOfDay(120 * 60),
-        length = 2500,
+        duration = 7200.toDouble(),
+        length = 2500.toDouble(),
         startPoint = "р-он. Измайлово",
         endPoint = "Измайловское шоссе, 73",
         routePreview = "https://via.placeholder.com/300",

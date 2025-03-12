@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -20,8 +21,6 @@ import ru.hse.coursework.godaily.ui.components.molecules.ApplyButton
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.superorganisms.RateRouteCard
 
-
-//TODO: исправить viewmodel
 @Composable
 fun RateRouteScreen(
     navController: NavController,
@@ -29,6 +28,8 @@ fun RateRouteScreen(
     mark: Int,
     viewModel: RouteDetailsViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
+
     val routeState = viewModel.route
     val markState = viewModel.userMark
     val reviewTextState = viewModel.reviewText
@@ -59,9 +60,9 @@ fun RateRouteScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         RateRouteCard(
-            title = routeState.value.routeName ?: "",
-            startPoint = routeState.value.startPoint ?: "",
-            endPoint = routeState.value.endPoint ?: "",
+            title = routeState.value.routeName ?: "Название",
+            startPoint = routeState.value.startPoint ?: "Стартовая точка",
+            endPoint = routeState.value.endPoint ?: "Конечная точка",
             imageUrl = routeState.value.routePreview ?: "",
             mark = markState,
             reviewText = reviewTextState
@@ -71,7 +72,7 @@ fun RateRouteScreen(
 
         ApplyButton(
             onClick = {
-                viewModel.saveReview()
+                viewModel.saveReview(context)
                 navController.popBackStack()
             },
             text = "Сохранить",

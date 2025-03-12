@@ -22,8 +22,6 @@ import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.VariableLight
 import ru.hse.coursework.godaily.ui.theme.greyDark
 
-
-//TODO: отзывы не склоняется, а должно
 @Composable
 fun RouteRatingForDetailsCard(
     rating: Double,
@@ -41,9 +39,7 @@ fun RouteRatingForDetailsCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(
-                    id = R.drawable.star_enabled
-                ),
+                painter = painterResource(id = R.drawable.star_enabled),
                 contentDescription = null,
                 modifier = Modifier.size(35.dp),
                 tint = Color.Unspecified
@@ -56,7 +52,11 @@ fun RouteRatingForDetailsCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable { onReviewsClick() }
         ) {
-            VariableLight(text = "$reviewsCount отзывов", fontSize = 15.sp, fontColor = greyDark)
+            VariableLight(
+                text = "$reviewsCount ${getReviewWord(reviewsCount)}",
+                fontSize = 15.sp,
+                fontColor = greyDark
+            )
             Spacer(modifier = Modifier.width(8.dp))
             Icon(
                 painter = painterResource(id = R.drawable.arrow_dropdown),
@@ -70,12 +70,24 @@ fun RouteRatingForDetailsCard(
     }
 }
 
+fun getReviewWord(count: Int): String {
+    val lastDigit = count % 10
+    val lastTwoDigits = count % 100
+
+    return when {
+        lastTwoDigits in 11..14 -> "отзывов"
+        lastDigit == 1 -> "отзыв"
+        lastDigit in 2..4 -> "отзыва"
+        else -> "отзывов"
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun RouteRatingForDetailsCardPreview() {
     RouteRatingForDetailsCard(
         rating = 4.75,
-        reviewsCount = 79,
+        reviewsCount = 22,
         onReviewsClick = {}
     )
 }

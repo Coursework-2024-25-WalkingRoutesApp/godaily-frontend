@@ -30,10 +30,8 @@ fun RouteDetailsScreen(
     val reviewsCount = viewModel.reviewsCount
     val isFavourite = viewModel.isFavourite
 
-    // Состояние для отображения карты
     val showMap = remember { mutableStateOf(false) }
 
-    // Загружаем данные маршрута
     LaunchedEffect(routeId) {
         viewModel.loadRouteDetails(routeId)
         viewModel.loadSessionPoints(routeId)
@@ -86,7 +84,5 @@ fun RouteDetailsScreen(
                 )
             }
         }
-
-
     }
 }

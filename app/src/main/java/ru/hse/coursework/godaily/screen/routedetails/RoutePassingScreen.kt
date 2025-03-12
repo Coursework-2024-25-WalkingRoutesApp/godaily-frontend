@@ -15,6 +15,7 @@ import com.yandex.mapkit.MapKitFactory
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.superorganisms.YandexMapNavigationView
 
+//TODO обработка случая, если маршрут был завершен и его можно пройти заново
 @Composable
 fun RoutePassingScreen(
     navController: NavController,
@@ -40,7 +41,8 @@ fun RoutePassingScreen(
         YandexMapNavigationView(
             routeTitle = viewModel.route.value.routeName ?: "Маршрут",
             routePoints = viewModel.routePoints,
-            passedPoints = viewModel.passedPoints
+            passedPoints = viewModel.passedPoints,
+            viewModel = viewModel
         )
         Back(
             onClick = { navController.popBackStack() },

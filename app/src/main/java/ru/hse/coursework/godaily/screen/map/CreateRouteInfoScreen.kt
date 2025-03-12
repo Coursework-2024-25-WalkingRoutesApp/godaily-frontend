@@ -46,7 +46,6 @@ import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyDark
 
-//TODO: реорганизовать класс
 @Composable
 fun CreateRouteInfoScreen(
     navController: NavController,

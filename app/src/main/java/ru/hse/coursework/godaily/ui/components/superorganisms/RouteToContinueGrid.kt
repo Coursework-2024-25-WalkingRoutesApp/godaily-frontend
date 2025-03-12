@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
-import java.time.LocalTime
 import java.util.UUID
 
 @Composable
@@ -50,7 +49,7 @@ fun RouteToContinueGrid(
 
             routes.forEach { route ->
                 RouteCardToContinue(
-                    distance = "${route.distanceToUser / 1000.0} км",
+                    distance = formatDistance(route.distanceToUser),
                     title = route.routeName ?: "Название",
                     imageResUrl = route.routePreview ?: "",
                     modifier = Modifier.padding(end = 8.dp)
@@ -68,19 +67,19 @@ fun PreviewRouteToContinueGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "City Tour",
-            LocalTime.ofSecondOfDay(120 * 60),
-            5000,
+            7200.toDouble(),
+            5000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(RouteDto.Category(UUID.randomUUID(), "Culture"))
         ),
         RouteCardDto(
             UUID.randomUUID(),
             "Mountain Hike",
-            LocalTime.ofSecondOfDay(120 * 60),
-            8000,
+            7200.toDouble(),
+            8000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Metro")
@@ -89,10 +88,10 @@ fun PreviewRouteToContinueGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "Beach Walk",
-            LocalTime.ofSecondOfDay(60 * 60),
-            3000,
+            3600.toDouble(),
+            5000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Nature")

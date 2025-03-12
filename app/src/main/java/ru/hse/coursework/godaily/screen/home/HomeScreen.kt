@@ -37,8 +37,7 @@ fun HomeScreen(
     val showSortSheet = viewModel.showSortSheet
     val chosenSortOptionText = viewModel.chosenSortOptionText
 
-    //TODO: координаты
-    viewModel.loadHomeScreenInfo("")
+    viewModel.loadHomeScreenInfo()
 
     Column(
         modifier = Modifier.fillMaxSize()

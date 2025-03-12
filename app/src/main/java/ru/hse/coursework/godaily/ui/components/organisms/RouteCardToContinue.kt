@@ -31,7 +31,6 @@ fun RouteCardToContinue(
     imageResUrl: String,
     modifier: Modifier = Modifier
 ) {
-    // TODO: сделать градиент динамически подстраиваемым под текст, ограничить длину текста на поля в логике
     Card(
         modifier = modifier
             .size(width = 194.dp, height = 120.dp),

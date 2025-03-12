@@ -33,7 +33,6 @@ import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.greyLight
 
-//TODO: оценки склонение
 @Composable
 fun RouteRatingWithChoice(
     rating: Double,
@@ -82,7 +81,7 @@ fun RouteRatingWithChoice(
                     }
 
                     VariableLight(
-                        text = "$reviewsCount оценок",
+                        text = "${reviewsCount} ${getReviewText(reviewsCount)}",
                         fontSize = 13.sp,
                         modifier = Modifier.padding(top = 4.dp)
                     )
@@ -133,6 +132,18 @@ fun RouteRatingWithChoice(
     }
 }
 
+fun getReviewText(count: Int): String {
+    val lastDigit = count % 10
+    val lastTwoDigits = count % 100
+
+    return when {
+        lastTwoDigits in 11..14 -> "оценок"
+        lastDigit == 1 -> "оценка"
+        lastDigit in 2..4 -> "оценки"
+        else -> "оценок"
+    }
+}
+
 @Preview
 @Composable
 fun RouteRatingWithChoicePreview() {
@@ -144,4 +155,3 @@ fun RouteRatingWithChoicePreview() {
         }
     )
 }
-

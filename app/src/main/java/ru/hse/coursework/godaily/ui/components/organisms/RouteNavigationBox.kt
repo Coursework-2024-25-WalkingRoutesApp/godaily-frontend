@@ -33,7 +33,7 @@ fun RouteNavigationBox(
     onNextPointClick: () -> Unit,
     onPauseClick: () -> Unit,
     onNextPointText: String = "К следующей точке",
-    distanceToNextPoint: String = "0м",
+    distanceToNextPoint: Double,
     nextPointTitle: String = "Следующая точка",
     nextPointSubtitle: String = ""
 ) {
@@ -71,7 +71,7 @@ fun RouteNavigationBox(
                             modifier = Modifier.align(Alignment.End)
                         )
                         VariableMedium(
-                            text = "$nextPointTitle: ${distanceToNextPoint.ifEmpty { "0м" }}",
+                            text = "$nextPointTitle: ${formatDistance(distanceToNextPoint)}",
                             fontSize = 21.sp
                         )
                         nextPointSubtitle.takeIf { it.isNotBlank() }?.let {
@@ -99,6 +99,16 @@ fun RouteNavigationBox(
     }
 }
 
+fun formatDistance(distance: Double?): String {
+    if (distance == null) {
+        return "0 м"
+    }
+    return when {
+        distance < 1000 -> "${distance.toInt()} м"
+        else -> String.format("%.1f км", distance / 1000)
+    }
+}
+
 
 @Preview
 @Composable
@@ -107,6 +117,7 @@ fun RouteNavigationBoxPreview() {
         onNextPointClick = {},
         onPauseClick = {},
         nextPointTitle = "Пончиковая Пончиковая",
-        nextPointSubtitle = "Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончикамиКафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками"
+        nextPointSubtitle = "Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончикамиКафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками",
+        distanceToNextPoint = 30.toDouble()
     )
 }

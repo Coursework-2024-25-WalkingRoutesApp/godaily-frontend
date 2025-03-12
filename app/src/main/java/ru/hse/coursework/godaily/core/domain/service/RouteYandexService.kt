@@ -15,7 +15,6 @@ import ru.hse.coursework.godaily.core.domain.location.LocationService
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
-//TODO: тут ли он должен лежать?
 class RouteYandexService @Inject constructor(
     private val locationService: LocationService
 ) {
@@ -58,6 +57,10 @@ class RouteYandexService @Inject constructor(
         return route.metadata.weight.time.value
     }
 
+    suspend fun getDistancePointToPoint(firstPoint: Point, secondPoint: Point): Double? {
+        return createRoute(listOf(firstPoint, secondPoint))?.let { getRouteLength(it) }
+    }
+
     // Продолжительность маршрута текстом
     fun getRouteDurationText(route: Route): String {
         return route.metadata.weight.time.text
@@ -74,7 +77,18 @@ class RouteYandexService @Inject constructor(
         } else {
             null
         }
+    }
 
+    suspend fun getRouteStartDistanceFromUserText(
+        startRoutePoint: Point
+    ): String? {
+        val curUserPoint = locationService.getCurrentLocation()
+
+        return if (curUserPoint != null) {
+            createRoute(listOf(curUserPoint, startRoutePoint))?.let { getRouteLengthText(it) }
+        } else {
+            null
+        }
     }
 
 }

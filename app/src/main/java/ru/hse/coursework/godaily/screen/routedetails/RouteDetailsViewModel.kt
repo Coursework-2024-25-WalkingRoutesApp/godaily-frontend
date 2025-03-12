@@ -1,10 +1,12 @@
 package ru.hse.coursework.godaily.screen.routedetails
 
+import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +21,9 @@ import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteSessionUseCa
 import ru.hse.coursework.godaily.core.domain.routedetails.RemoveRouteFromFavouritesUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.SaveReviewUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
+import ru.hse.coursework.godaily.core.domain.service.RouteYandexService
 import ru.hse.coursework.godaily.core.domain.service.UuidService
+import ru.hse.coursework.godaily.ui.notification.ToastManager
 import java.util.UUID
 import javax.inject.Inject
 
@@ -31,7 +35,8 @@ class RouteDetailsViewModel @Inject constructor(
     private val saveReviewUseCase: SaveReviewUseCase,
     private val fetchRouteReviewsUseCase: FetchRouteReviewsUseCase,
     private val fetchRouteSessionUseCase: FetchRouteSessionUseCase,
-    private val uuidService: UuidService
+    private val uuidService: UuidService,
+    private val routeYandexService: RouteYandexService
 ) : ViewModel() {
 
     val route: MutableState<RoutePageDto> = mutableStateOf(
@@ -56,9 +61,9 @@ class RouteDetailsViewModel @Inject constructor(
     val reviewText: MutableState<String> = mutableStateOf("")
     var curUserReview: MutableState<ReviewDto.ReviewInfoDto>? = null
 
-    //TODO: загрузка данных о точках маршрута добавить
     val routePoints = mutableStateListOf<TitledPoint>()
     val passedPoints = mutableStateListOf<TitledPoint>()
+    val distanceToNextPoint = mutableStateOf(0.toDouble())
 
     var isFinished = mutableStateOf(false)
 
@@ -135,19 +140,16 @@ class RouteDetailsViewModel @Inject constructor(
         }
     }
 
-    fun saveReview() {
+    fun saveReview(context: Context) {
         viewModelScope.launch {
+
             val response = saveReviewUseCase.execute(
                 route.value.id,
                 reviewText.value,
                 userMark.value
             )
 
-            if (response.isSuccessful) {
-                //TODO
-            } else {
-                //TODO
-            }
+            ToastManager(context).showToast(response.message())
         }
     }
 
@@ -166,5 +168,12 @@ class RouteDetailsViewModel @Inject constructor(
 
     fun updateIsFavourite() {
         isFavourite.value = !isFavourite.value
+    }
+
+    fun updateDistanceToNextPoint(firstPoint: Point, secondPoint: Point) {
+        viewModelScope.launch {
+            distanceToNextPoint.value =
+                routeYandexService.getDistancePointToPoint(firstPoint, secondPoint) ?: 0.toDouble()
+        }
     }
 }

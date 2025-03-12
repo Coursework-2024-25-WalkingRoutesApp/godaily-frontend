@@ -8,16 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
-import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.components.molecules.CreateButton
 import ru.hse.coursework.godaily.ui.components.organisms.Drafts
+import ru.hse.coursework.godaily.ui.components.organisms.NoRoutesBox
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteVerticalGrid
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
-import ru.hse.coursework.godaily.ui.theme.greyDark
 
 @Composable
 fun RoutesScreen(
@@ -43,18 +41,7 @@ fun RoutesScreen(
             )
 
             if (publishedRoutes.isEmpty() && drafts.isEmpty()) {
-                //TODO: в отдельную функцию
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    VariableMedium(
-                        text = "Пока нет таких маршрутов",
-                        fontSize = 16.sp,
-                        fontColor = greyDark
-                    )
-                }
+                NoRoutesBox()
             } else {
                 if (drafts.isNotEmpty()) {
                     Drafts(

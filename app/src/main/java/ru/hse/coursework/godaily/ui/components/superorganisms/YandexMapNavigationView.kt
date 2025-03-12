@@ -27,6 +27,7 @@ import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.RequestPoint
 import com.yandex.mapkit.RequestPointType
+import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.geometry.Polyline
 import com.yandex.mapkit.layers.ObjectEvent
 import com.yandex.mapkit.map.CameraPosition
@@ -45,6 +46,7 @@ import com.yandex.runtime.Error
 import com.yandex.runtime.image.ImageProvider
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
+import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsViewModel
 import ru.hse.coursework.godaily.ui.components.organisms.RouteNavigationBox
 import ru.hse.coursework.godaily.ui.components.organisms.RouteStartBox
 import ru.hse.coursework.godaily.ui.theme.greyDark
@@ -56,7 +58,8 @@ fun YandexMapNavigationView(
     modifier: Modifier = Modifier,
     routeTitle: String,
     routePoints: List<TitledPoint>,
-    passedPoints: SnapshotStateList<TitledPoint>
+    passedPoints: SnapshotStateList<TitledPoint>,
+    viewModel: RouteDetailsViewModel
 ) {
     val context = LocalContext.current
     val currentPointIndex = mutableStateOf(passedPoints.size)
@@ -66,6 +69,8 @@ fun YandexMapNavigationView(
     val passedIconStart = ImageProvider.fromResource(context, R.drawable.passed_start)
     val passedIconPoint = ImageProvider.fromResource(context, R.drawable.passed_point)
     val passedIconFinish = ImageProvider.fromResource(context, R.drawable.passed_finish)
+
+    val distanceToNewPoint = viewModel.distanceToNextPoint
 
     val mapView = remember { MapView(context) }
 
@@ -193,8 +198,14 @@ fun YandexMapNavigationView(
                 startPoint = routePoints.firstOrNull()?.title ?: "Начальная точка"
             )
         } else {
+            if (nextPoint != null) {
+                viewModel.updateDistanceToNextPoint(
+                    routePoints[currentPointIndex.value - 1].point,
+                    nextPoint.point
+                )
+            }
             RouteNavigationBox(
-                distanceToNextPoint = "" /*TODO*/,
+                distanceToNextPoint = distanceToNewPoint.value,
                 nextPointTitle = nextPoint?.title ?: "Финиш",
                 nextPointSubtitle = nextPoint?.description ?: "",
                 onNextPointText = if (nextPoint == null) "Завершить" else "Следующая точка",
@@ -206,10 +217,11 @@ fun YandexMapNavigationView(
                             val newPoint = routePoints[currentPointIndex.value]
                             val map = mapView.mapWindow.map
                             passedPoints.add(newPoint)
+
                             currentPointIndex.value++
 
                             map.move(
-                                CameraPosition(newPoint.point, 10.0f, 0.0f, 0.0f), // 1️⃣ Отдаляем
+                                CameraPosition(newPoint.point, 10.0f, 0.0f, 0.0f),
                                 Animation(Animation.Type.SMOOTH, 1.5f),
                                 null
                             )

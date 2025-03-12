@@ -17,7 +17,7 @@ import ru.hse.coursework.godaily.ui.theme.lime
 
 @Composable
 fun RouteLengthSmall(distance: String, text: String = "от вас") {
-    val baseWidth = 30.dp
+    val baseWidth = 35.dp
     val widthPerChar = 8.dp
     val calculatedWidth = baseWidth + (distance.length * widthPerChar.value).dp
 
@@ -39,5 +39,5 @@ fun RouteLengthSmall(distance: String, text: String = "от вас") {
 @Preview
 @Composable
 fun RouteLengthSmallPreview() {
-    RouteLengthSmall("0.3 км")
+    RouteLengthSmall("0 м")
 }

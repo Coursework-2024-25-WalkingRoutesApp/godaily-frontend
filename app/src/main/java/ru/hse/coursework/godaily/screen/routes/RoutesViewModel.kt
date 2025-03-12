@@ -1,5 +1,7 @@
 package ru.hse.coursework.godaily.screen.routes
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +17,8 @@ class RoutesViewModel @Inject constructor(
     private val fetchDraftsUseCase: FetchDraftsUseCase
 ) : ViewModel() {
 
-    val drafts: MutableList<RouteCardDto> = mutableListOf()
-    val publishedRoutes: MutableList<RouteCardDto> = mutableListOf()
+    val drafts: SnapshotStateList<RouteCardDto> = mutableStateListOf()
+    val publishedRoutes: SnapshotStateList<RouteCardDto> = mutableStateListOf()
 
     //TODO: подумать над оптимальными функциями
     fun updatePublishedRoutes(routes: List<RouteCardDto>) {

@@ -27,13 +27,22 @@ import ru.hse.coursework.godaily.ui.components.atoms.VariableLight
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.theme.greyLight
 
-//TODO: оценки склонение
 @Composable
 fun RouteRatingWithoutChoice(
     rating: Double,
     reviewsCount: Int,
     modifier: Modifier = Modifier
 ) {
+    fun getReviewText(count: Int): String {
+        val remainder10 = count % 10
+        val remainder100 = count % 100
+        return when {
+            remainder100 in 11..14 -> "$count оценок"
+            remainder10 == 1 -> "$count оценка"
+            remainder10 in 2..4 -> "$count оценки"
+            else -> "$count оценок"
+        }
+    }
 
     Box(
         modifier = modifier
@@ -74,7 +83,7 @@ fun RouteRatingWithoutChoice(
                     }
 
                     VariableLight(
-                        text = "$reviewsCount оценок",
+                        text = getReviewText(reviewsCount),
                         fontSize = 13.sp,
                         modifier = Modifier.padding(top = 4.dp)
                     )
@@ -92,4 +101,3 @@ fun RouteRatingWithoutChoicePreview() {
         reviewsCount = 6,
     )
 }
-

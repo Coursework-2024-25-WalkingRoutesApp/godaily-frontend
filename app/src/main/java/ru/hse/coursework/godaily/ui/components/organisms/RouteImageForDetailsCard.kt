@@ -19,7 +19,6 @@ import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.molecules.Map
-import java.time.LocalTime
 import java.util.UUID
 
 @Composable
@@ -60,8 +59,8 @@ fun RouteImageForDetailsCardPreview() {
         id = UUID.randomUUID(),
         routeName = "Измайловский Кремль",
         description = "Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы.",
-        duration = LocalTime.ofSecondOfDay(120 * 60),
-        length = 2500,
+        duration = 7200.toDouble(),
+        length = 2500.toDouble(),
         startPoint = "р-он. Измайлово",
         endPoint = "Измайловское шоссе, 73",
         routePreview = "https://via.placeholder.com/300",

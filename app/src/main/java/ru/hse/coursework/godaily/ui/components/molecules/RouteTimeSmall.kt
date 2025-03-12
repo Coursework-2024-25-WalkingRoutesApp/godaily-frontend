@@ -16,13 +16,13 @@ import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 
 @Composable
-fun RouteTimeSmall(routeTime: String) {
+fun RouteTimeSmall(routeTime: String, modifier: Modifier = Modifier) {
     val baseWidth = 0.dp
     val widthPerChar = 8.dp
     val calculatedWidth = baseWidth + (routeTime.length * widthPerChar.value).dp
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(calculatedWidth)
             .height(20.dp)
             .clip(

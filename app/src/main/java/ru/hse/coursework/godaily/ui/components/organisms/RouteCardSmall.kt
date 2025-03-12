@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -39,7 +40,6 @@ fun RouteCardSmall(
     modifier: Modifier = Modifier,
     onCardClick: () -> Unit
 ) {
-    // TODO: сделать градиент динамически подстраиваемым под текст, ограничить длину текста на поля в логике
     Card(
         modifier = modifier
             .size(width = 165.dp, height = 220.dp),
@@ -56,10 +56,11 @@ fun RouteCardSmall(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            Box(
+
+            Column(
                 modifier = Modifier
+                    .align(Alignment.BottomStart)
                     .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
@@ -69,8 +70,13 @@ fun RouteCardSmall(
                             )
                         )
                     )
-                    .height(80.dp)
-            )
+                    .padding(bottom = 10.dp, end = 10.dp, start = 0.dp)
+                    .wrapContentHeight()
+            ) {
+                RouteTimeSmall(routeTime = time)
+                Spacer(modifier = Modifier.height(4.dp))
+                RouteNameSmall(text = title, modifier = Modifier.padding(start = 10.dp))
+            }
 
             Column(
                 modifier = Modifier
@@ -78,19 +84,6 @@ fun RouteCardSmall(
                     .padding(10.dp)
             ) {
                 RouteLengthSmall(distance = distance)
-            }
-
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(start = 0.dp, bottom = 10.dp, end = 10.dp)
-            ) {
-                RouteTimeSmall(routeTime = time)
-                Spacer(modifier = Modifier.height(4.dp))
-                RouteNameSmall(
-                    text = title,
-                    modifier = Modifier.padding(start = 10.dp)
-                )
             }
 
             Box(
@@ -103,6 +96,7 @@ fun RouteCardSmall(
         }
     }
 }
+
 
 @Composable
 fun CategoryIconsGrid(

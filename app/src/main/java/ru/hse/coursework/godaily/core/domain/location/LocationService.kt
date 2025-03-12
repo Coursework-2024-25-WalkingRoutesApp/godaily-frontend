@@ -6,6 +6,7 @@ import android.location.Location
 import com.google.android.gms.location.*
 import com.yandex.mapkit.geometry.Point
 import kotlinx.coroutines.suspendCancellableCoroutine
+import ru.hse.coursework.godaily.core.data.model.UserCoordinateDto
 import kotlin.coroutines.resume
 
 class LocationService(context: Context) {
@@ -20,5 +21,17 @@ class LocationService(context: Context) {
         }.addOnFailureListener {
             cont.resume(null)
         }
+    }
+
+    suspend fun getUserCoordinate(): UserCoordinateDto {
+        val currentLocation = getCurrentLocation()
+            ?: return UserCoordinateDto(
+                null,
+                null
+            )
+        return UserCoordinateDto(
+            currentLocation.latitude,
+            currentLocation.longitude
+        )
     }
 }

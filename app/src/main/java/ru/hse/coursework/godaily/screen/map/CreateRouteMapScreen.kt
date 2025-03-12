@@ -62,7 +62,7 @@ fun CreateRouteMapScreen(
 
         }
 
-        Box() {
+        Box {
             CreateRouteView(
                 showAddPointTitleDialog = viewModel.showAddPointTitleDialog,
                 //TODO: заменить точки

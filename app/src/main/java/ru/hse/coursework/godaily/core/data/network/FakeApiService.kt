@@ -8,9 +8,9 @@ import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.core.data.model.RouteSessionDto
+import ru.hse.coursework.godaily.core.data.model.UserCoordinateDto
 import ru.hse.coursework.godaily.core.data.model.UserDto
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.util.UUID
 
 class FakeApiService : ApiService {
@@ -57,8 +57,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "City Tour",
-            LocalTime.ofSecondOfDay(120 * 60),
-            5000,
+            7200.toDouble(),
+            5000.toDouble(),
             "City Center URL",
             3.5,
             listOf(RouteDto.Category(UUID.randomUUID(), "Culture"))
@@ -66,8 +66,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "Mountain Hike",
-            LocalTime.ofSecondOfDay(120 * 60),
-            8000,
+            7200.toDouble(),
+            8000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -78,8 +78,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "Beach Walk",
-            LocalTime.ofSecondOfDay(60 * 60),
-            3000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -90,8 +90,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "City Tour",
-            LocalTime.ofSecondOfDay(120 * 60),
-            5000,
+            7200.toDouble(),
+            5000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -102,8 +102,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "Mountain Hike",
-            LocalTime.ofSecondOfDay(240 * 60),
-            8000,
+            14400.toDouble(),
+            8000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -114,8 +114,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "Beach Walk",
-            LocalTime.ofSecondOfDay(60 * 60),
-            3000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -126,8 +126,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "City Tour",
-            LocalTime.ofSecondOfDay(120 * 60),
-            5000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -138,8 +138,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "Mountain Hike",
-            LocalTime.ofSecondOfDay(240 * 60),
-            8000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -150,8 +150,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "Beach Walk",
-            LocalTime.ofSecondOfDay(60 * 60),
-            3000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -162,8 +162,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "City Tour",
-            LocalTime.ofSecondOfDay(120 * 60),
-            5000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -174,8 +174,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "Mountain Hike",
-            LocalTime.ofSecondOfDay(240 * 60),
-            8000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -186,8 +186,8 @@ class FakeApiService : ApiService {
         RouteCardDto(
             UUID.randomUUID(),
             "Beach Walk",
-            LocalTime.ofSecondOfDay(60 * 60),
-            3000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
             3.5,
             listOf(
@@ -222,23 +222,38 @@ class FakeApiService : ApiService {
         return Response.success("Данные успешно сохранены")
     }
 
-    override suspend fun getUserDrafts(jwt: String): List<RouteCardDto> {
+    override suspend fun getUserDrafts(
+        jwt: String,
+        userLocation: UserCoordinateDto
+    ): List<RouteCardDto> {
         return fakeRoutes
     }
 
-    override suspend fun getUserPublishedRoutes(jwt: String): List<RouteCardDto> {
+    override suspend fun getUserPublishedRoutes(
+        jwt: String,
+        userLocation: UserCoordinateDto
+    ): List<RouteCardDto> {
         return fakeRoutes
     }
 
-    override suspend fun getUserCompletedRoutes(jwt: String): List<RouteCardDto> {
+    override suspend fun getUserCompletedRoutes(
+        jwt: String,
+        userLocation: UserCoordinateDto
+    ): List<RouteCardDto> {
         return fakeRoutes
     }
 
-    override suspend fun getUserFavouriteRoutes(jwt: String): List<RouteCardDto> {
+    override suspend fun getUserFavouriteRoutes(
+        jwt: String,
+        userLocation: UserCoordinateDto
+    ): List<RouteCardDto> {
         return fakeRoutes.take(2)
     }
 
-    override suspend fun getUserUnfinishedRoutes(jwt: String): List<RouteCardDto> {
+    override suspend fun getUserUnfinishedRoutes(
+        jwt: String,
+        userLocation: UserCoordinateDto
+    ): List<RouteCardDto> {
         return fakeRoutes.take(3)
     }
 
@@ -259,8 +274,8 @@ class FakeApiService : ApiService {
             id = UUID.randomUUID(),
             routeName = "Измайловский Кремль",
             description = "Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы.",
-            duration = LocalTime.ofSecondOfDay(120 * 60),
-            length = 2500,
+            duration = 7200.toDouble(),
+            length = 2500.toDouble(),
             startPoint = "р-он. Измайлово",
             endPoint = "Измайловское шоссе, 73",
             routePreview = "https://via.placeholder.com/300",
@@ -338,28 +353,9 @@ class FakeApiService : ApiService {
         return Response.success("Данные успешно сохранены")
     }
 
-    override suspend fun getRoutesSortedByDistance(
-        jwt: String,
-        userCoordinate: String
-    ): List<RouteCardDto> {
-        return fakeRoutes
-    }
-
-    override suspend fun getRoutesSortedByLengthDesc(jwt: String): List<RouteCardDto> {
-        return fakeRoutes
-    }
-
-    override suspend fun getRoutesSortedByLengthAsc(jwt: String): List<RouteCardDto> {
-        return fakeRoutes
-    }
-
-    override suspend fun getRoutesSortedByRating(jwt: String): List<RouteCardDto> {
-        return fakeRoutes
-    }
-
     override suspend fun filterRoutesByCategoryAndDistance(
         jwt: String,
-        userCoordinate: String,
+        userCoordinate: UserCoordinateDto,
         categories: Set<Int>
     ): List<RouteCardDto> {
         return fakeRoutes
@@ -367,7 +363,7 @@ class FakeApiService : ApiService {
 
     override suspend fun getRoutesBySearchValue(
         jwt: String,
-        userCoordinate: String,
+        userCoordinate: UserCoordinateDto,
         searchValue: String
     ): List<RouteCardDto> {
         return fakeRoutes

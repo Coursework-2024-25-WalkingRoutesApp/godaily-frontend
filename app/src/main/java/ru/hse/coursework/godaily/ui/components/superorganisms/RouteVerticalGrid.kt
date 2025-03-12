@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.RouteDto
-import java.time.LocalTime
 import java.util.UUID
 
 @Composable
@@ -42,18 +41,17 @@ fun RouteVerticalGrid(
             ) {
                 routePair.forEach { route ->
                     RouteCardSmall(
-                        distance = "${route.distanceToUser / 1000.0} км",
+                        distance = formatDistance(route.distanceToUser),
                         time = formatDuration(route.duration),
                         title = route.routeName ?: "Название",
                         imageResUrl = route.routePreview ?: "",
-                        categories = route.categories?.map { category ->
+                        categories = route.categories?.mapNotNull { category ->
                             when (category.categoryName) {
                                 "Culture" -> R.drawable.culture
                                 "Coffee" -> R.drawable.coffee
                                 "Metro" -> R.drawable.metro
                                 "Nature" -> R.drawable.nature
-                                //TODO: добавить unexpected icon
-                                else -> R.drawable.point
+                                else -> null
                             }
                         } ?: emptyList(),
                         onCardClick = { onRouteClick(route) },
@@ -71,13 +69,27 @@ fun RouteVerticalGrid(
     }
 }
 
-
-//TODO: Убрать функцию, сделать нормальную работу с маршрутами
-fun formatDuration(duration: LocalTime?): String {
+fun formatDuration(duration: Double?): String {
     if (duration == null) {
         return "0 минут"
     }
-    return "$duration минут"
+    val minutes = (duration / 60).toInt()
+    return when {
+        minutes == 0 -> "менее минуты"
+        minutes % 10 == 1 && minutes % 100 != 11 -> "$minutes минута"
+        minutes % 10 in 2..4 && (minutes % 100 !in 12..14) -> "$minutes минуты"
+        else -> "$minutes минут"
+    }
+}
+
+fun formatDistance(distance: Double?): String {
+    if (distance == null) {
+        return "0 м"
+    }
+    return when {
+        distance < 1000 -> "${distance.toInt()} м"
+        else -> String.format("%.1f км", distance / 1000)
+    }
 }
 
 
@@ -88,19 +100,19 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "City Tour",
-            LocalTime.ofSecondOfDay(120 * 60),
-            5000,
+            7200.toDouble(),
+            5000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(RouteDto.Category(UUID.randomUUID(), "Culture"))
         ),
         RouteCardDto(
             UUID.randomUUID(),
             "Mountain Hike",
-            LocalTime.ofSecondOfDay(120 * 60),
-            8000,
+            7200.toDouble(),
+            8000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Metro")
@@ -109,10 +121,10 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "Beach Walk",
-            LocalTime.ofSecondOfDay(60 * 60),
-            3000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
-            3.5,
+            100.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Nature")
@@ -121,10 +133,10 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "City Tour",
-            LocalTime.ofSecondOfDay(120 * 60),
-            5000,
+            7200.toDouble(),
+            5000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Nature")
@@ -133,10 +145,10 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "Mountain Hike",
-            LocalTime.ofSecondOfDay(240 * 60),
-            8000,
+            14400.toDouble(),
+            8000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Metro"),
                 RouteDto.Category(UUID.randomUUID(), "Coffee")
@@ -145,10 +157,10 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "Beach Walk",
-            LocalTime.ofSecondOfDay(60 * 60),
-            3000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Culture"),
                 RouteDto.Category(UUID.randomUUID(), "Metro")
@@ -157,10 +169,10 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "City Tour",
-            LocalTime.ofSecondOfDay(120 * 60),
-            5000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Nature")
@@ -169,10 +181,10 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "Mountain Hike",
-            LocalTime.ofSecondOfDay(240 * 60),
-            8000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Nature")
@@ -181,10 +193,10 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "Beach Walk",
-            LocalTime.ofSecondOfDay(60 * 60),
-            3000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Nature")
@@ -193,10 +205,10 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "City Tour",
-            LocalTime.ofSecondOfDay(120 * 60),
-            5000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Nature")
@@ -205,10 +217,10 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "Mountain Hike",
-            LocalTime.ofSecondOfDay(240 * 60),
-            8000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Nature")
@@ -217,10 +229,10 @@ fun PreviewRouteVerticalGrid() {
         RouteCardDto(
             UUID.randomUUID(),
             "Beach Walk",
-            LocalTime.ofSecondOfDay(60 * 60),
-            3000,
+            3600.toDouble(),
+            3000.toDouble(),
             "City Center URL",
-            3.5,
+            3545.toDouble(),
             listOf(
                 RouteDto.Category(UUID.randomUUID(), "Coffee"),
                 RouteDto.Category(UUID.randomUUID(), "Nature")
