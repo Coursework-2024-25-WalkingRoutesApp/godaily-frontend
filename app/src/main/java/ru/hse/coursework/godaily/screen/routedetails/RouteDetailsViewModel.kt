@@ -69,9 +69,7 @@ class RouteDetailsViewModel @Inject constructor(
 
     val showPauseDialog: MutableState<Boolean> = mutableStateOf(false)
     val isBackPressed: MutableState<Boolean> = mutableStateOf(false)
-    val isHomePressed: MutableState<Boolean> = mutableStateOf(false)
-    val isRoutesPressed: MutableState<Boolean> = mutableStateOf(false)
-    val isProfilePressed: MutableState<Boolean> = mutableStateOf(false)
+    val showFinishRouteDialog: MutableState<Boolean> = mutableStateOf(false)
 
     private val _reviews = MutableStateFlow<List<ReviewDto.ReviewInfoDto>>(emptyList())
     val reviews: StateFlow<List<ReviewDto.ReviewInfoDto>> = _reviews.asStateFlow()

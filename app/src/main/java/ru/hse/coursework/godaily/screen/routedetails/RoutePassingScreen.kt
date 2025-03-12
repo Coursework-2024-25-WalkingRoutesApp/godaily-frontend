@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import com.yandex.mapkit.MapKitFactory
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.organisms.PauseDialog
+import ru.hse.coursework.godaily.ui.components.organisms.RouteFinishDialog
 import ru.hse.coursework.godaily.ui.components.superorganisms.YandexMapNavigationView
 import ru.hse.coursework.godaily.ui.navigation.BottomNavigationItem
 import ru.hse.coursework.godaily.ui.notification.ToastManager
@@ -32,7 +33,11 @@ fun RoutePassingScreen(
     val context = LocalContext.current
 
     val showPauseDialog = viewModel.showPauseDialog
+    val showFinishRouteDialog = viewModel.showFinishRouteDialog
     val isBackPressed = viewModel.isBackPressed
+
+    val markState = viewModel.userMark
+    val reviewTextState = viewModel.reviewText
 
     DisposableEffect(Unit) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
@@ -68,6 +73,9 @@ fun RoutePassingScreen(
             viewModel = viewModel,
             onPauseClick = {
                 showPauseDialog.value = true
+            },
+            onFinishClick = {
+                showFinishRouteDialog.value = true
             }
         )
         Back(
@@ -103,6 +111,20 @@ fun RoutePassingScreen(
                 }
             }
         )
+    }
+
+    if (showFinishRouteDialog.value) {
+        RouteFinishDialog(
+            showDialog = showFinishRouteDialog,
+            mark = markState,
+            feedbackText = reviewTextState,
+            onSaveClick = {
+                /*TODO*/
+                showFinishRouteDialog.value = false
+            },
+            onNotSaveClick = { /*TODO*/
+                showFinishRouteDialog.value = false
+            })
     }
 
 }

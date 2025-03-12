@@ -15,7 +15,11 @@ import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyLight
 
 @Composable
-fun ToDraftsButton(onClick: () -> Unit, text: String = "В черновики") {
+fun ToDraftsButton(
+    onClick: () -> Unit,
+    text: String = "В черновики",
+    modifier: Modifier = Modifier
+) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(13.dp),
@@ -29,7 +33,7 @@ fun ToDraftsButton(onClick: () -> Unit, text: String = "В черновики") 
             end = 16.dp,
             bottom = 10.dp
         ),
-        modifier = Modifier
+        modifier = modifier
             .width(169.dp)
             .height(39.dp)
     ) {

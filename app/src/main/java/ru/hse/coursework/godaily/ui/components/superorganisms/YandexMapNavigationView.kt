@@ -60,6 +60,7 @@ fun YandexMapNavigationView(
     passedPoints: SnapshotStateList<TitledPoint>,
     viewModel: RouteDetailsViewModel,
     onPauseClick: () -> Unit,
+    onFinishClick: () -> Unit
 ) {
     val context = LocalContext.current
     val currentPointIndex = mutableStateOf(passedPoints.size)
@@ -115,8 +116,6 @@ fun YandexMapNavigationView(
         AndroidView(
             factory = {
                 mapView.apply {
-                    val map = mapWindow.map
-
                     val userLocationLayer =
                         MapKitFactory.getInstance().createUserLocationLayer(mapWindow).apply {
                             isVisible = ContextCompat.checkSelfPermission(
@@ -233,7 +232,7 @@ fun YandexMapNavigationView(
                             )
                         }
                     } else {
-                        /*TODO*/
+                        onFinishClick()
                     }
                 },
                 onPauseClick = onPauseClick
