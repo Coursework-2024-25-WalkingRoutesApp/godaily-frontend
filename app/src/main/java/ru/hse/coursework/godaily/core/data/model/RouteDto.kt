@@ -13,7 +13,7 @@ data class RouteDto(
     var routePreview: String?,
     var isDraft: Boolean?,
     var routeCoordinate: List<RouteCoordinate>?,
-    var categories: List<Category>?
+    var categories: List<String>?
 ) {
 
     data class RouteCoordinate(

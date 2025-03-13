@@ -85,7 +85,7 @@ class CreateRouteViewModel @Inject constructor(
     }
 
     fun saveRouteToDrafts() {
-        //TODO
+        saveRoute()
     }
 
     fun publishRoute(context: Context) {
@@ -101,21 +101,22 @@ class CreateRouteViewModel @Inject constructor(
             ToastManager(context).showToast("Не выбрано фото маршрута")
             return
         }
-        ToastManager(context).showToast("ГГУУУУДДДД")
+        saveRoute()
+    }
+
+    private fun saveRoute() {
         viewModelScope.launch {
-            /*
             saveRouteUseCase.execute(
                 id = routeIdState.value,
                 routeName = routeTitle.value,
                 description = routeDescription.value,
                 startPoint = startPoint.value,
-                endPoint = endPoint.value
-                routePreview: String,
+                endPoint = endPoint.value,
+                imageUri = selectedImageUri.value,
                 isDraft = false,
-                points: List<Point>,
-                routeCoordinate: List<RouteDto.RouteCoordinate>,
-                categories: List<RouteDto.Category>
-            )*/
+                routePoints = routePoints,
+                categories = chosenCategories.value
+            )
         }
     }
 }
