@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import ru.hse.coursework.godaily.screen.map.CreateRouteViewModel
 import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
 import ru.hse.coursework.godaily.ui.components.molecules.CreateButton
 import ru.hse.coursework.godaily.ui.components.organisms.Drafts
@@ -20,6 +21,7 @@ import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 @Composable
 fun RoutesScreen(
     navController: NavController,
+    createViewModel: CreateRouteViewModel,
     viewModel: RoutesViewModel = hiltViewModel()
 ) {
     val publishedRoutes = viewModel.publishedRoutes
@@ -60,6 +62,7 @@ fun RoutesScreen(
         CreateButton(
             onClick = {
                 val randomUUID = viewModel.getUuid()
+                createViewModel.clear()
                 navController.navigate(NavigationItem.RouteCreationOnMap.route + "/${randomUUID}")
             },
             modifier = Modifier

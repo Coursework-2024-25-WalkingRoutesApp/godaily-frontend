@@ -75,7 +75,7 @@ fun CreateRouteMapScreen(
             )
 
             ApplyButton(
-                onClick = { navController.navigate(NavigationItem.RouteCreationInfo.route + "/${routeId}") },
+                onClick = { navController.navigate(NavigationItem.RouteCreationInfo.route) },
                 text = "Готово!",
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -83,7 +83,5 @@ fun CreateRouteMapScreen(
                     .padding(start = 30.dp, end = 30.dp, top = 16.dp, bottom = 25.dp)
             )
         }
-
-
     }
 }

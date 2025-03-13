@@ -1,5 +1,6 @@
 package ru.hse.coursework.godaily.screen.map
 
+import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
@@ -12,6 +13,7 @@ import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCa
 import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
 import ru.hse.coursework.godaily.core.domain.routes.SaveRouteUseCase
 import ru.hse.coursework.godaily.core.domain.service.UuidService
+import ru.hse.coursework.godaily.ui.notification.ToastManager
 import java.util.UUID
 import javax.inject.Inject
 
@@ -34,7 +36,26 @@ class CreateRouteViewModel @Inject constructor(
     val showNewPublishDialog: MutableState<Boolean> = mutableStateOf(false)
     val showAddPointTitleDialog: MutableState<Boolean> = mutableStateOf(false)
 
+    val isDataLoaded = mutableStateOf(false)
+
+    fun clear() {
+        routeIdState.value = UUID.randomUUID()
+        routeTitle.value = ""
+        routeDescription.value = ""
+        startPoint.value = ""
+        endPoint.value = ""
+        routePoints.clear()
+        chosenCategories.value = setOf()
+        selectedImageUri.value = null
+        showPublishWarningDialog.value = false
+        showNewPublishDialog.value = false
+        showAddPointTitleDialog.value = false
+        isDataLoaded.value = false
+    }
+
     suspend fun loadRouteData(routeId: String?) {
+        if (isDataLoaded.value) return
+
         val routeIdUUID = routeId?.let { uuidService.getUUIDFromString(routeId) }
         if (routeIdUUID != null) {
             viewModelScope.launch {
@@ -48,13 +69,14 @@ class CreateRouteViewModel @Inject constructor(
 
                 routePoints.clear()
                 routePoints.addAll(route.routePoints)
-                //TODO: апдейт Points
+
                 //TODO: работа с категориями
                 //TODO: работа с картинкой
             }
         } else {
             //TODO логика не смогли загрузить или нет маршрута
         }
+        isDataLoaded.value = true
     }
 
 
@@ -66,8 +88,20 @@ class CreateRouteViewModel @Inject constructor(
         //TODO
     }
 
-    fun publishRoute() {
-        //TODO проверки на то что все не null
+    fun publishRoute(context: Context) {
+        if (routePoints.size < 2) {
+            ToastManager(context).showToast("Слишком мало точек на маршруте (<2)")
+            return
+        } else if (routeTitle.value.isEmpty() || startPoint.value.isEmpty() ||
+            endPoint.value.isEmpty()
+        ) {
+            ToastManager(context).showToast("Не все необходимые поля заполнены")
+            return
+        } else if (selectedImageUri.value == null) {
+            ToastManager(context).showToast("Не выбрано фото маршрута")
+            return
+        }
+        ToastManager(context).showToast("ГГУУУУДДДД")
         viewModelScope.launch {
             /*
             saveRouteUseCase.execute(

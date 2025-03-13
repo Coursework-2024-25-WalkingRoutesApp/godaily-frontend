@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import ru.hse.coursework.godaily.screen.map.CreateRouteViewModel
 import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.organisms.NoRoutesBox
@@ -19,6 +20,7 @@ import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 @Composable
 fun DraftsScreen(
     navController: NavController,
+    createViewModel: CreateRouteViewModel,
     viewModel: RoutesViewModel = hiltViewModel(),
 ) {
     Column(
@@ -45,6 +47,7 @@ fun DraftsScreen(
             RouteVerticalGrid(
                 routes = viewModel.drafts,
                 onRouteClick = { route ->
+                    createViewModel.clear()
                     navController.navigate(NavigationItem.RouteCreationOnMap.route + "/${route.id}")
                 }
             )

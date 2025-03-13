@@ -19,7 +19,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -51,7 +50,6 @@ import ru.hse.coursework.godaily.ui.theme.greyDark
 fun CreateRouteInfoScreen(
     navController: NavController,
     bottomNavController: NavHostController,
-    routeId: String,
     viewModel: CreateRouteViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -59,10 +57,6 @@ fun CreateRouteInfoScreen(
 
     val showPublishWarningDialog = viewModel.showPublishWarningDialog
     val showNewPublishDialog = viewModel.showNewPublishDialog
-
-    LaunchedEffect(routeId) {
-        viewModel.loadRouteData(routeId)
-    }
 
     val cropLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
@@ -174,7 +168,7 @@ fun CreateRouteInfoScreen(
         PublishWarningDialog(
             showDialog = showPublishWarningDialog,
             onPublishClick = {
-                viewModel.publishRoute()
+                viewModel.publishRoute(context)
                 //TODO: Увед после публикации условие прописать
                 showNewPublishDialog.value = true
             }

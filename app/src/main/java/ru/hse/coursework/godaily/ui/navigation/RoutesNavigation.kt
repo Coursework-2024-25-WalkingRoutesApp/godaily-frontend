@@ -1,6 +1,7 @@
 package ru.hse.coursework.godaily.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -9,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ru.hse.coursework.godaily.screen.map.CreateRouteInfoScreen
 import ru.hse.coursework.godaily.screen.map.CreateRouteMapScreen
+import ru.hse.coursework.godaily.screen.map.CreateRouteViewModel
 import ru.hse.coursework.godaily.screen.routedetails.RateRouteScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsScreen
 import ru.hse.coursework.godaily.screen.routedetails.RoutePassingScreen
@@ -19,15 +21,18 @@ import ru.hse.coursework.godaily.screen.routes.RoutesScreen
 @Composable
 fun RoutesNavigation(bottomNavHostController: NavHostController) {
     val routesNavController = rememberNavController()
+
+    val createViewModel: CreateRouteViewModel = hiltViewModel()
+
     NavHost(
         navController = routesNavController,
         startDestination = NavigationItem.RoutesMain.route
     ) {
         composable(NavigationItem.RoutesMain.route) {
-            RoutesScreen(routesNavController)
+            RoutesScreen(routesNavController, createViewModel)
         }
         composable(NavigationItem.Drafts.route) {
-            DraftsScreen(routesNavController)
+            DraftsScreen(routesNavController, createViewModel)
         }
         composable(NavigationItem.RouteDetails.route + "/{routeId}") { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")
@@ -69,20 +74,21 @@ fun RoutesNavigation(bottomNavHostController: NavHostController) {
 //            CreateRouteMapScreen(routesNavController)
 //        }
 //
-//        composable(NavigationItem.RouteCreationInfo.route) {
-//            CreateRouteInfoScreen(routesNavController, bottomNavHostController)
-//        }
+        composable(NavigationItem.RouteCreationInfo.route) { backStackEntry ->
+            CreateRouteInfoScreen(routesNavController, bottomNavHostController, createViewModel)
+        }
         composable(NavigationItem.RouteCreationOnMap.route + "/{routeId}") { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")
             if (routeId != null) {
-                CreateRouteMapScreen(routesNavController, routeId)
+                CreateRouteMapScreen(routesNavController, routeId, createViewModel)
             }
         }
-        composable(NavigationItem.RouteCreationInfo.route + "/{routeId}") { backStackEntry ->
-            val routeId = backStackEntry.arguments?.getString("routeId")
-            if (routeId != null) {
-                CreateRouteInfoScreen(routesNavController, bottomNavHostController, routeId)
-            }
-        }
+
+//        composable(NavigationItem.RouteCreationInfo.route + "/{routeId}") { backStackEntry ->
+//            val routeId = backStackEntry.arguments?.getString("routeId")
+//            if (routeId != null) {
+//                CreateRouteInfoScreen(routesNavController, bottomNavHostController)
+//            }
+//        }
     }
 }

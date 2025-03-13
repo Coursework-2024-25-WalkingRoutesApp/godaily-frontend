@@ -86,6 +86,7 @@ fun RoutePassingScreen(
             },
             onFinishClick = {
                 showFinishRouteDialog.value = true
+                //TODO Сохранить в пройденных сессию
             }
         )
         Back(
@@ -107,6 +108,7 @@ fun RoutePassingScreen(
         PauseDialog(
             showDialog = showPauseDialog,
             onHomeClick = {
+                //TODO сохранить прогресс
                 when {
                     isBackPressed.value -> {
                         isBackPressed.value = false
