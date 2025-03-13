@@ -1,5 +1,6 @@
 package ru.hse.coursework.godaily.core.domain.routedetails
 
+import com.yandex.mapkit.geometry.Point
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.core.data.network.ApiService
 import java.util.UUID
@@ -18,10 +19,25 @@ class FetchRouteDetailsUseCase @Inject constructor(
             0.toDouble()
         }
 
+        val routeCoordinates = routePageDTO.routeCoordinate?.mapNotNull { coordinate ->
+            coordinate.latitude?.let { lat ->
+                coordinate.longitude?.let { lon ->
+                    TitledPoint(
+                        Point(lat, lon),
+                        coordinate.title ?: "",
+                        coordinate.description ?: ""
+                    )
+                }
+            }
+        } ?: emptyList()
+
+
+
         return RouteDetails(
             route = routePageDTO,
             mark = averageMark,
-            reviewsCount = reviews.size
+            reviewsCount = reviews.size,
+            routePoints = routeCoordinates,
         )
 
     }
@@ -30,5 +46,6 @@ class FetchRouteDetailsUseCase @Inject constructor(
 data class RouteDetails(
     val route: RoutePageDto,
     val mark: Double,
-    val reviewsCount: Int
+    val reviewsCount: Int,
+    val routePoints: List<TitledPoint>
 )

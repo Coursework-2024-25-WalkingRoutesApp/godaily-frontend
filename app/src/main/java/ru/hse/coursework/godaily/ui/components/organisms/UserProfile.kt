@@ -69,7 +69,7 @@ fun UserProfile(
 
                 VariableLight(
                     text = "Редактировать профиль",
-                    fontSize = 12.sp,
+                    fontSize = 14.sp,
                     modifier = Modifier.clickable { onEditProfileClick() })
             }
         }

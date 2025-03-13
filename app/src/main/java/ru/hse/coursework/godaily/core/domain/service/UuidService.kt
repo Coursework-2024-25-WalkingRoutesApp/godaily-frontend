@@ -14,4 +14,8 @@ class UuidService {
             null
         }
     }
+
+    fun getRandomUUID(): UUID {
+        return UUID.randomUUID()
+    }
 }

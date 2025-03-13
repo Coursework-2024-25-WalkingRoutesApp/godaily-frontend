@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 //TODO: не сохраняется стейт карты и точек
 fun CreateRouteMapScreen(
     navController: NavController,
+    routeId: String,
     viewModel: CreateRouteViewModel = hiltViewModel()
 ) {
     DisposableEffect(Unit) {
@@ -37,7 +39,9 @@ fun CreateRouteMapScreen(
         }
     }
 
-    //TODO: загрузка уже проставленных точек
+    LaunchedEffect(routeId) {
+        viewModel.loadRouteData(routeId)
+    }
 
     Column(
         modifier = Modifier
@@ -65,14 +69,13 @@ fun CreateRouteMapScreen(
         Box {
             CreateRouteView(
                 showAddPointTitleDialog = viewModel.showAddPointTitleDialog,
-                //TODO: заменить точки
                 routePoints = viewModel.routePoints,
                 modifier = Modifier
                     .padding(start = 0.dp, end = 0.dp, top = 16.dp)
             )
 
             ApplyButton(
-                onClick = { navController.navigate(NavigationItem.RouteCreationInfo.route) },
+                onClick = { navController.navigate(NavigationItem.RouteCreationInfo.route + "/${routeId}") },
                 text = "Готово!",
                 modifier = Modifier
                     .align(Alignment.BottomCenter)

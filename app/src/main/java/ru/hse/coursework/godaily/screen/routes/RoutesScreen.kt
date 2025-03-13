@@ -25,8 +25,6 @@ fun RoutesScreen(
     val publishedRoutes = viewModel.publishedRoutes
     val drafts = viewModel.drafts
 
-    viewModel.loadRoutesScreenInfo()
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -46,7 +44,8 @@ fun RoutesScreen(
                 if (drafts.isNotEmpty()) {
                     Drafts(
                         routeCount = drafts.size,
-                        modifier = Modifier.padding(start = 16.dp, bottom = 30.dp)
+                        modifier = Modifier.padding(start = 16.dp, bottom = 30.dp),
+                        onClick = { navController.navigate(NavigationItem.Drafts.route) }
                     )
                 }
                 RouteVerticalGrid(
@@ -59,7 +58,10 @@ fun RoutesScreen(
         }
 
         CreateButton(
-            onClick = { navController.navigate(NavigationItem.RouteCreationOnMap.route) },
+            onClick = {
+                val randomUUID = viewModel.getUuid()
+                navController.navigate(NavigationItem.RouteCreationOnMap.route + "/${randomUUID}")
+            },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(start = 16.dp, end = 16.dp, bottom = 10.dp)

@@ -21,6 +21,8 @@ sealed class NavigationItem(val route: String, val title: String) {
     // Routes
     data object RoutesMain : NavigationItem("routes_main", "Мои маршруты")
 
+    data object Drafts : NavigationItem("drafts", "Черновики")
+
     // Map
     data object RouteCreationOnMap :
         NavigationItem("route_creation_on_map", "Создание маршрута на карте")

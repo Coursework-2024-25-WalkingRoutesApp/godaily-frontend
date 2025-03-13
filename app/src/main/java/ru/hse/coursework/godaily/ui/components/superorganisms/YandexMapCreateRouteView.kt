@@ -3,13 +3,18 @@ package ru.hse.coursework.godaily.ui.components.superorganisms
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import com.yandex.mapkit.Animation
+import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.RequestPoint
 import com.yandex.mapkit.RequestPointType
 import com.yandex.mapkit.geometry.Point
@@ -26,6 +31,8 @@ import com.yandex.mapkit.transport.masstransit.Session
 import com.yandex.mapkit.transport.masstransit.TimeOptions
 import com.yandex.runtime.Error
 import com.yandex.runtime.image.ImageProvider
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
 import ru.hse.coursework.godaily.ui.components.organisms.AddPointTitleDialog
@@ -50,31 +57,74 @@ fun YandexMapCreateRouteView(
     val endIcon = ImageProvider.fromResource(context, R.drawable.finish)
 
     val selectedPoint = remember { mutableStateOf<TitledPoint?>(null) }
+    val isAddingPoint = remember { mutableStateOf(false) }
+
+
+    val mapView = remember { MapView(context) }
+    val coroutineScope = rememberCoroutineScope()
 
     val inputListener = remember(context) {
         object : InputListener {
             override fun onMapTap(map: Map, point: Point) {
+                if (isAddingPoint.value) return
+
+                isAddingPoint.value = true
+
                 val newPoint = TitledPoint(point, "", "")
                 routePoints.add(newPoint)
                 selectedPoint.value = newPoint
-                showAddPointTitleDialog.value = true
                 updateRoute(map, routePoints, startIcon, midIcon, endIcon)
+                coroutineScope.launch {
+                    delay(800)
+                    showAddPointTitleDialog.value = true
+                    isAddingPoint.value = false
+                }
             }
 
             override fun onMapLongTap(map: Map, point: Point) {}
         }
     }
 
+    LaunchedEffect(Unit) {
+        mapView.onStart()
+        MapKitFactory.getInstance().onStart()
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            mapView.onStop()
+            MapKitFactory.getInstance().onStop()
+        }
+    }
+
     AndroidView(
         factory = { _ ->
-            MapView(context).apply {
+            mapView.apply {
                 val map = mapWindow.map
+
+                if (routePoints.isNotEmpty()) {
+                    map.move(CameraPosition(routePoints.last().point, 14.0f, 0.0f, 0.0f))
+                }
                 map.move(startCameraPosition)
+
+
                 map.addInputListener(inputListener)
                 updateRoute(map, routePoints, startIcon, midIcon, endIcon)
             }
         },
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        update = { view ->
+            val map = view.mapWindow.map
+            if (routePoints.isNotEmpty()) {
+                map.move(
+                    CameraPosition(routePoints.last().point, 18.0f, 0.0f, 0.0f),
+                    Animation(Animation.Type.SMOOTH, 1.5f),
+                    null
+                )
+            }
+
+            updateRoute(map, routePoints, startIcon, midIcon, endIcon)
+        }
     )
 
     selectedPoint.value?.let { point ->
@@ -92,6 +142,7 @@ fun YandexMapCreateRouteView(
                     showAddPointTitleDialog.value = false
                 }
             )
+
         }
     }
 }

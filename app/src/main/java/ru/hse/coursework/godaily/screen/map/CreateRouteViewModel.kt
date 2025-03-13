@@ -46,6 +46,8 @@ class CreateRouteViewModel @Inject constructor(
                 startPoint.value = route.route.startPoint ?: ""
                 endPoint.value = route.route.endPoint ?: ""
 
+                routePoints.clear()
+                routePoints.addAll(route.routePoints)
                 //TODO: апдейт Points
                 //TODO: работа с категориями
                 //TODO: работа с картинкой

@@ -1,4 +1,4 @@
-package ru.hse.coursework.godaily.screen.profile
+package ru.hse.coursework.godaily.screen.routes
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,9 +17,9 @@ import ru.hse.coursework.godaily.ui.components.superorganisms.RouteVerticalGrid
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
 @Composable
-fun FavouriteRoutesScreen(
+fun DraftsScreen(
     navController: NavController,
-    viewModel: ProfileViewModel = hiltViewModel(),
+    viewModel: RoutesViewModel = hiltViewModel(),
 ) {
     Column(
         modifier = Modifier
@@ -35,17 +35,17 @@ fun FavouriteRoutesScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            HeaderBig(text = "Избранные маршруты")
+            HeaderBig(text = "Черновики")
         }
 
-        if (viewModel.favouriteRoutes.isEmpty()) {
+        if (viewModel.drafts.isEmpty()) {
             NoRoutesBox()
         } else {
             Spacer(modifier = Modifier.height(16.dp))
             RouteVerticalGrid(
-                routes = viewModel.favouriteRoutes,
+                routes = viewModel.drafts,
                 onRouteClick = { route ->
-                    navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
+                    navController.navigate(NavigationItem.RouteCreationOnMap.route + "/${route.id}")
                 }
             )
         }

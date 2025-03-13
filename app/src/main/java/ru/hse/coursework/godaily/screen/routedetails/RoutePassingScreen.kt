@@ -1,5 +1,6 @@
 package ru.hse.coursework.godaily.screen.routedetails
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -38,6 +39,15 @@ fun RoutePassingScreen(
 
     val markState = viewModel.userMark
     val reviewTextState = viewModel.reviewText
+
+    BackHandler(enabled = true) {
+        if (viewModel.passedPoints.isEmpty()) {
+            navController.popBackStack()
+        } else {
+            viewModel.showPauseDialog.value = true
+            viewModel.isBackPressed.value = true
+        }
+    }
 
     DisposableEffect(Unit) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->

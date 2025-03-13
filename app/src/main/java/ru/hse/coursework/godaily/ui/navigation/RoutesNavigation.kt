@@ -13,6 +13,7 @@ import ru.hse.coursework.godaily.screen.routedetails.RateRouteScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsScreen
 import ru.hse.coursework.godaily.screen.routedetails.RoutePassingScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteReviewsScreen
+import ru.hse.coursework.godaily.screen.routes.DraftsScreen
 import ru.hse.coursework.godaily.screen.routes.RoutesScreen
 
 @Composable
@@ -24,6 +25,9 @@ fun RoutesNavigation(bottomNavHostController: NavHostController) {
     ) {
         composable(NavigationItem.RoutesMain.route) {
             RoutesScreen(routesNavController)
+        }
+        composable(NavigationItem.Drafts.route) {
+            DraftsScreen(routesNavController)
         }
         composable(NavigationItem.RouteDetails.route + "/{routeId}") { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")
@@ -61,12 +65,24 @@ fun RoutesNavigation(bottomNavHostController: NavHostController) {
             }
         }
 
-        composable(NavigationItem.RouteCreationOnMap.route) {
-            CreateRouteMapScreen(routesNavController)
+//        composable(NavigationItem.RouteCreationOnMap.route) {
+//            CreateRouteMapScreen(routesNavController)
+//        }
+//
+//        composable(NavigationItem.RouteCreationInfo.route) {
+//            CreateRouteInfoScreen(routesNavController, bottomNavHostController)
+//        }
+        composable(NavigationItem.RouteCreationOnMap.route + "/{routeId}") { backStackEntry ->
+            val routeId = backStackEntry.arguments?.getString("routeId")
+            if (routeId != null) {
+                CreateRouteMapScreen(routesNavController, routeId)
+            }
         }
-
-        composable(NavigationItem.RouteCreationInfo.route) {
-            CreateRouteInfoScreen(routesNavController, bottomNavHostController)
+        composable(NavigationItem.RouteCreationInfo.route + "/{routeId}") { backStackEntry ->
+            val routeId = backStackEntry.arguments?.getString("routeId")
+            if (routeId != null) {
+                CreateRouteInfoScreen(routesNavController, bottomNavHostController, routeId)
+            }
         }
     }
 }

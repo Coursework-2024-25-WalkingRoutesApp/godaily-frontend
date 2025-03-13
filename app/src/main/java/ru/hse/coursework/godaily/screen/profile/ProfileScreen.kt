@@ -21,8 +21,6 @@ import ru.hse.coursework.godaily.ui.components.organisms.FavouriteRoutes
 import ru.hse.coursework.godaily.ui.components.organisms.UserProfile
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
-
-//TODO: 1) Редактировать профиль побольше размер 2) Обработать переходы на редактирование профиля, пройденные маршруты, Израбнное
 @Composable
 fun ProfileScreen(
     navController: NavController,

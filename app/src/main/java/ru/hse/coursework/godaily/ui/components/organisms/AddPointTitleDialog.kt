@@ -38,7 +38,7 @@ fun AddPointTitleDialog(
     onKeepWithNoTitleClick: () -> Unit
 ) {
     if (showDialog.value) {
-        Dialog(onDismissRequest = { showDialog.value = false }) {
+        Dialog(onDismissRequest = {}) {
             Box(
                 modifier = Modifier
                     .size(width = 338.dp, height = 450.dp)

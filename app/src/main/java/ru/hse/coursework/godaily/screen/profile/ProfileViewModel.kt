@@ -46,13 +46,5 @@ class ProfileViewModel @Inject constructor(
             favouriteRoutes.addAll(profile.favouriteRoutes)
         }
     }
-
-    fun onEditProfileClicked() {
-        // TODO Обработка перехода к редактированию профиля
-    }
-
-    fun onFavouriteRoutesClicked() {
-        // TODO Обработка перехода к экрану "Избранное"
-    }
 }
 

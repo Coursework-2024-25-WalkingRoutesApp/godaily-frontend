@@ -226,7 +226,7 @@ class FakeApiService : ApiService {
         jwt: String,
         userLocation: UserCoordinateDto
     ): List<RouteCardDto> {
-        return fakeRoutes
+        return fakeRoutes.take(3)
     }
 
     override suspend fun getUserPublishedRoutes(
