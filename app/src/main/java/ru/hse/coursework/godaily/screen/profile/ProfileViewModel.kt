@@ -1,5 +1,6 @@
 package ru.hse.coursework.godaily.screen.profile
 
+import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.domain.profile.FetchProfileInfoUseCase
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserProfileInfoUseCase
+import ru.hse.coursework.godaily.ui.notification.ToastManager
 import javax.inject.Inject
 
 @HiltViewModel
@@ -49,13 +51,15 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun saveNewUserData() {
+    fun saveNewUserData(context: Context) {
         if (editedUserName.value.isEmpty()) {
             return
         }
-        //TODO: Добавить уведомления
         viewModelScope.launch {
-            saveUserProfileInfoUseCase.execute(editedUserName.value, selectedImageUri.value)
+            val result =
+                saveUserProfileInfoUseCase.execute(editedUserName.value, selectedImageUri.value)
+
+            ToastManager(context).showToast(result.message())
         }
     }
 }

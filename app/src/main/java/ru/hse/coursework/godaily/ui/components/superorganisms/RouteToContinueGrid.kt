@@ -24,7 +24,8 @@ import java.util.UUID
 @Composable
 fun RouteToContinueGrid(
     routes: List<RouteCardDto>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onRouteClick: (RouteCardDto) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -52,7 +53,8 @@ fun RouteToContinueGrid(
                     distance = formatDistance(route.distanceToUser),
                     title = route.routeName ?: "Название",
                     imageResUrl = route.routePreview ?: "",
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier.padding(end = 8.dp),
+                    onCardClick = { onRouteClick(route) }
                 )
             }
         }
@@ -98,5 +100,8 @@ fun PreviewRouteToContinueGrid() {
             )
         )
     )
-    RouteToContinueGrid(routes = sampleRoutes)
+    RouteToContinueGrid(
+        routes = sampleRoutes,
+        onRouteClick = {}
+    )
 }

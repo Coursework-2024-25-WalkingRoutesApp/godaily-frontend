@@ -59,8 +59,13 @@ fun HomeScreen(
             }
         } else {
             if (unfinishedRoutes.isNotEmpty()) {
-                //TODO OnRouteClick()
-                RouteToContinueGrid(routes = unfinishedRoutes)
+                RouteToContinueGrid(
+                    routes = unfinishedRoutes,
+                    onRouteClick = { route ->
+                        routeDetailsViewModel.clear()
+                        navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
+                    }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
             }
 

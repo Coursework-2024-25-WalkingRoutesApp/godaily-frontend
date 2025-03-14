@@ -28,15 +28,16 @@ import ru.hse.coursework.godaily.ui.components.molecules.PublishButtonBig
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 
 @Composable
-fun PublishWarningDialog(
+fun UnsuccessfulPublishDialog(
     showDialog: MutableState<Boolean>,
-    onPublishClick: () -> Unit
+    tryAgain: () -> Unit,
+    onHomeClick: () -> Unit
 ) {
     if (showDialog.value) {
-        Dialog(onDismissRequest = {}) {
+        Dialog(onDismissRequest = { }) {
             Box(
                 modifier = Modifier
-                    .size(width = 334.dp, height = 220.dp)
+                    .size(width = 334.dp, height = 243.dp)
                     .background(Color.White, shape = RoundedCornerShape(8.dp))
                     .padding(top = 25.dp, bottom = 20.dp),
                 contentAlignment = Alignment.TopCenter
@@ -46,7 +47,7 @@ fun PublishWarningDialog(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
-                        text = "Учтите, что после публикации маршрут\nнельзя будет изменить",
+                        text = "К сожалению, не удалось опубликовать маршрут",
                         fontFamily = RobotoFontFamily,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Medium,
@@ -55,22 +56,28 @@ fun PublishWarningDialog(
                     )
                     Spacer(modifier = Modifier.height(13.dp))
 
+
+                    Spacer(modifier = Modifier.height(40.dp))
+
                     PublishButtonBig(onClick = {
                         showDialog.value = false
-                        onPublishClick()
-                    }, text = "Опубликовать")
+                        tryAgain()
+                    }, text = "Попробовать еще раз")
 
                     Spacer(modifier = Modifier.height(13.dp))
 
                     Text(
-                        text = "Назад",
+                        text = "На главную",
                         fontSize = 16.sp,
                         fontFamily = RobotoFontFamily,
                         textDecoration = TextDecoration.Underline,
                         fontWeight = FontWeight.Medium,
                         color = Color.Black,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.clickable { showDialog.value = false }
+                        modifier = Modifier.clickable {
+                            showDialog.value = false
+                            onHomeClick()
+                        }
                     )
                 }
             }
@@ -78,12 +85,12 @@ fun PublishWarningDialog(
     }
 }
 
-
 @Preview
 @Composable
-fun PublishWarningNotificationPreview() {
-    PublishWarningDialog(
+fun UnsuccessfulPublishDialogPreview() {
+    UnsuccessfulPublishDialog(
         showDialog = mutableStateOf(true),
-        onPublishClick = {}
+        tryAgain = {},
+        onHomeClick = {}
     )
 }

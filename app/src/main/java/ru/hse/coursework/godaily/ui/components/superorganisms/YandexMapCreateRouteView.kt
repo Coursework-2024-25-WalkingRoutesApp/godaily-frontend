@@ -39,6 +39,9 @@ import ru.hse.coursework.godaily.ui.components.organisms.AddPointTitleDialog
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
 import java.util.UUID
 
+// TODO Возможность убрать последнюю точку
+// TODO геосаджест
+// TODO тап на точку
 @Composable
 fun YandexMapCreateRouteView(
     modifier: Modifier = Modifier,

@@ -36,6 +36,7 @@ class CreateRouteViewModel @Inject constructor(
     val showPublishWarningDialog: MutableState<Boolean> = mutableStateOf(false)
     val showNewPublishDialog: MutableState<Boolean> = mutableStateOf(false)
     val showAddPointTitleDialog: MutableState<Boolean> = mutableStateOf(false)
+    val showUnsuccessfulPublishDialog: MutableState<Boolean> = mutableStateOf(false)
 
     val isDataLoaded = mutableStateOf(false)
 

@@ -27,7 +27,6 @@ class SaveRouteSessionUseCase @Inject constructor(
                 id = sessionId,
                 routeId = routeId,
                 isFinished = isFinished,
-                //TODO с временем посмотреть
                 startedAt = LocalDateTime.now(),
                 endedAt = LocalDateTime.now(),
                 userCheckpoint = createUserCoordinateFromPoints(passedPoints),
@@ -37,7 +36,6 @@ class SaveRouteSessionUseCase @Inject constructor(
 
     private fun createUserCoordinateFromPoints(passedPoints: List<TitledPoint>): List<RouteSessionDto.UserCheckpoint> {
         return passedPoints.map { titledPoint ->
-            //TODO время
             RouteSessionDto.UserCheckpoint(
                 coordinateId = titledPoint.id,
                 createdAt = LocalDateTime.now()

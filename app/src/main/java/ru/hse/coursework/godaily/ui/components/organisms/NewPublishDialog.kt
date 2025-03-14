@@ -35,7 +35,7 @@ fun NewPublishDialog(
     onHomeClick: () -> Unit
 ) {
     if (showDialog.value) {
-        Dialog(onDismissRequest = { showDialog.value = false }) {
+        Dialog(onDismissRequest = {}) {
             Box(
                 modifier = Modifier
                     .size(width = 334.dp, height = 243.dp)

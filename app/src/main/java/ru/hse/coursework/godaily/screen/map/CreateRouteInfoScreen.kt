@@ -42,6 +42,7 @@ import ru.hse.coursework.godaily.ui.components.molecules.Question
 import ru.hse.coursework.godaily.ui.components.molecules.ToDraftsButton
 import ru.hse.coursework.godaily.ui.components.organisms.NewPublishDialog
 import ru.hse.coursework.godaily.ui.components.organisms.PublishWarningDialog
+import ru.hse.coursework.godaily.ui.components.organisms.UnsuccessfulPublishDialog
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteInfoFields
 import ru.hse.coursework.godaily.ui.navigation.BottomNavigationItem
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
@@ -61,6 +62,7 @@ fun CreateRouteInfoScreen(
 
     val showPublishWarningDialog = viewModel.showPublishWarningDialog
     val showNewPublishDialog = viewModel.showNewPublishDialog
+    val showUnsuccessfulPublishDialog = viewModel.showUnsuccessfulPublishDialog
 
     val cropLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
@@ -183,7 +185,31 @@ fun CreateRouteInfoScreen(
                     if (isSuccess) {
                         showNewPublishDialog.value = true
                     } else {
-                        // TODO: предложить еще раз или на главную
+                        showUnsuccessfulPublishDialog.value = true
+                    }
+                }
+            }
+        )
+    }
+
+    if (showUnsuccessfulPublishDialog.value) {
+        // TODO протестировать
+        UnsuccessfulPublishDialog(
+            showDialog = showUnsuccessfulPublishDialog,
+            tryAgain = {
+                coroutineScope.launch {
+                    val isSuccess = viewModel.publishRoute(context)
+                    if (isSuccess) {
+                        showNewPublishDialog.value = true
+                    } else {
+                        showUnsuccessfulPublishDialog.value = true
+                    }
+                }
+            },
+            onHomeClick = {
+                bottomNavController.navigate(BottomNavigationItem.Home.route) {
+                    popUpTo(bottomNavController.graph.startDestinationId) {
+                        inclusive = true
                     }
                 }
             }

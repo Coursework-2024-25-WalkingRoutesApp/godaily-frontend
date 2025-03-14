@@ -29,12 +29,14 @@ fun RouteCardToContinue(
     distance: String,
     title: String,
     imageResUrl: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCardClick: () -> Unit
 ) {
     Card(
         modifier = modifier
             .size(width = 194.dp, height = 120.dp),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        onClick = onCardClick
     ) {
         Box {
             Image(
@@ -91,5 +93,6 @@ fun RouteCardToContinuePreview() {
         title = "Историческое Измайлово",
         imageResUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlKC_brTH0YllYbrNf3gtJ6dSyGoDhI4eD-g&s",
         modifier = Modifier.padding(8.dp),
+        onCardClick = {}
     )
 }
