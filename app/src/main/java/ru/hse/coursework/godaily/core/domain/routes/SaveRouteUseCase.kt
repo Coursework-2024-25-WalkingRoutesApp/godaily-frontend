@@ -21,7 +21,6 @@ class SaveRouteUseCase @Inject constructor(
         description: String,
         startPoint: String,
         endPoint: String,
-        //TODO: bytearray или что-то еще
         imageUri: Uri?,
         isDraft: Boolean,
         routePoints: SnapshotStateList<TitledPoint>,
@@ -43,10 +42,10 @@ class SaveRouteUseCase @Inject constructor(
                 length = length,
                 startPoint = startPoint,
                 endPoint = endPoint,
-                routePreview = uriToSomething(imageUri), // TODO
+                routePreview = uriToSomething(imageUri),
                 isDraft = isDraft,
-                routeCoordinate = titledPointsToRouteCoordinate(routePoints, routeId), // TODO
-                categories = categoriesToDto(categories) // TODO
+                routeCoordinate = titledPointsToRouteCoordinate(routePoints, routeId),
+                categories = categoriesToDto(categories)
             )
         )
     }
@@ -55,7 +54,7 @@ class SaveRouteUseCase @Inject constructor(
         return routePoints.map { it.point }
     }
 
-    //TODO сделать нормально конвертер для фото
+    //TODO сделать конвертер для фото
     private fun uriToSomething(imageUri: Uri?): String {
         if (imageUri == null) {
             return ""
@@ -69,8 +68,7 @@ class SaveRouteUseCase @Inject constructor(
     ): List<RouteDto.RouteCoordinate> {
         return routePoints.mapIndexed { index, titledPoint ->
             RouteDto.RouteCoordinate(
-                //TODO: id не рандом
-                id = UUID.randomUUID(),
+                id = titledPoint.id,
                 routeId = routeId,
                 latitude = titledPoint.point.latitude,
                 longitude = titledPoint.point.longitude,

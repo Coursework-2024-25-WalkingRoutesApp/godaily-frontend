@@ -286,14 +286,14 @@ class FakeApiService : ApiService {
             length = 2500.toDouble(),
             startPoint = "р-он. Измайлово",
             endPoint = "Измайловское шоссе, 73",
-            routePreview = "https://via.placeholder.com/300",
+            routePreview = "https://amicus-vet.ru/images/statii/a582d6cs-960.jpg",
             isFavourite = false,
             routeCoordinate = routeCoordinates,
             categories = listOf(
-                RouteDto.Category(UUID.randomUUID(), "Coffee"),
-                RouteDto.Category(UUID.randomUUID(), "Culture"),
-                RouteDto.Category(UUID.randomUUID(), "Nature"),
-                RouteDto.Category(UUID.randomUUID(), "Metro")
+                RouteDto.Category(UUID.randomUUID(), "Кафе по пути"),
+                RouteDto.Category(UUID.randomUUID(), "У метро"),
+//                RouteDto.Category(UUID.randomUUID(), "Природный"),
+//                RouteDto.Category(UUID.randomUUID(), "Культурно-исторический")
             )
         )
     }

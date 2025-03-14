@@ -10,9 +10,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
 import ru.hse.coursework.godaily.core.domain.routes.SaveRouteUseCase
 import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
+import ru.hse.coursework.godaily.core.domain.service.PhotoConverterService
 import ru.hse.coursework.godaily.core.domain.service.UuidService
 import ru.hse.coursework.godaily.ui.notification.ToastManager
 import java.util.UUID
@@ -22,7 +24,8 @@ import javax.inject.Inject
 class CreateRouteViewModel @Inject constructor(
     private val saveRouteUseCase: SaveRouteUseCase,
     private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase,
-    private val uuidService: UuidService
+    private val uuidService: UuidService,
+    private val photoConverterService: PhotoConverterService
 ) : ViewModel() {
 
     val routeIdState: MutableState<UUID> = mutableStateOf(UUID.randomUUID())
@@ -72,8 +75,9 @@ class CreateRouteViewModel @Inject constructor(
                 routePoints.clear()
                 routePoints.addAll(route.routePoints)
 
-                //TODO: работа с категориями
-                //TODO: работа с картинкой
+                route.route.categories?.let { chosenCategories.value = convertCategories(it) }
+
+                selectedImageUri.value = photoConverterService.urlToUri(route.route.routePreview)
             }
         } else {
             //TODO логика не смогли загрузить или нет маршрута
@@ -84,6 +88,17 @@ class CreateRouteViewModel @Inject constructor(
 
     fun updateRouteTitle(routeTitleValue: String) {
         routeTitle.value = routeTitleValue
+    }
+
+    fun convertCategories(categories: List<RouteDto.Category>): Set<Int> {
+        val categoryMap = mapOf(
+            "Природный" to 0,
+            "Культурно-исторический" to 1,
+            "Кафе по пути" to 2,
+            "У метро" to 3
+        )
+
+        return categories.mapNotNull { categoryMap[it.categoryName] }.toSet()
     }
 
     suspend fun saveRouteToDrafts(context: Context): Boolean {
