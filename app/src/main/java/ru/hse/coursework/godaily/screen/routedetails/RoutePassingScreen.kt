@@ -129,7 +129,6 @@ fun RoutePassingScreen(
                 viewModel.resetRouteSession()
             },
             onHomeClick = {
-                //TODO
                 bottomNavController.removeOnDestinationChangedListener(listener)
                 bottomNavController.navigate(BottomNavigationItem.Home.route) {
                     popUpTo(BottomNavigationItem.Home.route) { inclusive = true }

@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
 import ru.hse.coursework.godaily.ui.components.organisms.AddPointTitleDialog
+import ru.hse.coursework.godaily.ui.notification.ToastManager
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
 import java.util.UUID
 
@@ -138,13 +139,15 @@ fun YandexMapCreateRouteView(
                 title = remember { mutableStateOf(point.title) },
                 description = remember { mutableStateOf(point.description) },
                 onSaveClick = { title, description ->
-                    point.title = title
-                    point.description = description
-                    showAddPointTitleDialog.value = false
+                    if (title == "") {
+                        ToastManager(context).showToast("У точки должно быть название")
+                        showAddPointTitleDialog.value = true
+                    } else {
+                        point.title = title
+                        point.description = description
+                    }
                 },
-                onKeepWithNoTitleClick = {
-                    showAddPointTitleDialog.value = false
-                }
+                onKeepWithNoTitleClick = {}
             )
 
         }
