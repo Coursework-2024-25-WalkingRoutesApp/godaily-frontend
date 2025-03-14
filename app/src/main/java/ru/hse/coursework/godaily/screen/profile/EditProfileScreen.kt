@@ -146,7 +146,7 @@ fun EditProfileScreen(
                 .align(Alignment.BottomCenter),
         ) {
             StartButton(
-                onClick = { /*TODO*/ },
+                onClick = { viewModel.saveNewUserData() },
                 text = "Сохранить"
             )
         }

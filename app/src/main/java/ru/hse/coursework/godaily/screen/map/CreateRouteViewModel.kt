@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
 import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
 import ru.hse.coursework.godaily.core.domain.routes.SaveRouteUseCase
@@ -84,39 +85,51 @@ class CreateRouteViewModel @Inject constructor(
         routeTitle.value = routeTitleValue
     }
 
-    fun saveRouteToDrafts() {
-        saveRoute()
+    suspend fun saveRouteToDrafts(context: Context): Boolean {
+        val isSuccess = saveRoute(context, isDraft = true)
+        if (isSuccess) {
+            ToastManager(context).showToast("Маршрут успешно добавлен в черновики")
+        } else {
+            ToastManager(context).showToast("Ошибка при добавлении в черновики")
+        }
+        return isSuccess
     }
 
-    fun publishRoute(context: Context) {
+    suspend fun publishRoute(context: Context): Boolean {
         if (routePoints.size < 2) {
             ToastManager(context).showToast("Слишком мало точек на маршруте (<2)")
-            return
-        } else if (routeTitle.value.isEmpty() || startPoint.value.isEmpty() ||
-            endPoint.value.isEmpty()
-        ) {
-            ToastManager(context).showToast("Не все необходимые поля заполнены")
-            return
-        } else if (selectedImageUri.value == null) {
-            ToastManager(context).showToast("Не выбрано фото маршрута")
-            return
+            return false
         }
-        saveRoute()
+        if (routeTitle.value.isEmpty() || startPoint.value.isEmpty() || endPoint.value.isEmpty()) {
+            ToastManager(context).showToast("Не все необходимые поля заполнены")
+            return false
+        }
+        if (selectedImageUri.value == null) {
+            ToastManager(context).showToast("Не выбрано фото маршрута")
+            return false
+        }
+
+        val isSuccess = saveRoute(context, isDraft = false)
+        if (!isSuccess) {
+            ToastManager(context).showToast("Ошибка при публикации маршрута")
+        }
+        return isSuccess
     }
 
-    private fun saveRoute() {
-        viewModelScope.launch {
-            saveRouteUseCase.execute(
-                id = routeIdState.value,
-                routeName = routeTitle.value,
-                description = routeDescription.value,
-                startPoint = startPoint.value,
-                endPoint = endPoint.value,
-                imageUri = selectedImageUri.value,
-                isDraft = false,
-                routePoints = routePoints,
-                categories = chosenCategories.value
-            )
-        }
+    private suspend fun saveRoute(context: Context, isDraft: Boolean): Boolean {
+        val result: Response<String> = saveRouteUseCase.execute(
+            id = routeIdState.value,
+            routeName = routeTitle.value,
+            description = routeDescription.value,
+            startPoint = startPoint.value,
+            endPoint = endPoint.value,
+            imageUri = selectedImageUri.value,
+            isDraft = isDraft,
+            routePoints = routePoints,
+            categories = chosenCategories.value
+        )
+        return result.isSuccessful
     }
+
+
 }

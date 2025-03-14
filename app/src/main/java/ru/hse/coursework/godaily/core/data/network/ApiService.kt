@@ -30,6 +30,10 @@ interface ApiService {
     // Получение информации о текущем пользователе
     suspend fun getUserInfo(jwt: String): UserDto
 
+    // Сохранение информации о пользователе
+
+    suspend fun saveUserInfo(jwt: String, editedName: String, photo: String): Response<String>
+
     // Сохранение маршрута
     suspend fun addRoute(jwt: String, route: RouteDto): Response<String>
 

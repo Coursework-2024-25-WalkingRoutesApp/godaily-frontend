@@ -218,6 +218,14 @@ class FakeApiService : ApiService {
         return fakeUser
     }
 
+    override suspend fun saveUserInfo(
+        jwt: String,
+        editedName: String,
+        photo: String
+    ): Response<String> {
+        return Response.success("Данные успешно сохранены")
+    }
+
     override suspend fun addRoute(jwt: String, route: RouteDto): Response<String> {
         return Response.success("Данные успешно сохранены")
     }

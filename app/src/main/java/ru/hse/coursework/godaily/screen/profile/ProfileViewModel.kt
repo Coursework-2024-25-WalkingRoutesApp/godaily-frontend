@@ -10,11 +10,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.domain.profile.FetchProfileInfoUseCase
+import ru.hse.coursework.godaily.core.domain.profile.SaveUserProfileInfoUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val fetchProfileInfoUseCase: FetchProfileInfoUseCase,
+    private val saveUserProfileInfoUseCase: SaveUserProfileInfoUseCase
 ) : ViewModel() {
 
     val email: MutableState<String> = mutableStateOf("email")
@@ -44,6 +46,16 @@ class ProfileViewModel @Inject constructor(
 
             favouriteRoutes.clear()
             favouriteRoutes.addAll(profile.favouriteRoutes)
+        }
+    }
+
+    fun saveNewUserData() {
+        if (editedUserName.value.isEmpty()) {
+            return
+        }
+        //TODO: Добавить уведомления
+        viewModelScope.launch {
+            saveUserProfileInfoUseCase.execute(editedUserName.value, selectedImageUri.value)
         }
     }
 }

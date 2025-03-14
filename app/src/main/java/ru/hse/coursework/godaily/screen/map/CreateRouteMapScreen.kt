@@ -25,7 +25,6 @@ import ru.hse.coursework.godaily.ui.components.superorganisms.CreateRouteView
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
 @Composable
-//TODO: не сохраняется стейт карты и точек
 fun CreateRouteMapScreen(
     navController: NavController,
     routeId: String,

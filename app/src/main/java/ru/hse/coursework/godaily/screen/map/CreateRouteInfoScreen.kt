@@ -19,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,6 +31,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.yalantis.ucrop.UCrop
+import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.domain.service.CropRoutePreviewService
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
@@ -54,6 +56,8 @@ fun CreateRouteInfoScreen(
 ) {
     val context = LocalContext.current
     val selectedImageUri = viewModel.selectedImageUri
+
+    val coroutineScope = rememberCoroutineScope()
 
     val showPublishWarningDialog = viewModel.showPublishWarningDialog
     val showNewPublishDialog = viewModel.showNewPublishDialog
@@ -108,7 +112,6 @@ fun CreateRouteInfoScreen(
                     .padding(horizontal = 16.dp)
             ) {
                 RouteInfoFields(
-                    //TODO удаляются значения, если переходить туда-сюда по экранам
                     title = viewModel.routeTitle,
                     description = viewModel.routeDescription,
                     startPoint = viewModel.startPoint,
@@ -154,11 +157,18 @@ fun CreateRouteInfoScreen(
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 .align(Alignment.BottomCenter),
         ) {
-            //TODO проверка полей
-            ToDraftsButton(onClick = { viewModel.saveRouteToDrafts() })
+            ToDraftsButton(onClick = {
+                coroutineScope.launch {
+                    viewModel.saveRouteToDrafts(context)
+                    bottomNavController.navigate(BottomNavigationItem.Routes.route) {
+                        popUpTo(bottomNavController.graph.startDestinationId) {
+                            inclusive = true
+                        }
+                    }
+                }
+            })
             Spacer(modifier = Modifier.weight(1f))
             PublishButton(onClick = {
-                /*TODO*/
                 showPublishWarningDialog.value = true
             })
         }
@@ -168,9 +178,14 @@ fun CreateRouteInfoScreen(
         PublishWarningDialog(
             showDialog = showPublishWarningDialog,
             onPublishClick = {
-                viewModel.publishRoute(context)
-                //TODO: Увед после публикации условие прописать
-                showNewPublishDialog.value = true
+                coroutineScope.launch {
+                    val isSuccess = viewModel.publishRoute(context)
+                    if (isSuccess) {
+                        showNewPublishDialog.value = true
+                    } else {
+                        // TODO: предложить еще раз или на главную
+                    }
+                }
             }
         )
     }
@@ -179,11 +194,20 @@ fun CreateRouteInfoScreen(
         NewPublishDialog(
             showDialog = showNewPublishDialog,
             onMyRoutesClick = {
-                navController.navigate(NavigationItem.RoutesMain.route)
+                navController.navigate(NavigationItem.RoutesMain.route) {
+                    popUpTo(navController.graph.startDestinationId) {
+                        inclusive = true
+                    }
+                }
+
             },
             onHomeClick = {
-                //TODO не перещелкивается главная в боттом навигейшн
-                bottomNavController.navigate(BottomNavigationItem.Home.route)
+                //TODO: пофиксить, чтобы нигде, где не надо, нельзя перейти назад с помощью свайпа
+                bottomNavController.navigate(BottomNavigationItem.Home.route) {
+                    popUpTo(bottomNavController.graph.startDestinationId) {
+                        inclusive = true
+                    }
+                }
             }
         )
     }
