@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,13 +20,13 @@ import androidx.navigation.NavHostController
 import com.yandex.mapkit.MapKitFactory
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.ui.components.molecules.Back
+import ru.hse.coursework.godaily.ui.components.organisms.PassRouteAgainDialog
 import ru.hse.coursework.godaily.ui.components.organisms.PauseDialog
 import ru.hse.coursework.godaily.ui.components.organisms.RouteFinishDialog
 import ru.hse.coursework.godaily.ui.components.superorganisms.YandexMapNavigationView
 import ru.hse.coursework.godaily.ui.navigation.BottomNavigationItem
 import ru.hse.coursework.godaily.ui.notification.ToastManager
 
-//TODO обработка случая, если маршрут был завершен и его можно пройти заново
 @Composable
 fun RoutePassingScreen(
     bottomNavController: NavHostController,
@@ -38,10 +40,25 @@ fun RoutePassingScreen(
 
     val showPauseDialog = viewModel.showPauseDialog
     val showFinishRouteDialog = viewModel.showFinishRouteDialog
+    val showPassRouteAgainDialog = viewModel.showPassRouteAgainDialog
     val isBackPressed = viewModel.isBackPressed
 
     val markState = viewModel.userMark
     val reviewTextState = viewModel.reviewText
+
+    val isListenerInitialized = remember { mutableStateOf(false) }
+
+    val listener = remember {
+        NavController.OnDestinationChangedListener { _, destination, _ ->
+            if (isListenerInitialized.value && viewModel.passedPoints.isNotEmpty()) {
+                coroutineScope.launch {
+                    viewModel.saveRouteSession(context)
+                }
+                ToastManager(context).showToast("Незавершенный маршрут можно найти на главной")
+            }
+            isListenerInitialized.value = true
+        }
+    }
 
     BackHandler(enabled = true) {
         if (viewModel.passedPoints.isEmpty()) {
@@ -53,15 +70,6 @@ fun RoutePassingScreen(
     }
 
     DisposableEffect(Unit) {
-        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-            if (!viewModel.passedPoints.isEmpty()) {
-                coroutineScope.launch {
-                    viewModel.saveRouteSession(context)
-                }
-                ToastManager(context).showToast("Незавершенный маршрут можно найти на главной")
-            }
-        }
-
         bottomNavController.addOnDestinationChangedListener(listener)
 
         MapKitFactory.getInstance().onStart()
@@ -75,6 +83,10 @@ fun RoutePassingScreen(
     LaunchedEffect(routeId) {
         viewModel.loadRouteDetails(routeId)
         viewModel.loadSessionPoints(routeId)
+
+        if (viewModel.isFinished.value) {
+            showPassRouteAgainDialog.value = true
+        }
     }
 
 
@@ -110,6 +122,21 @@ fun RoutePassingScreen(
                 .padding(16.dp)
         )
     }
+    if (showPassRouteAgainDialog.value) {
+        PassRouteAgainDialog(
+            showDialog = showPassRouteAgainDialog,
+            passAgain = {
+                viewModel.resetRouteSession()
+            },
+            onHomeClick = {
+                //TODO
+                bottomNavController.removeOnDestinationChangedListener(listener)
+                bottomNavController.navigate(BottomNavigationItem.Home.route) {
+                    popUpTo(BottomNavigationItem.Home.route) { inclusive = true }
+                }
+            }
+        )
+    }
 
     if (showPauseDialog.value && !viewModel.passedPoints.isEmpty()) {
         PauseDialog(
@@ -125,6 +152,7 @@ fun RoutePassingScreen(
                     }
 
                     else -> {
+                        bottomNavController.removeOnDestinationChangedListener(listener)
                         bottomNavController.navigate(BottomNavigationItem.Home.route) {
                             popUpTo(BottomNavigationItem.Home.route) { inclusive = true }
                         }
@@ -142,6 +170,7 @@ fun RoutePassingScreen(
             onSaveClick = {
                 viewModel.saveReview(context)
                 showFinishRouteDialog.value = false
+                bottomNavController.removeOnDestinationChangedListener(listener)
                 bottomNavController.navigate(BottomNavigationItem.Profile.route) {
                     popUpTo(bottomNavController.graph.startDestinationId) {
                         inclusive = true
@@ -150,6 +179,7 @@ fun RoutePassingScreen(
             },
             onNotSaveClick = {
                 showFinishRouteDialog.value = false
+                bottomNavController.removeOnDestinationChangedListener(listener)
                 bottomNavController.navigate(BottomNavigationItem.Profile.route) {
                     popUpTo(bottomNavController.graph.startDestinationId) {
                         inclusive = true

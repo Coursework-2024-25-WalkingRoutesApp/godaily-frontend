@@ -74,6 +74,7 @@ class RouteDetailsViewModel @Inject constructor(
     val showPauseDialog: MutableState<Boolean> = mutableStateOf(false)
     val isBackPressed: MutableState<Boolean> = mutableStateOf(false)
     val showFinishRouteDialog: MutableState<Boolean> = mutableStateOf(false)
+    val showPassRouteAgainDialog: MutableState<Boolean> = mutableStateOf(false)
 
     private val _reviews = MutableStateFlow<List<ReviewDto.ReviewInfoDto>>(emptyList())
     val reviews: StateFlow<List<ReviewDto.ReviewInfoDto>> = _reviews.asStateFlow()
@@ -121,8 +122,9 @@ class RouteDetailsViewModel @Inject constructor(
         userMark.value = markValue
     }
 
-    fun updateReviewText(reviewTextValue: String) {
-        reviewText.value = reviewTextValue
+    fun resetRouteSession() {
+        passedPoints.clear()
+        isFinished.value = false
     }
 
     fun loadRateReviewDetails(routeId: String, mark: Int) {
