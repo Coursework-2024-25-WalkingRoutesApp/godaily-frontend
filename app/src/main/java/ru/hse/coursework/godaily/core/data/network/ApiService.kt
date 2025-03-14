@@ -79,10 +79,7 @@ interface ApiService {
     suspend fun getReviews(jwt: String, routeId: UUID): ReviewDto
 
     // Создание сессии маршрута
-    suspend fun createRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean
-
-    // Обновление полей сессии маршрута
-    suspend fun updateRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean
+    suspend fun saveRouteSession(jwt: String, routeSession: RouteSessionDto): Response<String>
 
     suspend fun getRouteSession(jwt: String, routeId: UUID): RouteSessionDto
 

@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.hse.coursework.godaily.screen.map.CreateRouteViewModel
+import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsViewModel
 import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
 import ru.hse.coursework.godaily.ui.components.molecules.CreateButton
 import ru.hse.coursework.godaily.ui.components.organisms.Drafts
@@ -22,6 +23,7 @@ import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 fun RoutesScreen(
     navController: NavController,
     createViewModel: CreateRouteViewModel,
+    routeDetailsViewModel: RouteDetailsViewModel,
     viewModel: RoutesViewModel = hiltViewModel()
 ) {
     val publishedRoutes = viewModel.publishedRoutes
@@ -53,6 +55,7 @@ fun RoutesScreen(
                 RouteVerticalGrid(
                     routes = publishedRoutes,
                     onRouteClick = { route ->
+                        routeDetailsViewModel.clear()
                         navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
                     }
                 )

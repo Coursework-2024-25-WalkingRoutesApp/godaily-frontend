@@ -44,7 +44,7 @@ import com.yandex.mapkit.user_location.UserLocationView
 import com.yandex.runtime.Error
 import com.yandex.runtime.image.ImageProvider
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
+import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsViewModel
 import ru.hse.coursework.godaily.ui.components.organisms.RouteNavigationBox
 import ru.hse.coursework.godaily.ui.components.organisms.RouteStartBox

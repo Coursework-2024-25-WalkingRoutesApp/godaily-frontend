@@ -8,7 +8,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
+import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 
 @Composable

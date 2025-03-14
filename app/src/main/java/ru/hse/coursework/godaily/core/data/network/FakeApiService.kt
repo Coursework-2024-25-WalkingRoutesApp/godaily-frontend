@@ -338,12 +338,11 @@ class FakeApiService : ApiService {
         )
     }
 
-    override suspend fun createRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean {
-        return true
-    }
-
-    override suspend fun updateRouteSession(jwt: String, routeSession: RouteSessionDto): Boolean {
-        return true
+    override suspend fun saveRouteSession(
+        jwt: String,
+        routeSession: RouteSessionDto
+    ): Response<String> {
+        return Response.success("Данные успешно сохранены")
     }
 
     override suspend fun getRouteSession(jwt: String, routeId: UUID): RouteSessionDto {

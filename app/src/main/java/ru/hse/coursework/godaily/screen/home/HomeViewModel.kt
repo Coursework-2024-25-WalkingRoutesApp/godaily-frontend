@@ -59,7 +59,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun filterRoutes() {
-        //TODO фильтры сбрасываются, когда поиск по названию
+        searchValue.value = ""
+
         viewModelScope.launch {
             updateRoutesForGrid(filterRoutesUseCase.execute(selectedCategories.value))
         }
@@ -73,7 +74,9 @@ class HomeViewModel @Inject constructor(
     }
 
     fun searchRoutes() {
-        //TODO возможный сброс сортировки и фильтров
+        selectedCategories.value = setOf()
+        selectedSortOption.value = 0
+
         viewModelScope.launch {
             updateRoutesForGrid(fetchRoutesBySearchValue.execute(searchValue.value))
         }

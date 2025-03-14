@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsViewModel
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.components.molecules.HeaderWithBackground
 import ru.hse.coursework.godaily.ui.components.organisms.SearchToolbar
@@ -26,6 +27,7 @@ import ru.hse.coursework.godaily.ui.theme.greyDark
 @Composable
 fun HomeScreen(
     navController: NavController,
+    routeDetailsViewModel: RouteDetailsViewModel,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val routesForGrid = viewModel.routesForGrid
@@ -57,6 +59,7 @@ fun HomeScreen(
             }
         } else {
             if (unfinishedRoutes.isNotEmpty()) {
+                //TODO OnRouteClick()
                 RouteToContinueGrid(routes = unfinishedRoutes)
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -82,6 +85,7 @@ fun HomeScreen(
             RouteVerticalGrid(
                 routes = routesForGrid,
                 onRouteClick = { route ->
+                    routeDetailsViewModel.clear()
                     navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
                 }
             )

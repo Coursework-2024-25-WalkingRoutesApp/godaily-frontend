@@ -32,7 +32,7 @@ import com.yandex.mapkit.transport.masstransit.TimeOptions
 import com.yandex.runtime.Error
 import com.yandex.runtime.image.ImageProvider
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
+import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.molecules.RouteInfo
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes

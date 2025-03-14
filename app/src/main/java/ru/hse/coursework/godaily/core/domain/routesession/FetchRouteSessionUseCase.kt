@@ -1,4 +1,4 @@
-package ru.hse.coursework.godaily.core.domain.routedetails
+package ru.hse.coursework.godaily.core.domain.routesession
 
 import com.yandex.mapkit.geometry.Point
 import ru.hse.coursework.godaily.core.data.network.ApiService
@@ -16,9 +16,10 @@ class FetchRouteSessionUseCase @Inject constructor(
             coordinate.latitude?.let { lat ->
                 coordinate.longitude?.let { lon ->
                     TitledPoint(
-                        Point(lat, lon),
-                        coordinate.title ?: "",
-                        coordinate.description ?: ""
+                        id = coordinate.id,
+                        point = Point(lat, lon),
+                        title = coordinate.title ?: "",
+                        description = coordinate.description ?: ""
                     )
                 }
             }
@@ -30,9 +31,10 @@ class FetchRouteSessionUseCase @Inject constructor(
                     coordinate.latitude?.let { lat ->
                         coordinate.longitude?.let { lon ->
                             TitledPoint(
-                                Point(lat, lon),
-                                coordinate.title ?: "",
-                                coordinate.description ?: ""
+                                id = coordinate.id,
+                                point = Point(lat, lon),
+                                title = coordinate.title ?: "",
+                                description = coordinate.description ?: ""
                             )
                         }
                     }
@@ -40,6 +42,7 @@ class FetchRouteSessionUseCase @Inject constructor(
         }
 
         return RoutePointsSession(
+            id = routeSession.id,
             isFinished = routeSession.isFinished ?: false,
             routePoints = routeCoordinates,
             passedRoutePoints = userCheckpoints
@@ -48,12 +51,14 @@ class FetchRouteSessionUseCase @Inject constructor(
 }
 
 data class TitledPoint(
+    val id: UUID,
     val point: Point,
     var title: String,
     var description: String,
 )
 
 data class RoutePointsSession(
+    val id: UUID,
     val isFinished: Boolean,
     val routePoints: List<TitledPoint>,
     val passedRoutePoints: List<TitledPoint>

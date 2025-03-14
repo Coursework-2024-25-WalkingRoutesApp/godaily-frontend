@@ -1,6 +1,7 @@
 package ru.hse.coursework.godaily.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -14,12 +15,16 @@ import ru.hse.coursework.godaily.screen.profile.FavouriteRoutesScreen
 import ru.hse.coursework.godaily.screen.profile.ProfileScreen
 import ru.hse.coursework.godaily.screen.routedetails.RateRouteScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsScreen
+import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsViewModel
 import ru.hse.coursework.godaily.screen.routedetails.RoutePassingScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteReviewsScreen
 
 @Composable
 fun ProfileNavigation(bottomNavHostController: NavHostController) {
     val profileNavController = rememberNavController()
+
+    val routeDetailsViewModel: RouteDetailsViewModel = hiltViewModel()
+
     NavHost(
         navController = profileNavController,
         startDestination = NavigationItem.ProfileMain.route
@@ -28,10 +33,10 @@ fun ProfileNavigation(bottomNavHostController: NavHostController) {
             ProfileScreen(profileNavController)
         }
         composable(NavigationItem.CompletedRoutes.route) {
-            CompletedRoutesScreen(profileNavController)
+            CompletedRoutesScreen(profileNavController, routeDetailsViewModel)
         }
         composable(NavigationItem.FavouriteRoutes.route) {
-            FavouriteRoutesScreen(profileNavController)
+            FavouriteRoutesScreen(profileNavController, routeDetailsViewModel)
         }
         composable(NavigationItem.EditProfile.route) {
             EditProfileScreen(profileNavController)
@@ -42,19 +47,24 @@ fun ProfileNavigation(bottomNavHostController: NavHostController) {
         composable(NavigationItem.RouteDetails.route + "/{routeId}") { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")
             if (routeId != null) {
-                RouteDetailsScreen(profileNavController, routeId)
+                RouteDetailsScreen(profileNavController, routeId, routeDetailsViewModel)
             }
         }
         composable(NavigationItem.RoutePassing.route + "/{routeId}") { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")
             if (routeId != null) {
-                RoutePassingScreen(bottomNavHostController, profileNavController, routeId)
+                RoutePassingScreen(
+                    bottomNavHostController,
+                    profileNavController,
+                    routeId,
+                    routeDetailsViewModel
+                )
             }
         }
         composable(NavigationItem.RouteReviews.route + "/{routeId}") { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")
             if (routeId != null) {
-                RouteReviewsScreen(profileNavController, routeId)
+                RouteReviewsScreen(profileNavController, routeId, routeDetailsViewModel)
             }
         }
         composable(
@@ -71,7 +81,7 @@ fun ProfileNavigation(bottomNavHostController: NavHostController) {
             val routeId = backStackEntry.arguments?.getString("routeId")
             val mark = backStackEntry.arguments?.getInt("averageMark")
             if (routeId != null && mark != null) {
-                RateRouteScreen(profileNavController, routeId, mark)
+                RateRouteScreen(profileNavController, routeId, mark, routeDetailsViewModel)
             }
         }
     }

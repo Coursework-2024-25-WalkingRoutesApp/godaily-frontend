@@ -1,8 +1,8 @@
 package ru.hse.coursework.godaily.core.domain.profile
 
+import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.network.ApiService
 import ru.hse.coursework.godaily.core.domain.location.LocationService
-import ru.hse.coursework.godaily.core.domain.model.ProfileInfo
 import javax.inject.Inject
 
 //TODO путаница с jwt и ID
@@ -23,5 +23,12 @@ class FetchProfileInfoUseCase @Inject constructor(
             favouriteRoutes = favourites
         )
     }
-
 }
+
+data class ProfileInfo(
+    val email: String,
+    val username: String,
+    val photoUrl: String?,
+    val completedRoutes: List<RouteCardDto> = emptyList(),
+    val favouriteRoutes: List<RouteCardDto> = emptyList()
+)

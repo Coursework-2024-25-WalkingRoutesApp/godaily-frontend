@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -15,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.yandex.mapkit.MapKitFactory
+import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.organisms.PauseDialog
 import ru.hse.coursework.godaily.ui.components.organisms.RouteFinishDialog
@@ -32,6 +34,7 @@ fun RoutePassingScreen(
 ) {
 
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
     val showPauseDialog = viewModel.showPauseDialog
     val showFinishRouteDialog = viewModel.showFinishRouteDialog
@@ -52,7 +55,9 @@ fun RoutePassingScreen(
     DisposableEffect(Unit) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
             if (!viewModel.passedPoints.isEmpty()) {
-                //TODO сохранить прогресс
+                coroutineScope.launch {
+                    viewModel.saveRouteSession(context)
+                }
                 ToastManager(context).showToast("Незавершенный маршрут можно найти на главной")
             }
         }
@@ -86,7 +91,9 @@ fun RoutePassingScreen(
             },
             onFinishClick = {
                 showFinishRouteDialog.value = true
-                //TODO Сохранить в пройденных сессию
+                coroutineScope.launch {
+                    viewModel.saveRouteSession(context)
+                }
             }
         )
         Back(
@@ -108,7 +115,9 @@ fun RoutePassingScreen(
         PauseDialog(
             showDialog = showPauseDialog,
             onHomeClick = {
-                //TODO сохранить прогресс
+                coroutineScope.launch {
+                    viewModel.saveRouteSession(context)
+                }
                 when {
                     isBackPressed.value -> {
                         isBackPressed.value = false
@@ -131,11 +140,21 @@ fun RoutePassingScreen(
             mark = markState,
             feedbackText = reviewTextState,
             onSaveClick = {
-                /*TODO*/
+                viewModel.saveReview(context)
                 showFinishRouteDialog.value = false
+                bottomNavController.navigate(BottomNavigationItem.Profile.route) {
+                    popUpTo(bottomNavController.graph.startDestinationId) {
+                        inclusive = true
+                    }
+                }
             },
-            onNotSaveClick = { /*TODO*/
+            onNotSaveClick = {
                 showFinishRouteDialog.value = false
+                bottomNavController.navigate(BottomNavigationItem.Profile.route) {
+                    popUpTo(bottomNavController.graph.startDestinationId) {
+                        inclusive = true
+                    }
+                }
             })
     }
 

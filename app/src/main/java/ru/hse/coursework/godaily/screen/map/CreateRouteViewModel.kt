@@ -11,8 +11,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
-import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
 import ru.hse.coursework.godaily.core.domain.routes.SaveRouteUseCase
+import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
 import ru.hse.coursework.godaily.core.domain.service.UuidService
 import ru.hse.coursework.godaily.ui.notification.ToastManager
 import java.util.UUID

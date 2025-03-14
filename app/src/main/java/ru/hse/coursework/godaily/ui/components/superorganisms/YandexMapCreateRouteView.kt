@@ -34,9 +34,10 @@ import com.yandex.runtime.image.ImageProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.R
-import ru.hse.coursework.godaily.core.domain.routedetails.TitledPoint
+import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
 import ru.hse.coursework.godaily.ui.components.organisms.AddPointTitleDialog
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
+import java.util.UUID
 
 @Composable
 fun YandexMapCreateRouteView(
@@ -70,7 +71,7 @@ fun YandexMapCreateRouteView(
 
                 isAddingPoint.value = true
 
-                val newPoint = TitledPoint(point, "", "")
+                val newPoint = TitledPoint(UUID.randomUUID(), point, "", "")
                 routePoints.add(newPoint)
                 selectedPoint.value = newPoint
                 updateRoute(map, routePoints, startIcon, midIcon, endIcon)
