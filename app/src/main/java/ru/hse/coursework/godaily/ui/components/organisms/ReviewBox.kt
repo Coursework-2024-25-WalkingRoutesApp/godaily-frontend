@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.ui.components.atoms.VariableBold
 import ru.hse.coursework.godaily.ui.components.molecules.CustomTextWindow
-import ru.hse.coursework.godaily.ui.theme.greyDark
 
 @Composable
 fun ReviewBox(
@@ -26,9 +25,6 @@ fun ReviewBox(
     modifier: Modifier = Modifier,
 ) {
     val containerBackgroundColor = Color.Transparent
-    val textFieldBackgroundColor = Color.White
-    val borderColor = greyDark
-    val isMaxReached = feedbackText.value.length == maxCharacters
 
     Column(
         modifier = modifier
@@ -38,7 +34,6 @@ fun ReviewBox(
     ) {
         VariableBold(text = "Опишите плюсы и минусы", fontSize = 17.sp)
         Spacer(modifier = Modifier.height(15.dp))
-
         CustomTextWindow(text = feedbackText)
     }
 }

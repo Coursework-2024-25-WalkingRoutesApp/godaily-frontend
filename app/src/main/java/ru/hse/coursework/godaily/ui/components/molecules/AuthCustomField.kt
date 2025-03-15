@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,42 +28,48 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.ui.components.atoms.VariableLight
+import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyDark
+import ru.hse.coursework.godaily.ui.theme.greyLight
 
 @Composable
-fun CustomTextWindow(
+fun AuthCustomField(
     text: MutableState<String>,
-    placeholder: String = "Оставьте отзыв...",
-    maxCharacters: Int = 1000,
+    placeholder: String = "Имя пользователя",
+    description: String = "Имя пользователя",
+    maxCharacters: Int? = 20,
     modifier: Modifier = Modifier,
 ) {
     val textFieldBackgroundColor = Color.White
-    val borderColor = greyDark
-    val isMaxReached = text.value.length == maxCharacters
+    val borderColor = greyLight
+    val isMaxReached = maxCharacters != null && text.value.length == maxCharacters
+
     Column {
+        VariableMedium(text = description, fontSize = 18.sp)
+        Spacer(Modifier.height(10.dp))
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .height(142.dp)
-                .background(textFieldBackgroundColor, RoundedCornerShape(8.dp))
-                .border(width = 1.dp, color = borderColor, shape = RoundedCornerShape(8.dp))
-                .padding(8.dp)
+                .height(56.dp)
+                .background(textFieldBackgroundColor, RoundedCornerShape(10.dp))
+                .border(width = 1.dp, color = borderColor, shape = RoundedCornerShape(10.dp))
+                .padding(start = 16.dp, end = 16.dp, top = 18.dp, bottom = 18.dp)
         ) {
             val scrollState = rememberScrollState()
 
             BasicTextField(
                 value = text.value,
                 onValueChange = {
-                    if (it.length <= maxCharacters) {
+                    if (maxCharacters == null || it.length <= maxCharacters) {
                         text.value = it
                     }
                 },
                 textStyle = TextStyle(
                     fontFamily = RobotoFontFamily,
                     fontWeight = FontWeight.Light,
-                    fontSize = 15.sp,
+                    fontSize = 16.sp,
                     color = black,
                 ),
                 modifier = Modifier
@@ -83,22 +90,24 @@ fun CustomTextWindow(
             )
         }
 
-        Text(
-            text = "${text.value.length} / $maxCharacters",
-            fontSize = 12.sp,
-            color = if (isMaxReached) Color.Red else greyDark,
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(top = 10.dp, end = 10.dp, bottom = 4.dp)
-        )
+        if (maxCharacters != null) {
+            Text(
+                text = "${text.value.length} / $maxCharacters",
+                fontSize = 12.sp,
+                color = if (isMaxReached) Color.Red else greyDark,
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(top = 10.dp, end = 10.dp, bottom = 4.dp)
+            )
+        }
     }
 }
 
 
 @Composable
-@Preview
-fun CustomTextWindowPreview() {
-    CustomTextWindow(
+@Preview(showBackground = true)
+fun AuthCustomFieldPreview() {
+    AuthCustomField(
         text = mutableStateOf(""),
     )
 }
