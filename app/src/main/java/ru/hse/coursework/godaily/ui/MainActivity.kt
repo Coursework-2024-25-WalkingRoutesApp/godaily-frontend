@@ -9,9 +9,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
-import ru.hse.coursework.godaily.BuildConfig
 import ru.hse.coursework.godaily.ui.navigation.MainScreen
 import ru.hse.coursework.godaily.ui.notification.ToastManager
 
@@ -26,8 +24,7 @@ class MainActivity : ComponentActivity() {
                     permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
         if (locationPermissionGranted) {
             ToastManager(this).showToast("Разрешение получено")
-            MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)
-            MapKitFactory.initialize(this)
+
 
         } else {
             ToastManager(this).showToast(

@@ -40,10 +40,10 @@ fun RouteTagsWithFavourite(
         ) {
             categories.forEach { category ->
                 val tag = when (category.categoryName) {
-                    "Nature" -> "природный"
-                    "Coffee" -> "кафе_по_пути"
-                    "Metro" -> "у_метро"
-                    "Culture" -> "культурный"
+                    "Природный" -> "природный"
+                    "Кафе по пути" -> "кафе_по_пути"
+                    "У метро" -> "у_метро"
+                    "Культурно-исторический" -> "культурный"
                     else -> ""
                 }
                 Tag(tag = tag)

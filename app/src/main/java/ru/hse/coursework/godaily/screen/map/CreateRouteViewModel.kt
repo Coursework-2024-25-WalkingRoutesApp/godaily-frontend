@@ -79,8 +79,6 @@ class CreateRouteViewModel @Inject constructor(
 
                 selectedImageUri.value = photoConverterService.urlToUri(route.route.routePreview)
             }
-        } else {
-            //TODO логика не смогли загрузить или нет маршрута
         }
         isDataLoaded.value = true
     }

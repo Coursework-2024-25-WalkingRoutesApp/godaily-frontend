@@ -36,7 +36,7 @@ fun RouteReviewsScreen(
 
     LaunchedEffect(routeId) {
         viewModel.loadRouteReviews(routeId)
-        println(reviews.value.size)
+        println(reviews.size)
     }
 
     Column(
@@ -77,7 +77,7 @@ fun RouteReviewsScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ReviewGrid(reviews = reviews.value)
+        ReviewGrid(reviews = reviews)
     }
 }
 

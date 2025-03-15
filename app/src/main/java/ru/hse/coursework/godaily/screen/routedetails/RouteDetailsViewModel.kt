@@ -8,9 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
@@ -76,8 +73,7 @@ class RouteDetailsViewModel @Inject constructor(
     val showFinishRouteDialog: MutableState<Boolean> = mutableStateOf(false)
     val showPassRouteAgainDialog: MutableState<Boolean> = mutableStateOf(false)
 
-    private val _reviews = MutableStateFlow<List<ReviewDto.ReviewInfoDto>>(emptyList())
-    val reviews: StateFlow<List<ReviewDto.ReviewInfoDto>> = _reviews.asStateFlow()
+    val reviews = mutableStateListOf<ReviewDto.ReviewInfoDto>()
 
     fun clear() {
         route.value = RoutePageDto(
@@ -110,7 +106,7 @@ class RouteDetailsViewModel @Inject constructor(
         isBackPressed.value = false
         showFinishRouteDialog.value = false
 
-        _reviews.value = emptyList()
+        reviews.clear()
     }
 
 
@@ -149,7 +145,9 @@ class RouteDetailsViewModel @Inject constructor(
                     mutableStateOf(routeReviews.curUserReview)
                 }
 
-                _reviews.value = routeReviews.reviews
+                reviews.clear()
+                reviews.addAll(routeReviews.reviews)
+
                 averageMark.value = routeReviews.rating
                 reviewsCount.value = routeReviews.reviewsCount
             }

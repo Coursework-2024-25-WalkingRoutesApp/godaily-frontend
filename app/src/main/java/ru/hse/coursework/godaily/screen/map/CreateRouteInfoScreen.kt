@@ -228,7 +228,6 @@ fun CreateRouteInfoScreen(
 
             },
             onHomeClick = {
-                //TODO: пофиксить, чтобы нигде, где не надо, нельзя перейти назад с помощью свайпа
                 bottomNavController.navigate(BottomNavigationItem.Home.route) {
                     popUpTo(bottomNavController.graph.startDestinationId) {
                         inclusive = true
