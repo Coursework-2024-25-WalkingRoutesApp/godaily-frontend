@@ -10,7 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import dagger.hilt.android.AndroidEntryPoint
-import ru.hse.coursework.godaily.ui.navigation.MainScreen
+import ru.hse.coursework.godaily.ui.navigation.StartScreen
 import ru.hse.coursework.godaily.ui.notification.ToastManager
 
 @AndroidEntryPoint
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
         requestLocationPermission()
 
         setContent {
-            MainScreen()
+            StartScreen()
         }
     }
 

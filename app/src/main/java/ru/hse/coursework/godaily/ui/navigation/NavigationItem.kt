@@ -12,7 +12,6 @@ sealed class NavigationItem(val route: String, val title: String) {
     data object RouteDetails : NavigationItem("route_details", "Детали маршрута")
     data object RouteReviews : NavigationItem("route_reviews", "Отзывы на маршрут")
     data object RouteRate : NavigationItem("route_rate", "Ваш отзыв на маршрут")
-
     data object RoutePassing : NavigationItem("route_passing", "Прохождение маршрута")
 
     // Home
@@ -20,7 +19,6 @@ sealed class NavigationItem(val route: String, val title: String) {
 
     // Routes
     data object RoutesMain : NavigationItem("routes_main", "Мои маршруты")
-
     data object Drafts : NavigationItem("drafts", "Черновики")
 
     // Map

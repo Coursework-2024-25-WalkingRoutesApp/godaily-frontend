@@ -32,13 +32,13 @@ import androidx.navigation.NavController
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.VariableBold
 import ru.hse.coursework.godaily.ui.components.molecules.AuthCustomField
+import ru.hse.coursework.godaily.ui.components.molecules.PasswordCustomField
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
-import ru.hse.coursework.godaily.ui.components.organisms.PasswordColumn
 import ru.hse.coursework.godaily.ui.navigation.AuthNavigationItem
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 
 @Composable
-fun RegisterScreen(
+fun LoginScreen(
     navController: NavController,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
@@ -61,15 +61,11 @@ fun RegisterScreen(
         ) {
             Spacer(modifier = Modifier.height(70.dp))
             VariableBold(
-                text = "Создайте новый аккаунт",
+                text = "Войдите в существующий аккаунт",
                 fontSize = 35.sp,
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.height(20.dp))
-            AuthCustomField(
-                text = viewModel.username,
-                placeholder = "Введите имя пользователя"
-            )
+            Spacer(modifier = Modifier.height(50.dp))
             //TODO проверка что почта это почта
             AuthCustomField(
                 text = viewModel.email,
@@ -78,27 +74,23 @@ fun RegisterScreen(
                 maxCharacters = null
             )
             Spacer(Modifier.height(27.dp))
-            PasswordColumn(
-                password = viewModel.password,
-                passwordAgain = viewModel.passwordAgain
+            PasswordCustomField(
+                text = viewModel.password
             )
 
             Spacer(Modifier.height(20.dp))
 
             StartButton(
-                text = "Создать аккаунт",
-                onClick = {
-                    /*TODO*/
-                    navController.navigate(AuthNavigationItem.AddPhotoScreen.route)
-                }
+                text = "Войти",
+                onClick = { /*TODO*/ }
             )
             Spacer(Modifier.height(10.dp))
 
             Text(
                 text = buildAnnotatedString {
-                    append("Уже есть аккаунт? ")
+                    append("Нет аккаунта? ")
                     withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                        append("Войти")
+                        append("Зарегистрироваться")
                     }
                 },
                 fontSize = 16.sp,
@@ -107,7 +99,7 @@ fun RegisterScreen(
                 color = Color.Black,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable {
-                    navController.navigate(AuthNavigationItem.LoginScreen.route)
+                    navController.navigate(AuthNavigationItem.RegisterScreen.route)
                 }
             )
 
@@ -119,6 +111,6 @@ fun RegisterScreen(
 
 @Preview(showSystemUi = true)
 @Composable
-fun RegisterScreenPreview() {
-    RegisterScreen(navController = NavController(LocalContext.current))
+fun LoginScreenPreview() {
+    LoginScreen(navController = NavController(LocalContext.current))
 }
