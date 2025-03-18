@@ -14,6 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import ru.hse.coursework.godaily.core.data.network.ApiService
 import ru.hse.coursework.godaily.core.data.network.FakeApiService
+import ru.hse.coursework.godaily.core.security.JwtManager
 import javax.inject.Singleton
 
 @Module
@@ -30,8 +31,9 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttp(): Call.Factory {
+    fun provideOkHttp(jwtManager: JwtManager): Call.Factory {
         return OkHttpClient.Builder()
+            .addInterceptor(JWTInterceptor(jwtManager))
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     //if (BuildConfig.DEBUG) {
