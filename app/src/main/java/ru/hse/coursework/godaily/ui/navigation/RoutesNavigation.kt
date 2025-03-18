@@ -76,11 +76,6 @@ fun RoutesNavigation(bottomNavHostController: NavHostController) {
                 RateRouteScreen(routesNavController, routeId, mark, routeDetailsViewModel)
             }
         }
-
-//        composable(NavigationItem.RouteCreationOnMap.route) {
-//            CreateRouteMapScreen(routesNavController)
-//        }
-//
         composable(NavigationItem.RouteCreationInfo.route) { backStackEntry ->
             CreateRouteInfoScreen(routesNavController, bottomNavHostController, createViewModel)
         }
@@ -90,12 +85,5 @@ fun RoutesNavigation(bottomNavHostController: NavHostController) {
                 CreateRouteMapScreen(routesNavController, routeId, createViewModel)
             }
         }
-
-//        composable(NavigationItem.RouteCreationInfo.route + "/{routeId}") { backStackEntry ->
-//            val routeId = backStackEntry.arguments?.getString("routeId")
-//            if (routeId != null) {
-//                CreateRouteInfoScreen(routesNavController, bottomNavHostController)
-//            }
-//        }
     }
 }

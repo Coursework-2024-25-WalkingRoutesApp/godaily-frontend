@@ -1,39 +1,30 @@
 package ru.hse.coursework.godaily.core.security
 
-import android.content.Context
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import android.content.SharedPreferences
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private val Context.dataStore by preferencesDataStore(name = "user_prefs")
-
 @Singleton
 class JwtManager @Inject constructor(
-    @ApplicationContext private val context: Context
+    private val sharedPreferences: SharedPreferences
 ) {
 
-    private val JWT_KEY = stringPreferencesKey("jwt_key")
+    private val _jwtFlow = MutableStateFlow<String?>(sharedPreferences.getString(JWT_KEY, null))
+    val jwtFlow: StateFlow<String?> = _jwtFlow
 
     suspend fun saveJwt(jwt: String) {
-        context.dataStore.edit { prefs ->
-            prefs[JWT_KEY] = jwt
-        }
-    }
-
-    fun getJwt(): Flow<String?> {
-        return context.dataStore.data.map { prefs ->
-            prefs[JWT_KEY]
-        }
+        sharedPreferences.edit().putString(JWT_KEY, jwt).apply()
+        _jwtFlow.value = jwt
     }
 
     suspend fun clearJwt() {
-        context.dataStore.edit { prefs ->
-            prefs.remove(JWT_KEY)
-        }
+        sharedPreferences.edit().remove(JWT_KEY).apply()
+        _jwtFlow.value = null
+    }
+
+    companion object {
+        private const val JWT_KEY = "jwt_key"
     }
 }

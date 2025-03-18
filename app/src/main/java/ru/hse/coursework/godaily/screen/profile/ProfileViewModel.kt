@@ -11,14 +11,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.domain.profile.FetchProfileInfoUseCase
-import ru.hse.coursework.godaily.core.domain.profile.SaveUserProfileInfoUseCase
+import ru.hse.coursework.godaily.core.domain.profile.SaveUserEditedNameUseCase
+import ru.hse.coursework.godaily.core.domain.profile.SaveUserPhotoUseCase
 import ru.hse.coursework.godaily.ui.notification.ToastManager
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val fetchProfileInfoUseCase: FetchProfileInfoUseCase,
-    private val saveUserProfileInfoUseCase: SaveUserProfileInfoUseCase
+    private val saveUserEditedNameUseCase: SaveUserEditedNameUseCase,
+    private val saveUserPhotoUseCase: SaveUserPhotoUseCase
 ) : ViewModel() {
 
     val email: MutableState<String> = mutableStateOf("email")
@@ -52,14 +54,16 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun saveNewUserData(context: Context) {
-        if (editedUserName.value.isEmpty()) {
-            return
-        }
         viewModelScope.launch {
-            val result =
-                saveUserProfileInfoUseCase.execute(editedUserName.value, selectedImageUri.value)
+            editedUserName.value.takeIf { it.isNotEmpty() }?.let {
+                val nameResult = saveUserEditedNameUseCase.execute(it)
+                ToastManager(context).showToast(nameResult.message())
+            }
 
-            ToastManager(context).showToast(result.message())
+            selectedImageUri.value?.let {
+                val photoResult = saveUserPhotoUseCase.execute(it)
+                ToastManager(context).showToast(photoResult.message())
+            }
         }
     }
 }

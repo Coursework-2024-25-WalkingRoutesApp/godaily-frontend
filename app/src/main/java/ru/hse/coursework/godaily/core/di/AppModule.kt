@@ -1,6 +1,7 @@
 package ru.hse.coursework.godaily.core.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,5 +25,13 @@ object AppModule {
     @Singleton
     fun provideUUIDService(): UuidService {
         return UuidService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(
+        @ApplicationContext context: Context
+    ): SharedPreferences {
+        return context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
     }
 }

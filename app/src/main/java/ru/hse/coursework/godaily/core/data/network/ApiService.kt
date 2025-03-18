@@ -18,11 +18,10 @@ interface ApiService {
         email: String,
         password: String,
         username: String,
-        userPhoto: String
-    ): String // Возвращает JWT
+    ): Response<String> // Возвращает JWT
 
     // Вход в приложение
-    suspend fun loginUser(email: String, password: String): String // Возвращает JWT
+    suspend fun loginUser(email: String, password: String): Response<String> // Возвращает JWT
 
     // Выход из приложения
     suspend fun logoutUser(): Boolean
@@ -32,7 +31,9 @@ interface ApiService {
 
     // Сохранение информации о пользователе
 
-    suspend fun saveUserInfo(jwt: String, editedName: String, photo: String): Response<String>
+    suspend fun saveUserPhoto(jwt: String, photo: ByteArray?): Response<String>
+
+    suspend fun saveUserEditedName(jwt: String, username: String): Response<String>
 
     // Сохранение маршрута
     suspend fun addRoute(jwt: String, route: RouteDto): Response<String>

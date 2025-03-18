@@ -19,7 +19,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.purpleDark
 
@@ -74,8 +73,9 @@ fun BottomNavigation(bottomNavController: NavHostController) {
 
 
 @Composable
-fun MainScreen() {
-    val navController = rememberNavController()
+fun MainScreen(
+    navController: NavHostController
+) {
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }

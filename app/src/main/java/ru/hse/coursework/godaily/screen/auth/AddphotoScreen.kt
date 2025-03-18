@@ -33,7 +33,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -130,7 +129,10 @@ fun AddPhotoScreen(
             Spacer(modifier = Modifier.height(80.dp))
             StartButton(
                 text = "Продолжить",
-                onClick = { /*TODO*/ }
+                onClick = {
+                    viewModel.addProfilePhoto(context)
+                    viewModel.saveJwtToStorage()
+                }
             )
             Spacer(Modifier.height(10.dp))
 
@@ -142,19 +144,8 @@ fun AddPhotoScreen(
                 fontWeight = FontWeight.Medium,
                 color = Color.Black,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.clickable {
-                    /* TODO: Handle click */
-                }
+                modifier = Modifier.clickable { viewModel.saveJwtToStorage() }
             )
-
-
         }
     }
-}
-
-
-@Preview(showSystemUi = true)
-@Composable
-fun AddPhotoScreenPreview() {
-    AddPhotoScreen(navController = NavController(LocalContext.current))
 }

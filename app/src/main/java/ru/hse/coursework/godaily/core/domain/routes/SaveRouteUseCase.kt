@@ -7,13 +7,15 @@ import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.network.ApiService
 import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
+import ru.hse.coursework.godaily.core.domain.service.PhotoConverterService
 import ru.hse.coursework.godaily.core.domain.service.RouteYandexService
 import java.util.UUID
 import javax.inject.Inject
 
 class SaveRouteUseCase @Inject constructor(
     private val api: ApiService,
-    private val routeYandexService: RouteYandexService
+    private val routeYandexService: RouteYandexService,
+    private val photoConverterService: PhotoConverterService,
 ) {
     suspend fun execute(
         id: UUID?,
@@ -24,13 +26,17 @@ class SaveRouteUseCase @Inject constructor(
         imageUri: Uri?,
         isDraft: Boolean,
         routePoints: SnapshotStateList<TitledPoint>,
-        categories: Set<Int>
+        categories: Set<Int>,
     ): Response<String> {
         val route = routeYandexService.createRoute(titledPointsToPoints(routePoints))
 
         val duration = route?.let { routeYandexService.getRouteDuration(it) } ?: 0.toDouble()
         val length = route?.let { routeYandexService.getRouteLength(it) } ?: 0.toDouble()
         val routeId = id ?: UUID.randomUUID()
+
+        val routePreview = imageUri?.let {
+            photoConverterService.uriToByteArray(it)
+        }
 
         return api.addRoute(
             "",
@@ -42,7 +48,7 @@ class SaveRouteUseCase @Inject constructor(
                 length = length,
                 startPoint = startPoint,
                 endPoint = endPoint,
-                routePreview = uriToSomething(imageUri),
+                routePreview = routePreview,
                 isDraft = isDraft,
                 routeCoordinate = titledPointsToRouteCoordinate(routePoints, routeId),
                 categories = categoriesToDto(categories)
@@ -52,14 +58,6 @@ class SaveRouteUseCase @Inject constructor(
 
     private fun titledPointsToPoints(routePoints: SnapshotStateList<TitledPoint>): List<Point> {
         return routePoints.map { it.point }
-    }
-
-    //TODO сделать конвертер для фото
-    private fun uriToSomething(imageUri: Uri?): String {
-        if (imageUri == null) {
-            return ""
-        }
-        return imageUri.toString()
     }
 
     private fun titledPointsToRouteCoordinate(

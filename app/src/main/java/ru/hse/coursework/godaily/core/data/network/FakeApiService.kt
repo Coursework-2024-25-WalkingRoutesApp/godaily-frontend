@@ -201,13 +201,12 @@ class FakeApiService : ApiService {
         email: String,
         password: String,
         username: String,
-        userPhoto: String
-    ): String {
-        return "mock_jwt_token"
+    ): Response<String> {
+        return Response.success("mock_jwt_token")
     }
 
-    override suspend fun loginUser(email: String, password: String): String {
-        return "mock_jwt_token"
+    override suspend fun loginUser(email: String, password: String): Response<String> {
+        return Response.success("mock_jwt_token")
     }
 
     override suspend fun logoutUser(): Boolean {
@@ -218,11 +217,11 @@ class FakeApiService : ApiService {
         return fakeUser
     }
 
-    override suspend fun saveUserInfo(
-        jwt: String,
-        editedName: String,
-        photo: String
-    ): Response<String> {
+    override suspend fun saveUserPhoto(jwt: String, photo: ByteArray?): Response<String> {
+        return Response.success("Данные успешно сохранены")
+    }
+
+    override suspend fun saveUserEditedName(jwt: String, username: String): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 

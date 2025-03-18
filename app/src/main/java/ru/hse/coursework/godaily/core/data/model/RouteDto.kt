@@ -10,7 +10,7 @@ data class RouteDto(
     var length: Double?,
     var startPoint: String?,
     var endPoint: String?,
-    var routePreview: String?,
+    var routePreview: ByteArray?,
     var isDraft: Boolean?,
     var routeCoordinate: List<RouteCoordinate>?,
     var categories: List<String>?

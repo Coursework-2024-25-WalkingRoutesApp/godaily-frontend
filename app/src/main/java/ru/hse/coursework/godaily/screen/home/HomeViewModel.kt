@@ -14,15 +14,18 @@ import ru.hse.coursework.godaily.core.domain.home.FetchRoutesForHomeScreenUseCas
 import ru.hse.coursework.godaily.core.domain.home.FetchUnfinishedRoutesUseCase
 import ru.hse.coursework.godaily.core.domain.home.FilterRoutesUseCase
 import ru.hse.coursework.godaily.core.domain.home.SortRoutesUseCase
+import ru.hse.coursework.godaily.core.security.JwtManager
 import javax.inject.Inject
 
+//TODO удалить тестовые штуки
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val fetchRoutesForHomeScreenUseCase: FetchRoutesForHomeScreenUseCase,
     private val fetchRoutesBySearchValue: FetchRoutesBySearchValue,
     private val fetchUnfinishedRoutesUseCase: FetchUnfinishedRoutesUseCase,
     private val filterRoutesUseCase: FilterRoutesUseCase,
-    private val sortRoutesUseCase: SortRoutesUseCase
+    private val sortRoutesUseCase: SortRoutesUseCase,
+    private val jwtManager: JwtManager
 ) : ViewModel() {
 
     val routesForGrid: SnapshotStateList<RouteCardDto> = mutableStateListOf()
