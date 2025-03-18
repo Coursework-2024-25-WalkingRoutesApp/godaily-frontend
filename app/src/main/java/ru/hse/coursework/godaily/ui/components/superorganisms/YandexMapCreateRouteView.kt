@@ -1,7 +1,10 @@
 package ru.hse.coursework.godaily.ui.components.superorganisms
 
 import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -9,9 +12,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
@@ -35,12 +40,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
+import ru.hse.coursework.godaily.ui.components.molecules.Cancel
 import ru.hse.coursework.godaily.ui.components.organisms.AddPointTitleDialog
 import ru.hse.coursework.godaily.ui.notification.ToastManager
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
 import java.util.UUID
 
-// TODO Возможность убрать последнюю точку
 // TODO геосаджест
 // TODO тап на точку
 @Composable
@@ -102,35 +107,50 @@ fun YandexMapCreateRouteView(
         }
     }
 
-    AndroidView(
-        factory = { _ ->
-            mapView.apply {
-                val map = mapWindow.map
+    Box(modifier = modifier.fillMaxSize()) {
+        AndroidView(
+            factory = { _ ->
+                mapView.apply {
+                    val map = mapWindow.map
 
-                if (routePoints.isNotEmpty()) {
-                    map.move(CameraPosition(routePoints.last().point, 14.0f, 0.0f, 0.0f))
+                    if (routePoints.isNotEmpty()) {
+                        map.move(CameraPosition(routePoints.last().point, 14.0f, 0.0f, 0.0f))
+                    }
+                    map.move(startCameraPosition)
+
+                    map.addInputListener(inputListener)
+                    updateRoute(map, routePoints, startIcon, midIcon, endIcon)
                 }
-                map.move(startCameraPosition)
+            },
+            modifier = Modifier.fillMaxSize(),
+            update = { view ->
+                val map = view.mapWindow.map
+                if (routePoints.isNotEmpty()) {
+                    map.move(
+                        CameraPosition(routePoints.last().point, 17.0f, 0.0f, 0.0f),
+                        Animation(Animation.Type.SMOOTH, 1.5f),
+                        null
+                    )
+                }
 
-
-                map.addInputListener(inputListener)
                 updateRoute(map, routePoints, startIcon, midIcon, endIcon)
             }
-        },
-        modifier = modifier.fillMaxSize(),
-        update = { view ->
-            val map = view.mapWindow.map
-            if (routePoints.isNotEmpty()) {
-                map.move(
-                    CameraPosition(routePoints.last().point, 18.0f, 0.0f, 0.0f),
-                    Animation(Animation.Type.SMOOTH, 1.5f),
-                    null
-                )
-            }
+        )
 
-            updateRoute(map, routePoints, startIcon, midIcon, endIcon)
+        if (routePoints.isNotEmpty()) {
+            Cancel(
+                onClick = {
+                    routePoints.removeLastOrNull()
+                    mapView.mapWindow.map.mapObjects.clear()
+                    updateRoute(mapView.mapWindow.map, routePoints, startIcon, midIcon, endIcon)
+                },
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(16.dp)
+                    .size(40.dp)
+            )
         }
-    )
+    }
 
     selectedPoint.value?.let { point ->
         if (showAddPointTitleDialog.value) {
