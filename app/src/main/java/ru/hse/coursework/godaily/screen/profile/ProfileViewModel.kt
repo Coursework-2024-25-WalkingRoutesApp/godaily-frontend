@@ -13,6 +13,7 @@ import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.domain.profile.FetchProfileInfoUseCase
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserEditedNameUseCase
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserPhotoUseCase
+import ru.hse.coursework.godaily.core.security.JwtManager
 import ru.hse.coursework.godaily.ui.notification.ToastManager
 import javax.inject.Inject
 
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val fetchProfileInfoUseCase: FetchProfileInfoUseCase,
     private val saveUserEditedNameUseCase: SaveUserEditedNameUseCase,
-    private val saveUserPhotoUseCase: SaveUserPhotoUseCase
+    private val saveUserPhotoUseCase: SaveUserPhotoUseCase,
+    private val jwtManager: JwtManager
 ) : ViewModel() {
 
     val email: MutableState<String> = mutableStateOf("email")
@@ -31,7 +33,7 @@ class ProfileViewModel @Inject constructor(
     val favouriteRoutes = mutableStateListOf<RouteCardDto>()
 
     val selectedImageUri: MutableState<Uri?> = mutableStateOf(null)
-    val editedUserName = mutableStateOf(userName.value)
+    val editedUserName = mutableStateOf("Ваше имя")
     //TODO решить, какие тут еще штуки можно менять в редактировании
 
     init {
@@ -43,6 +45,7 @@ class ProfileViewModel @Inject constructor(
             val profile = fetchProfileInfoUseCase.execute("")
             email.value = profile.email
             userName.value = profile.username
+            editedUserName.value = profile.username
             profilePictureUrl.value = profile.photoUrl ?: ""
 
             completedRoutes.clear()
@@ -65,6 +68,10 @@ class ProfileViewModel @Inject constructor(
                 ToastManager(context).showToast(photoResult.message())
             }
         }
+    }
+
+    fun exit() {
+        jwtManager.clearJwt()
     }
 }
 

@@ -2,7 +2,6 @@ package ru.hse.coursework.godaily.ui.components.molecules
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
@@ -12,10 +11,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
-import ru.hse.coursework.godaily.ui.theme.greyDark
 
 @Composable
-fun Quit(onClick: () -> Unit, text: String = "Сбросить", contentColor: Color = greyDark) {
+fun Exit(
+    onClick: () -> Unit,
+    text: String = "Выйти из приложения",
+    contentColor: Color = Color(0xFFBB1414)
+) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
@@ -29,15 +31,14 @@ fun Quit(onClick: () -> Unit, text: String = "Сбросить", contentColor: C
             bottom = 0.dp
         ),
         modifier = Modifier
-            .width(70.dp)
             .height(23.dp)
     ) {
-        VariableMedium(text, 14.sp, greyDark)
+        VariableMedium(text, 15.sp, contentColor)
     }
 }
 
 @Preview
 @Composable
-fun QuitPreview() {
-    Quit(onClick = {})
+fun ExitPreview() {
+    Exit(onClick = {})
 }

@@ -14,12 +14,12 @@ class JwtManager @Inject constructor(
     private val _jwtFlow = MutableStateFlow<String?>(sharedPreferences.getString(JWT_KEY, null))
     val jwtFlow: StateFlow<String?> = _jwtFlow
 
-    suspend fun saveJwt(jwt: String) {
+    fun saveJwt(jwt: String) {
         sharedPreferences.edit().putString(JWT_KEY, jwt).apply()
         _jwtFlow.value = jwt
     }
 
-    suspend fun clearJwt() {
+    fun clearJwt() {
         sharedPreferences.edit().remove(JWT_KEY).apply()
         _jwtFlow.value = null
     }

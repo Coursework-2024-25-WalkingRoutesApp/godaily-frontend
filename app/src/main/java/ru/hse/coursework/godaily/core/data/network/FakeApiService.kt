@@ -20,16 +20,16 @@ class FakeApiService : ApiService {
     val userCheckpoints = mutableListOf<RouteSessionDto.UserCheckpoint>()
 
     val routeCoordinates = listOf(
-        Point(55.6600, 37.5100),
-        Point(55.6780, 37.5250),
-        Point(55.6900, 37.5450),
-        Point(55.7050, 37.5600),
-        Point(55.7200, 37.5800),
-        Point(55.7350, 37.6000),
-        Point(55.7450, 37.6100),
-        Point(55.7550, 37.6200),
-        Point(55.7600, 37.6250),
-        Point(55.7700, 37.6300)
+        Point(55.6600, 37.5100),  // Старт
+        Point(55.6780, 37.5250),  // Парк Горького
+        Point(55.6900, 37.5450),  // Патриарший мост
+        Point(55.7050, 37.5600),  // Храм Христа Спасителя
+        Point(55.7200, 37.5800),  // Пушкинский музей
+        Point(55.7350, 37.6000),  // Арбат
+        Point(55.7450, 37.6100),  // Новый Арбат
+        Point(55.7550, 37.6200),  // Московский международный деловой центр
+        Point(55.7600, 37.6250),  // Башня Федерация
+        Point(55.7700, 37.6300)   // Финиш
     ).mapIndexed { index, point ->
         val pointId = UUID.fromString(String.format("00000000-0000-0000-0000-%012d", index + 1))
 
@@ -40,159 +40,138 @@ class FakeApiService : ApiService {
             )
         )
 
+        val (title, description) = when (index) {
+            0 -> "Стартовая точка" to "Начало маршрута. Подготовьтесь к прогулке."
+            1 -> "Парк Горького" to "Центральный парк культуры и отдыха. Отличное место для начала прогулки."
+            2 -> "Патриарший мост" to "Пешеходный мост через Москву-реку с прекрасным видом на Кремль."
+            3 -> "Храм Христа Спасителя" to "Главный кафедральный собор Русской православной церкви."
+            4 -> "Пушкинский музей" to "Государственный музей изобразительных искусств имени А.С. Пушкина."
+            5 -> "Улица Арбат" to "Знаменитая пешеходная улица с сувенирными лавками и уличными артистами."
+            6 -> "Новый Арбат" to "Современная деловая улица с небоскребами и торговыми центрами."
+            7 -> "ММДЦ Москва-Сити" to "Московский международный деловой центр с высотными зданиями."
+            8 -> "Башня Федерация" to "Один из самых высоких небоскребов в Европе."
+            9 -> "Финишная точка" to "Конец маршрута. Вы успешно завершили прогулку!"
+            else -> "Точка $index" to "Промежуточная точка маршрута."
+        }
+
         RouteDto.RouteCoordinate(
             id = pointId,
             routeId = routeId,
             latitude = point.latitude,
             longitude = point.longitude,
             orderNumber = index + 1,
-            title = "Точка $index",
-            description = "Описание точки"
+            title = title,
+            description = description
         )
     }
 
-    private val fakeUser = UserDto("Test User", "testuser@example.com", "fakePhotoUrl")
+    private val fakeUser =
+        UserDto("yuulkht", "testuser@example.com", "https://i.postimg.cc/J4DLnLCS/accountphoto.jpg")
 
     private val fakeRoutes = listOf(
         RouteCardDto(
             UUID.randomUUID(),
-            "City Tour",
-            7200.toDouble(),
-            5000.toDouble(),
-            "City Center URL",
-            3.5,
-            listOf(RouteDto.Category(UUID.randomUUID(), "Culture"))
+            "Историческая прогулка",
+            5400.toDouble(),
+            4000.toDouble(),
+            "https://i.postimg.cc/nhTR2SBF/history.jpg",
+            100.0,
+            listOf(RouteDto.Category(UUID.randomUUID(), "Культурно-исторический"))
         ),
         RouteCardDto(
             UUID.randomUUID(),
-            "Mountain Hike",
-            7200.toDouble(),
-            8000.toDouble(),
-            "City Center URL",
-            3.5,
-            listOf(
-                RouteDto.Category(UUID.randomUUID(), "Coffee"),
-                RouteDto.Category(UUID.randomUUID(), "Metro")
-            )
-        ),
-        RouteCardDto(
-            UUID.randomUUID(),
-            "Beach Walk",
+            "Прогулка по набережной",
             3600.toDouble(),
-            3000.toDouble(),
-            "City Center URL",
-            3.5,
+            2500.toDouble(),
+            "https://i.postimg.cc/QtqvLNW7/river.jpg",
+            235.0,
             listOf(
-                RouteDto.Category(UUID.randomUUID(), "Coffee"),
-                RouteDto.Category(UUID.randomUUID(), "Nature")
+                RouteDto.Category(UUID.randomUUID(), "Кафе по пути"),
+                RouteDto.Category(UUID.randomUUID(), "Природный")
             )
         ),
         RouteCardDto(
             UUID.randomUUID(),
-            "City Tour",
+            "Ночная экскурсия",
             7200.toDouble(),
             5000.toDouble(),
-            "City Center URL",
-            3.5,
+            "https://i.postimg.cc/g29sDBH5/night.jpg",
+            500.0,
             listOf(
-                RouteDto.Category(UUID.randomUUID(), "Coffee"),
-                RouteDto.Category(UUID.randomUUID(), "Nature")
+                RouteDto.Category(UUID.randomUUID(), "Кафе по пути"),
+                RouteDto.Category(UUID.randomUUID(), "Природный")
             )
         ),
         RouteCardDto(
             UUID.randomUUID(),
-            "Mountain Hike",
+            "Поход к историческому музею",
             14400.toDouble(),
-            8000.toDouble(),
-            "City Center URL",
-            3.5,
+            12000.toDouble(),
+            "https://i.postimg.cc/L5PJxvH4/museum.jpg",
+            1200.0,
             listOf(
-                RouteDto.Category(UUID.randomUUID(), "Metro"),
-                RouteDto.Category(UUID.randomUUID(), "Coffee")
+                RouteDto.Category(UUID.randomUUID(), "У метро"),
+                RouteDto.Category(UUID.randomUUID(), "Кафе по пути")
             )
         ),
         RouteCardDto(
             UUID.randomUUID(),
-            "Beach Walk",
-            3600.toDouble(),
+            "Кофейный тур по городу",
+            4800.toDouble(),
             3000.toDouble(),
-            "City Center URL",
-            3.5,
+            "https://i.postimg.cc/DyV6nM4g/coffee.jpg",
+            1500.0,
             listOf(
-                RouteDto.Category(UUID.randomUUID(), "Culture"),
-                RouteDto.Category(UUID.randomUUID(), "Metro")
+                RouteDto.Category(UUID.randomUUID(), "Культурно-исторический"),
+                RouteDto.Category(UUID.randomUUID(), "У метро")
             )
         ),
         RouteCardDto(
             UUID.randomUUID(),
-            "City Tour",
-            3600.toDouble(),
-            3000.toDouble(),
-            "City Center URL",
-            3.5,
+            "Путешествие по раменкам",
+            9600.toDouble(),
+            7500.toDouble(),
+            "https://i.postimg.cc/SKK7g0Hy/ramenki.jpg",
+            1684.0,
             listOf(
-                RouteDto.Category(UUID.randomUUID(), "Coffee"),
-                RouteDto.Category(UUID.randomUUID(), "Nature")
+                RouteDto.Category(UUID.randomUUID(), "Кафе по пути"),
+                RouteDto.Category(UUID.randomUUID(), "Природный")
             )
         ),
         RouteCardDto(
             UUID.randomUUID(),
-            "Mountain Hike",
-            3600.toDouble(),
-            3000.toDouble(),
-            "City Center URL",
-            3.5,
+            "Живописные места для фотографий",
+            7200.toDouble(),
+            5500.toDouble(),
+            "https://i.postimg.cc/59z57SKF/beautiful.jpg",
+            2000.0,
             listOf(
-                RouteDto.Category(UUID.randomUUID(), "Coffee"),
-                RouteDto.Category(UUID.randomUUID(), "Nature")
+                RouteDto.Category(UUID.randomUUID(), "Кафе по пути"),
+                RouteDto.Category(UUID.randomUUID(), "Природный")
             )
         ),
         RouteCardDto(
             UUID.randomUUID(),
-            "Beach Walk",
-            3600.toDouble(),
-            3000.toDouble(),
-            "City Center URL",
-            3.5,
+            "По следам известных фильмов",
+            6000.toDouble(),
+            4200.toDouble(),
+            "https://i.postimg.cc/4d9c0XPT/filmtogo.jpg",
+            3547.0,
             listOf(
-                RouteDto.Category(UUID.randomUUID(), "Coffee"),
-                RouteDto.Category(UUID.randomUUID(), "Nature")
+                RouteDto.Category(UUID.randomUUID(), "Кафе по пути"),
+                RouteDto.Category(UUID.randomUUID(), "Природный")
             )
         ),
         RouteCardDto(
             UUID.randomUUID(),
-            "City Tour",
-            3600.toDouble(),
-            3000.toDouble(),
-            "City Center URL",
-            3.5,
+            "Архитектурное наследие города",
+            4800.toDouble(),
+            3700.toDouble(),
+            "https://i.postimg.cc/QNc5kxVQ/arci.jpg",
+            5493.0,
             listOf(
-                RouteDto.Category(UUID.randomUUID(), "Coffee"),
-                RouteDto.Category(UUID.randomUUID(), "Nature")
-            )
-        ),
-        RouteCardDto(
-            UUID.randomUUID(),
-            "Mountain Hike",
-            3600.toDouble(),
-            3000.toDouble(),
-            "City Center URL",
-            3.5,
-            listOf(
-                RouteDto.Category(UUID.randomUUID(), "Coffee"),
-                RouteDto.Category(UUID.randomUUID(), "Nature")
-            )
-        ),
-        RouteCardDto(
-            UUID.randomUUID(),
-            "Beach Walk",
-            3600.toDouble(),
-            3000.toDouble(),
-            "City Center URL",
-            3.5,
-            listOf(
-                RouteDto.Category(UUID.randomUUID(), "Coffee"),
-                RouteDto.Category(UUID.randomUUID(), "Nature")
+                RouteDto.Category(UUID.randomUUID(), "Кафе по пути"),
+                RouteDto.Category(UUID.randomUUID(), "Природный")
             )
         )
     )
@@ -233,21 +212,56 @@ class FakeApiService : ApiService {
         jwt: String,
         userLocation: UserCoordinateDto
     ): List<RouteCardDto> {
-        return fakeRoutes.take(3)
+        return listOf(
+            RouteCardDto(
+                UUID.randomUUID(),
+                "Загадочные уголки города",
+                7200.toDouble(),
+                null,
+                "https://example.com/mystery-tour",
+                null,
+                listOf(RouteDto.Category(UUID.randomUUID(), "Культурно-исторический"))
+            ),
+            RouteCardDto(
+                UUID.randomUUID(),
+                null, // Название не указано
+                5400.toDouble(),
+                3500.toDouble(),
+                "https://example.com/unknown-route",
+                150.0,
+                listOf(
+                    RouteDto.Category(UUID.randomUUID(), "Кафе по пути"),
+                    RouteDto.Category(UUID.randomUUID(), "У метро")
+                )
+            ),
+            RouteCardDto(
+                UUID.randomUUID(),
+                "Тайны подземного города",
+                null, // Длительность не указана
+                5000.toDouble(),
+                null, // Ссылка не указана
+                800.0,
+                listOf(
+                    RouteDto.Category(UUID.randomUUID(), "Кафе по пути"),
+                    RouteDto.Category(UUID.randomUUID(), "Природный")
+                )
+            )
+        )
+
     }
 
     override suspend fun getUserPublishedRoutes(
         jwt: String,
         userLocation: UserCoordinateDto
     ): List<RouteCardDto> {
-        return fakeRoutes
+        return fakeRoutes.subList(7, 8)
     }
 
     override suspend fun getUserCompletedRoutes(
         jwt: String,
         userLocation: UserCoordinateDto
     ): List<RouteCardDto> {
-        return fakeRoutes
+        return fakeRoutes.subList(2, 6)
     }
 
     override suspend fun getUserFavouriteRoutes(
@@ -261,7 +275,7 @@ class FakeApiService : ApiService {
         jwt: String,
         userLocation: UserCoordinateDto
     ): List<RouteCardDto> {
-        return fakeRoutes.take(3)
+        return fakeRoutes.takeLast(3)
     }
 
     override suspend fun addRouteToFavorites(jwt: String, routeId: UUID): Response<String> {
@@ -279,20 +293,18 @@ class FakeApiService : ApiService {
     override suspend fun getRouteDetails(jwt: String, routeId: UUID): RoutePageDto {
         return RoutePageDto(
             id = UUID.randomUUID(),
-            routeName = "Измайловский Кремль",
-            description = "Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы. Прогулка по району Измайлово в Москве может стать увлекательным и запоминающимся опытом для любителей истории, культуры и природы.",
-            duration = 7200.toDouble(),
+            routeName = "Прогулка по набережной",
+            description = "Этот маршрут идеально подойдёт для тех, кто хочет насладиться свежим воздухом и прекрасными видами реки. По пути можно встретить уютные кафе, зоны отдыха и живописные природные уголки. Отличное место для прогулки в одиночестве или в компании друзей.",
+            duration = 3600.toDouble(),
             length = 2500.toDouble(),
-            startPoint = "р-он. Измайлово",
-            endPoint = "Измайловское шоссе, 73",
-            routePreview = "https://amicus-vet.ru/images/statii/a582d6cs-960.jpg",
+            startPoint = "Центральная набережная",
+            endPoint = "Пешеходный мост",
+            routePreview = "https://i.postimg.cc/QtqvLNW7/river.jpg",
             isFavourite = false,
             routeCoordinate = routeCoordinates,
             categories = listOf(
                 RouteDto.Category(UUID.randomUUID(), "Кафе по пути"),
-                RouteDto.Category(UUID.randomUUID(), "У метро"),
-//                RouteDto.Category(UUID.randomUUID(), "Природный"),
-//                RouteDto.Category(UUID.randomUUID(), "Культурно-исторический")
+                RouteDto.Category(UUID.randomUUID(), "Природный")
             )
         )
     }

@@ -64,8 +64,6 @@ import java.util.UUID
 import com.yandex.mapkit.search.Session as SearchSession
 import com.yandex.mapkit.transport.masstransit.Session as RouteSession
 
-// TODO геосаджест
-// TODO тап на точку
 @Composable
 fun YandexMapCreateRouteView(
     modifier: Modifier = Modifier,
@@ -247,7 +245,7 @@ fun YandexMapCreateRouteView(
                             null
                         )
                     }
-                }, //todo
+                },
                 modifier = Modifier
                     .align(Alignment.Top)
                     .width(330.dp)

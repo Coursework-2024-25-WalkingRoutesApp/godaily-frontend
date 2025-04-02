@@ -25,7 +25,7 @@ class PhotoConverterService @Inject constructor(
                 val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
                 inputStream?.use {
                     //TODO
-                    println(it.readBytes())
+                    println("блабла" + it.readBytes())
                     it.readBytes()
                 }
             } catch (e: Exception) {

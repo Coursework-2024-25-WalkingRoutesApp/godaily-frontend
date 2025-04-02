@@ -47,10 +47,10 @@ fun RouteVerticalGrid(
                         imageResUrl = route.routePreview ?: "",
                         categories = route.categories?.mapNotNull { category ->
                             when (category.categoryName) {
-                                "Culture" -> R.drawable.culture
-                                "Coffee" -> R.drawable.coffee
-                                "Metro" -> R.drawable.metro
-                                "Nature" -> R.drawable.nature
+                                "Культурно-исторический" -> R.drawable.culture
+                                "Кафе по пути" -> R.drawable.coffee
+                                "У метро" -> R.drawable.metro
+                                "Природный" -> R.drawable.nature
                                 else -> null
                             }
                         } ?: emptyList(),

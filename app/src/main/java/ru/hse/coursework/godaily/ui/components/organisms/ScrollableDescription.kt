@@ -25,7 +25,7 @@ fun ScrollableDescription(
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
-        RouteDescription(text = description, modifier = modifier, color = color)
+        RouteDescription(text = description, color = color)
     }
 }
 

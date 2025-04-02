@@ -57,6 +57,7 @@ fun RouteCardToContinue(
                             colors = listOf(
                                 Color.Transparent,
                                 purpleDark,
+                                purpleDark
                             )
                         )
                     )

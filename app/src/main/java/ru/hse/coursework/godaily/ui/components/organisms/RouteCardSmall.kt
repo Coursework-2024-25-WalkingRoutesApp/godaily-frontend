@@ -145,7 +145,7 @@ fun RouteCardSmallPreview() {
         distance = "4.6 км",
         time = "35-50 минут",
         title = "Историческое Измайлово",
-        imageResUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlKC_brTH0YllYbrNf3gtJ6dSyGoDhI4eD-g&s",
+        imageResUrl = "https://i.postimg.cc/nhTR2SBF/history.jpg",
         modifier = Modifier.padding(8.dp),
         categories = listOf(
             R.drawable.culture,

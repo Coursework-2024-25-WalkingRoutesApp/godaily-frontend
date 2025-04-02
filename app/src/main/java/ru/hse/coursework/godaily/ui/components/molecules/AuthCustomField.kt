@@ -35,7 +35,6 @@ import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.greyLight
 
-//TODO пересмотреть условия валидности
 @Composable
 fun AuthCustomField(
     text: MutableState<String>,

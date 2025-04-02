@@ -21,15 +21,18 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.components.molecules.Back
+import ru.hse.coursework.godaily.ui.components.molecules.Exit
 import ru.hse.coursework.godaily.ui.components.molecules.HeaderWithBackground
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
 
 @Composable
 fun AboutUsScreen(
     navController: NavController,
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 
@@ -83,7 +86,12 @@ fun AboutUsScreen(
                     url = "https://yandex.ru/legal/maps_api/",
                     onClick = ::openLink
                 )
+
+                Spacer(Modifier.height(30.dp))
+                Exit(onClick = { viewModel.exit() })
             }
+
+
         }
     }
 }

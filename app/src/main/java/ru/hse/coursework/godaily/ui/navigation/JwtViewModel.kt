@@ -26,7 +26,7 @@ class JwtViewModel @Inject constructor(
         }
     }
 
-    //TODO
+    //TODO правильная валидация JWT
     fun validateJwt(jwt: String?): Boolean {
         return jwt?.isNotEmpty() == true
     }
