@@ -3,12 +3,10 @@ package ru.hse.coursework.godaily.core.data.network
 import com.yandex.mapkit.geometry.Point
 import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
-import ru.hse.coursework.godaily.core.data.model.ReviewPublishDto
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.core.data.model.RouteSessionDto
-import ru.hse.coursework.godaily.core.data.model.UserCoordinateDto
 import ru.hse.coursework.godaily.core.data.model.UserDto
 import java.time.LocalDateTime
 import java.util.UUID
@@ -188,10 +186,6 @@ class FakeApiService : ApiService {
         return Response.success("mock_jwt_token")
     }
 
-    override suspend fun logoutUser(): Boolean {
-        return true
-    }
-
     override suspend fun getUserInfo(jwt: String): UserDto {
         return fakeUser
     }
@@ -204,13 +198,17 @@ class FakeApiService : ApiService {
         return Response.success("Данные успешно сохранены")
     }
 
-    override suspend fun addRoute(jwt: String, route: RouteDto): Response<String> {
+    override suspend fun addRoute(
+        routeDto: RouteDto,
+        userId: UUID
+    ): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 
     override suspend fun getUserDrafts(
-        jwt: String,
-        userLocation: UserCoordinateDto
+        userId: UUID,
+        latitude: Double,
+        longitude: Double
     ): List<RouteCardDto> {
         return listOf(
             RouteCardDto(
@@ -251,46 +249,56 @@ class FakeApiService : ApiService {
     }
 
     override suspend fun getUserPublishedRoutes(
-        jwt: String,
-        userLocation: UserCoordinateDto
+        userId: UUID,
+        latitude: Double,
+        longitude: Double
     ): List<RouteCardDto> {
         return fakeRoutes.subList(7, 8)
     }
 
     override suspend fun getUserCompletedRoutes(
-        jwt: String,
-        userLocation: UserCoordinateDto
+        userId: UUID,
+        latitude: Double,
+        longitude: Double
     ): List<RouteCardDto> {
         return fakeRoutes.subList(2, 6)
     }
 
     override suspend fun getUserFavouriteRoutes(
-        jwt: String,
-        userLocation: UserCoordinateDto
+        userId: UUID,
+        latitude: Double,
+        longitude: Double
     ): List<RouteCardDto> {
         return fakeRoutes.take(2)
     }
 
     override suspend fun getUserUnfinishedRoutes(
-        jwt: String,
-        userLocation: UserCoordinateDto
+        //TODO jwt: String,
+        userId: UUID,
+        latitude: Double,
+        longitude: Double
     ): List<RouteCardDto> {
         return fakeRoutes.takeLast(3)
     }
 
-    override suspend fun addRouteToFavorites(jwt: String, routeId: UUID): Response<String> {
+    override suspend fun addRouteToFavorites(
+        userId: UUID,
+        routeId: UUID
+    ): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 
-    override suspend fun removeRouteFromFavorites(jwt: String, routeId: UUID): Response<String> {
+    override suspend fun removeRouteFromFavorites(
+        userId: UUID,
+        routeId: UUID
+    ): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 
-    override suspend fun deleteRoute(jwt: String, routeId: UUID): Boolean {
-        return true
-    }
-
-    override suspend fun getRouteDetails(jwt: String, routeId: UUID): RoutePageDto {
+    override suspend fun getRouteDetails(
+        routeId: UUID,
+        userId: UUID
+    ): RoutePageDto {
         return RoutePageDto(
             id = UUID.randomUUID(),
             routeName = "Прогулка по набережной",
@@ -309,7 +317,10 @@ class FakeApiService : ApiService {
         )
     }
 
-    override suspend fun getReviews(jwt: String, routeId: UUID): ReviewDto {
+    override suspend fun getReviews(
+        routeId: UUID,
+        userId: UUID
+    ): ReviewDto {
         return ReviewDto(
             curUserId = UUID.randomUUID(),
             listOf(
@@ -350,8 +361,8 @@ class FakeApiService : ApiService {
     }
 
     override suspend fun saveRouteSession(
-        jwt: String,
-        routeSession: RouteSessionDto
+        routeSessionDto: RouteSessionDto,
+        userId: UUID
     ): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
@@ -367,22 +378,36 @@ class FakeApiService : ApiService {
         )
     }
 
-    override suspend fun saveReview(jwt: String, review: ReviewPublishDto): Response<String> {
+    override suspend fun saveReview(
+        userId: UUID,
+        routeId: UUID,
+        mark: Int,
+        reviewText: String,
+        createdAt: LocalDateTime
+    ): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 
     override suspend fun filterRoutesByCategoryAndDistance(
-        jwt: String,
-        userCoordinate: UserCoordinateDto,
-        categories: Set<Int>
+        userId: UUID,
+        latitude: Double,
+        longitude: Double,
+        categories: List<String>
     ): List<RouteCardDto> {
         return fakeRoutes
     }
 
     override suspend fun getRoutesBySearchValue(
-        jwt: String,
-        userCoordinate: UserCoordinateDto,
-        searchValue: String
+        searchValue: String,
+        latitude: Double,
+        longitude: Double
+    ): List<RouteCardDto> {
+        return fakeRoutes
+    }
+
+    override suspend fun getRoutesForHomePage(
+        userId: UUID, latitude: Double,
+        longitude: Double
     ): List<RouteCardDto> {
         return fakeRoutes
     }

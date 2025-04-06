@@ -42,7 +42,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun loadUserData() {
         viewModelScope.launch {
-            val profile = fetchProfileInfoUseCase.execute("")
+            val profile = fetchProfileInfoUseCase.execute()
             email.value = profile.email
             userName.value = profile.username
             editedUserName.value = profile.username

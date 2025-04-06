@@ -50,7 +50,7 @@ fun RouteCardSmall(
             Image(
                 painter = rememberAsyncImagePainter(
                     model = imageResUrl,
-                    error = painterResource(R.drawable.sample_route_image)
+                    error = painterResource(R.drawable.route_default)
                 ),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,

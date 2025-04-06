@@ -40,8 +40,8 @@ fun SortBottomSheetSingleChoice(
         "Короткие",
     )
 ) {
-    val localSelectedItem: MutableState<Int> = mutableStateOf(0)
-    localSelectedItem.value = selectedOption.value
+
+    chosenSortOptionText.value = options[selectedOption.value]
 
     ModalBottomSheet(
         onDismissRequest = { showSortSheet.value = false },
@@ -84,12 +84,12 @@ fun SortBottomSheetSingleChoice(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { localSelectedItem.value = index }
+                                .clickable { selectedOption.value = index }
                         ) {
                             RadioButtonToggle(
-                                isChosen = localSelectedItem.value == index,
+                                isChosen = selectedOption.value == index,
                                 onToggle = { isChosen ->
-                                    if (isChosen) localSelectedItem.value = index
+                                    if (isChosen) selectedOption.value = index
                                 }
                             )
                             Spacer(modifier = Modifier.width(8.dp))
@@ -109,9 +109,9 @@ fun SortBottomSheetSingleChoice(
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     ApplyButton(onClick = {
-                        onApply(localSelectedItem.value)
-                        chosenSortOptionText.value = options[localSelectedItem.value]
-                        selectedOption.value = localSelectedItem.value
+                        onApply(selectedOption.value)
+                        chosenSortOptionText.value = options[selectedOption.value]
+                        selectedOption.value = selectedOption.value
                         showSortSheet.value = false
                     }
                     )

@@ -51,7 +51,7 @@ fun RateRouteCard(
         Image(
             painter = rememberAsyncImagePainter(
                 model = imageUrl,
-                error = painterResource(R.drawable.sample_route_image)
+                error = painterResource(R.drawable.route_to_continue_default)
             ),
             contentDescription = null,
             contentScale = ContentScale.Crop,

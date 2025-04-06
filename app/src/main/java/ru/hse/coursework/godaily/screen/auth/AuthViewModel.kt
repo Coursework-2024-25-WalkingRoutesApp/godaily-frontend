@@ -44,7 +44,7 @@ class AuthViewModel @Inject constructor(
                 email.value, password.value, username.value
             )
             if (result.isSuccessful) {
-                jwt.value = result.message()
+                jwt.value = result.body() ?: "no jwt"
             }
             return result.isSuccessful
         }
@@ -57,6 +57,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    //TODO
     suspend fun loginUser(): Boolean {
         if (isValidEmail(email.value) &&
             isPasswordLongEnough(password.value)
@@ -65,7 +66,7 @@ class AuthViewModel @Inject constructor(
                 email.value, password.value
             )
             if (result.isSuccessful) {
-                jwtManager.saveJwt(result.message())
+                jwtManager.saveJwt(result.body() ?: "no jwt")
             }
             return result.isSuccessful
         }

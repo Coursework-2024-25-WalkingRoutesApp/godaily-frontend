@@ -65,7 +65,7 @@ fun RouteDetailsScreen(
             StartButton(
                 onClick = { navController.navigate(NavigationItem.RoutePassing.route + "/${routeId}") },
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(20.dp)
             )
         } else {
             Box(modifier = Modifier.fillMaxSize()) {

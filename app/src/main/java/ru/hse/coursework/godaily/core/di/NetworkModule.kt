@@ -1,5 +1,6 @@
 package ru.hse.coursework.godaily.core.di
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
@@ -7,13 +8,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.Call
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import ru.hse.coursework.godaily.core.data.network.ApiService
-import ru.hse.coursework.godaily.core.data.network.FakeApiService
 import ru.hse.coursework.godaily.core.security.JwtManager
 import javax.inject.Singleton
 
@@ -27,6 +26,12 @@ class NetworkModule {
         return Json {
             ignoreUnknownKeys = true
         }
+    }
+
+    @Provides
+    @Singleton
+    fun provideMapper(): ObjectMapper {
+        return ObjectMapper()
     }
 
     @Provides
@@ -46,12 +51,14 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(json: Json, okHttp: Lazy<Call.Factory>): Retrofit {
+    fun provideRetrofit(json: Json, okHttp: Lazy<Call.Factory>, mapper: ObjectMapper): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://www.example.com/")
+            .baseUrl("http://192.168.0.65:8080/")
             .callFactory { okHttp.get().newCall(it) }
             .addConverterFactory(
-                json.asConverterFactory("application/json".toMediaType())
+                JacksonConverterFactory.create(mapper)
+                //TODO удалить сеттингс с хардкодом пути
+                //TODO json.asConverterFactory("application/json".toMediaType())
             )
             .build()
     }
@@ -59,7 +66,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
-        return FakeApiService()
-        //return retrofit.create(ApiService::class.java)
+        //return FakeApiService()
+        return retrofit.create(ApiService::class.java)
     }
 }

@@ -20,6 +20,7 @@ plugins {
     id("com.google.relay")
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -88,6 +89,17 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0")
     implementation("androidx.compose.material:material-icons-core:1.7.8")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
+
+    //Jackson
+    implementation("com.squareup.retrofit2:converter-jackson:2.11.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.1")
+
+
+    // Kotlinx Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+    // Retrofit с Kotlinx Serialization
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 
     //DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.3")

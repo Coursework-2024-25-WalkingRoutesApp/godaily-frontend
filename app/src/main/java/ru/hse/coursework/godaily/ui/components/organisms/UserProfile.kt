@@ -30,7 +30,7 @@ import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 fun UserProfile(
     userName: String,
     onEditProfileClick: () -> Unit,
-    profilePictureUrl: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG3RRs0ouk80nISkSjBII8TgTshOBcitVnJg&s"
+    profilePictureUrl: String = ""
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -39,7 +39,7 @@ fun UserProfile(
         Image(
             painter = rememberAsyncImagePainter(
                 model = profilePictureUrl,
-                error = painterResource(R.drawable.default_profile_photo)
+                error = painterResource(R.drawable.avatar_default)
             ),
             contentDescription = "User Profile Picture",
             modifier = Modifier

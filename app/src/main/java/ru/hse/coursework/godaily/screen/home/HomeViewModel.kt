@@ -34,18 +34,14 @@ class HomeViewModel @Inject constructor(
     val showSortSheet = mutableStateOf(false)
     val chosenSortOptionText = mutableStateOf("Ближе ко мне")
 
-    fun updateRoutesForGrid(routes: List<RouteCardDto>) {
+    private fun updateRoutesForGrid(routes: List<RouteCardDto>) {
         routesForGrid.clear()
         routesForGrid.addAll(routes)
     }
 
-    fun updateUnfinishedRoutes(routes: List<RouteCardDto>) {
+    private fun updateUnfinishedRoutes(routes: List<RouteCardDto>) {
         unfinishedRoutes.clear()
         unfinishedRoutes.addAll(routes)
-    }
-
-    fun updateSearchValue(text: String) {
-        searchValue.value = text
     }
 
     fun loadHomeScreenInfo() {
@@ -58,11 +54,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun filterRoutes() {
+    fun filterRoutes(selected: Set<Int>) {
         searchValue.value = ""
 
         viewModelScope.launch {
-            updateRoutesForGrid(filterRoutesUseCase.execute(selectedCategories.value))
+            updateRoutesForGrid(filterRoutesUseCase.execute(selected))
         }
         sortRoutes()
     }
@@ -76,6 +72,8 @@ class HomeViewModel @Inject constructor(
     fun searchRoutes() {
         selectedCategories.value = setOf()
         selectedSortOption.value = 0
+        //TODO хардкод
+        chosenSortOptionText.value = "Ближе ко мне"
 
         viewModelScope.launch {
             updateRoutesForGrid(fetchRoutesBySearchValue.execute(searchValue.value))

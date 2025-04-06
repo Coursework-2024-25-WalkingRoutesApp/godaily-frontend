@@ -11,8 +11,15 @@ class FetchRouteDetailsUseCase @Inject constructor(
     private val api: ApiService
 ) {
     suspend fun execute(routeId: UUID): RouteDetails {
-        val routePageDTO = api.getRouteDetails("", routeId)
-        val reviews = api.getReviews("", routeId).reviews
+        //TODO хардкод
+        val routePageDTO = api.getRouteDetails(
+            routeId = routeId,
+            userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412")
+        )
+        val reviews = api.getReviews(
+            routeId = routeId,
+            userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412")
+        ).reviews
 
         val averageMark = if (reviews.isNotEmpty()) {
             reviews.sumOf { it.rating } / reviews.size.toDouble()

@@ -43,7 +43,7 @@ fun ReviewCard(
                 Image(
                     painter = rememberAsyncImagePainter(
                         model = photoUrl,
-                        error = painterResource(R.drawable.default_profile_photo)
+                        error = painterResource(R.drawable.avatar_default)
                     ),
                     contentDescription = "User Photo",
                     contentScale = ContentScale.Crop,

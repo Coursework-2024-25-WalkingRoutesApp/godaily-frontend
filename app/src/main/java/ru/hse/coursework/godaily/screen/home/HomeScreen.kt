@@ -7,22 +7,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsViewModel
-import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.components.molecules.HeaderWithBackground
+import ru.hse.coursework.godaily.ui.components.organisms.NoRoutesBox
 import ru.hse.coursework.godaily.ui.components.organisms.SearchToolbar
 import ru.hse.coursework.godaily.ui.components.organisms.SortBottomSheet
 import ru.hse.coursework.godaily.ui.components.organisms.SortBottomSheetSingleChoice
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteToContinueGrid
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteVerticalGrid
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
-import ru.hse.coursework.godaily.ui.theme.greyDark
 
 @Composable
 fun HomeScreen(
@@ -39,62 +38,55 @@ fun HomeScreen(
     val showSortSheet = viewModel.showSortSheet
     val chosenSortOptionText = viewModel.chosenSortOptionText
 
-    viewModel.loadHomeScreenInfo()
+    LaunchedEffect(Unit) {
+        viewModel.loadHomeScreenInfo()
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         HeaderWithBackground(header = "Маршруты для вас")
 
-        if (routesForGrid.isEmpty() && unfinishedRoutes.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                VariableMedium(
-                    text = "Пока нет таких маршрутов",
-                    fontSize = 16.sp,
-                    fontColor = greyDark
-                )
-            }
-        } else {
-            if (unfinishedRoutes.isNotEmpty()) {
-                RouteToContinueGrid(
-                    routes = unfinishedRoutes,
-                    onRouteClick = { route ->
-                        routeDetailsViewModel.clear()
-                        navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
-                    }
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                SearchToolbar(
-                    searchValue = searchValue,
-                    onSearchValueChange = {
-                        searchValue.value = it
-                        viewModel.searchRoutes()
-                    },
-                    filterIconClick = { showFilterSheet.value = true },
-                    sortClick = { showSortSheet.value = true },
-                    chosenSortOption = chosenSortOptionText
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            RouteVerticalGrid(
-                routes = routesForGrid,
+        if (unfinishedRoutes.isNotEmpty()) {
+            RouteToContinueGrid(
+                routes = unfinishedRoutes,
                 onRouteClick = { route ->
                     routeDetailsViewModel.clear()
                     navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
                 }
             )
+            Spacer(modifier = Modifier.height(16.dp))
         }
+
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            SearchToolbar(
+                searchValue = searchValue,
+                onSearchValueChange = {
+                    searchValue.value = it
+                    viewModel.searchRoutes()
+                },
+                filterIconClick = { showFilterSheet.value = true },
+                sortClick = { showSortSheet.value = true },
+                chosenSortOption = chosenSortOptionText
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (routesForGrid.isEmpty()) {
+            NoRoutesBox()
+        }
+
+        RouteVerticalGrid(
+            routes = routesForGrid,
+            onRouteClick = { route ->
+                routeDetailsViewModel.clear()
+                navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
+            }
+        )
     }
 
     if (showFilterSheet.value) {
@@ -104,9 +96,13 @@ fun HomeScreen(
             onApply = { selected ->
                 selectedCategories.value = selected
                 showFilterSheet.value = false
-                viewModel.filterRoutes()
+                viewModel.filterRoutes(selected)
+                viewModel.sortRoutes()
             },
-            onReset = { selectedCategories.value = emptySet() }
+            onReset = {
+                selectedCategories.value = emptySet()
+                viewModel.filterRoutes(selectedCategories.value)
+            }
         )
     }
 
@@ -120,7 +116,10 @@ fun HomeScreen(
                 showSortSheet.value = false
                 viewModel.sortRoutes()
             },
-            onReset = { selectedSortOption.value = 0 }
+            onReset = {
+                selectedSortOption.value = 0
+                viewModel.sortRoutes()
+            }
         )
     }
 }

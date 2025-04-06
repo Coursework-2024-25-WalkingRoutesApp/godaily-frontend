@@ -12,6 +12,11 @@ class FetchRoutesBySearchValue @Inject constructor(
     suspend fun execute(
         searchValue: String
     ): List<RouteCardDto> {
-        return api.getRoutesBySearchValue("", locationService.getUserCoordinate(), searchValue)
+        val userCoordinates = locationService.getUserCoordinate()
+        return api.getRoutesBySearchValue(
+            searchValue,
+            userCoordinates.latitude,
+            userCoordinates.longitude
+        )
     }
 }

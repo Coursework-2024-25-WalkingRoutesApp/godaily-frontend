@@ -39,8 +39,9 @@ class SaveRouteUseCase @Inject constructor(
         }
 
         return api.addRoute(
-            "",
-            RouteDto(
+            //TODO хардкод
+            userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
+            routeDto = RouteDto(
                 id = routeId,
                 routeName = routeName,
                 description = description,

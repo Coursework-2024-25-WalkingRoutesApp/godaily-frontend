@@ -26,8 +26,8 @@ class LocationService(context: Context) {
     suspend fun getUserCoordinate(): UserCoordinateDto {
         val currentLocation = getCurrentLocation()
             ?: return UserCoordinateDto(
-                null,
-                null
+                55.7522,
+                37.6156
             )
         return UserCoordinateDto(
             currentLocation.latitude,

@@ -12,7 +12,7 @@ class SortRouteService(
         routes: MutableList<RouteCardDto>,
         selectedSortOption: Int
     ): MutableList<RouteCardDto> {
-        return when (selectedSortOption) {
+        val sortedRoutes: MutableList<RouteCardDto> = when (selectedSortOption) {
             0 -> routes.sortedBy { it.distanceToUser ?: Double.MAX_VALUE }
             1 -> runBlocking(Dispatchers.IO) {
                 routes.map { route ->
@@ -26,6 +26,8 @@ class SortRouteService(
             3 -> routes.sortedBy { it.length ?: Double.MAX_VALUE }
             else -> routes
         }.toMutableList()
+
+        return sortedRoutes
     }
 }
 

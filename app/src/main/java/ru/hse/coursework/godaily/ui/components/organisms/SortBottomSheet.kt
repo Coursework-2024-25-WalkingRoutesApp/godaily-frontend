@@ -30,9 +30,6 @@ fun SortBottomSheet(
     onReset: () -> Unit,
     showFilterSheet: MutableState<Boolean>
 ) {
-    val localSelectedItems: MutableState<Set<Int>> = mutableStateOf(setOf())
-    localSelectedItems.value = selectedItems.value
-
     ModalBottomSheet(
         onDismissRequest = { showFilterSheet.value = false },
         modifier = Modifier
@@ -64,7 +61,7 @@ fun SortBottomSheet(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                SelectableList(selectedItems = localSelectedItems)
+                SelectableList(selectedItems = selectedItems)
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -75,7 +72,6 @@ fun SortBottomSheet(
                 ) {
                     ApplyButton(onClick = {
                         onApply(selectedItems.value)
-                        selectedItems.value = localSelectedItems.value
                         showFilterSheet.value = false
                     })
                 }
