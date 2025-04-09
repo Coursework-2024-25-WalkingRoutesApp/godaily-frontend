@@ -26,10 +26,6 @@ class JWTInterceptor(
 
         val response = chain.proceed(modifiedRequest)
 
-        if (response.code == 401) {
-            runBlocking { jwtManager.clearJwt() }
-        }
-
         return response
     }
 }

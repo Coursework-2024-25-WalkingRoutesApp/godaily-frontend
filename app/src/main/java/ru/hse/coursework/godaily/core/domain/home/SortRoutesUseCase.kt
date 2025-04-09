@@ -6,7 +6,7 @@ import ru.hse.coursework.godaily.core.domain.service.SortRouteService
 import javax.inject.Inject
 
 class SortRoutesUseCase @Inject constructor(
-    private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase
+    private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase,
 ) {
     fun execute(
         routes: MutableList<RouteCardDto>,

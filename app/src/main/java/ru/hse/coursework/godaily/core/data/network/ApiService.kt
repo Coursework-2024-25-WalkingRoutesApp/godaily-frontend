@@ -30,7 +30,7 @@ interface ApiService {
 
     // Получение информации о текущем пользователе
     //TODO
-    suspend fun getUserInfo(jwt: String): UserDto
+    suspend fun getUserInfo(jwt: String): Response<UserDto>
 
     //TODO
     // Сохранение информации о пользователе
@@ -53,7 +53,7 @@ interface ApiService {
         @Query("userId") userId: UUID,
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double
-    ): List<RouteCardDto>
+    ): Response<List<RouteCardDto>>
 
     // Получение опубликованных маршрутов пользователя
     @GET(ROUTE_BASE_PATH_URL + GET_PUBLISHED_URL)
@@ -61,7 +61,7 @@ interface ApiService {
         @Query("userId") userId: UUID,
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double
-    ): List<RouteCardDto>
+    ): Response<List<RouteCardDto>>
 
     // Получение пройденных маршрутов пользователя
     @GET(SESSION_BASE_PATH_URL + GET_FINISHED_URL)
@@ -69,7 +69,7 @@ interface ApiService {
         @Query("userId") userId: UUID,
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double
-    ): List<RouteCardDto>
+    ): Response<List<RouteCardDto>>
 
     // Получение избранных маршрутов пользователя
     @GET(FAVORITE_BASE_PATH_URL + GET_FAVOURITES_URL)
@@ -77,7 +77,7 @@ interface ApiService {
         @Query("userId") userId: UUID,
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double
-    ): List<RouteCardDto>
+    ): Response<List<RouteCardDto>>
 
     @GET(SESSION_BASE_PATH_URL + GET_UNFINISHED_URL)
     suspend fun getUserUnfinishedRoutes(
@@ -85,7 +85,7 @@ interface ApiService {
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double
 
-    ): List<RouteCardDto>
+    ): Response<List<RouteCardDto>>
 
     // Добавление маршрута в избранное
     @POST(FAVORITE_BASE_PATH_URL + ADD_FAVOURITE_URL)
@@ -106,14 +106,14 @@ interface ApiService {
     suspend fun getRouteDetails(
         @Query("routeId") routeId: UUID,
         @Query("userId") userId: UUID,
-    ): RoutePageDto
+    ): Response<RoutePageDto>
 
     // Получение отзывов о маршруте
     @GET(REVIEW_BASE_PATH_URL + GET_REVIEWS_URL)
     suspend fun getReviews(
         @Query("routeId") routeId: UUID,
         @Query("userId") userId: UUID,
-    ): ReviewDto
+    ): Response<ReviewDto>
 
     // Создание сессии маршрута
     @POST(SESSION_BASE_PATH_URL + ADD_SESSION_URL)
@@ -123,9 +123,11 @@ interface ApiService {
     ): Response<String>
 
     // Получить сессию маршрута
-
-    //TODO саше сделать и мне тоже :))
-    suspend fun getRouteSession(jwt: String, routeId: UUID): RouteSessionDto
+    @GET(SESSION_BASE_PATH_URL + GET_SESSION_URL)
+    suspend fun getRouteSession(
+        @Query("userId") userId: UUID,
+        @Query("routeId") routeId: UUID
+    ): Response<RouteSessionDto>
 
     // Сохранение отзыва о маршруте
     @POST(REVIEW_BASE_PATH_URL + ADD_REVIEW_URL)
@@ -143,7 +145,7 @@ interface ApiService {
         @Query("searchValue") searchValue: String,
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
-    ): List<RouteCardDto>
+    ): Response<List<RouteCardDto>>
 
     // Фильтрация маршрутов по категории и сортировка по удаленности
 
@@ -152,13 +154,15 @@ interface ApiService {
         @Query("userId") userId: UUID,
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
-        @Query("categories") categories: List<String>
-    ): List<RouteCardDto>
+        @Query("categories") categories: List<String>,
+        @Query("radius") radius: Long
+    ): Response<List<RouteCardDto>>
 
     @GET(ROUTE_BASE_PATH_URL + GET_ROUTES_URL)
     suspend fun getRoutesForHomePage(
         @Query("userId") userId: UUID,
         @Query("latitude") latitude: Double,
-        @Query("longitude") longitude: Double
-    ): List<RouteCardDto>
+        @Query("longitude") longitude: Double,
+        @Query("radius") radius: Long
+    ): Response<List<RouteCardDto>>
 }

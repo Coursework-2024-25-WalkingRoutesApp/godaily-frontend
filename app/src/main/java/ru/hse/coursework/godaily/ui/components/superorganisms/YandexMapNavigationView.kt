@@ -205,7 +205,8 @@ fun YandexMapNavigationView(
             }
             RouteNavigationBox(
                 distanceToNextPoint = distanceToNewPoint.value,
-                nextPointTitle = nextPoint?.title ?: "Финиш",
+                nextPointTitle = nextPoint?.title?.takeIf { it.isNotEmpty() }
+                    ?: "До следующей точки",
                 nextPointSubtitle = nextPoint?.description ?: "",
                 onNextPointText = if (nextPoint == null) "Завершить" else "Следующая точка",
                 modifier = Modifier

@@ -1,16 +1,18 @@
 package ru.hse.coursework.godaily.core.domain.authorization
 
-import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.network.ApiService
+import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
+import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
 import javax.inject.Inject
 
 class LoginUserUseCase @Inject constructor(
     private val api: ApiService,
+    private val safeApiCaller: SafeApiCaller
 ) {
     suspend fun execute(
         email: String,
         password: String
-    ): Response<String> {
-        return api.loginUser(email, password)
+    ): ApiCallResult<String> {
+        return safeApiCaller.safeApiCall { api.loginUser(email, password) }
     }
 }

@@ -1,22 +1,26 @@
 package ru.hse.coursework.godaily.core.domain.profile
 
 import android.net.Uri
-import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.network.ApiService
+import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
+import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
 import ru.hse.coursework.godaily.core.domain.service.PhotoConverterService
 import javax.inject.Inject
 
 class SaveUserPhotoUseCase @Inject constructor(
     private val api: ApiService,
     private val photoConverterService: PhotoConverterService,
+    private val safeApiCaller: SafeApiCaller
 ) {
     suspend fun execute(
         imageUri: Uri?
-    ): Response<String> {
+    ): ApiCallResult<String> {
         val photo = imageUri?.let { photoConverterService.uriToByteArray(it) }
-        return api.saveUserPhoto(
-            "",
-            photo
-        )
+        return safeApiCaller.safeApiCall {
+            api.saveUserPhoto(
+                "",
+                photo
+            )
+        }
     }
 }

@@ -2,6 +2,8 @@ package ru.hse.coursework.godaily.core.domain.profile
 
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.network.ApiService
+import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
+import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
 import ru.hse.coursework.godaily.core.domain.location.LocationService
 import java.util.UUID
 import javax.inject.Inject
@@ -9,29 +11,51 @@ import javax.inject.Inject
 //TODO путаница с jwt и ID
 class FetchProfileInfoUseCase @Inject constructor(
     private val api: ApiService,
-    private val locationService: LocationService
+    private val locationService: LocationService,
+    private val safeApiCaller: SafeApiCaller
 ) {
-    suspend fun execute(): ProfileInfo {
+    suspend fun execute(): ApiCallResult<Any> {
         //TODO хардкод
-        val userDto = api.getUserInfo("")
+        val userDtoResponse = safeApiCaller.safeApiCall { api.getUserInfo("") }
+        if (userDtoResponse !is ApiCallResult.Success) {
+            return userDtoResponse
+        }
+
         val userLocation = locationService.getUserCoordinate()
-        val completedRoutes =
-            api.getUserCompletedRoutes(
-                UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
-                userLocation.latitude,
-                userLocation.longitude
+
+        val completedRoutesResponse =
+            safeApiCaller.safeApiCall {
+                api.getUserCompletedRoutes(
+                    UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
+                    userLocation.latitude,
+                    userLocation.longitude
+                )
+            }
+        if (completedRoutesResponse !is ApiCallResult.Success) {
+            return completedRoutesResponse
+        }
+
+        val favouritesResponse =
+            safeApiCaller.safeApiCall {
+                api.getUserFavouriteRoutes(
+                    UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
+                    userLocation.latitude,
+                    userLocation.longitude
+                )
+            }
+
+        if (favouritesResponse !is ApiCallResult.Success) {
+            return favouritesResponse
+        }
+
+        return ApiCallResult.Success(
+            ProfileInfo(
+                email = userDtoResponse.data.email,
+                username = userDtoResponse.data.username,
+                photoUrl = userDtoResponse.data.photoURL,
+                completedRoutes = completedRoutesResponse.data,
+                favouriteRoutes = favouritesResponse.data
             )
-        val favourites = api.getUserFavouriteRoutes(
-            UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
-            userLocation.latitude,
-            userLocation.longitude
-        )
-        return ProfileInfo(
-            email = userDto.email,
-            username = userDto.username,
-            photoUrl = userDto.photoURL,
-            completedRoutes = completedRoutes,
-            favouriteRoutes = favourites
         )
     }
 }

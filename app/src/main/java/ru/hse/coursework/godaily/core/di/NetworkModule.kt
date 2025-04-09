@@ -53,7 +53,8 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(json: Json, okHttp: Lazy<Call.Factory>, mapper: ObjectMapper): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.65:8080/")
+            .baseUrl("http://10.51.171.246:8080/")
+            //.baseUrl("http://192.168.0.65:8080/")
             .callFactory { okHttp.get().newCall(it) }
             .addConverterFactory(
                 JacksonConverterFactory.create(mapper)

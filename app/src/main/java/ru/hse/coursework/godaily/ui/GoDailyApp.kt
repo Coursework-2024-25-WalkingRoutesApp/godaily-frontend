@@ -12,5 +12,8 @@ class GoDailyApp : Application() {
 
         MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)
         MapKitFactory.initialize(this)
+
+//        val config = AppMetricaConfig.newConfigBuilder(BuildConfig.APPMETRICA_API_KEY).build()
+//        AppMetrica.activate(this, config)
     }
 }

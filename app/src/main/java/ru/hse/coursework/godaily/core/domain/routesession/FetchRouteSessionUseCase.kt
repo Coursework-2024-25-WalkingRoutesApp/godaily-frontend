@@ -2,36 +2,59 @@ package ru.hse.coursework.godaily.core.domain.routesession
 
 import com.yandex.mapkit.geometry.Point
 import ru.hse.coursework.godaily.core.data.network.ApiService
+import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
+import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
+import ru.hse.coursework.godaily.core.domain.service.UuidService
 import java.util.UUID
 import javax.inject.Inject
 
 class FetchRouteSessionUseCase @Inject constructor(
-    private val api: ApiService
+    private val api: ApiService,
+    private val safeApiCaller: SafeApiCaller,
+    private val uuidService: UuidService
 ) {
-    suspend fun execute(routeId: UUID): RoutePointsSession {
+    //TODO саша намеревался возвращать null,  мы этого не хотим((
+    suspend fun execute(routeId: UUID): ApiCallResult<Any> {
         //TODO хардкод
-        val routePageDTO =
-            api.getRouteDetails(
-                userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
-                routeId = routeId
-            )
-        val routeSession = api.getRouteSession("", routeId)
-
-        val routeCoordinates = routePageDTO.routeCoordinate?.mapNotNull { coordinate ->
-            coordinate.latitude?.let { lat ->
-                coordinate.longitude?.let { lon ->
-                    TitledPoint(
-                        id = coordinate.id,
-                        point = Point(lat, lon),
-                        title = coordinate.title ?: "",
-                        description = coordinate.description ?: ""
-                    )
-                }
+        val routePageDTOResponse =
+            safeApiCaller.safeApiCall {
+                api.getRouteDetails(
+                    userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
+                    routeId = routeId
+                )
             }
-        } ?: emptyList()
 
-        val userCheckpoints = routeSession.userCheckpoint.mapNotNull { checkpoint ->
-            routePageDTO.routeCoordinate?.find { it.id == checkpoint.coordinateId }
+        if (routePageDTOResponse !is ApiCallResult.Success) {
+            return routePageDTOResponse
+        }
+        //TODO хардкод
+        val routeSessionResponse =
+            safeApiCaller.safeApiCall {
+                api.getRouteSession(
+                    userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
+                    routeId = routeId
+                )
+            }
+        if (routeSessionResponse !is ApiCallResult.Success) {
+            return routeSessionResponse
+        }
+
+        val routeCoordinates =
+            routePageDTOResponse.data.routeCoordinate?.mapNotNull { coordinate ->
+                coordinate.latitude?.let { lat ->
+                    coordinate.longitude?.let { lon ->
+                        TitledPoint(
+                            id = coordinate.id,
+                            point = Point(lat, lon),
+                            title = coordinate.title ?: "",
+                            description = coordinate.description ?: ""
+                        )
+                    }
+                }
+            } ?: emptyList()
+
+        val userCheckpoints = routeSessionResponse.data.userCheckpoint.mapNotNull { checkpoint ->
+            routePageDTOResponse.data.routeCoordinate?.find { it.id == checkpoint.coordinateId }
                 ?.let { coordinate ->
                     coordinate.latitude?.let { lat ->
                         coordinate.longitude?.let { lon ->
@@ -46,11 +69,13 @@ class FetchRouteSessionUseCase @Inject constructor(
                 }
         }
 
-        return RoutePointsSession(
-            id = routeSession.id,
-            isFinished = routeSession.isFinished ?: false,
-            routePoints = routeCoordinates,
-            passedRoutePoints = userCheckpoints
+        return ApiCallResult.Success(
+            RoutePointsSession(
+                id = routeSessionResponse.data.id,
+                isFinished = routeSessionResponse.data.isFinished ?: false,
+                routePoints = routeCoordinates,
+                passedRoutePoints = userCheckpoints
+            )
         )
     }
 }

@@ -2,33 +2,45 @@ package ru.hse.coursework.godaily.core.domain.routedetails
 
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
 import ru.hse.coursework.godaily.core.data.network.ApiService
+import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
+import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
 import java.util.UUID
 import javax.inject.Inject
 
 class FetchRouteReviewsUseCase @Inject constructor(
-    private val api: ApiService
+    private val api: ApiService,
+    private val safeApiCaller: SafeApiCaller
 ) {
-    suspend fun execute(routeId: UUID): RouteReviewsInfo {
+    suspend fun execute(routeId: UUID): ApiCallResult<Any> {
 
-        val reviewsInfo = fetchReviewsInfo(routeId)
-        val reviews = reviewsInfo.reviews
+        val reviewsInfoResponse = fetchReviewsInfo(routeId)
 
-        val curUserReview = findCurrentUserReview(reviews, reviewsInfo.curUserId)
+        if (reviewsInfoResponse !is ApiCallResult.Success) {
+            return reviewsInfoResponse
+        }
+
+        val reviews = reviewsInfoResponse.data.reviews
+
+        val curUserReview = findCurrentUserReview(reviews, reviewsInfoResponse.data.curUserId)
         val sortedReviews = sortReviews(reviews, curUserReview)
         val rating = calculateRating(reviews)
 
-        return RouteReviewsInfo(
-            curUserReview = curUserReview,
-            reviews = sortedReviews,
-            rating = rating,
-            reviewsCount = reviews.size
+        return ApiCallResult.Success(
+            RouteReviewsInfo(
+                curUserReview = curUserReview,
+                reviews = sortedReviews,
+                rating = rating,
+                reviewsCount = reviews.size
+            )
         )
     }
 
-    private suspend fun fetchReviewsInfo(routeId: UUID) = api.getReviews(
-        routeId = routeId,
-        userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412")
-    )
+    private suspend fun fetchReviewsInfo(routeId: UUID) = safeApiCaller.safeApiCall {
+        api.getReviews(
+            routeId = routeId,
+            userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412")
+        )
+    }
 
     private fun findCurrentUserReview(
         reviews: List<ReviewDto.ReviewInfoDto>,

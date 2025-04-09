@@ -9,13 +9,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.model.RouteDto
+import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
+import ru.hse.coursework.godaily.core.domain.routedetails.RouteDetails
 import ru.hse.coursework.godaily.core.domain.routes.SaveRouteUseCase
 import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
 import ru.hse.coursework.godaily.core.domain.service.PhotoConverterService
 import ru.hse.coursework.godaily.core.domain.service.UuidService
+import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
 import ru.hse.coursework.godaily.ui.notification.ToastManager
 import java.util.UUID
 import javax.inject.Inject
@@ -25,7 +27,8 @@ class CreateRouteViewModel @Inject constructor(
     private val saveRouteUseCase: SaveRouteUseCase,
     private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase,
     private val uuidService: UuidService,
-    private val photoConverterService: PhotoConverterService
+    private val photoConverterService: PhotoConverterService,
+    private val errorHandler: ErrorHandler
 ) : ViewModel() {
 
     val routeIdState: MutableState<UUID> = mutableStateOf(UUID.randomUUID())
@@ -64,20 +67,30 @@ class CreateRouteViewModel @Inject constructor(
         val routeIdUUID = routeId?.let { uuidService.getUUIDFromString(routeId) }
         if (routeIdUUID != null) {
             viewModelScope.launch {
-                val route = fetchRouteDetailsUseCase.execute(routeIdUUID)
+                val routeResponse = fetchRouteDetailsUseCase.execute(routeIdUUID)
 
-                routeIdState.value = route.route.id
-                routeTitle.value = route.route.routeName ?: ""
-                routeDescription.value = route.route.description ?: ""
-                startPoint.value = route.route.startPoint ?: ""
-                endPoint.value = route.route.endPoint ?: ""
+                when (routeResponse) {
+                    is ApiCallResult.Error -> errorHandler.handleError(routeResponse)
+                    is ApiCallResult.Success -> {
+                        if (routeResponse.data is RouteDetails) {
+                            routeIdState.value = routeResponse.data.route.id
+                            routeTitle.value = routeResponse.data.route.routeName ?: ""
+                            routeDescription.value = routeResponse.data.route.description ?: ""
+                            startPoint.value = routeResponse.data.route.startPoint ?: ""
+                            endPoint.value = routeResponse.data.route.endPoint ?: ""
 
-                routePoints.clear()
-                routePoints.addAll(route.routePoints)
+                            routePoints.clear()
+                            routePoints.addAll(routeResponse.data.routePoints)
 
-                route.route.categories?.let { chosenCategories.value = convertCategories(it) }
+                            routeResponse.data.route.categories?.let {
+                                chosenCategories.value = convertCategories(it)
+                            }
 
-                selectedImageUri.value = photoConverterService.urlToUri(route.route.routePreview)
+                            selectedImageUri.value =
+                                photoConverterService.urlToUri(routeResponse.data.route.routePreview)
+                        }
+                    }
+                }
             }
         }
         isDataLoaded.value = true
@@ -131,7 +144,7 @@ class CreateRouteViewModel @Inject constructor(
     }
 
     private suspend fun saveRoute(context: Context, isDraft: Boolean): Boolean {
-        val result: Response<String> = saveRouteUseCase.execute(
+        val resultResponse = saveRouteUseCase.execute(
             id = routeIdState.value,
             routeName = routeTitle.value,
             description = routeDescription.value,
@@ -142,7 +155,17 @@ class CreateRouteViewModel @Inject constructor(
             routePoints = routePoints,
             categories = chosenCategories.value
         )
-        return result.isSuccessful
+
+        return when (resultResponse) {
+            is ApiCallResult.Error -> {
+                errorHandler.handleError(resultResponse)
+                false
+            }
+
+            is ApiCallResult.Success -> {
+                true
+            }
+        }
     }
 
 

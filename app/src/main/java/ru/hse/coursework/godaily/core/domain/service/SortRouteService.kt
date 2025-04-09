@@ -1,9 +1,12 @@
 package ru.hse.coursework.godaily.core.domain.service
 
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
+import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
 import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCase
+import ru.hse.coursework.godaily.core.domain.routedetails.RouteDetails
 
 class SortRouteService(
     private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase
@@ -15,11 +18,31 @@ class SortRouteService(
         val sortedRoutes: MutableList<RouteCardDto> = when (selectedSortOption) {
             0 -> routes.sortedBy { it.distanceToUser ?: Double.MAX_VALUE }
             1 -> runBlocking(Dispatchers.IO) {
-                routes.map { route ->
-                    val routeDetails = fetchRouteDetailsUseCase.execute(route.id)
-                    route to routeDetails.mark
-                }.sortedByDescending { it.second }
-                    .map { it.first }
+                routes
+                    .map { route ->
+                        val result = fetchRouteDetailsUseCase.execute(route.id)
+                        when (result) {
+                            is ApiCallResult.Success -> {
+                                if (result.data is RouteDetails) {
+                                    val mark = result.data.mark
+                                    route to mark
+                                } else {
+                                    route to 0.0
+                                }
+                            }
+
+                            is ApiCallResult.Error -> {
+                                //TODO логирование в одном месте
+                                Log.e(
+                                    "RouteSorting",
+                                    "Error fetching details for route ${route.id}: ${result.message}"
+                                )
+                                route to 0.0
+                            }
+                        }
+                    }
+                    .sortedByDescending { (_, mark) -> mark }
+                    .map { (route, _) -> route }
             }
 
             2 -> routes.sortedByDescending { it.length ?: 0.0 }

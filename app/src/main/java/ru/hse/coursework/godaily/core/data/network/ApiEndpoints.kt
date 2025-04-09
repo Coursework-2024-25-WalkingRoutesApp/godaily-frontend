@@ -18,6 +18,7 @@ const val SESSION_BASE_PATH_URL = "api/route-provider/sessions"
 const val GET_FINISHED_URL = "/get/finished"
 const val GET_UNFINISHED_URL = "/get/unfinished"
 const val ADD_SESSION_URL = "/add/session"
+const val GET_SESSION_URL = "/get/session"
 
 const val REVIEW_BASE_PATH_URL = "api/route-provider/reviews"
 const val GET_REVIEWS_URL = "/get/reviews"

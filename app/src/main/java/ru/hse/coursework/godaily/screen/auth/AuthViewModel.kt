@@ -8,19 +8,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
 import ru.hse.coursework.godaily.core.domain.authorization.LoginUserUseCase
 import ru.hse.coursework.godaily.core.domain.authorization.RegisterUserUseCase
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserPhotoUseCase
 import ru.hse.coursework.godaily.core.security.JwtManager
-import ru.hse.coursework.godaily.ui.notification.ToastManager
+import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
 import javax.inject.Inject
 
+//TODO сохранение JWT
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val jwtManager: JwtManager,
     private val loginUserUseCase: LoginUserUseCase,
     private val registerUserUseCase: RegisterUserUseCase,
     private val saveUserPhotoUseCase: SaveUserPhotoUseCase,
+    private val errorHandler: ErrorHandler
 ) : ViewModel() {
 
     val username = mutableStateOf("")
@@ -40,13 +43,21 @@ class AuthViewModel @Inject constructor(
             isValidPassword(password.value, passwordAgain.value) &&
             isValidUsername(username.value)
         ) {
-            val result = registerUserUseCase.execute(
+            val resultResponse = registerUserUseCase.execute(
                 email.value, password.value, username.value
             )
-            if (result.isSuccessful) {
-                jwt.value = result.body() ?: "no jwt"
+            return when (resultResponse) {
+                is ApiCallResult.Error -> {
+                    errorHandler.handleError(resultResponse)
+                    false
+                }
+
+                is ApiCallResult.Success -> {
+                    jwt.value = resultResponse.data
+                    saveJwtToStorage()
+                    true
+                }
             }
-            return result.isSuccessful
         }
         return false
     }
@@ -62,13 +73,21 @@ class AuthViewModel @Inject constructor(
         if (isValidEmail(email.value) &&
             isPasswordLongEnough(password.value)
         ) {
-            val result = loginUserUseCase.execute(
+            val resultResponse = loginUserUseCase.execute(
                 email.value, password.value
             )
-            if (result.isSuccessful) {
-                jwtManager.saveJwt(result.body() ?: "no jwt")
+            return when (resultResponse) {
+                is ApiCallResult.Error -> {
+                    errorHandler.handleError(resultResponse)
+                    false
+                }
+
+                is ApiCallResult.Success -> {
+                    jwt.value = resultResponse.data
+                    saveJwtToStorage()
+                    true
+                }
             }
-            return result.isSuccessful
         }
         return false
     }
@@ -76,8 +95,10 @@ class AuthViewModel @Inject constructor(
     fun addProfilePhoto(context: Context) {
         viewModelScope.launch {
             selectedImageUri.value?.let {
-                val photoResult = saveUserPhotoUseCase.execute(it)
-                ToastManager(context).showToast(photoResult.message())
+                val photoResultResponse = saveUserPhotoUseCase.execute(it)
+                if (photoResultResponse is ApiCallResult.Error) {
+                    errorHandler.handleError(photoResultResponse)
+                }
             }
         }
     }

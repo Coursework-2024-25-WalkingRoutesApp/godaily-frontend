@@ -13,6 +13,19 @@ val mapkitApiKey: String by extra {
     value
 }
 
+val appMetricaApiKey: String by extra {
+    val properties = Properties()
+    val localPropertiesFile = project.rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { properties.load(it) }
+    }
+    val value = properties.getProperty("APPMETRICA_API_KEY", "")
+    if (value.isEmpty()) {
+        throw InvalidUserDataException("AppMetrica API key is not provided. Set your API key in the project's local.properties file: APPMETRICA_API_KEY=<your-api-key-value>.")
+    }
+    value
+}
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -40,6 +53,7 @@ android {
         }
 
         buildConfigField("String", "MAPKIT_API_KEY", "\"$mapkitApiKey\"")
+        buildConfigField("String", "APPMETRICA_API_KEY", "\"$mapkitApiKey\"")
     }
 
     buildTypes {
@@ -131,6 +145,9 @@ dependencies {
 
     //Image Cropper
     implementation("com.github.yalantis:ucrop:2.2.10")
+
+    // App Metrica
+    implementation("io.appmetrica.analytics:analytics:7.7.0")
 
     // Test
     testImplementation("junit:junit:4.13.2")

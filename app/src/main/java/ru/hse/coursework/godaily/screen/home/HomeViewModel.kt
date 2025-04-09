@@ -9,11 +9,13 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
+import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
 import ru.hse.coursework.godaily.core.domain.home.FetchRoutesBySearchValue
 import ru.hse.coursework.godaily.core.domain.home.FetchRoutesForHomeScreenUseCase
 import ru.hse.coursework.godaily.core.domain.home.FetchUnfinishedRoutesUseCase
 import ru.hse.coursework.godaily.core.domain.home.FilterRoutesUseCase
 import ru.hse.coursework.godaily.core.domain.home.SortRoutesUseCase
+import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,6 +25,7 @@ class HomeViewModel @Inject constructor(
     private val fetchUnfinishedRoutesUseCase: FetchUnfinishedRoutesUseCase,
     private val filterRoutesUseCase: FilterRoutesUseCase,
     private val sortRoutesUseCase: SortRoutesUseCase,
+    private val errorHandler: ErrorHandler
 ) : ViewModel() {
 
     val routesForGrid: SnapshotStateList<RouteCardDto> = mutableStateListOf()
@@ -46,11 +49,18 @@ class HomeViewModel @Inject constructor(
 
     fun loadHomeScreenInfo() {
         viewModelScope.launch {
-            val loadedUnfinishedRoutes = fetchUnfinishedRoutesUseCase.execute()
-            val loadedRoutesForGrid = fetchRoutesForHomeScreenUseCase.execute()
+            val loadedUnfinishedRoutesResponse = fetchUnfinishedRoutesUseCase.execute()
+            val loadedRoutesForGridResponse = fetchRoutesForHomeScreenUseCase.execute()
 
-            updateRoutesForGrid(loadedRoutesForGrid)
-            updateUnfinishedRoutes(loadedUnfinishedRoutes)
+            when (loadedUnfinishedRoutesResponse) {
+                is ApiCallResult.Error -> errorHandler.handleError(loadedUnfinishedRoutesResponse)
+                is ApiCallResult.Success -> updateUnfinishedRoutes(loadedUnfinishedRoutesResponse.data)
+            }
+
+            when (loadedRoutesForGridResponse) {
+                is ApiCallResult.Error -> errorHandler.handleError(loadedRoutesForGridResponse)
+                is ApiCallResult.Success -> updateRoutesForGrid(loadedRoutesForGridResponse.data)
+            }
         }
     }
 
@@ -58,7 +68,11 @@ class HomeViewModel @Inject constructor(
         searchValue.value = ""
 
         viewModelScope.launch {
-            updateRoutesForGrid(filterRoutesUseCase.execute(selected))
+            val filteredRoutesResponse = filterRoutesUseCase.execute(selected)
+            when (filteredRoutesResponse) {
+                is ApiCallResult.Error -> errorHandler.handleError(filteredRoutesResponse)
+                is ApiCallResult.Success -> updateRoutesForGrid(filteredRoutesResponse.data)
+            }
         }
         sortRoutes()
     }
@@ -76,7 +90,11 @@ class HomeViewModel @Inject constructor(
         chosenSortOptionText.value = "Ближе ко мне"
 
         viewModelScope.launch {
-            updateRoutesForGrid(fetchRoutesBySearchValue.execute(searchValue.value))
+            val searchedRoutesResponse = fetchRoutesBySearchValue.execute(searchValue.value)
+            when (searchedRoutesResponse) {
+                is ApiCallResult.Error -> errorHandler.handleError(searchedRoutesResponse)
+                is ApiCallResult.Success -> updateRoutesForGrid(searchedRoutesResponse.data)
+            }
         }
     }
 
