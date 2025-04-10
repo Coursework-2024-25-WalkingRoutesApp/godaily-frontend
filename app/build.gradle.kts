@@ -53,7 +53,7 @@ android {
         }
 
         buildConfigField("String", "MAPKIT_API_KEY", "\"$mapkitApiKey\"")
-        buildConfigField("String", "APPMETRICA_API_KEY", "\"$mapkitApiKey\"")
+        buildConfigField("String", "APPMETRICA_API_KEY", "\"$appMetricaApiKey\"")
     }
 
     buildTypes {
@@ -107,6 +107,7 @@ dependencies {
     //Jackson
     implementation("com.squareup.retrofit2:converter-jackson:2.11.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.1")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.1")
 
 
     // Kotlinx Serialization
@@ -114,6 +115,7 @@ dependencies {
 
     // Retrofit с Kotlinx Serialization
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
 
     //DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.3")

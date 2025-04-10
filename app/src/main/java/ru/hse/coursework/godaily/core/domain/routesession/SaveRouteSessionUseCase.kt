@@ -20,7 +20,6 @@ class SaveRouteSessionUseCase @Inject constructor(
         passedPoints: List<TitledPoint>,
         routePoints: List<TitledPoint>
     ): ApiCallResult<String> {
-        val sessionId = id ?: uuidService.getRandomUUID()
         val isFinished = (passedPoints.size == routePoints.size)
 
         return safeApiCaller.safeApiCall {
@@ -28,7 +27,7 @@ class SaveRouteSessionUseCase @Inject constructor(
                 //TODO хардкод
                 userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
                 routeSessionDto = RouteSessionDto(
-                    id = sessionId,
+                    id = id,
                     routeId = routeId,
                     isFinished = isFinished,
                     startedAt = LocalDateTime.now(),

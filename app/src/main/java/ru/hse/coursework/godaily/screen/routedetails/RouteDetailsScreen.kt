@@ -2,7 +2,6 @@ package ru.hse.coursework.godaily.screen.routedetails
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -15,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
+import ru.hse.coursework.godaily.ui.components.organisms.RouteRatingForDetailsCard
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteDetailsCard
 import ru.hse.coursework.godaily.ui.components.superorganisms.YandexRouteDisplayView
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
@@ -44,9 +44,7 @@ fun RouteDetailsScreen(
         if (!showMap.value) {
             RouteDetailsCard(
                 route = routeState.value,
-                mark = markState.value,
                 isFavourite = isFavourite,
-                reviewsCount = reviewsCount.value,
                 onBackClick = { navController.popBackStack() },
                 onMapClick = { showMap.value = true },
                 onFavouriteToggle = { boolValue ->
@@ -57,10 +55,14 @@ fun RouteDetailsScreen(
                     }
                     viewModel.updateIsFavourite()
                 },
-                onReviewsClick = { navController.navigate(NavigationItem.RouteReviews.route + "/${routeId}") }
+                modifier = Modifier.weight(1f)
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+            RouteRatingForDetailsCard(
+                rating = markState.value,
+                reviewsCount = reviewsCount.value,
+                onReviewsClick = { navController.navigate(NavigationItem.RouteReviews.route + "/${routeId}") },
+            )
 
             StartButton(
                 onClick = { navController.navigate(NavigationItem.RoutePassing.route + "/${routeId}") },

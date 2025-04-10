@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
@@ -26,7 +27,6 @@ import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
 import ru.hse.coursework.godaily.core.domain.service.RouteYandexService
 import ru.hse.coursework.godaily.core.domain.service.UuidService
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
-import ru.hse.coursework.godaily.ui.notification.ToastManager
 import java.util.UUID
 import javax.inject.Inject
 
@@ -46,7 +46,7 @@ class RouteDetailsViewModel @Inject constructor(
 
     val route: MutableState<RoutePageDto> = mutableStateOf(
         RoutePageDto(
-            id = UUID.randomUUID(),
+            id = null,
             routeName = null,
             description = null,
             duration = null,
@@ -64,9 +64,9 @@ class RouteDetailsViewModel @Inject constructor(
     val isFavourite: MutableState<Boolean> = mutableStateOf(false)
     val userMark: MutableState<Int> = mutableStateOf(5)
     val reviewText: MutableState<String> = mutableStateOf("")
-    var curUserReview: MutableState<ReviewDto.ReviewInfoDto>? = null
+    var curUserReview: MutableState<ReviewDto.ReviewInfoDto?> = mutableStateOf(null)
 
-    val routeSessionId = mutableStateOf(UUID.randomUUID())
+    val routeSessionId: MutableState<UUID?> = mutableStateOf(null)
     val routePoints = mutableStateListOf<TitledPoint>()
     val passedPoints = mutableStateListOf<TitledPoint>()
     val distanceToNextPoint = mutableStateOf(0.toDouble())
@@ -82,7 +82,7 @@ class RouteDetailsViewModel @Inject constructor(
 
     fun clear() {
         route.value = RoutePageDto(
-            id = UUID.randomUUID(),
+            id = null,
             routeName = null,
             description = null,
             duration = null,
@@ -99,9 +99,9 @@ class RouteDetailsViewModel @Inject constructor(
         isFavourite.value = false
         userMark.value = 5
         reviewText.value = ""
-        curUserReview = null
+        curUserReview.value = null
 
-        routeSessionId.value = UUID.randomUUID()
+        routeSessionId.value = null
         routePoints.clear()
         passedPoints.clear()
         distanceToNextPoint.value = 0.0
@@ -155,10 +155,10 @@ class RouteDetailsViewModel @Inject constructor(
                     is ApiCallResult.Success -> {
                         if (routeReviewsResponse.data is RouteReviewsInfo) {
                             val routeReviews = routeReviewsResponse.data
-                            curUserReview = if (routeReviews.curUserReview == null) {
+                            curUserReview.value = if (routeReviews.curUserReview == null) {
                                 null
                             } else {
-                                mutableStateOf(routeReviews.curUserReview)
+                                routeReviews.curUserReview
                             }
 
                             reviews.clear()
@@ -206,7 +206,7 @@ class RouteDetailsViewModel @Inject constructor(
                 when (routeSessionResponse) {
                     is ApiCallResult.Error -> {
                         if (routeSessionResponse.code == 404) {
-                            routeSessionId.value = uuidService.getRandomUUID()
+                            routeSessionId.value = null
                             isFinished.value = false
                         } else {
                             errorHandler.handleError(routeSessionResponse)
@@ -231,39 +231,42 @@ class RouteDetailsViewModel @Inject constructor(
         }
     }
 
-    suspend fun saveRouteSession(context: Context): Boolean {
-        val resultResponse = saveRouteSessionUseCase.execute(
-            id = routeSessionId.value,
-            routeId = route.value.id,
-            passedPoints = passedPoints,
-            routePoints = routePoints
-        )
-        return when (resultResponse) {
-            is ApiCallResult.Error -> {
-                errorHandler.handleError(resultResponse)
-                false
-            }
+    fun saveRouteSession(context: Context): Boolean {
+        return runBlocking {
+            if (route.value.id != null) {
+                val resultResponse = saveRouteSessionUseCase.execute(
+                    id = routeSessionId.value,
+                    routeId = route.value.id!!,
+                    passedPoints = passedPoints,
+                    routePoints = routePoints
+                )
 
-            is ApiCallResult.Success -> {
-                ToastManager(context).showToast(resultResponse.data)
-                true
-            }
+                when (resultResponse) {
+                    is ApiCallResult.Error -> {
+                        errorHandler.handleError(resultResponse)
+                        false
+                    }
 
+                    is ApiCallResult.Success -> {
+                        true
+                    }
+                }
+            }
+            false
         }
     }
 
     fun saveReview(context: Context) {
         viewModelScope.launch {
-
-            val resultResponse = saveReviewUseCase.execute(
-                route.value.id,
-                reviewText.value,
-                userMark.value
-            )
-            if (resultResponse is ApiCallResult.Error) {
-                errorHandler.handleError(resultResponse)
-            } else if (resultResponse is ApiCallResult.Success) {
-                ToastManager(context).showToast(resultResponse.data)
+            if (route.value.id != null) {
+                val resultResponse = saveReviewUseCase.execute(
+                    route.value.id!!,
+                    reviewText.value,
+                    userMark.value
+                )
+                if (resultResponse is ApiCallResult.Error) {
+                    errorHandler.handleError(resultResponse)
+                }
             }
         }
     }
@@ -271,13 +274,17 @@ class RouteDetailsViewModel @Inject constructor(
 
     fun addRouteToFavourites() {
         viewModelScope.launch {
-            addRouteToFavouritesUseCase.execute(route.value.id)
+            if (route.value.id != null) {
+                addRouteToFavouritesUseCase.execute(route.value.id!!)
+            }
         }
     }
 
     fun removeRouteFromFavourites() {
         viewModelScope.launch {
-            removeRouteFromFavouritesUseCase.execute(route.value.id)
+            if (route.value.id != null) {
+                removeRouteFromFavouritesUseCase.execute(route.value.id!!)
+            }
         }
     }
 
@@ -285,7 +292,11 @@ class RouteDetailsViewModel @Inject constructor(
         isFavourite.value = !isFavourite.value
     }
 
-    fun updateDistanceToNextPoint(firstPoint: Point, secondPoint: Point) {
+    fun updateDistanceToNextPoint(firstPoint: Point?, secondPoint: Point?) {
+        if (firstPoint == null || secondPoint == null) {
+            distanceToNextPoint.value = 0.toDouble()
+            return
+        }
         viewModelScope.launch {
             distanceToNextPoint.value =
                 routeYandexService.getDistancePointToPoint(firstPoint, secondPoint) ?: 0.toDouble()

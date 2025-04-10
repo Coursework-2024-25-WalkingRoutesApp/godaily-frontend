@@ -5,14 +5,14 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 data class ReviewDto(
-    @JsonProperty("cur_user_id")
+    @JsonProperty("curUserId")
     var curUserId: UUID? = null,
 
     @JsonProperty("reviews")
     var reviews: List<ReviewInfoDto>
 ) {
     data class ReviewInfoDto(
-        @JsonProperty("user_id")
+        @JsonProperty("userId")
         var userId: UUID,
 
         @JsonProperty("userName")

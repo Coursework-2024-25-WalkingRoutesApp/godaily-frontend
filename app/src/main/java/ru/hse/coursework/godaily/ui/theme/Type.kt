@@ -45,7 +45,7 @@ val routeNameSmall = TextStyle(
 val routeDestinations = TextStyle(
     fontFamily = RobotoFontFamily,
     fontWeight = FontWeight.Light,
-    fontSize = 18.sp,
+    fontSize = 15.sp,
     color = black
 )
 

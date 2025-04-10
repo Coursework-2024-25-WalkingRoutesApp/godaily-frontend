@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="radius_in_metres">10000</integer>
+    <integer name="radius_in_metres">50000</integer>
 </resources>

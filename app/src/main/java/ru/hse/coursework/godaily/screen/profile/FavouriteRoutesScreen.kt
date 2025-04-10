@@ -47,6 +47,7 @@ fun FavouriteRoutesScreen(
             RouteVerticalGrid(
                 routes = viewModel.favouriteRoutes,
                 onRouteClick = { route ->
+                    viewModel.trackRouteDetailsOpen(route.id, route.routeName)
                     routeDetailsViewModel.clear()
                     navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
                 }

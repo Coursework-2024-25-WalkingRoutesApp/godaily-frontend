@@ -197,14 +197,7 @@ fun CreateRouteInfoScreen(
         UnsuccessfulPublishDialog(
             showDialog = showUnsuccessfulPublishDialog,
             tryAgain = {
-                coroutineScope.launch {
-                    val isSuccess = viewModel.publishRoute(context)
-                    if (isSuccess) {
-                        showNewPublishDialog.value = true
-                    } else {
-                        showUnsuccessfulPublishDialog.value = true
-                    }
-                }
+                showUnsuccessfulPublishDialog.value = false
             },
             onHomeClick = {
                 bottomNavController.navigate(BottomNavigationItem.Home.route) {

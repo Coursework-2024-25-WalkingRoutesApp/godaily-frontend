@@ -412,7 +412,8 @@ class FakeApiService : ApiService {
     override suspend fun getRoutesBySearchValue(
         searchValue: String,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        radius: Long
     ): Response<List<RouteCardDto>> {
         return Response.success(fakeRoutes)
     }

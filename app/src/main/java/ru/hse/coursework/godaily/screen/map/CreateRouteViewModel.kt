@@ -31,7 +31,7 @@ class CreateRouteViewModel @Inject constructor(
     private val errorHandler: ErrorHandler
 ) : ViewModel() {
 
-    val routeIdState: MutableState<UUID> = mutableStateOf(UUID.randomUUID())
+    val routeIdState: MutableState<UUID?> = mutableStateOf(null)
     val routeTitle: MutableState<String> = mutableStateOf("")
     val routeDescription: MutableState<String> = mutableStateOf("")
     val startPoint: MutableState<String> = mutableStateOf("")
@@ -47,7 +47,7 @@ class CreateRouteViewModel @Inject constructor(
     val isDataLoaded = mutableStateOf(false)
 
     fun clear() {
-        routeIdState.value = UUID.randomUUID()
+        routeIdState.value = null
         routeTitle.value = ""
         routeDescription.value = ""
         startPoint.value = ""
@@ -101,7 +101,7 @@ class CreateRouteViewModel @Inject constructor(
         routeTitle.value = routeTitleValue
     }
 
-    fun convertCategories(categories: List<RouteDto.Category>): Set<Int> {
+    private fun convertCategories(categories: List<RouteDto.Category>): Set<Int> {
         val categoryMap = mapOf(
             "Природный" to 0,
             "Культурно-исторический" to 1,

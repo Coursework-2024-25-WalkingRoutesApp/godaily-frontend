@@ -11,6 +11,7 @@ import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
 import ru.hse.coursework.godaily.core.domain.routes.FetchCreatedRoutesUseCase
 import ru.hse.coursework.godaily.core.domain.routes.FetchDraftsUseCase
 import ru.hse.coursework.godaily.core.domain.service.UuidService
+import ru.hse.coursework.godaily.core.tracking.TrackingService
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
 import java.util.UUID
 import javax.inject.Inject
@@ -20,7 +21,8 @@ class RoutesViewModel @Inject constructor(
     private val fetchCreatedRoutesUseCase: FetchCreatedRoutesUseCase,
     private val fetchDraftsUseCase: FetchDraftsUseCase,
     private val uuidService: UuidService,
-    private val errorHandler: ErrorHandler
+    private val errorHandler: ErrorHandler,
+    private val trackingService: TrackingService
 ) : ViewModel() {
 
     init {
@@ -73,6 +75,10 @@ class RoutesViewModel @Inject constructor(
 
     fun getUuid(): UUID {
         return uuidService.getRandomUUID()
+    }
+
+    fun trackRouteDetailsOpen(routeId: UUID?, routeName: String?) {
+        trackingService.trackRouteDetailsOpen(routeId, routeName)
     }
 
 }

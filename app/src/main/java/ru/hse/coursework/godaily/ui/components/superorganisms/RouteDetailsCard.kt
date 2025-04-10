@@ -1,9 +1,11 @@
 package ru.hse.coursework.godaily.ui.components.superorganisms
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.ui.components.organisms.RouteImageForDetailsCard
-import ru.hse.coursework.godaily.ui.components.organisms.RouteRatingForDetailsCard
 import ru.hse.coursework.godaily.ui.components.organisms.RouteTagsWithFavourite
 import ru.hse.coursework.godaily.ui.components.organisms.RouteTitleDurationForDetailsCard
 import ru.hse.coursework.godaily.ui.components.organisms.ScrollableDescription
@@ -23,17 +24,14 @@ import java.util.UUID
 @Composable
 fun RouteDetailsCard(
     route: RoutePageDto,
-    mark: Double,
     isFavourite: MutableState<Boolean>,
-    reviewsCount: Int,
     onBackClick: () -> Unit,
     onMapClick: () -> Unit,
     onFavouriteToggle: (Boolean) -> Unit,
-    onReviewsClick: () -> Unit
+    modifier: Modifier = Modifier // Добавляем параметр модификатора
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier // Используем переданный модификатор
     ) {
         RouteImageForDetailsCard(
             route = route,
@@ -51,13 +49,16 @@ fun RouteDetailsCard(
 
         RouteTitleDurationForDetailsCard(route = route)
 
-        ScrollableDescription(description = route.description ?: "")
-
-        RouteRatingForDetailsCard(
-            rating = mark,
-            reviewsCount = reviewsCount,
-            onReviewsClick = onReviewsClick
-        )
+        Box(
+            modifier = Modifier.weight(1f)
+        ) {
+            ScrollableDescription(
+                description = route.description ?: "",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+            )
+        }
     }
 }
 
@@ -86,12 +87,9 @@ fun RouteDetailsCardPreview() {
 
     RouteDetailsCard(
         route = route,
-        mark = 4.7,
         isFavourite = mutableStateOf(false),
-        reviewsCount = 79,
         onBackClick = {},
         onMapClick = {},
         onFavouriteToggle = {},
-        onReviewsClick = {}
     )
 }

@@ -34,7 +34,6 @@ class SaveRouteUseCase @Inject constructor(
 
         val duration = route?.let { routeYandexService.getRouteDuration(it) } ?: 0.toDouble()
         val length = route?.let { routeYandexService.getRouteLength(it) } ?: 0.toDouble()
-        val routeId = id ?: UUID.randomUUID()
 
         val routePreview = imageUri?.let {
             photoConverterService.uriToByteArray(it)
@@ -45,7 +44,7 @@ class SaveRouteUseCase @Inject constructor(
                 //TODO хардкод
                 userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
                 routeDto = RouteDto(
-                    id = routeId,
+                    id = id,
                     routeName = routeName,
                     description = description,
                     duration = duration,
@@ -54,8 +53,8 @@ class SaveRouteUseCase @Inject constructor(
                     endPoint = endPoint,
                     routePreview = routePreview,
                     isDraft = isDraft,
-                    routeCoordinate = titledPointsToRouteCoordinate(routePoints, routeId),
-                    categories = categoriesToDto(categories)
+                    routeCoordinate = titledPointsToRouteCoordinate(routePoints, id),
+                    categories = categoriesToDto(id, categories)
                 )
             )
         }
@@ -67,11 +66,11 @@ class SaveRouteUseCase @Inject constructor(
 
     private fun titledPointsToRouteCoordinate(
         routePoints: SnapshotStateList<TitledPoint>,
-        routeId: UUID
+        routeId: UUID?
     ): List<RouteDto.RouteCoordinate> {
         return routePoints.mapIndexed { index, titledPoint ->
             RouteDto.RouteCoordinate(
-                id = titledPoint.id,
+                id = null,
                 routeId = routeId,
                 latitude = titledPoint.point.latitude,
                 longitude = titledPoint.point.longitude,
@@ -82,14 +81,18 @@ class SaveRouteUseCase @Inject constructor(
         }
     }
 
-    private fun categoriesToDto(categories: Set<Int>): List<String> {
+    private fun categoriesToDto(routeId: UUID?, categories: Set<Int>): List<RouteDto.Category> {
         val categoryMap = mapOf(
             0 to "Природный",
             1 to "Культурно-исторический",
             2 to "Кафе по пути",
             3 to "У метро"
         )
-        return categories.mapNotNull { categoryMap[it] }
+        return categories.mapNotNull { categoryId ->
+            categoryMap[categoryId]?.let { categoryName ->
+                RouteDto.Category(routeId, categoryName)
+            }
+        }
     }
 
 }

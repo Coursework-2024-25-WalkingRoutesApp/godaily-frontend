@@ -15,7 +15,9 @@ import ru.hse.coursework.godaily.core.domain.home.FetchRoutesForHomeScreenUseCas
 import ru.hse.coursework.godaily.core.domain.home.FetchUnfinishedRoutesUseCase
 import ru.hse.coursework.godaily.core.domain.home.FilterRoutesUseCase
 import ru.hse.coursework.godaily.core.domain.home.SortRoutesUseCase
+import ru.hse.coursework.godaily.core.tracking.TrackingService
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +27,8 @@ class HomeViewModel @Inject constructor(
     private val fetchUnfinishedRoutesUseCase: FetchUnfinishedRoutesUseCase,
     private val filterRoutesUseCase: FilterRoutesUseCase,
     private val sortRoutesUseCase: SortRoutesUseCase,
-    private val errorHandler: ErrorHandler
+    private val errorHandler: ErrorHandler,
+    private val trackingService: TrackingService
 ) : ViewModel() {
 
     val routesForGrid: SnapshotStateList<RouteCardDto> = mutableStateListOf()
@@ -59,22 +62,28 @@ class HomeViewModel @Inject constructor(
 
             when (loadedRoutesForGridResponse) {
                 is ApiCallResult.Error -> errorHandler.handleError(loadedRoutesForGridResponse)
-                is ApiCallResult.Success -> updateRoutesForGrid(loadedRoutesForGridResponse.data)
+                is ApiCallResult.Success -> {
+                    updateRoutesForGrid(loadedRoutesForGridResponse.data)
+                    filterRoutes()
+                    sortRoutes()
+                }
             }
         }
     }
 
-    fun filterRoutes(selected: Set<Int>) {
+    fun filterRoutes() {
         searchValue.value = ""
 
         viewModelScope.launch {
-            val filteredRoutesResponse = filterRoutesUseCase.execute(selected)
+            val filteredRoutesResponse = filterRoutesUseCase.execute(selectedCategories.value)
             when (filteredRoutesResponse) {
                 is ApiCallResult.Error -> errorHandler.handleError(filteredRoutesResponse)
-                is ApiCallResult.Success -> updateRoutesForGrid(filteredRoutesResponse.data)
+                is ApiCallResult.Success -> {
+                    updateRoutesForGrid(filteredRoutesResponse.data)
+                    sortRoutes()
+                }
             }
         }
-        sortRoutes()
     }
 
     fun sortRoutes() {
@@ -98,5 +107,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
+    fun trackRouteDetailsOpen(routeId: UUID?, routeName: String?) {
+        trackingService.trackRouteDetailsOpen(routeId, routeName)
+    }
 }

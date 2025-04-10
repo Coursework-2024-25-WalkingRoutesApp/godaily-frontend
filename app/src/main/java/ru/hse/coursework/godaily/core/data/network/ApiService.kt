@@ -2,6 +2,7 @@ package ru.hse.coursework.godaily.core.data.network
 
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -79,6 +80,7 @@ interface ApiService {
         @Query("longitude") longitude: Double
     ): Response<List<RouteCardDto>>
 
+    // Получение незавершенных маршрутов
     @GET(SESSION_BASE_PATH_URL + GET_UNFINISHED_URL)
     suspend fun getUserUnfinishedRoutes(
         @Query("userId") userId: UUID,
@@ -95,7 +97,7 @@ interface ApiService {
     ): Response<String>
 
     // Удаление маршрута из избранного
-    @POST(FAVORITE_BASE_PATH_URL + DELETE_FAVOURITE_URL)
+    @DELETE(FAVORITE_BASE_PATH_URL + DELETE_FAVOURITE_URL)
     suspend fun removeRouteFromFavorites(
         @Query("userId") userId: UUID,
         @Query("routeId") routeId: UUID
@@ -136,7 +138,7 @@ interface ApiService {
         @Query("routeId") routeId: UUID,
         @Query("mark") mark: Int,
         @Query("reviewText") reviewText: String,
-        @Query("createdText") createdAt: LocalDateTime
+        @Query("createdAt") createdAt: LocalDateTime
     ): Response<String>
 
     // Поиск маршрутов по названию
@@ -145,6 +147,7 @@ interface ApiService {
         @Query("searchValue") searchValue: String,
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
+        @Query("radius") radius: Long
     ): Response<List<RouteCardDto>>
 
     // Фильтрация маршрутов по категории и сортировка по удаленности

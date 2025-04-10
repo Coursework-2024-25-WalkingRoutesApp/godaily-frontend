@@ -12,6 +12,7 @@ import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
 import ru.hse.coursework.godaily.core.domain.location.LocationService
 import ru.hse.coursework.godaily.core.domain.service.UuidService
 import ru.hse.coursework.godaily.core.security.JwtManager
+import ru.hse.coursework.godaily.core.tracking.TrackingService
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
 import javax.inject.Singleton
 
@@ -35,6 +36,12 @@ object AppModule {
     @Singleton
     fun provideSafeApiCaller(): SafeApiCaller {
         return SafeApiCaller()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTrackingService(): TrackingService {
+        return TrackingService()
     }
 
     @Provides

@@ -5,7 +5,7 @@ import java.util.UUID
 
 data class RoutePageDto(
     @JsonProperty("id")
-    var id: UUID,
+    var id: UUID?,
 
     @JsonProperty("routeName")
     var routeName: String?,

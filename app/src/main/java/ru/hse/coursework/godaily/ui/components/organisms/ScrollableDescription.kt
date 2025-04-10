@@ -2,7 +2,6 @@ package ru.hse.coursework.godaily.ui.components.organisms
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -21,7 +20,6 @@ fun ScrollableDescription(
 ) {
     Box(
         modifier = modifier
-            .height(130.dp)
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {

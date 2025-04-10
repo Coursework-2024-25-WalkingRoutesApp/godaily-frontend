@@ -29,10 +29,11 @@ import ru.hse.coursework.godaily.ui.theme.greyLight
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RouteNavigationBox(
+    isFinish: Boolean,
     modifier: Modifier = Modifier,
     onNextPointClick: () -> Unit,
+    onFinishClick: () -> Unit,
     onPauseClick: () -> Unit,
-    onNextPointText: String = "К следующей точке",
     distanceToNextPoint: Double,
     nextPointTitle: String = "Следующая точка",
     nextPointSubtitle: String = ""
@@ -58,29 +59,21 @@ fun RouteNavigationBox(
                     .padding(16.dp)
                     .height(300.dp)
             ) {
-                when (nextPointTitle) {
-                    "Финиш" -> VariableMedium(
-                        text = nextPointTitle,
-                        fontSize = 21.sp,
-                        modifier = Modifier.padding(top = 40.dp)
+                if (!isFinish) {
+                    PauseButton(
+                        onClick = onPauseClick,
+                        modifier = Modifier.align(Alignment.End)
                     )
-
-                    else -> {
-                        PauseButton(
-                            onClick = onPauseClick,
-                            modifier = Modifier.align(Alignment.End)
+                    VariableMedium(
+                        text = "$nextPointTitle: ${formatDistance(distanceToNextPoint)}",
+                        fontSize = 21.sp
+                    )
+                    nextPointSubtitle.takeIf { it.isNotBlank() }?.let {
+                        ScrollableDescription(
+                            description = it,
+                            color = descriptionColor,
+                            modifier = Modifier.padding(top = 5.dp, end = 16.dp)
                         )
-                        VariableMedium(
-                            text = "$nextPointTitle: ${formatDistance(distanceToNextPoint)}",
-                            fontSize = 21.sp
-                        )
-                        nextPointSubtitle.takeIf { it.isNotBlank() }?.let {
-                            ScrollableDescription(
-                                description = it,
-                                color = descriptionColor,
-                                modifier = Modifier.padding(top = 5.dp, end = 16.dp)
-                            )
-                        }
                     }
                 }
             }
@@ -88,13 +81,15 @@ fun RouteNavigationBox(
     ) {}
 
     Box(Modifier.fillMaxSize()) {
+        val buttonModifier = Modifier
+            .align(Alignment.BottomCenter)
+            .width(217.dp)
+            .padding(bottom = 16.dp)
+
         PublishButton(
-            onClick = onNextPointClick,
-            text = onNextPointText,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .width(217.dp)
-                .padding(bottom = 16.dp)
+            onClick = if (isFinish) onFinishClick else onNextPointClick,
+            text = if (isFinish) "Завершить" else "Следующая точка",
+            modifier = buttonModifier
         )
     }
 }
@@ -114,8 +109,10 @@ fun formatDistance(distance: Double?): String {
 @Composable
 fun RouteNavigationBoxPreview() {
     RouteNavigationBox(
+        isFinish = false,
         onNextPointClick = {},
         onPauseClick = {},
+        onFinishClick = {},
         nextPointTitle = "Пончиковая Пончиковая",
         nextPointSubtitle = "Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончикамиКафе с лучшими пончиками Кафе с лучшими пончиками Кафе с лучшими пончиками",
         distanceToNextPoint = 30.toDouble()

@@ -51,6 +51,7 @@ import ru.hse.coursework.godaily.ui.components.organisms.RouteStartBox
 import ru.hse.coursework.godaily.ui.theme.greyDark
 import ru.hse.coursework.godaily.ui.theme.greyLight
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
+import kotlin.math.abs
 
 @Composable
 fun YandexMapNavigationView(
@@ -202,40 +203,39 @@ fun YandexMapNavigationView(
                     routePoints[currentPointIndex.value - 1].point,
                     nextPoint.point
                 )
+            } else {
+                viewModel.updateDistanceToNextPoint(null, null)
             }
             RouteNavigationBox(
+                isFinish = (nextPoint == null),
                 distanceToNextPoint = distanceToNewPoint.value,
                 nextPointTitle = nextPoint?.title?.takeIf { it.isNotEmpty() }
                     ?: "До следующей точки",
                 nextPointSubtitle = nextPoint?.description ?: "",
-                onNextPointText = if (nextPoint == null) "Завершить" else "Следующая точка",
                 modifier = Modifier
                     .align(Alignment.BottomCenter),
                 onNextPointClick = {
-                    if (nextPoint != null) {
-                        if (currentPointIndex.value < routePoints.size) {
-                            val newPoint = routePoints[currentPointIndex.value]
-                            val map = mapView.mapWindow.map
-                            passedPoints.add(newPoint)
+                    if (currentPointIndex.value < routePoints.size) {
+                        val newPoint = routePoints[currentPointIndex.value]
+                        val map = mapView.mapWindow.map
+                        passedPoints.add(newPoint)
 
-                            currentPointIndex.value++
+                        currentPointIndex.value++
 
-                            map.move(
-                                CameraPosition(newPoint.point, 10.0f, 0.0f, 0.0f),
-                                Animation(Animation.Type.SMOOTH, 1.5f),
-                                null
-                            )
+                        map.move(
+                            CameraPosition(newPoint.point, 10.0f, 0.0f, 0.0f),
+                            Animation(Animation.Type.SMOOTH, 1.5f),
+                            null
+                        )
 
-                            updateRoute(
-                                mapView.mapWindow.map, routePoints, passedPoints,
-                                startIcon, midIcon, endIcon,
-                                passedIconStart, passedIconPoint, passedIconFinish
-                            )
-                        }
-                    } else {
-                        onFinishClick()
+                        updateRoute(
+                            mapView.mapWindow.map, routePoints, passedPoints,
+                            startIcon, midIcon, endIcon,
+                            passedIconStart, passedIconPoint, passedIconFinish
+                        )
                     }
                 },
+                onFinishClick = onFinishClick,
                 onPauseClick = onPauseClick
             )
         }
@@ -308,22 +308,32 @@ private fun updatePassedRouteSegments(
     }
 
     val routePoints = routeGeometry.points
-    val lastPassedPoint = passedPoints.last()
+    val lastPassedPoint = passedPoints.last().point
 
-    val routePassedPoints =
-        routePoints.takeWhile { it.latitude != lastPassedPoint.point.latitude && it.longitude != lastPassedPoint.point.longitude } + lastPassedPoint.point
-    val routeNotPassedPoints = routePoints.drop(routePassedPoints.size)
+    val lastPassedIndex = routePoints.indexOfLast { point ->
+        abs(point.latitude - lastPassedPoint.latitude) < 1e-6 &&
+                abs(point.longitude - lastPassedPoint.longitude) < 1e-6
+    }
 
-    if (routeNotPassedPoints.isNotEmpty()) {
-        map.mapObjects.addPolyline(Polyline(routeNotPassedPoints)).apply {
+    if (lastPassedIndex == -1) {
+        map.mapObjects.addPolyline(routeGeometry).apply {
             setStrokeColor(purpleRoutes.toArgb())
+        }
+        return
+    }
+
+    val routePassedPoints = routePoints.take(lastPassedIndex + 1)
+    val routeNotPassedPoints = routePoints.drop(lastPassedIndex + 1)
+
+    if (routePassedPoints.size >= 2) {
+        map.mapObjects.addPolyline(Polyline(routePassedPoints)).apply {
+            setStrokeColor(greyDark.toArgb())
         }
     }
 
-
-    if (routePassedPoints.size > 1) {
-        map.mapObjects.addPolyline(Polyline(routePassedPoints)).apply {
-            setStrokeColor(greyDark.toArgb())
+    if (routeNotPassedPoints.size >= 2) {
+        map.mapObjects.addPolyline(Polyline(routeNotPassedPoints)).apply {
+            setStrokeColor(purpleRoutes.toArgb())
         }
     }
 }

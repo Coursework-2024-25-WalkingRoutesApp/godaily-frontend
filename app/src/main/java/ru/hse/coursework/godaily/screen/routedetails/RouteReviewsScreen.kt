@@ -36,7 +36,6 @@ fun RouteReviewsScreen(
 
     LaunchedEffect(routeId) {
         viewModel.loadRouteReviews(routeId)
-        println(reviews.size)
     }
 
     Column(
@@ -58,7 +57,7 @@ fun RouteReviewsScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
-            if (curUserReview != null) {
+            if (curUserReview.value != null) {
                 RouteRatingWithoutChoice(
                     rating = averageMark.value,
                     reviewsCount = reviewsCount.value,

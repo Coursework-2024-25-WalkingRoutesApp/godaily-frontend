@@ -10,7 +10,8 @@ import javax.inject.Inject
 class FetchRoutesBySearchValue @Inject constructor(
     private val api: ApiService,
     private val locationService: LocationService,
-    private val safeApiCaller: SafeApiCaller
+    private val safeApiCaller: SafeApiCaller,
+    private val searchRadiusMeters: Long
 ) {
     suspend fun execute(
         searchValue: String
@@ -20,7 +21,8 @@ class FetchRoutesBySearchValue @Inject constructor(
             api.getRoutesBySearchValue(
                 searchValue,
                 userCoordinates.latitude,
-                userCoordinates.longitude
+                userCoordinates.longitude,
+                searchRadiusMeters
             )
         }
     }

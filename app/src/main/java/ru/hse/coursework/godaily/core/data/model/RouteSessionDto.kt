@@ -6,7 +6,7 @@ import java.util.UUID
 
 data class RouteSessionDto(
     @JsonProperty("id")
-    var id: UUID,
+    var id: UUID?,
 
     @JsonProperty("routeId")
     var routeId: UUID,
@@ -20,12 +20,12 @@ data class RouteSessionDto(
     @JsonProperty("endedAt")
     var endedAt: LocalDateTime?,
 
-    @JsonProperty("userCheckpoints")
+    @JsonProperty("userCheckpoint")
     var userCheckpoint: List<UserCheckpoint>
 ) {
     data class UserCheckpoint(
         @JsonProperty("coordinateId")
-        var coordinateId: UUID,
+        var coordinateId: UUID?,
 
         @JsonProperty("createdAt")
         var createdAt: LocalDateTime?

@@ -16,7 +16,9 @@ import ru.hse.coursework.godaily.core.domain.profile.ProfileInfo
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserEditedNameUseCase
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserPhotoUseCase
 import ru.hse.coursework.godaily.core.security.JwtManager
+import ru.hse.coursework.godaily.core.tracking.TrackingService
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +27,8 @@ class ProfileViewModel @Inject constructor(
     private val saveUserEditedNameUseCase: SaveUserEditedNameUseCase,
     private val saveUserPhotoUseCase: SaveUserPhotoUseCase,
     private val jwtManager: JwtManager,
-    private val errorHandler: ErrorHandler
+    private val errorHandler: ErrorHandler,
+    private val trackingService: TrackingService
 ) : ViewModel() {
 
     val email: MutableState<String> = mutableStateOf("email")
@@ -83,6 +86,10 @@ class ProfileViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun trackRouteDetailsOpen(routeId: UUID?, routeName: String?) {
+        trackingService.trackRouteDetailsOpen(routeId, routeName)
     }
 
     fun exit() {

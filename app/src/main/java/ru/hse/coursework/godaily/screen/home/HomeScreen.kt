@@ -51,6 +51,7 @@ fun HomeScreen(
             RouteToContinueGrid(
                 routes = unfinishedRoutes,
                 onRouteClick = { route ->
+                    viewModel.trackRouteDetailsOpen(route.id, route.routeName)
                     routeDetailsViewModel.clear()
                     navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
                 }
@@ -83,6 +84,7 @@ fun HomeScreen(
         RouteVerticalGrid(
             routes = routesForGrid,
             onRouteClick = { route ->
+                viewModel.trackRouteDetailsOpen(route.id, route.routeName)
                 routeDetailsViewModel.clear()
                 navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
             }
@@ -96,12 +98,12 @@ fun HomeScreen(
             onApply = { selected ->
                 selectedCategories.value = selected
                 showFilterSheet.value = false
-                viewModel.filterRoutes(selected)
+                viewModel.filterRoutes()
                 viewModel.sortRoutes()
             },
             onReset = {
                 selectedCategories.value = emptySet()
-                viewModel.filterRoutes(selectedCategories.value)
+                viewModel.filterRoutes()
             }
         )
     }

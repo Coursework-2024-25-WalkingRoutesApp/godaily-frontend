@@ -13,7 +13,6 @@ class FetchRouteSessionUseCase @Inject constructor(
     private val safeApiCaller: SafeApiCaller,
     private val uuidService: UuidService
 ) {
-    //TODO саша намеревался возвращать null,  мы этого не хотим((
     suspend fun execute(routeId: UUID): ApiCallResult<Any> {
         //TODO хардкод
         val routePageDTOResponse =
@@ -81,14 +80,14 @@ class FetchRouteSessionUseCase @Inject constructor(
 }
 
 data class TitledPoint(
-    val id: UUID,
+    val id: UUID?,
     val point: Point,
     var title: String,
     var description: String,
 )
 
 data class RoutePointsSession(
-    val id: UUID,
+    val id: UUID?,
     val isFinished: Boolean,
     val routePoints: List<TitledPoint>,
     val passedRoutePoints: List<TitledPoint>

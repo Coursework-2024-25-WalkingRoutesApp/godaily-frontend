@@ -2,6 +2,7 @@ package ru.hse.coursework.godaily.ui.errorsprocessing
 
 import android.content.Context
 import android.util.Log
+import io.appmetrica.analytics.AppMetrica
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
 import ru.hse.coursework.godaily.core.security.JwtManager
 import ru.hse.coursework.godaily.ui.notification.ToastManager
@@ -16,15 +17,18 @@ class ErrorHandler @Inject constructor(
     }
 
     fun handleError(error: ApiCallResult.Error) {
+        AppMetrica.reportError(error.message ?: "", error.throwable)
+
         logError(error)
-        showUserFriendlyMessage(error)
+
+        showErrorMessage(error)
     }
 
     private fun logError(error: ApiCallResult.Error) {
         Log.e(TAG, buildLogMessage(error), error.throwable ?: Exception(error.message))
     }
 
-    private fun showUserFriendlyMessage(error: ApiCallResult.Error) {
+    private fun showErrorMessage(error: ApiCallResult.Error) {
         val toastManager = ToastManager(context)
 
         when (error.code) {

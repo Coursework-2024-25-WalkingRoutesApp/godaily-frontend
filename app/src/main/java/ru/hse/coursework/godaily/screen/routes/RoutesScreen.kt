@@ -55,6 +55,7 @@ fun RoutesScreen(
                 RouteVerticalGrid(
                     routes = publishedRoutes,
                     onRouteClick = { route ->
+                        viewModel.trackRouteDetailsOpen(route.id, route.routeName)
                         routeDetailsViewModel.clear()
                         navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
                     }
@@ -64,9 +65,8 @@ fun RoutesScreen(
 
         CreateButton(
             onClick = {
-                val randomUUID = viewModel.getUuid()
                 createViewModel.clear()
-                navController.navigate(NavigationItem.RouteCreationOnMap.route + "/${randomUUID}")
+                navController.navigate(NavigationItem.RouteCreationOnMap.route + "/${""}")
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
