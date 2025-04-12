@@ -144,7 +144,9 @@ fun AddPhotoScreen(
                 fontWeight = FontWeight.Medium,
                 color = Color.Black,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.clickable { viewModel.saveJwtToStorage() }
+                modifier = Modifier.clickable {
+                    viewModel.saveJwtToStorage()
+                }
             )
         }
     }

@@ -16,7 +16,6 @@ import ru.hse.coursework.godaily.core.security.JwtManager
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
 import javax.inject.Inject
 
-//TODO сохранение JWT
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val jwtManager: JwtManager,
@@ -54,7 +53,6 @@ class AuthViewModel @Inject constructor(
 
                 is ApiCallResult.Success -> {
                     jwt.value = resultResponse.data
-                    saveJwtToStorage()
                     true
                 }
             }
@@ -68,7 +66,6 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    //TODO
     suspend fun loginUser(): Boolean {
         if (isValidEmail(email.value) &&
             isPasswordLongEnough(password.value)
@@ -102,22 +99,21 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
-
-    private fun isValidEmail(email: String): Boolean {
-        return email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-    private fun isPasswordLongEnough(password: String): Boolean {
-        return password.length >= 8
-    }
-
-    private fun isValidPassword(password: String, passwordAgain: String): Boolean {
-        return password.length >= 8 && (password == passwordAgain)
-    }
-
-    private fun isValidUsername(username: String): Boolean {
-        return username.isNotEmpty()
-    }
+}
 
 
+private fun isValidEmail(email: String): Boolean {
+    return email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+}
+
+private fun isPasswordLongEnough(password: String): Boolean {
+    return password.length >= 8
+}
+
+private fun isValidPassword(password: String, passwordAgain: String): Boolean {
+    return password.length >= 8 && (password == passwordAgain)
+}
+
+private fun isValidUsername(username: String): Boolean {
+    return username.isNotEmpty()
 }

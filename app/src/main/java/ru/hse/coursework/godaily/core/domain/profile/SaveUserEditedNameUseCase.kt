@@ -14,7 +14,6 @@ class SaveUserEditedNameUseCase @Inject constructor(
     ): ApiCallResult<String> {
         return safeApiCaller.safeApiCall {
             api.saveUserEditedName(
-                "",
                 editedName
             )
         }

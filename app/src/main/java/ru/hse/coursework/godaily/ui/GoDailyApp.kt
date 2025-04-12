@@ -23,7 +23,7 @@ class GoDailyApp : Application() {
 
         val config = AppMetricaConfig
             .newConfigBuilder(BuildConfig.APPMETRICA_API_KEY)
-            .withLogs()
+            //.withLogs()
             .withLocationTracking(true)
             .build()
         AppMetrica.activate(this, config)

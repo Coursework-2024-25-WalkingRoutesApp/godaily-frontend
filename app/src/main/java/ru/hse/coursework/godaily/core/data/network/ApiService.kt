@@ -5,13 +5,13 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.core.data.model.RouteSessionDto
-import ru.hse.coursework.godaily.core.data.model.UserDto
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -19,19 +19,25 @@ interface ApiService {
 
     //TODO
     // Регистрация нового пользователя
+    @POST(USER_BASE_PATH_URL + REGISTER_URL)
     suspend fun registerUser(
-        email: String,
-        password: String,
-        username: String,
-    ): Response<String> // Возвращает JWT
+        @Query("email") email: String,
+        @Query("password") password: String,
+        @Query("username") username: String,
+    ): Response<String>
 
     //TODO
     // Вход в приложение
-    suspend fun loginUser(email: String, password: String): Response<String> // Возвращает JWT
+    @GET(USER_BASE_PATH_URL + LOGIN_URL)
+    suspend fun loginUser(
+        @Query("email") email: String,
+        @Query("password") password: String
+    ): Response<String>
 
     // Получение информации о текущем пользователе
     //TODO
-    suspend fun getUserInfo(jwt: String): Response<UserDto>
+    @GET(USER_BASE_PATH_URL + GET_USER_INFO_URL)
+    suspend fun getUserInfo(): Response<Any>
 
     //TODO
     // Сохранение информации о пользователе
@@ -39,7 +45,10 @@ interface ApiService {
 
     //TODO
     // Сохранение информации о пользователе
-    suspend fun saveUserEditedName(jwt: String, username: String): Response<String>
+    @PUT(USER_BASE_PATH_URL + UPDATE_USERNAME_URL)
+    suspend fun saveUserEditedName(
+        @Query("newUsername") newUsername: String,
+    ): Response<String>
 
     // Сохранение маршрута
     @POST(ROUTE_BASE_PATH_URL + ADD_ROUTE_URL)

@@ -10,15 +10,10 @@ fun StartScreen(
     jwtViewModel: JwtViewModel = hiltViewModel()
 ) {
     val navController = rememberNavController()
-    val jwtState = jwtViewModel.jwtFlow.collectAsState(initial = null)
+    val isTokenValid = jwtViewModel.isTokenValid.collectAsState()
 
-//    //TODO убрать, для тестов
-//    jwtViewModel.clearJwt()
-
-
-    if (jwtState.value != null && jwtViewModel.validateJwt(jwtState.value)) {
-        MainScreen(navController)
-    } else {
-        AuthNavigation(navController)
+    when (isTokenValid.value) {
+        true -> MainScreen(navController)
+        else -> AuthNavigation(navController)
     }
 }

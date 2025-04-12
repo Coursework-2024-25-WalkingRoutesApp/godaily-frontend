@@ -37,7 +37,6 @@ import ru.hse.coursework.godaily.ui.components.molecules.AuthCustomField
 import ru.hse.coursework.godaily.ui.components.molecules.PasswordCustomField
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
 import ru.hse.coursework.godaily.ui.navigation.AuthNavigationItem
-import ru.hse.coursework.godaily.ui.notification.ToastManager
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 
 @Composable
@@ -92,10 +91,7 @@ fun LoginScreen(
                 text = "Войти",
                 onClick = {
                     coroutineScope.launch {
-                        val result = viewModel.loginUser()
-                        if (!result) {
-                            ToastManager(context).showToast("Неудачная попытка входа")
-                        }
+                        viewModel.loginUser()
                     }
                 }
             )

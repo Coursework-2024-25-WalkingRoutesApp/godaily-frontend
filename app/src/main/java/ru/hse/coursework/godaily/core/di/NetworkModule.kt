@@ -59,14 +59,15 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(json: Json, okHttp: Lazy<Call.Factory>, mapper: ObjectMapper): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://10.51.171.246:8080/")
-            //.baseUrl("http://192.168.0.65:8080/")
+            //.baseUrl("http://10.51.171.246:8080/") //LTE security
+            .baseUrl("http://192.168.0.65:8080/") //домашний security
+            //.baseUrl("http://10.51.171.246:8081/") //LTE routes
+            //.baseUrl("http://192.168.0.65:8081/") //домашний routes
             .callFactory { okHttp.get().newCall(it) }
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(
                 JacksonConverterFactory.create(mapper)
                 //TODO удалить сеттингс с хардкодом пути
-                //TODO json.asConverterFactory("application/json".toMediaType())
             )
             .build()
     }

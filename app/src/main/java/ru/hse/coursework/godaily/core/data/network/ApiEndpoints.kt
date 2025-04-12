@@ -1,5 +1,11 @@
 package ru.hse.coursework.godaily.core.data.network
 
+const val USER_BASE_PATH_URL = "/api/security-service/security"
+const val REGISTER_URL = "/register"
+const val LOGIN_URL = "/login"
+const val GET_USER_INFO_URL = "/getUserInfo"
+const val UPDATE_USERNAME_URL = "/updateUsername"
+
 const val ROUTE_BASE_PATH_URL = "api/route-provider/routes"
 const val ADD_ROUTE_URL = "/add/route"
 const val GET_DRAFTS_URL = "/get/drafts"

@@ -36,7 +36,6 @@ import ru.hse.coursework.godaily.ui.components.molecules.AuthCustomField
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
 import ru.hse.coursework.godaily.ui.components.organisms.PasswordColumn
 import ru.hse.coursework.godaily.ui.navigation.AuthNavigationItem
-import ru.hse.coursework.godaily.ui.notification.ToastManager
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 
 @Composable
@@ -97,7 +96,7 @@ fun RegisterScreen(
                         val result = viewModel.registerUser()
                         if (result) {
                             navController.navigate(AuthNavigationItem.AddPhotoScreen.route)
-                        } else ToastManager(context).showToast("Неудачная попытка регистрации")
+                        }
                     }
 
                 }

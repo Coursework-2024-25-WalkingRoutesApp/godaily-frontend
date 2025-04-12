@@ -186,7 +186,7 @@ class FakeApiService : ApiService {
         return Response.success("mock_jwt_token")
     }
 
-    override suspend fun getUserInfo(jwt: String): Response<UserDto> {
+    override suspend fun getUserInfo(): Response<Any> {
         return Response.success(fakeUser)
     }
 
@@ -194,7 +194,7 @@ class FakeApiService : ApiService {
         return Response.success("Данные успешно сохранены")
     }
 
-    override suspend fun saveUserEditedName(jwt: String, username: String): Response<String> {
+    override suspend fun saveUserEditedName(newUsername: String): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 
