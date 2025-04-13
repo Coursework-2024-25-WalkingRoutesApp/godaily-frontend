@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,6 +27,9 @@ fun ProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.loadUserData()
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,13 +65,13 @@ fun ProfileScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             CompletedRoutes(
-                routeCount = viewModel.completedRoutes.count(),
+                routeCount = viewModel.completedRoutes.size,
                 onClick = { navController.navigate(NavigationItem.CompletedRoutes.route) }
             )
 
             Spacer(modifier = Modifier.width(15.dp))
             FavouriteRoutes(
-                routeCount = viewModel.favouriteRoutes.count(),
+                routeCount = viewModel.favouriteRoutes.size,
                 onClick = { navController.navigate(NavigationItem.FavouriteRoutes.route) }
             )
         }

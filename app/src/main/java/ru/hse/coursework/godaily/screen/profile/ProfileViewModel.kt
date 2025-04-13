@@ -41,11 +41,7 @@ class ProfileViewModel @Inject constructor(
     val editedUserName = mutableStateOf("Ваше имя")
     //TODO решить, какие тут еще штуки можно менять в редактировании
 
-    init {
-        loadUserData()
-    }
-
-    private fun loadUserData() {
+    fun loadUserData() {
         viewModelScope.launch {
             val profileResponse = fetchProfileInfoUseCase.execute()
 
@@ -76,6 +72,8 @@ class ProfileViewModel @Inject constructor(
                 val nameResultResponse = saveUserEditedNameUseCase.execute(it)
                 if (nameResultResponse is ApiCallResult.Error) {
                     errorHandler.handleError(nameResultResponse)
+                } else if (nameResultResponse is ApiCallResult.Success) {
+                    userName.value = editedUserName.value
                 }
             }
 
@@ -83,6 +81,8 @@ class ProfileViewModel @Inject constructor(
                 val photoResultResponse = saveUserPhotoUseCase.execute(it)
                 if (photoResultResponse is ApiCallResult.Error) {
                     errorHandler.handleError(photoResultResponse)
+                } else if (photoResultResponse is ApiCallResult.Success) {
+                    //TODO фото заменить
                 }
             }
         }

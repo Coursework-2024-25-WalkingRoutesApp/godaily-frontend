@@ -13,6 +13,7 @@ import ru.hse.coursework.godaily.screen.profile.CompletedRoutesScreen
 import ru.hse.coursework.godaily.screen.profile.EditProfileScreen
 import ru.hse.coursework.godaily.screen.profile.FavouriteRoutesScreen
 import ru.hse.coursework.godaily.screen.profile.ProfileScreen
+import ru.hse.coursework.godaily.screen.profile.ProfileViewModel
 import ru.hse.coursework.godaily.screen.routedetails.RateRouteScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsScreen
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsViewModel
@@ -24,25 +25,26 @@ fun ProfileNavigation(bottomNavHostController: NavHostController) {
     val profileNavController = rememberNavController()
 
     val routeDetailsViewModel: RouteDetailsViewModel = hiltViewModel()
+    val profileViewModel: ProfileViewModel = hiltViewModel()
 
     NavHost(
         navController = profileNavController,
         startDestination = NavigationItem.ProfileMain.route
     ) {
         composable(NavigationItem.ProfileMain.route) {
-            ProfileScreen(profileNavController)
+            ProfileScreen(profileNavController, profileViewModel)
         }
         composable(NavigationItem.CompletedRoutes.route) {
-            CompletedRoutesScreen(profileNavController, routeDetailsViewModel)
+            CompletedRoutesScreen(profileNavController, routeDetailsViewModel, profileViewModel)
         }
         composable(NavigationItem.FavouriteRoutes.route) {
-            FavouriteRoutesScreen(profileNavController, routeDetailsViewModel)
+            FavouriteRoutesScreen(profileNavController, routeDetailsViewModel, profileViewModel)
         }
         composable(NavigationItem.EditProfile.route) {
-            EditProfileScreen(profileNavController)
+            EditProfileScreen(profileNavController, profileViewModel)
         }
         composable(NavigationItem.AboutProgram.route) {
-            AboutUsScreen(profileNavController)
+            AboutUsScreen(profileNavController, profileViewModel)
         }
         composable(NavigationItem.RouteDetails.route + "/{routeId}") { backStackEntry ->
             val routeId = backStackEntry.arguments?.getString("routeId")

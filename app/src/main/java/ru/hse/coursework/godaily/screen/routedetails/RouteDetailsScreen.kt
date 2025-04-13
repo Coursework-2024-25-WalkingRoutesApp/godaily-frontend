@@ -35,6 +35,7 @@ fun RouteDetailsScreen(
     LaunchedEffect(routeId) {
         viewModel.loadRouteDetails(routeId)
         viewModel.loadSessionPoints(routeId)
+        viewModel.loadRouteReviews(routeId)
     }
 
     Column(

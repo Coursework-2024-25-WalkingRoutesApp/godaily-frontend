@@ -17,8 +17,6 @@ import java.util.UUID
 
 interface ApiService {
 
-    //TODO
-    // Регистрация нового пользователя
     @POST(USER_BASE_PATH_URL + REGISTER_URL)
     suspend fun registerUser(
         @Query("email") email: String,
@@ -26,16 +24,12 @@ interface ApiService {
         @Query("username") username: String,
     ): Response<String>
 
-    //TODO
-    // Вход в приложение
     @GET(USER_BASE_PATH_URL + LOGIN_URL)
     suspend fun loginUser(
         @Query("email") email: String,
         @Query("password") password: String
     ): Response<String>
 
-    // Получение информации о текущем пользователе
-    //TODO
     @GET(USER_BASE_PATH_URL + GET_USER_INFO_URL)
     suspend fun getUserInfo(): Response<Any>
 

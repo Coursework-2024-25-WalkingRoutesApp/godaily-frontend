@@ -27,16 +27,15 @@ fun RouteReviewsScreen(
     routeId: String,
     viewModel: RouteDetailsViewModel = hiltViewModel(),
 ) {
-
     val curUserReview = viewModel.curUserReview
     val reviews = viewModel.reviews
     val averageMark = viewModel.averageMark
     val reviewsCount = viewModel.reviewsCount
 
-
-    LaunchedEffect(routeId) {
+    LaunchedEffect(navController) {
         viewModel.loadRouteReviews(routeId)
     }
+
 
     Column(
         modifier = Modifier

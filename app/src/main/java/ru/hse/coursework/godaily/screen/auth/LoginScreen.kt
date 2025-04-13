@@ -82,7 +82,8 @@ fun LoginScreen(
 
             Spacer(Modifier.height(27.dp))
             PasswordCustomField(
-                text = viewModel.password
+                text = viewModel.password,
+                shouldBeChecked = true
             )
 
             Spacer(Modifier.height(20.dp))

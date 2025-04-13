@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,6 +68,10 @@ fun EditProfileScreen(
             uri?.let { CropProfilePhotoService().startCrop(it, context, cropLauncher) }
         }
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.loadUserData()
+    }
 
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -146,7 +151,10 @@ fun EditProfileScreen(
                 .align(Alignment.BottomCenter),
         ) {
             StartButton(
-                onClick = { viewModel.saveNewUserData(context) },
+                onClick = {
+                    viewModel.saveNewUserData(context)
+                    navController.popBackStack()
+                },
                 text = "Сохранить"
             )
         }
