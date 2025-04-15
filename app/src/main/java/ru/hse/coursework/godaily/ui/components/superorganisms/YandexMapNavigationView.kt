@@ -364,7 +364,7 @@ private fun setPlacemarks(
         map.mapObjects.addPlacemark().apply {
             geometry = point.point
             setIcon(icon)
-            setIconStyle(IconStyle().apply { scale = 0.7f })
+            setIconStyle(IconStyle().apply { scale = 0.2f })
         }
     }
 }

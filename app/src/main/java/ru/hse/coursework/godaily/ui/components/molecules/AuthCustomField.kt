@@ -90,7 +90,8 @@ fun AuthCustomField(
                         )
                     }
                     innerTextField()
-                }
+                },
+                singleLine = true
             )
         }
 

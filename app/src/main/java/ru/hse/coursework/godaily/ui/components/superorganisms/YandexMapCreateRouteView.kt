@@ -351,7 +351,7 @@ private fun setPlacemarks(
                     else -> midIcon
                 }
             )
-            setIconStyle(IconStyle().apply { scale = 0.7f })
+            setIconStyle(IconStyle().apply { scale = 0.2f })
         }
     }
 }

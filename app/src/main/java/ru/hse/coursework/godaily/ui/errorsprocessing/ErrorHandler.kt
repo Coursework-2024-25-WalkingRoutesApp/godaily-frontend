@@ -40,6 +40,7 @@ class ErrorHandler @Inject constructor(
             401 -> {
                 Log.w(TAG, "Unauthorized access attempt")
                 toastManager.showToast("Ошибка доступа: ${error.message}")
+                jwtManager.clearJwt()
             }
 
             498 -> {

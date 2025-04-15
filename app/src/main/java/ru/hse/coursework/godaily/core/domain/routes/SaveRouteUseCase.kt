@@ -13,6 +13,7 @@ import ru.hse.coursework.godaily.core.domain.service.RouteYandexService
 import java.util.UUID
 import javax.inject.Inject
 
+//Сохранение маршрута без фото возможно
 class SaveRouteUseCase @Inject constructor(
     private val api: ApiService,
     private val routeYandexService: RouteYandexService,

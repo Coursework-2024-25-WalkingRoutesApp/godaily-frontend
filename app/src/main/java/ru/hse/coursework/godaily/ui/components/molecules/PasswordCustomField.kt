@@ -95,7 +95,8 @@ fun PasswordCustomField(
                             )
                         }
                         innerTextField()
-                    }
+                    },
+                    singleLine = true
                 )
                 Icon(
                     imageVector = if (isPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,

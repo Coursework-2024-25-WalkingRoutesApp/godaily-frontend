@@ -30,7 +30,7 @@ fun ReviewBox(
         modifier = modifier
             .width(305.dp)
             .background(containerBackgroundColor)
-            .padding(15.dp)
+            .padding(vertical = 16.dp)
     ) {
         VariableBold(text = "Опишите плюсы и минусы", fontSize = 17.sp)
         Spacer(modifier = Modifier.height(15.dp))

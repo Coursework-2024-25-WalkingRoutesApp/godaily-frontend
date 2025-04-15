@@ -16,6 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import ru.hse.coursework.godaily.core.data.network.ApiService
+import ru.hse.coursework.godaily.core.data.network.FakeApiService
 import ru.hse.coursework.godaily.core.security.JwtManager
 import javax.inject.Singleton
 
@@ -59,10 +60,9 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(json: Json, okHttp: Lazy<Call.Factory>, mapper: ObjectMapper): Retrofit {
         return Retrofit.Builder()
-            //.baseUrl("http://10.51.171.246:8080/") //LTE api_gateway
-            .baseUrl("http://192.168.0.65:8080/") //домашний api_gateway
-            //.baseUrl("http://10.51.171.246:8081/") //LTE routes
-            //.baseUrl("http://192.168.0.65:8081/") //домашний routes
+            //.baseUrl("http://10.110.92.162:8080/") //hse api_gateway
+            .baseUrl("http://10.95.81.246:8080/") //LTE api_gateway
+            //.baseUrl("http://192.168.0.65:8080/") //домашний api_gateway
             .callFactory { okHttp.get().newCall(it) }
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(
@@ -75,7 +75,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
-        //return FakeApiService()
-        return retrofit.create(ApiService::class.java)
+        return FakeApiService()
+        //return retrofit.create(ApiService::class.java)
     }
 }

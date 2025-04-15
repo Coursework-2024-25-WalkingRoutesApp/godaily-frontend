@@ -13,6 +13,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -43,15 +44,17 @@ fun WelcomeScreen(
                 .offset(x = 0.dp, y = (-60).dp),
             contentScale = ContentScale.Crop
         )
-        //TODO поменять фото на актуальное
         Image(
             painter = painterResource(id = R.drawable.background_phones),
             contentDescription = null,
             modifier = Modifier
-                .fillMaxSize()
                 .align(Alignment.BottomCenter)
-                .offset(x = 0.dp, y = (120).dp),
-            contentScale = ContentScale.Fit
+                .offset(x = 0.dp, y = 40.dp)
+                .graphicsLayer(
+                    scaleX = 3f,
+                    scaleY = 3f,
+                    clip = false
+                )
         )
 
         Column(

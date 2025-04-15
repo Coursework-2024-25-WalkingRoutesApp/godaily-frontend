@@ -29,7 +29,6 @@ import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.RouteDestinations
 import ru.hse.coursework.godaily.ui.components.atoms.RouteNameBig
 import ru.hse.coursework.godaily.ui.components.organisms.ReviewBox
-import ru.hse.coursework.godaily.ui.theme.greyLight
 
 
 @Composable
@@ -46,7 +45,6 @@ fun RateRouteCard(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(15.dp))
-            .background(color = greyLight)
     ) {
         Image(
             painter = rememberAsyncImagePainter(
@@ -64,7 +62,7 @@ fun RateRouteCard(
 
         Column(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+            //.padding(horizontal = 16.dp)
         ) {
             RouteNameBig(text = title)
 
@@ -74,11 +72,11 @@ fun RateRouteCard(
                 RouteDestinations(start = startPoint, end = endPoint)
             }
         }
+        Spacer(modifier = Modifier.height(16.dp))
 
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(5) { index ->
@@ -92,7 +90,8 @@ fun RateRouteCard(
                     ),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(50.dp)
+                        .size(40.dp)
+                        .padding(horizontal = 4.dp)
                         .clickable {
                             mark.value = index + 1
                         },
@@ -105,6 +104,7 @@ fun RateRouteCard(
             feedbackText = reviewText,
             modifier = Modifier
                 .fillMaxWidth()
+                .background(Color.Transparent)
         )
     }
 }

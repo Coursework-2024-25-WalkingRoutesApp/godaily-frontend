@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -59,13 +57,9 @@ fun SearchBarWithSuggestions(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 10.dp)
                 .pointerInput(Unit) {
-                    detectTapGestures(
-                        onTap = {
-                            focusRequester.requestFocus()
-                        }
-                    )
+                    detectTapGestures(onTap = { focusRequester.requestFocus() })
                 }
         ) {
             Row(
@@ -73,13 +67,9 @@ fun SearchBarWithSuggestions(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White, shape = MaterialTheme.shapes.medium)
-                    .padding(horizontal = 12.dp, vertical = 8.dp)
+                    .padding(horizontal = 16.dp, vertical = 5.dp)
             ) {
-                Row(
-                    modifier = Modifier
-                        .weight(1f)
-                        .horizontalScroll(rememberScrollState())
-                ) {
+                Box(modifier = Modifier.weight(1f)) {
                     BasicTextField(
                         value = query.value,
                         onValueChange = {
@@ -89,12 +79,12 @@ fun SearchBarWithSuggestions(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .focusRequester(focusRequester),
+                            .focusRequester(focusRequester)
+                            .padding(vertical = 8.dp),
                         textStyle = TextStyle(
                             fontSize = 16.sp,
                             color = Color.Black
                         ),
-                        maxLines = 1,
                         singleLine = true
                     )
                 }
@@ -103,8 +93,8 @@ fun SearchBarWithSuggestions(
                     painter = painterResource(id = android.R.drawable.ic_menu_search),
                     contentDescription = "Search",
                     modifier = Modifier
-                        .padding(start = 16.dp)
-                        .size(24.dp)
+                        .size(32.dp)
+                        .padding(start = 8.dp)
                         .clickable {
                             onSearchClick()
                             isFocused = false

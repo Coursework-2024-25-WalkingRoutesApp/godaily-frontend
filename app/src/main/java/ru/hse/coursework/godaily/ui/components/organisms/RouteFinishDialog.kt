@@ -53,7 +53,7 @@ fun RouteFinishDialog(
                 modifier = Modifier
                     .size(width = 343.dp, height = 550.dp)
                     .background(Color.White, shape = RoundedCornerShape(8.dp))
-                    .padding(top = 25.dp, bottom = 20.dp),
+                    .padding(top = 25.dp, bottom = 20.dp, start = 16.dp, end = 16.dp),
                 contentAlignment = Alignment.TopCenter
             ) {
                 Column(
@@ -108,7 +108,8 @@ fun RouteFinishDialog(
                                     .size(50.dp)
                                     .clickable {
                                         mark.value = index + 1
-                                    },
+                                    }
+                                    .padding(horizontal = 4.dp),
                                 tint = Color.Unspecified
                             )
                         }
@@ -119,7 +120,6 @@ fun RouteFinishDialog(
                 }
                 Row(
                     modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp, bottom = 10.dp)
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter),
                 ) {

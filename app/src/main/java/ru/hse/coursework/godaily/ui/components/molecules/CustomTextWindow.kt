@@ -1,19 +1,14 @@
 package ru.hse.coursework.godaily.ui.components.molecules
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -26,10 +21,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.hse.coursework.godaily.ui.components.atoms.VariableLight
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyDark
+import ru.hse.coursework.godaily.ui.theme.purpleDark
 
 @Composable
 fun CustomTextWindow(
@@ -38,50 +33,46 @@ fun CustomTextWindow(
     maxCharacters: Int = 1000,
     modifier: Modifier = Modifier,
 ) {
-    val textFieldBackgroundColor = Color.White
-    val borderColor = greyDark
     val isMaxReached = text.value.length == maxCharacters
-    Column {
-        Box(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(142.dp)
-                .background(textFieldBackgroundColor, RoundedCornerShape(8.dp))
-                .border(width = 1.dp, color = borderColor, shape = RoundedCornerShape(8.dp))
-                .padding(8.dp)
-        ) {
-            val scrollState = rememberScrollState()
 
-            BasicTextField(
-                value = text.value,
-                onValueChange = {
-                    if (it.length <= maxCharacters) {
-                        text.value = it
-                    }
-                },
-                textStyle = TextStyle(
-                    fontFamily = RobotoFontFamily,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 15.sp,
-                    color = black,
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(scrollState),
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Default),
-                keyboardActions = KeyboardActions.Default,
-                decorationBox = { innerTextField ->
-                    if (text.value.isEmpty()) {
-                        VariableLight(
-                            text = placeholder,
-                            fontSize = 15.sp,
-                            fontColor = greyDark
-                        )
-                    }
-                    innerTextField()
+    Column(modifier = modifier) {
+        OutlinedTextField(
+            value = text.value,
+            onValueChange = {
+                if (it.length <= maxCharacters) {
+                    text.value = it
                 }
-            )
-        }
+            },
+            textStyle = TextStyle(
+                fontFamily = RobotoFontFamily,
+                fontWeight = FontWeight.Light,
+                fontSize = 15.sp,
+                color = black,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(142.dp),
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    style = TextStyle(
+                        fontFamily = RobotoFontFamily,
+                        fontWeight = FontWeight.Light,
+                        fontSize = 15.sp,
+                        color = greyDark
+                    )
+                )
+            },
+            shape = RoundedCornerShape(8.dp),
+            colors = TextFieldDefaults.colors().copy(
+                focusedIndicatorColor = purpleDark,
+                cursorColor = black,
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent
+            ),
+            singleLine = false,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        )
 
         Text(
             text = "${text.value.length} / $maxCharacters",
@@ -89,11 +80,10 @@ fun CustomTextWindow(
             color = if (isMaxReached) Color.Red else greyDark,
             modifier = Modifier
                 .align(Alignment.End)
-                .padding(top = 10.dp, end = 10.dp, bottom = 4.dp)
+                .padding(top = 4.dp, end = 4.dp)
         )
     }
 }
-
 
 @Composable
 @Preview
