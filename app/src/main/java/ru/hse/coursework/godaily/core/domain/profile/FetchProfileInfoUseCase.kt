@@ -7,10 +7,8 @@ import ru.hse.coursework.godaily.core.data.network.ApiService
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
 import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
 import ru.hse.coursework.godaily.core.domain.location.LocationService
-import java.util.UUID
 import javax.inject.Inject
 
-//TODO путаница с jwt и ID
 class FetchProfileInfoUseCase @Inject constructor(
     private val api: ApiService,
     private val locationService: LocationService,
@@ -30,7 +28,6 @@ class FetchProfileInfoUseCase @Inject constructor(
         val completedRoutesResponse =
             safeApiCaller.safeApiCall {
                 api.getUserCompletedRoutes(
-                    UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
                     userLocation.latitude,
                     userLocation.longitude
                 )
@@ -42,7 +39,6 @@ class FetchProfileInfoUseCase @Inject constructor(
         val favouritesResponse =
             safeApiCaller.safeApiCall {
                 api.getUserFavouriteRoutes(
-                    UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
                     userLocation.latitude,
                     userLocation.longitude
                 )

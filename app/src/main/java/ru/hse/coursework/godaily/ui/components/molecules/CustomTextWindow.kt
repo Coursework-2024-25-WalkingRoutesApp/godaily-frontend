@@ -1,6 +1,8 @@
 package ru.hse.coursework.godaily.ui.components.molecules
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -43,6 +45,18 @@ fun CustomTextWindow(
                     text.value = it
                 }
             },
+            supportingText = {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = "${text.value.length} / $maxCharacters",
+                        fontSize = 12.sp,
+                        color = if (isMaxReached) Color.Red else greyDark,
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                            .padding(top = 4.dp, end = 4.dp)
+                    )
+                }
+            },
             textStyle = TextStyle(
                 fontFamily = RobotoFontFamily,
                 fontWeight = FontWeight.Light,
@@ -73,22 +87,16 @@ fun CustomTextWindow(
             singleLine = false,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         )
-
-        Text(
-            text = "${text.value.length} / $maxCharacters",
-            fontSize = 12.sp,
-            color = if (isMaxReached) Color.Red else greyDark,
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(top = 4.dp, end = 4.dp)
-        )
     }
 }
 
 @Composable
 @Preview
 fun CustomTextWindowPreview() {
-    CustomTextWindow(
-        text = mutableStateOf(""),
-    )
+    Column() {
+        Spacer(modifier = Modifier.height(300.dp))
+        CustomTextWindow(
+            text = mutableStateOf(""),
+        )
+    }
 }

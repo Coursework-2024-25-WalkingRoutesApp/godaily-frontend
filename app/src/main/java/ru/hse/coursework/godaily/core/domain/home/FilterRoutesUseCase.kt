@@ -5,7 +5,6 @@ import ru.hse.coursework.godaily.core.data.network.ApiService
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
 import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
 import ru.hse.coursework.godaily.core.domain.location.LocationService
-import java.util.UUID
 import javax.inject.Inject
 
 class FilterRoutesUseCase @Inject constructor(
@@ -21,8 +20,6 @@ class FilterRoutesUseCase @Inject constructor(
         val categoriesString = convertCategories(filterCategories)
         return safeApiCaller.safeApiCall {
             api.filterRoutesByCategoryAndDistance(
-                //TODO хардкод
-                UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
                 userCoordinates.latitude,
                 userCoordinates.longitude,
                 categoriesString,

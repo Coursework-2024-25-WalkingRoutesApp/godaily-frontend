@@ -19,8 +19,6 @@ class SaveReviewUseCase @Inject constructor(
     ): ApiCallResult<String> {
         return safeApiCaller.safeApiCall {
             api.saveReview(
-                //TODO хардкод
-                userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
                 routeId = routeId,
                 mark = rating,
                 reviewText = reviewText ?: "",

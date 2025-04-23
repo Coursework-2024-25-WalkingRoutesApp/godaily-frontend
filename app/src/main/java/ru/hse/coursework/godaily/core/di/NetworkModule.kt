@@ -61,13 +61,13 @@ class NetworkModule {
     fun provideRetrofit(json: Json, okHttp: Lazy<Call.Factory>, mapper: ObjectMapper): Retrofit {
         return Retrofit.Builder()
             //.baseUrl("http://10.110.92.162:8080/") //hse api_gateway
-            .baseUrl("http://10.95.81.246:8080/") //LTE api_gateway
-            //.baseUrl("http://192.168.0.65:8080/") //домашний api_gateway
+            //.baseUrl("http://10.95.81.246:8080/") //LTE api_gateway
+            .baseUrl("http://192.168.0.65:8080/") //домашний api_gateway
             .callFactory { okHttp.get().newCall(it) }
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(
                 JacksonConverterFactory.create(mapper)
-                //TODO удалить сеттингс с хардкодом пути
+                //TODO удалить сеттингс с хардкодом пути и разрешениями
             )
             .build()
     }
@@ -75,7 +75,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
-        return FakeApiService()
-        //return retrofit.create(ApiService::class.java)
+        //return FakeApiService()
+        return retrofit.create(ApiService::class.java)
     }
 }

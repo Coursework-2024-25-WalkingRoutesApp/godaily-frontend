@@ -10,7 +10,12 @@ class CropProfilePhotoService : CropService {
         context: android.content.Context,
         cropLauncher: androidx.activity.result.ActivityResultLauncher<android.content.Intent>
     ) {
-        val destinationUri = Uri.fromFile(File(context.cacheDir, "cropped_route_image.jpg"))
+        val destinationUri = Uri.fromFile(
+            File(
+                context.cacheDir,
+                "cropped_profile_image_${System.currentTimeMillis()}.jpg"
+            )
+        )
 
         val uCrop = UCrop.of(uri, destinationUri)
             .withAspectRatio(1f, 1f)

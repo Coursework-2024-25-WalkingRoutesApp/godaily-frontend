@@ -81,7 +81,7 @@ fun RegisterScreen(
                 maxCharacters = null,
                 isEmail = true
             )
-            Spacer(Modifier.height(27.dp))
+            Spacer(Modifier.height(20.dp))
             PasswordColumn(
                 password = viewModel.password,
                 passwordAgain = viewModel.passwordAgain

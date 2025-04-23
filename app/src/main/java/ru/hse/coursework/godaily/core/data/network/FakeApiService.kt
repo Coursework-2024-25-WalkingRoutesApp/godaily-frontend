@@ -1,6 +1,7 @@
 package ru.hse.coursework.godaily.core.data.network
 
 import com.yandex.mapkit.geometry.Point
+import okhttp3.MultipartBody
 import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
@@ -190,7 +191,7 @@ class FakeApiService : ApiService {
         return Response.success(fakeUser)
     }
 
-    override suspend fun saveUserPhoto(jwt: String, photo: ByteArray?): Response<String> {
+    override suspend fun saveUserPhoto(photo: MultipartBody.Part?): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 
@@ -200,13 +201,13 @@ class FakeApiService : ApiService {
 
     override suspend fun addRoute(
         routeDto: RouteDto,
-        userId: UUID
+        photo: MultipartBody.Part?
     ): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 
     override suspend fun getUserDrafts(
-        userId: UUID,
+
         latitude: Double,
         longitude: Double
     ): Response<List<RouteCardDto>> {
@@ -251,7 +252,7 @@ class FakeApiService : ApiService {
     }
 
     override suspend fun getUserPublishedRoutes(
-        userId: UUID,
+
         latitude: Double,
         longitude: Double
     ): Response<List<RouteCardDto>> {
@@ -259,7 +260,7 @@ class FakeApiService : ApiService {
     }
 
     override suspend fun getUserCompletedRoutes(
-        userId: UUID,
+
         latitude: Double,
         longitude: Double
     ): Response<List<RouteCardDto>> {
@@ -267,7 +268,7 @@ class FakeApiService : ApiService {
     }
 
     override suspend fun getUserFavouriteRoutes(
-        userId: UUID,
+
         latitude: Double,
         longitude: Double
     ): Response<List<RouteCardDto>> {
@@ -276,7 +277,7 @@ class FakeApiService : ApiService {
 
     override suspend fun getUserUnfinishedRoutes(
         //TODO jwt: String,
-        userId: UUID,
+
         latitude: Double,
         longitude: Double
     ): Response<List<RouteCardDto>> {
@@ -284,14 +285,14 @@ class FakeApiService : ApiService {
     }
 
     override suspend fun addRouteToFavorites(
-        userId: UUID,
+
         routeId: UUID
     ): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 
     override suspend fun removeRouteFromFavorites(
-        userId: UUID,
+
         routeId: UUID
     ): Response<String> {
         return Response.success("Данные успешно сохранены")
@@ -299,7 +300,6 @@ class FakeApiService : ApiService {
 
     override suspend fun getRouteDetails(
         routeId: UUID,
-        userId: UUID
     ): Response<RoutePageDto> {
         return Response.success(
             RoutePageDto(
@@ -323,7 +323,6 @@ class FakeApiService : ApiService {
 
     override suspend fun getReviews(
         routeId: UUID,
-        userId: UUID
     ): Response<ReviewDto> {
         return Response.success(
             ReviewDto(
@@ -368,13 +367,12 @@ class FakeApiService : ApiService {
 
     override suspend fun saveRouteSession(
         routeSessionDto: RouteSessionDto,
-        userId: UUID
     ): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 
     override suspend fun getRouteSession(
-        userId: UUID,
+
         routeId: UUID
     ): Response<RouteSessionDto> {
         return Response.success(
@@ -390,7 +388,7 @@ class FakeApiService : ApiService {
     }
 
     override suspend fun saveReview(
-        userId: UUID,
+
         routeId: UUID,
         mark: Int,
         reviewText: String,
@@ -400,7 +398,7 @@ class FakeApiService : ApiService {
     }
 
     override suspend fun filterRoutesByCategoryAndDistance(
-        userId: UUID,
+
         latitude: Double,
         longitude: Double,
         categories: List<String>,
@@ -419,7 +417,7 @@ class FakeApiService : ApiService {
     }
 
     override suspend fun getRoutesForHomePage(
-        userId: UUID, latitude: Double,
+        latitude: Double,
         longitude: Double,
         radius: Long
     ): Response<List<RouteCardDto>> {

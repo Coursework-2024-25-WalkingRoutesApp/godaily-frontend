@@ -18,7 +18,6 @@ class FetchRouteDetailsUseCase @Inject constructor(
         val routePageDTOResponse = safeApiCaller.safeApiCall {
             api.getRouteDetails(
                 routeId = routeId,
-                userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412")
             )
         }
         if (routePageDTOResponse !is ApiCallResult.Success) {
@@ -28,7 +27,6 @@ class FetchRouteDetailsUseCase @Inject constructor(
         val reviewsResponse = safeApiCaller.safeApiCall {
             api.getReviews(
                 routeId = routeId,
-                userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412")
             )
         }
         if (reviewsResponse !is ApiCallResult.Success) {

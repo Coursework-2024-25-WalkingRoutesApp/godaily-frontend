@@ -18,7 +18,6 @@ class FetchRouteSessionUseCase @Inject constructor(
         val routePageDTOResponse =
             safeApiCaller.safeApiCall {
                 api.getRouteDetails(
-                    userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
                     routeId = routeId
                 )
             }
@@ -26,11 +25,9 @@ class FetchRouteSessionUseCase @Inject constructor(
         if (routePageDTOResponse !is ApiCallResult.Success) {
             return routePageDTOResponse
         }
-        //TODO хардкод
         val routeSessionResponse =
             safeApiCaller.safeApiCall {
                 api.getRouteSession(
-                    userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
                     routeId = routeId
                 )
             }

@@ -57,7 +57,6 @@ fun CreateRouteInfoScreen(
     viewModel: CreateRouteViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val selectedImageUri = viewModel.selectedImageUri
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -71,7 +70,7 @@ fun CreateRouteInfoScreen(
         onResult = { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val croppedUri = UCrop.getOutput(result.data!!)
-                selectedImageUri.value = croppedUri
+                viewModel.selectedImageUri.value = croppedUri
             }
         }
     )
@@ -140,17 +139,19 @@ fun CreateRouteInfoScreen(
                             tint = black,
                             modifier = Modifier
                                 .size(30.dp)
-                                .clickable { imagePickerLauncher.launch("image/*") }
+                                .clickable {
+                                    imagePickerLauncher.launch("image/*")
+                                }
                         )
                     }
 
-                    selectedImageUri.value?.let { uri ->
+                    viewModel.selectedImageUri.value?.let { uri ->
                         AsyncImage(
                             model = uri,
                             contentDescription = "Выбранное изображение",
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(200.dp)
+                                .height(200.dp),
                         )
                     }
                 }
@@ -199,7 +200,6 @@ fun CreateRouteInfoScreen(
     }
 
     if (showUnsuccessfulPublishDialog.value) {
-        // TODO протестировать
         UnsuccessfulPublishDialog(
             showDialog = showUnsuccessfulPublishDialog,
             tryAgain = {

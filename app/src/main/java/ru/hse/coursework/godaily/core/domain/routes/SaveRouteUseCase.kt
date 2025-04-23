@@ -37,13 +37,11 @@ class SaveRouteUseCase @Inject constructor(
         val length = route?.let { routeYandexService.getRouteLength(it) } ?: 0.toDouble()
 
         val routePreview = imageUri?.let {
-            photoConverterService.uriToByteArray(it)
+            photoConverterService.uriToMultipart(it)
         }
 
         return safeApiCaller.safeApiCall {
             api.addRoute(
-                //TODO хардкод
-                userId = UUID.fromString("a0bd4f18-d19c-4d79-b9b7-03108f990412"),
                 routeDto = RouteDto(
                     id = id,
                     routeName = routeName,
@@ -52,11 +50,12 @@ class SaveRouteUseCase @Inject constructor(
                     length = length,
                     startPoint = startPoint,
                     endPoint = endPoint,
-                    routePreview = routePreview,
+                    routePreview = "",
                     isDraft = isDraft,
                     routeCoordinate = titledPointsToRouteCoordinate(routePoints, id),
                     categories = categoriesToDto(id, categories)
-                )
+                ),
+                photo = routePreview
             )
         }
     }

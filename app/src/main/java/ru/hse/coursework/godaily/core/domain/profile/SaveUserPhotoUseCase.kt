@@ -15,10 +15,9 @@ class SaveUserPhotoUseCase @Inject constructor(
     suspend fun execute(
         imageUri: Uri?
     ): ApiCallResult<String> {
-        val photo = imageUri?.let { photoConverterService.uriToByteArray(it) }
+        val photo = imageUri?.let { photoConverterService.uriToMultipart(it) }
         return safeApiCaller.safeApiCall {
             api.saveUserPhoto(
-                "",
                 photo
             )
         }

@@ -11,7 +11,7 @@ data class RouteDto(
     @JsonProperty("length") var length: Double? = null,
     @JsonProperty("startPoint") var startPoint: String? = null,
     @JsonProperty("endPoint") var endPoint: String? = null,
-    @JsonProperty("routePreview") var routePreview: ByteArray? = null,
+    @JsonProperty("routePreview") var routePreview: String? = null,
     @JsonProperty("isDraft") var isDraft: Boolean? = null,
     @JsonProperty("routeCoordinate") var routeCoordinate: List<RouteCoordinate>? = null,
     @JsonProperty("categories") var categories: List<Category>? = null
