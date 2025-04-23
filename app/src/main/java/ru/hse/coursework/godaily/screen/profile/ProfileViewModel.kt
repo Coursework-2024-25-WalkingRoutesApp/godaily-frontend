@@ -31,6 +31,8 @@ class ProfileViewModel @Inject constructor(
     private val trackingService: TrackingService
 ) : ViewModel() {
 
+    val isLoading = mutableStateOf(false)
+
     val email: MutableState<String> = mutableStateOf("email")
     val userName: MutableState<String> = mutableStateOf("Ваше имя")
     val profilePictureUrl: MutableState<String> = mutableStateOf("")
@@ -39,10 +41,10 @@ class ProfileViewModel @Inject constructor(
 
     val selectedImageUri: MutableState<Uri?> = mutableStateOf(null)
     val editedUserName = mutableStateOf("Ваше имя")
-    //TODO решить, какие тут еще штуки можно менять в редактировании
 
     fun loadUserData() {
         viewModelScope.launch {
+            isLoading.value = true
             val profileResponse = fetchProfileInfoUseCase.execute()
 
             when (profileResponse) {
@@ -62,12 +64,13 @@ class ProfileViewModel @Inject constructor(
                     }
                 }
             }
-
+            isLoading.value = false
         }
     }
 
     fun saveNewUserData(context: Context) {
         viewModelScope.launch {
+            isLoading.value = true
             editedUserName.value.takeIf { it.isNotEmpty() }?.let {
                 val nameResultResponse = saveUserEditedNameUseCase.execute(it)
                 if (nameResultResponse is ApiCallResult.Error) {
@@ -85,6 +88,7 @@ class ProfileViewModel @Inject constructor(
                     //TODO фото заменить
                 }
             }
+            isLoading.value = false
         }
     }
 

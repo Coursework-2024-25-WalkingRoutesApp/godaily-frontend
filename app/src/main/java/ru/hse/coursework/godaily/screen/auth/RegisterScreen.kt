@@ -35,6 +35,7 @@ import ru.hse.coursework.godaily.ui.components.atoms.VariableBold
 import ru.hse.coursework.godaily.ui.components.molecules.AuthCustomField
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
 import ru.hse.coursework.godaily.ui.components.organisms.PasswordColumn
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.navigation.AuthNavigationItem
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 
@@ -43,84 +44,87 @@ fun RegisterScreen(
     navController: NavController,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
+    val isLoading = viewModel.isLoading
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.background_auth),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .offset(x = 0.dp, y = (-60).dp),
-            contentScale = ContentScale.Crop
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(70.dp))
-            VariableBold(
-                text = "Создайте новый аккаунт",
-                fontSize = 35.sp,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            AuthCustomField(
-                text = viewModel.username,
-                placeholder = "Введите имя пользователя"
-            )
-            AuthCustomField(
-                text = viewModel.email,
-                placeholder = "Введите адрес электронной почты",
-                description = "Почта",
-                maxCharacters = null,
-                isEmail = true
-            )
-            Spacer(Modifier.height(20.dp))
-            PasswordColumn(
-                password = viewModel.password,
-                passwordAgain = viewModel.passwordAgain
+    LoadingScreenWrapper(isLoading = isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = R.drawable.background_auth),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .offset(x = 0.dp, y = (-60).dp),
+                contentScale = ContentScale.Crop
             )
 
-            Spacer(Modifier.height(20.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(70.dp))
+                VariableBold(
+                    text = "Создайте новый аккаунт",
+                    fontSize = 35.sp,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                AuthCustomField(
+                    text = viewModel.username,
+                    placeholder = "Введите имя пользователя"
+                )
+                AuthCustomField(
+                    text = viewModel.email,
+                    placeholder = "Введите адрес электронной почты",
+                    description = "Почта",
+                    maxCharacters = null,
+                    isEmail = true
+                )
+                Spacer(Modifier.height(20.dp))
+                PasswordColumn(
+                    password = viewModel.password,
+                    passwordAgain = viewModel.passwordAgain
+                )
 
-            StartButton(
-                text = "Создать аккаунт",
-                onClick = {
-                    coroutineScope.launch {
-                        val result = viewModel.registerUser()
-                        if (result) {
-                            navController.navigate(AuthNavigationItem.AddPhotoScreen.route)
+                Spacer(Modifier.height(20.dp))
+
+                StartButton(
+                    text = "Создать аккаунт",
+                    onClick = {
+                        coroutineScope.launch {
+                            val result = viewModel.registerUser()
+                            if (result) {
+                                navController.navigate(AuthNavigationItem.AddPhotoScreen.route)
+                            }
                         }
+
                     }
+                )
+                Spacer(Modifier.height(10.dp))
 
-                }
-            )
-            Spacer(Modifier.height(10.dp))
-
-            Text(
-                text = buildAnnotatedString {
-                    append("Уже есть аккаунт? ")
-                    withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                        append("Войти")
+                Text(
+                    text = buildAnnotatedString {
+                        append("Уже есть аккаунт? ")
+                        withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                            append("Войти")
+                        }
+                    },
+                    fontSize = 16.sp,
+                    fontFamily = RobotoFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.clickable {
+                        navController.navigate(AuthNavigationItem.LoginScreen.route)
                     }
-                },
-                fontSize = 16.sp,
-                fontFamily = RobotoFontFamily,
-                fontWeight = FontWeight.Medium,
-                color = Color.Black,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.clickable {
-                    navController.navigate(AuthNavigationItem.LoginScreen.route)
-                }
-            )
+                )
 
 
+            }
         }
     }
 }

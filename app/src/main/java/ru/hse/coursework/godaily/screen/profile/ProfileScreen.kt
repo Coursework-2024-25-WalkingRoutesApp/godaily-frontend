@@ -20,6 +20,7 @@ import ru.hse.coursework.godaily.ui.components.molecules.AboutButton
 import ru.hse.coursework.godaily.ui.components.organisms.CompletedRoutes
 import ru.hse.coursework.godaily.ui.components.organisms.FavouriteRoutes
 import ru.hse.coursework.godaily.ui.components.organisms.UserProfile
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
 @Composable
@@ -27,53 +28,57 @@ fun ProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val isLoading = viewModel.isLoading
     LaunchedEffect(Unit) {
         viewModel.loadUserData()
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Top
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.End,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-        ) {
-            AboutButton(onClick = { navController.navigate(NavigationItem.AboutProgram.route) })
-        }
-        Spacer(modifier = Modifier.height(20.dp))
 
+    LoadingScreenWrapper(isLoading = isLoading) {
         Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.Top
         ) {
-            UserProfile(
-                userName = viewModel.userName.value,
-                profilePictureUrl = viewModel.profilePictureUrl.value,
-                onEditProfileClick = { navController.navigate(NavigationItem.EditProfile.route) }
-            )
-        }
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            ) {
+                AboutButton(onClick = { navController.navigate(NavigationItem.AboutProgram.route) })
+            }
+            Spacer(modifier = Modifier.height(20.dp))
 
-        Spacer(modifier = Modifier.height(24.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                UserProfile(
+                    userName = viewModel.userName.value,
+                    profilePictureUrl = viewModel.profilePictureUrl.value,
+                    onEditProfileClick = { navController.navigate(NavigationItem.EditProfile.route) }
+                )
+            }
 
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            CompletedRoutes(
-                routeCount = viewModel.completedRoutes.size,
-                onClick = { navController.navigate(NavigationItem.CompletedRoutes.route) }
-            )
+            Spacer(modifier = Modifier.height(24.dp))
 
-            Spacer(modifier = Modifier.width(15.dp))
-            FavouriteRoutes(
-                routeCount = viewModel.favouriteRoutes.size,
-                onClick = { navController.navigate(NavigationItem.FavouriteRoutes.route) }
-            )
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                CompletedRoutes(
+                    routeCount = viewModel.completedRoutes.size,
+                    onClick = { navController.navigate(NavigationItem.CompletedRoutes.route) }
+                )
+
+                Spacer(modifier = Modifier.width(15.dp))
+                FavouriteRoutes(
+                    routeCount = viewModel.favouriteRoutes.size,
+                    onClick = { navController.navigate(NavigationItem.FavouriteRoutes.route) }
+                )
+            }
         }
     }
 }

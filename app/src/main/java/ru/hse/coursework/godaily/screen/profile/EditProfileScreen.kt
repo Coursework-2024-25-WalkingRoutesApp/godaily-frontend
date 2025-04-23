@@ -40,6 +40,7 @@ import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.molecules.CustomTextField
 import ru.hse.coursework.godaily.ui.components.molecules.HeaderWithBackground
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyDark
 
@@ -49,6 +50,7 @@ fun EditProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val isLoading = viewModel.isLoading
     val context = LocalContext.current
     val selectedImageUri = viewModel.selectedImageUri
 
@@ -62,101 +64,103 @@ fun EditProfileScreen(
         }
     )
 
-    val imagePickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = { uri: Uri? ->
-            uri?.let { CropProfilePhotoService().startCrop(it, context, cropLauncher) }
-        }
-    )
-
-    LaunchedEffect(Unit) {
-        viewModel.loadUserData()
-    }
-
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 65.dp)
-        ) {
-            Box {
-                HeaderWithBackground(header = "Редактируй свой профиль")
-                Row(
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.Start,
-                    modifier = Modifier
-                        .padding(16.dp)
-                ) {
-                    Back(
-                        onClick = { navController.popBackStack() }
-                    )
-                }
+    LoadingScreenWrapper(isLoading = isLoading) {
+        val imagePickerLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = { uri: Uri? ->
+                uri?.let { CropProfilePhotoService().startCrop(it, context, cropLauncher) }
             }
+        )
+
+        LaunchedEffect(Unit) {
+            viewModel.loadUserData()
+        }
 
 
+        Box(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 65.dp)
             ) {
-                CustomTextField(
-                    text = viewModel.editedUserName,
-                    onValueChange = {},
-                    placeholder = "Имя пользователя",
-                    isRequired = true,
-                    maxLength = 30
-                )
-
-                Row(
-                    modifier = Modifier.padding(top = 50.dp, bottom = 30.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    VariableMedium(
-                        text = "Прикрепите фото для профиля",
-                        fontSize = 20.sp,
-                        fontColor = greyDark
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(
-                        painter = painterResource(id = R.drawable.clip),
-                        contentDescription = null,
-                        tint = black,
+                Box {
+                    HeaderWithBackground(header = "Редактируй свой профиль")
+                    Row(
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.Start,
                         modifier = Modifier
-                            .size(30.dp)
-                            .clickable { imagePickerLauncher.launch("image/*") }
-                    )
+                            .padding(16.dp)
+                    ) {
+                        Back(
+                            onClick = { navController.popBackStack() }
+                        )
+                    }
                 }
 
-                selectedImageUri.value?.let { uri ->
-                    AsyncImage(
-                        model = uri,
-                        contentDescription = "Выбранное изображение",
-                        modifier = Modifier
-                            .size(200.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .clip(CircleShape)
-                            .background(Color.LightGray, shape = CircleShape),
-                        contentScale = ContentScale.Crop
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 16.dp)
+                ) {
+                    CustomTextField(
+                        text = viewModel.editedUserName,
+                        onValueChange = {},
+                        placeholder = "Имя пользователя",
+                        isRequired = true,
+                        maxLength = 30
                     )
+
+                    Row(
+                        modifier = Modifier.padding(top = 50.dp, bottom = 30.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        VariableMedium(
+                            text = "Прикрепите фото для профиля",
+                            fontSize = 20.sp,
+                            fontColor = greyDark
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Icon(
+                            painter = painterResource(id = R.drawable.clip),
+                            contentDescription = null,
+                            tint = black,
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clickable { imagePickerLauncher.launch("image/*") }
+                        )
+                    }
+
+                    selectedImageUri.value?.let { uri ->
+                        AsyncImage(
+                            model = uri,
+                            contentDescription = "Выбранное изображение",
+                            modifier = Modifier
+                                .size(200.dp)
+                                .align(Alignment.CenterHorizontally)
+                                .clip(CircleShape)
+                                .background(Color.LightGray, shape = CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                 }
             }
-        }
 
-        Row(
-            modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                .align(Alignment.BottomCenter),
-        ) {
-            StartButton(
-                onClick = {
-                    viewModel.saveNewUserData(context)
-                    navController.popBackStack()
-                },
-                text = "Сохранить"
-            )
+            Row(
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .align(Alignment.BottomCenter),
+            ) {
+                StartButton(
+                    onClick = {
+                        viewModel.saveNewUserData(context)
+                        navController.popBackStack()
+                    },
+                    text = "Сохранить"
+                )
+            }
         }
     }
 }

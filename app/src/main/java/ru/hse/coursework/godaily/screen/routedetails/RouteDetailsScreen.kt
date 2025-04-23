@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
 import ru.hse.coursework.godaily.ui.components.organisms.RouteRatingForDetailsCard
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteDetailsCard
 import ru.hse.coursework.godaily.ui.components.superorganisms.YandexRouteDisplayView
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
@@ -25,6 +26,7 @@ fun RouteDetailsScreen(
     routeId: String,
     viewModel: RouteDetailsViewModel = hiltViewModel(),
 ) {
+    val isLoading = viewModel.isLoading
     val routeState = viewModel.route
     val markState = viewModel.averageMark
     val reviewsCount = viewModel.reviewsCount
@@ -38,53 +40,55 @@ fun RouteDetailsScreen(
         viewModel.loadRouteReviews(routeId)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        if (!showMap.value) {
-            RouteDetailsCard(
-                route = routeState.value,
-                isFavourite = isFavourite,
-                onBackClick = { navController.popBackStack() },
-                onMapClick = { showMap.value = true },
-                onFavouriteToggle = { boolValue ->
-                    if (!boolValue) {
-                        viewModel.addRouteToFavourites()
-                    } else {
-                        viewModel.removeRouteFromFavourites()
-                    }
-                    viewModel.updateIsFavourite()
-                },
-                modifier = Modifier.weight(1f)
-            )
+    LoadingScreenWrapper(isLoading = isLoading) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            if (!showMap.value) {
+                RouteDetailsCard(
+                    route = routeState.value,
+                    isFavourite = isFavourite,
+                    onBackClick = { navController.popBackStack() },
+                    onMapClick = { showMap.value = true },
+                    onFavouriteToggle = { boolValue ->
+                        if (!boolValue) {
+                            viewModel.addRouteToFavourites()
+                        } else {
+                            viewModel.removeRouteFromFavourites()
+                        }
+                        viewModel.updateIsFavourite()
+                    },
+                    modifier = Modifier.weight(1f)
+                )
 
-            RouteRatingForDetailsCard(
-                rating = markState.value,
-                reviewsCount = reviewsCount.value,
-                onReviewsClick = { navController.navigate(NavigationItem.RouteReviews.route + "/${routeId}") },
-            )
-
-            StartButton(
-                onClick = { navController.navigate(NavigationItem.RoutePassing.route + "/${routeId}") },
-                modifier = Modifier
-                    .padding(20.dp)
-            )
-        } else {
-            Box(modifier = Modifier.fillMaxSize()) {
-                YandexRouteDisplayView(
-                    routePoints = viewModel.routePoints,
-                    modifier = Modifier.fillMaxSize(),
-                    routeInfoClick = { showMap.value = false },
-                    backClick = { navController.popBackStack() }
+                RouteRatingForDetailsCard(
+                    rating = markState.value,
+                    reviewsCount = reviewsCount.value,
+                    onReviewsClick = { navController.navigate(NavigationItem.RouteReviews.route + "/${routeId}") },
                 )
 
                 StartButton(
                     onClick = { navController.navigate(NavigationItem.RoutePassing.route + "/${routeId}") },
                     modifier = Modifier
                         .padding(20.dp)
-                        .align(Alignment.BottomCenter)
                 )
+            } else {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    YandexRouteDisplayView(
+                        routePoints = viewModel.routePoints,
+                        modifier = Modifier.fillMaxSize(),
+                        routeInfoClick = { showMap.value = false },
+                        backClick = { navController.popBackStack() }
+                    )
+
+                    StartButton(
+                        onClick = { navController.navigate(NavigationItem.RoutePassing.route + "/${routeId}") },
+                        modifier = Modifier
+                            .padding(20.dp)
+                            .align(Alignment.BottomCenter)
+                    )
+                }
             }
         }
     }

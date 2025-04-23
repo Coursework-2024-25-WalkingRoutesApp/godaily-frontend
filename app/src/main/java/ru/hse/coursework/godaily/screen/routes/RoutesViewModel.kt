@@ -1,6 +1,7 @@
 package ru.hse.coursework.godaily.screen.routes
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,6 +26,8 @@ class RoutesViewModel @Inject constructor(
     private val trackingService: TrackingService
 ) : ViewModel() {
 
+    val isLoading = mutableStateOf(false)
+
     init {
         loadRoutesScreenInfo()
     }
@@ -43,6 +46,8 @@ class RoutesViewModel @Inject constructor(
 
     private fun loadRoutesScreenInfo() {
         viewModelScope.launch {
+            isLoading.value = true
+
             val loadedCreatedRoutesResponse = fetchCreatedRoutesUseCase.execute()
             val loadedDraftsResponse = fetchDraftsUseCase.execute()
             var loadedCreatedRoutes = emptyList<RouteCardDto>()
@@ -70,6 +75,7 @@ class RoutesViewModel @Inject constructor(
 
             updatePublishedRoutes(loadedCreatedRoutes)
             updateDrafts(loadedDrafts)
+            isLoading.value = false
         }
     }
 

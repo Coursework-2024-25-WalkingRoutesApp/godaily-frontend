@@ -31,6 +31,8 @@ class CreateRouteViewModel @Inject constructor(
     private val errorHandler: ErrorHandler
 ) : ViewModel() {
 
+    val isLoading = mutableStateOf(false)
+
     val routeIdState: MutableState<UUID?> = mutableStateOf(null)
     val routeTitle: MutableState<String> = mutableStateOf("")
     val routeDescription: MutableState<String> = mutableStateOf("")
@@ -69,6 +71,7 @@ class CreateRouteViewModel @Inject constructor(
         val routeIdUUID = routeId?.let { uuidService.getUUIDFromString(routeId) }
         if (routeIdUUID != null) {
             viewModelScope.launch {
+                isLoading.value = true
                 val routeResponse = fetchRouteDetailsUseCase.execute(routeIdUUID)
 
                 when (routeResponse) {
@@ -93,6 +96,7 @@ class CreateRouteViewModel @Inject constructor(
                         }
                     }
                 }
+                isLoading.value = false
             }
         }
         isDataLoaded.value = true
@@ -115,12 +119,14 @@ class CreateRouteViewModel @Inject constructor(
     }
 
     suspend fun saveRouteToDrafts(context: Context): Boolean {
+        isLoading.value = true
         val isSuccess = saveRoute(context, isDraft = true)
         if (isSuccess) {
             ToastManager(context).showToast("Маршрут успешно добавлен в черновики")
         } else {
             ToastManager(context).showToast("Ошибка при добавлении в черновики")
         }
+        isLoading.value = false
         return isSuccess
     }
 
@@ -138,7 +144,9 @@ class CreateRouteViewModel @Inject constructor(
             return false
         }
 
+        isLoading.value = true
         val isSuccess = saveRoute(context, isDraft = false)
+        isLoading.value = false
         if (!isSuccess) {
             ToastManager(context).showToast("Ошибка при публикации маршрута")
         }
@@ -146,6 +154,7 @@ class CreateRouteViewModel @Inject constructor(
     }
 
     private suspend fun saveRoute(context: Context, isDraft: Boolean): Boolean {
+        isLoading.value = true
         val resultResponse = saveRouteUseCase.execute(
             id = routeIdState.value,
             routeName = routeTitle.value,
@@ -157,6 +166,7 @@ class CreateRouteViewModel @Inject constructor(
             routePoints = routePoints,
             categories = chosenCategories.value
         )
+        isLoading.value = false
 
         return when (resultResponse) {
             is ApiCallResult.Error -> {

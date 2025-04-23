@@ -14,6 +14,7 @@ import ru.hse.coursework.godaily.screen.map.CreateRouteViewModel
 import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.organisms.NoRoutesBox
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteVerticalGrid
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
@@ -23,34 +24,37 @@ fun DraftsScreen(
     createViewModel: CreateRouteViewModel,
     viewModel: RoutesViewModel = hiltViewModel(),
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    val isLoading = viewModel.isLoading
+    LoadingScreenWrapper(isLoading = isLoading) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .fillMaxSize()
         ) {
-            Back(
-                onClick = { navController.popBackStack() }
-            )
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+            ) {
+                Back(
+                    onClick = { navController.popBackStack() }
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            HeaderBig(text = "Черновики")
-        }
+                HeaderBig(text = "Черновики")
+            }
 
-        if (viewModel.drafts.isEmpty()) {
-            NoRoutesBox()
-        } else {
-            Spacer(modifier = Modifier.height(16.dp))
-            RouteVerticalGrid(
-                routes = viewModel.drafts,
-                onRouteClick = { route ->
-                    createViewModel.clear()
-                    navController.navigate(NavigationItem.RouteCreationOnMap.route + "/${route.id}")
-                }
-            )
+            if (viewModel.drafts.isEmpty()) {
+                NoRoutesBox()
+            } else {
+                Spacer(modifier = Modifier.height(16.dp))
+                RouteVerticalGrid(
+                    routes = viewModel.drafts,
+                    onRouteClick = { route ->
+                        createViewModel.clear()
+                        navController.navigate(NavigationItem.RouteCreationOnMap.route + "/${route.id}")
+                    }
+                )
+            }
         }
     }
 }

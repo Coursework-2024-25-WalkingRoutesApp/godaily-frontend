@@ -22,6 +22,7 @@ import ru.hse.coursework.godaily.ui.components.molecules.ApplyButton
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.molecules.Question
 import ru.hse.coursework.godaily.ui.components.superorganisms.CreateRouteView
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.components.superorganisms.Tutorial
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
@@ -31,6 +32,7 @@ fun CreateRouteMapScreen(
     routeId: String,
     viewModel: CreateRouteViewModel = hiltViewModel()
 ) {
+    val isLoading = viewModel.isLoading
     DisposableEffect(Unit) {
         MapKitFactory.getInstance().onStart()
 
@@ -44,54 +46,55 @@ fun CreateRouteMapScreen(
     }
 
     val showTutorial = viewModel.showTutorial
-
-    Box() {
-        if (!showTutorial.value) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+    LoadingScreenWrapper(isLoading = isLoading) {
+        Box() {
+            if (!showTutorial.value) {
+                Column(
                     modifier = Modifier
-                        .padding(16.dp)
+                        .fillMaxSize()
                 ) {
-                    Back(
-                        onClick = { navController.popBackStack() }
-                    )
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    HeaderBig(text = "Создание маршрута")
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    Question(onClick = { showTutorial.value = true })
-
-                }
-
-                Box {
-                    CreateRouteView(
-                        showAddPointTitleDialog = viewModel.showAddPointTitleDialog,
-                        routePoints = viewModel.routePoints,
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .padding(start = 0.dp, end = 0.dp, top = 16.dp)
-                    )
+                            .padding(16.dp)
+                    ) {
+                        Back(
+                            onClick = { navController.popBackStack() }
+                        )
 
-                    ApplyButton(
-                        onClick = { navController.navigate(NavigationItem.RouteCreationInfo.route) },
-                        text = "Готово!",
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .fillMaxWidth()
-                            .padding(start = 30.dp, end = 30.dp, top = 16.dp, bottom = 25.dp)
-                    )
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        HeaderBig(text = "Создание маршрута")
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        Question(onClick = { showTutorial.value = true })
+
+                    }
+
+                    Box {
+                        CreateRouteView(
+                            showAddPointTitleDialog = viewModel.showAddPointTitleDialog,
+                            routePoints = viewModel.routePoints,
+                            modifier = Modifier
+                                .padding(start = 0.dp, end = 0.dp, top = 16.dp)
+                        )
+
+                        ApplyButton(
+                            onClick = { navController.navigate(NavigationItem.RouteCreationInfo.route) },
+                            text = "Готово!",
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .fillMaxWidth()
+                                .padding(start = 30.dp, end = 30.dp, top = 16.dp, bottom = 25.dp)
+                        )
+                    }
                 }
+            } else {
+                Tutorial(
+                    onFinish = { showTutorial.value = false },
+                )
             }
-        } else {
-            Tutorial(
-                onFinish = { showTutorial.value = false },
-            )
         }
     }
 

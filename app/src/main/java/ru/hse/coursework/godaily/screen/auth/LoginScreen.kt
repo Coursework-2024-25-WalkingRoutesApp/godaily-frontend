@@ -36,6 +36,7 @@ import ru.hse.coursework.godaily.ui.components.atoms.VariableBold
 import ru.hse.coursework.godaily.ui.components.molecules.AuthCustomField
 import ru.hse.coursework.godaily.ui.components.molecules.PasswordCustomField
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.navigation.AuthNavigationItem
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 
@@ -44,78 +45,81 @@ fun LoginScreen(
     navController: NavController,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
+    val isLoading = viewModel.isLoading
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.background_auth),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .offset(x = 0.dp, y = (-60).dp),
-            contentScale = ContentScale.Crop
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(70.dp))
-            VariableBold(
-                text = "Войдите в существующий аккаунт",
-                fontSize = 35.sp,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(50.dp))
-
-            AuthCustomField(
-                text = viewModel.email,
-                placeholder = "Введите адрес электронной почты",
-                description = "Почта",
-                maxCharacters = null,
-                isEmail = true
+    LoadingScreenWrapper(isLoading = isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = R.drawable.background_auth),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .offset(x = 0.dp, y = (-60).dp),
+                contentScale = ContentScale.Crop
             )
 
-            Spacer(Modifier.height(27.dp))
-            PasswordCustomField(
-                text = viewModel.password,
-                shouldBeChecked = true
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(70.dp))
+                VariableBold(
+                    text = "Войдите в существующий аккаунт",
+                    fontSize = 35.sp,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(50.dp))
 
-            Spacer(Modifier.height(20.dp))
+                AuthCustomField(
+                    text = viewModel.email,
+                    placeholder = "Введите адрес электронной почты",
+                    description = "Почта",
+                    maxCharacters = null,
+                    isEmail = true
+                )
 
-            StartButton(
-                text = "Войти",
-                onClick = {
-                    coroutineScope.launch {
-                        viewModel.loginUser()
+                Spacer(Modifier.height(27.dp))
+                PasswordCustomField(
+                    text = viewModel.password,
+                    shouldBeChecked = true
+                )
+
+                Spacer(Modifier.height(20.dp))
+
+                StartButton(
+                    text = "Войти",
+                    onClick = {
+                        coroutineScope.launch {
+                            viewModel.loginUser()
+                        }
                     }
-                }
-            )
-            Spacer(Modifier.height(10.dp))
+                )
+                Spacer(Modifier.height(10.dp))
 
-            Text(
-                text = buildAnnotatedString {
-                    append("Нет аккаунта? ")
-                    withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                        append("Зарегистрироваться")
+                Text(
+                    text = buildAnnotatedString {
+                        append("Нет аккаунта? ")
+                        withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                            append("Зарегистрироваться")
+                        }
+                    },
+                    fontSize = 16.sp,
+                    fontFamily = RobotoFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.clickable {
+                        navController.navigate(AuthNavigationItem.RegisterScreen.route)
                     }
-                },
-                fontSize = 16.sp,
-                fontFamily = RobotoFontFamily,
-                fontWeight = FontWeight.Medium,
-                color = Color.Black,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.clickable {
-                    navController.navigate(AuthNavigationItem.RegisterScreen.route)
-                }
-            )
+                )
 
 
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
 import ru.hse.coursework.godaily.ui.components.molecules.ApplyButton
 import ru.hse.coursework.godaily.ui.components.molecules.Back
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.components.superorganisms.RateRouteCard
 
 @Composable
@@ -29,6 +30,7 @@ fun RateRouteScreen(
     mark: Int,
     viewModel: RouteDetailsViewModel = hiltViewModel(),
 ) {
+    val isLoading = viewModel.isLoading
     val context = LocalContext.current
 
     val routeState = viewModel.route
@@ -39,48 +41,49 @@ fun RateRouteScreen(
         viewModel.loadRateReviewDetails(routeId, mark)
     }
 
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .imePadding()
-    ) {
-        Row(
+    LoadingScreenWrapper(isLoading = isLoading) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxSize()
+                .padding(16.dp)
+                .imePadding()
         ) {
-            Back(
-                onClick = { navController.popBackStack() }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Back(
+                    onClick = { navController.popBackStack() }
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+
+                HeaderBig(text = "Ваш отзыв")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            RateRouteCard(
+                title = routeState.value.routeName ?: "Название",
+                startPoint = routeState.value.startPoint ?: "Стартовая точка",
+                endPoint = routeState.value.endPoint ?: "Конечная точка",
+                imageUrl = routeState.value.routePreview ?: "",
+                mark = markState,
+                reviewText = reviewTextState
             )
-            Spacer(modifier = Modifier.width(16.dp))
 
-            HeaderBig(text = "Ваш отзыв")
+            Spacer(modifier = Modifier.weight(1f))
+
+            ApplyButton(
+                onClick = {
+                    viewModel.saveReview(context)
+                    navController.popBackStack()
+                },
+                text = "Сохранить",
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        RateRouteCard(
-            title = routeState.value.routeName ?: "Название",
-            startPoint = routeState.value.startPoint ?: "Стартовая точка",
-            endPoint = routeState.value.endPoint ?: "Конечная точка",
-            imageUrl = routeState.value.routePreview ?: "",
-            mark = markState,
-            reviewText = reviewTextState
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        ApplyButton(
-            onClick = {
-                viewModel.saveReview(context)
-                navController.popBackStack()
-            },
-            text = "Сохранить",
-            modifier = Modifier
-                .fillMaxWidth()
-        )
     }
 }
 

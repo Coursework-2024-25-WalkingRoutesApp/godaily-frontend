@@ -15,6 +15,7 @@ import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsViewModel
 import ru.hse.coursework.godaily.ui.components.atoms.HeaderBig
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.organisms.NoRoutesBox
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteVerticalGrid
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
 
@@ -24,38 +25,42 @@ fun CompletedRoutesScreen(
     routeDetailsViewModel: RouteDetailsViewModel,
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
+    val isLoading = viewModel.isLoading
     LaunchedEffect(navController) {
         viewModel.loadUserData()
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+
+    LoadingScreenWrapper(isLoading = isLoading) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .fillMaxSize()
         ) {
-            Back(
-                onClick = { navController.popBackStack() }
-            )
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+            ) {
+                Back(
+                    onClick = { navController.popBackStack() }
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            HeaderBig(text = "Пройденные маршруты")
-        }
+                HeaderBig(text = "Пройденные маршруты")
+            }
 
-        if (viewModel.completedRoutes.isEmpty()) {
-            NoRoutesBox()
-        } else {
-            Spacer(modifier = Modifier.height(16.dp))
-            RouteVerticalGrid(
-                routes = viewModel.completedRoutes,
-                onRouteClick = { route ->
-                    viewModel.trackRouteDetailsOpen(route.id, route.routeName)
-                    routeDetailsViewModel.clear()
-                    navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
-                }
-            )
+            if (viewModel.completedRoutes.isEmpty()) {
+                NoRoutesBox()
+            } else {
+                Spacer(modifier = Modifier.height(16.dp))
+                RouteVerticalGrid(
+                    routes = viewModel.completedRoutes,
+                    onRouteClick = { route ->
+                        viewModel.trackRouteDetailsOpen(route.id, route.routeName)
+                        routeDetailsViewModel.clear()
+                        navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
+                    }
+                )
+            }
         }
     }
 }

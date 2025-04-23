@@ -44,6 +44,8 @@ class RouteDetailsViewModel @Inject constructor(
     private val errorHandler: ErrorHandler
 ) : ViewModel() {
 
+    val isLoading = mutableStateOf(false)
+
     val route: MutableState<RoutePageDto> = mutableStateOf(
         RoutePageDto(
             id = null,
@@ -132,6 +134,7 @@ class RouteDetailsViewModel @Inject constructor(
         val routeIdUUID = uuidService.getUUIDFromString(routeId)
         if (routeIdUUID != null) {
             viewModelScope.launch {
+                isLoading.value = true
                 when (val routeDetailsResponse = fetchRouteDetailsUseCase.execute(routeIdUUID)) {
                     is ApiCallResult.Error -> errorHandler.handleError(routeDetailsResponse)
                     is ApiCallResult.Success -> {
@@ -142,6 +145,7 @@ class RouteDetailsViewModel @Inject constructor(
 
                     }
                 }
+                isLoading.value = false
             }
         }
     }
@@ -150,6 +154,7 @@ class RouteDetailsViewModel @Inject constructor(
         val routeIdUUID = uuidService.getUUIDFromString(routeId)
         if (routeIdUUID != null) {
             viewModelScope.launch {
+                isLoading.value = true
                 when (val routeReviewsResponse = fetchRouteReviewsUseCase.execute(routeIdUUID)) {
                     is ApiCallResult.Error -> errorHandler.handleError(routeReviewsResponse)
                     is ApiCallResult.Success -> {
@@ -169,6 +174,7 @@ class RouteDetailsViewModel @Inject constructor(
                         }
                     }
                 }
+                isLoading.value = false
             }
         }
     }
@@ -177,6 +183,7 @@ class RouteDetailsViewModel @Inject constructor(
         val routeIdUUID = uuidService.getUUIDFromString(routeId)
         if (routeIdUUID != null) {
             viewModelScope.launch {
+                isLoading.value = true
                 val routeDetailsResponse = fetchRouteDetailsUseCase.execute(routeIdUUID)
 
                 when (routeDetailsResponse) {
@@ -193,6 +200,7 @@ class RouteDetailsViewModel @Inject constructor(
                         }
                     }
                 }
+                isLoading.value = false
             }
         }
     }
@@ -201,6 +209,7 @@ class RouteDetailsViewModel @Inject constructor(
         val routeIdUUID = uuidService.getUUIDFromString(routeId)
         if (routeIdUUID != null) {
             viewModelScope.launch {
+                isLoading.value = true
                 val routeSessionResponse = fetchRouteSessionUseCase.execute(routeIdUUID)
 
                 when (routeSessionResponse) {
@@ -227,6 +236,7 @@ class RouteDetailsViewModel @Inject constructor(
                         }
                     }
                 }
+                isLoading.value = false
             }
         }
     }
@@ -234,12 +244,14 @@ class RouteDetailsViewModel @Inject constructor(
     fun saveRouteSession(context: Context): Boolean {
         return runBlocking {
             if (route.value.id != null) {
+                isLoading.value = true
                 val resultResponse = saveRouteSessionUseCase.execute(
                     id = routeSessionId.value,
                     routeId = route.value.id!!,
                     passedPoints = passedPoints,
                     routePoints = routePoints
                 )
+                isLoading.value = false
 
                 when (resultResponse) {
                     is ApiCallResult.Error -> {
@@ -258,6 +270,7 @@ class RouteDetailsViewModel @Inject constructor(
 
     fun saveReview(context: Context) {
         viewModelScope.launch {
+            isLoading.value = true
             if (route.value.id != null) {
                 val resultResponse = saveReviewUseCase.execute(
                     route.value.id!!,
@@ -268,6 +281,7 @@ class RouteDetailsViewModel @Inject constructor(
                     errorHandler.handleError(resultResponse)
                 }
             }
+            isLoading.value = false
         }
     }
 

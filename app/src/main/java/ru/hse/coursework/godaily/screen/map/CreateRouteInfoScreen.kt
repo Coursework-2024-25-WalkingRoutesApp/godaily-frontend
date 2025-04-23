@@ -43,6 +43,7 @@ import ru.hse.coursework.godaily.ui.components.molecules.ToDraftsButton
 import ru.hse.coursework.godaily.ui.components.organisms.NewPublishDialog
 import ru.hse.coursework.godaily.ui.components.organisms.PublishWarningDialog
 import ru.hse.coursework.godaily.ui.components.organisms.UnsuccessfulPublishDialog
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteInfoFields
 import ru.hse.coursework.godaily.ui.components.superorganisms.Tutorial
 import ru.hse.coursework.godaily.ui.navigation.BottomNavigationItem
@@ -56,6 +57,7 @@ fun CreateRouteInfoScreen(
     bottomNavController: NavHostController,
     viewModel: CreateRouteViewModel = hiltViewModel()
 ) {
+    val isLoading = viewModel.isLoading
     val context = LocalContext.current
 
     val coroutineScope = rememberCoroutineScope()
@@ -83,157 +85,159 @@ fun CreateRouteInfoScreen(
     )
 
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        if (!showTutorial.value) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 65.dp)
-            ) {
-                Box {
-                    HeaderWithBackground(header = "Создай свой маршрут")
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .padding(16.dp)
-                    ) {
-                        Back(
-                            onClick = { navController.popBackStack() }
-                        )
-
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        Question(onClick = { showTutorial.value = true })
-                    }
-                }
-
-
+    LoadingScreenWrapper(isLoading = isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (!showTutorial.value) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 65.dp)
                 ) {
-                    RouteInfoFields(
-                        title = viewModel.routeTitle,
-                        description = viewModel.routeDescription,
-                        startPoint = viewModel.startPoint,
-                        endPoint = viewModel.endPoint,
-                        chosenCategories = viewModel.chosenCategories
-                    )
-
-                    Row(
-                        modifier = Modifier.padding(top = 50.dp, bottom = 30.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        VariableMedium(
-                            text = "Прикрепите фото маршрута",
-                            fontSize = 20.sp,
-                            fontColor = greyDark
-                        )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Icon(
-                            painter = painterResource(id = R.drawable.clip),
-                            contentDescription = null,
-                            tint = black,
+                    Box {
+                        HeaderWithBackground(header = "Создай свой маршрут")
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
-                                .size(30.dp)
-                                .clickable {
-                                    imagePickerLauncher.launch("image/*")
-                                }
-                        )
-                    }
+                                .padding(16.dp)
+                        ) {
+                            Back(
+                                onClick = { navController.popBackStack() }
+                            )
 
-                    viewModel.selectedImageUri.value?.let { uri ->
-                        AsyncImage(
-                            model = uri,
-                            contentDescription = "Выбранное изображение",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp),
-                        )
-                    }
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                    .align(Alignment.BottomCenter),
-            ) {
-                ToDraftsButton(onClick = {
-                    coroutineScope.launch {
-                        viewModel.saveRouteToDrafts(context)
-                        bottomNavController.navigate(BottomNavigationItem.Routes.route) {
-                            popUpTo(bottomNavController.graph.startDestinationId) {
-                                inclusive = true
-                            }
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            Question(onClick = { showTutorial.value = true })
                         }
                     }
-                })
-                Spacer(modifier = Modifier.weight(1f))
-                PublishButton(onClick = {
-                    showPublishWarningDialog.value = true
-                })
+
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        RouteInfoFields(
+                            title = viewModel.routeTitle,
+                            description = viewModel.routeDescription,
+                            startPoint = viewModel.startPoint,
+                            endPoint = viewModel.endPoint,
+                            chosenCategories = viewModel.chosenCategories
+                        )
+
+                        Row(
+                            modifier = Modifier.padding(top = 50.dp, bottom = 30.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            VariableMedium(
+                                text = "Прикрепите фото маршрута",
+                                fontSize = 20.sp,
+                                fontColor = greyDark
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            Icon(
+                                painter = painterResource(id = R.drawable.clip),
+                                contentDescription = null,
+                                tint = black,
+                                modifier = Modifier
+                                    .size(30.dp)
+                                    .clickable {
+                                        imagePickerLauncher.launch("image/*")
+                                    }
+                            )
+                        }
+
+                        viewModel.selectedImageUri.value?.let { uri ->
+                            AsyncImage(
+                                model = uri,
+                                contentDescription = "Выбранное изображение",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp),
+                            )
+                        }
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                        .align(Alignment.BottomCenter),
+                ) {
+                    ToDraftsButton(onClick = {
+                        coroutineScope.launch {
+                            viewModel.saveRouteToDrafts(context)
+                            bottomNavController.navigate(BottomNavigationItem.Routes.route) {
+                                popUpTo(bottomNavController.graph.startDestinationId) {
+                                    inclusive = true
+                                }
+                            }
+                        }
+                    })
+                    Spacer(modifier = Modifier.weight(1f))
+                    PublishButton(onClick = {
+                        showPublishWarningDialog.value = true
+                    })
+                }
+            } else {
+                Tutorial(
+                    onFinish = { showTutorial.value = false },
+                )
             }
-        } else {
-            Tutorial(
-                onFinish = { showTutorial.value = false },
+        }
+
+        if (showPublishWarningDialog.value) {
+            PublishWarningDialog(
+                showDialog = showPublishWarningDialog,
+                onPublishClick = {
+                    coroutineScope.launch {
+                        val isSuccess = viewModel.publishRoute(context)
+                        if (isSuccess) {
+                            showNewPublishDialog.value = true
+                        } else {
+                            showUnsuccessfulPublishDialog.value = true
+                        }
+                    }
+                }
             )
         }
-    }
 
-    if (showPublishWarningDialog.value) {
-        PublishWarningDialog(
-            showDialog = showPublishWarningDialog,
-            onPublishClick = {
-                coroutineScope.launch {
-                    val isSuccess = viewModel.publishRoute(context)
-                    if (isSuccess) {
-                        showNewPublishDialog.value = true
-                    } else {
-                        showUnsuccessfulPublishDialog.value = true
+        if (showUnsuccessfulPublishDialog.value) {
+            UnsuccessfulPublishDialog(
+                showDialog = showUnsuccessfulPublishDialog,
+                tryAgain = {
+                    showUnsuccessfulPublishDialog.value = false
+                },
+                onHomeClick = {
+                    bottomNavController.navigate(BottomNavigationItem.Home.route) {
+                        popUpTo(bottomNavController.graph.startDestinationId) {
+                            inclusive = true
+                        }
                     }
                 }
-            }
-        )
-    }
+            )
+        }
 
-    if (showUnsuccessfulPublishDialog.value) {
-        UnsuccessfulPublishDialog(
-            showDialog = showUnsuccessfulPublishDialog,
-            tryAgain = {
-                showUnsuccessfulPublishDialog.value = false
-            },
-            onHomeClick = {
-                bottomNavController.navigate(BottomNavigationItem.Home.route) {
-                    popUpTo(bottomNavController.graph.startDestinationId) {
-                        inclusive = true
+        if (showNewPublishDialog.value) {
+            NewPublishDialog(
+                showDialog = showNewPublishDialog,
+                onMyRoutesClick = {
+                    navController.navigate(NavigationItem.RoutesMain.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            inclusive = true
+                        }
+                    }
+
+                },
+                onHomeClick = {
+                    bottomNavController.navigate(BottomNavigationItem.Home.route) {
+                        popUpTo(bottomNavController.graph.startDestinationId) {
+                            inclusive = true
+                        }
                     }
                 }
-            }
-        )
-    }
-
-    if (showNewPublishDialog.value) {
-        NewPublishDialog(
-            showDialog = showNewPublishDialog,
-            onMyRoutesClick = {
-                navController.navigate(NavigationItem.RoutesMain.route) {
-                    popUpTo(navController.graph.startDestinationId) {
-                        inclusive = true
-                    }
-                }
-
-            },
-            onHomeClick = {
-                bottomNavController.navigate(BottomNavigationItem.Home.route) {
-                    popUpTo(bottomNavController.graph.startDestinationId) {
-                        inclusive = true
-                    }
-                }
-            }
-        )
+            )
+        }
     }
 }
 

@@ -27,6 +27,7 @@ import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 import ru.hse.coursework.godaily.ui.components.molecules.Back
 import ru.hse.coursework.godaily.ui.components.molecules.Exit
 import ru.hse.coursework.godaily.ui.components.molecules.HeaderWithBackground
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.theme.purpleRoutes
 
 @Composable
@@ -34,6 +35,7 @@ fun AboutUsScreen(
     navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val isLoading = viewModel.isLoading
     val context = LocalContext.current
 
     fun openLink(url: String) {
@@ -41,57 +43,59 @@ fun AboutUsScreen(
         context.startActivity(intent)
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 65.dp)
-        ) {
-            Box {
-                HeaderWithBackground(header = "О программе")
-                Row(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Back(
-                        onClick = { navController.popBackStack() }
-                    )
-                }
-            }
-
+    LoadingScreenWrapper(isLoading = isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 65.dp)
             ) {
-                Spacer(Modifier.height(15.dp))
-                VariableMedium(text = "Связаться с разработчиками", fontSize = 20.sp)
-                Spacer(Modifier.height(20.dp))
-                ClickableTextLink(
-                    text = "yuekukhtina@edu.hse.ru",
-                    url = "mailto:yuekukhtina@edu.hse.ru",
-                    onClick = ::openLink
-                )
-                Spacer(Modifier.height(10.dp))
-                ClickableTextLink(
-                    text = "aevsyukov_1@edu.hse.ru",
-                    url = "mailto:aevsyukov_1@edu.hse.ru",
-                    onClick = ::openLink
-                )
-                Spacer(Modifier.height(15.dp))
-                VariableMedium(text = "Условия использования Яндекс карт", fontSize = 20.sp)
-                Spacer(Modifier.height(20.dp))
-                ClickableTextLink(
-                    text = "https://yandex.ru/legal/maps_api/",
-                    url = "https://yandex.ru/legal/maps_api/",
-                    onClick = ::openLink
-                )
+                Box {
+                    HeaderWithBackground(header = "О программе")
+                    Row(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Back(
+                            onClick = { navController.popBackStack() }
+                        )
+                    }
+                }
 
-                Spacer(Modifier.height(30.dp))
-                Exit(onClick = { viewModel.exit() })
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Spacer(Modifier.height(15.dp))
+                    VariableMedium(text = "Связаться с разработчиками", fontSize = 20.sp)
+                    Spacer(Modifier.height(20.dp))
+                    ClickableTextLink(
+                        text = "yuekukhtina@edu.hse.ru",
+                        url = "mailto:yuekukhtina@edu.hse.ru",
+                        onClick = ::openLink
+                    )
+                    Spacer(Modifier.height(10.dp))
+                    ClickableTextLink(
+                        text = "aevsyukov_1@edu.hse.ru",
+                        url = "mailto:aevsyukov_1@edu.hse.ru",
+                        onClick = ::openLink
+                    )
+                    Spacer(Modifier.height(15.dp))
+                    VariableMedium(text = "Условия использования Яндекс карт", fontSize = 20.sp)
+                    Spacer(Modifier.height(20.dp))
+                    ClickableTextLink(
+                        text = "https://yandex.ru/legal/maps_api/",
+                        url = "https://yandex.ru/legal/maps_api/",
+                        onClick = ::openLink
+                    )
+
+                    Spacer(Modifier.height(30.dp))
+                    Exit(onClick = { viewModel.exit() })
+                }
+
+
             }
-
-
         }
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
@@ -31,6 +32,8 @@ class HomeViewModel @Inject constructor(
     private val trackingService: TrackingService
 ) : ViewModel() {
 
+    val isLoading = mutableStateOf(false)
+
     val routesForGrid: SnapshotStateList<RouteCardDto> = mutableStateListOf()
     val unfinishedRoutes: SnapshotStateList<RouteCardDto> = mutableStateListOf()
     val searchValue: MutableState<String> = mutableStateOf("")
@@ -52,6 +55,8 @@ class HomeViewModel @Inject constructor(
 
     fun loadHomeScreenInfo() {
         viewModelScope.launch {
+            isLoading.value = true
+
             val loadedUnfinishedRoutesResponse = fetchUnfinishedRoutesUseCase.execute()
             val loadedRoutesForGridResponse = fetchRoutesForHomeScreenUseCase.execute()
 
@@ -68,6 +73,8 @@ class HomeViewModel @Inject constructor(
                     sortRoutes()
                 }
             }
+
+            isLoading.value = false
         }
     }
 
@@ -75,6 +82,8 @@ class HomeViewModel @Inject constructor(
         searchValue.value = ""
 
         viewModelScope.launch {
+            isLoading.value = true
+
             val filteredRoutesResponse = filterRoutesUseCase.execute(selectedCategories.value)
             when (filteredRoutesResponse) {
                 is ApiCallResult.Error -> errorHandler.handleError(filteredRoutesResponse)
@@ -83,12 +92,16 @@ class HomeViewModel @Inject constructor(
                     sortRoutes()
                 }
             }
+
+            isLoading.value = false
         }
     }
 
     fun sortRoutes() {
         viewModelScope.launch {
+            isLoading.value = true
             updateRoutesForGrid(sortRoutesUseCase.execute(routesForGrid, selectedSortOption.value))
+            isLoading.value = false
         }
     }
 

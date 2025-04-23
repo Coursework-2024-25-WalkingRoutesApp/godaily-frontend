@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.VariableBold
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.navigation.AuthNavigationItem
 import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyLight
@@ -35,58 +36,62 @@ fun WelcomeScreen(
     navController: NavController,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.background_auth),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .offset(x = 0.dp, y = (-60).dp),
-            contentScale = ContentScale.Crop
-        )
-        Image(
-            painter = painterResource(id = R.drawable.background_phones),
-            contentDescription = null,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .offset(x = 0.dp, y = 40.dp)
-                .graphicsLayer(
-                    scaleX = 3f,
-                    scaleY = 3f,
-                    clip = false
-                )
-        )
+    val isLoading = viewModel.isLoading
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 50.dp, start = 16.dp, end = 16.dp),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            StartButton(
-                onClick = { navController.navigate(AuthNavigationItem.LoginScreen.route) },
-                text = "Войти в аккаунт",
+    LoadingScreenWrapper(isLoading = isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = R.drawable.background_auth),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .offset(x = 0.dp, y = (-60).dp),
+                contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            StartButton(
-                onClick = { navController.navigate(AuthNavigationItem.RegisterScreen.route) },
-                text = "Зарегистрироваться",
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = greyLight,
-                    contentColor = black
+            Image(
+                painter = painterResource(id = R.drawable.background_phones),
+                contentDescription = null,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .offset(x = 0.dp, y = 40.dp)
+                    .graphicsLayer(
+                        scaleX = 3f,
+                        scaleY = 3f,
+                        clip = false
+                    )
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 50.dp, start = 16.dp, end = 16.dp),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                StartButton(
+                    onClick = { navController.navigate(AuthNavigationItem.LoginScreen.route) },
+                    text = "Войти в аккаунт",
                 )
+                Spacer(modifier = Modifier.height(16.dp))
+                StartButton(
+                    onClick = { navController.navigate(AuthNavigationItem.RegisterScreen.route) },
+                    text = "Зарегистрироваться",
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = greyLight,
+                        contentColor = black
+                    )
+                )
+            }
+
+            VariableBold(
+                text = "Давай исследовать новые маршруты вместе",
+                fontSize = 35.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 70.dp)
             )
         }
-
-        VariableBold(
-            text = "Давай исследовать новые маршруты вместе",
-            fontSize = 35.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = 70.dp)
-        )
     }
 }
 

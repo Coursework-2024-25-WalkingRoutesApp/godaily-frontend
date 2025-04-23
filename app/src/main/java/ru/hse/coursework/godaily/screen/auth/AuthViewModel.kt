@@ -25,6 +25,8 @@ class AuthViewModel @Inject constructor(
     private val errorHandler: ErrorHandler
 ) : ViewModel() {
 
+    val isLoading = mutableStateOf(false)
+
     val username = mutableStateOf("")
     val email = mutableStateOf("")
     val password = mutableStateOf("")
@@ -38,6 +40,8 @@ class AuthViewModel @Inject constructor(
     }
 
     suspend fun registerUser(): Boolean {
+        isLoading.value = true
+
         if (isValidEmail(email.value) &&
             isValidPassword(password.value, passwordAgain.value) &&
             isValidUsername(username.value)
@@ -45,6 +49,7 @@ class AuthViewModel @Inject constructor(
             val resultResponse = registerUserUseCase.execute(
                 email.value, password.value, username.value
             )
+            isLoading.value = false
             return when (resultResponse) {
                 is ApiCallResult.Error -> {
                     errorHandler.handleError(resultResponse)
@@ -57,6 +62,7 @@ class AuthViewModel @Inject constructor(
                 }
             }
         }
+        isLoading.value = false
         return false
     }
 
@@ -67,12 +73,14 @@ class AuthViewModel @Inject constructor(
     }
 
     suspend fun loginUser(): Boolean {
+        isLoading.value = true
         if (isValidEmail(email.value) &&
             isPasswordLongEnough(password.value)
         ) {
             val resultResponse = loginUserUseCase.execute(
                 email.value, password.value
             )
+            isLoading.value = false
             return when (resultResponse) {
                 is ApiCallResult.Error -> {
                     errorHandler.handleError(resultResponse)
@@ -86,6 +94,7 @@ class AuthViewModel @Inject constructor(
                 }
             }
         }
+        isLoading.value = false
         return false
     }
 

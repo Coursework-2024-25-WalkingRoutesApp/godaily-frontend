@@ -43,6 +43,7 @@ import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.domain.service.CropProfilePhotoService
 import ru.hse.coursework.godaily.ui.components.atoms.VariableBold
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
+import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 import ru.hse.coursework.godaily.ui.theme.greyLight
 
@@ -51,6 +52,8 @@ fun AddPhotoScreen(
     navController: NavController,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
+    val isLoading = viewModel.isLoading
+
     val context = LocalContext.current
     val selectedImageUri = viewModel.selectedImageUri
 
@@ -71,83 +74,85 @@ fun AddPhotoScreen(
         }
     )
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.background_auth),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .offset(x = 0.dp, y = (-60).dp),
-            contentScale = ContentScale.Crop
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(70.dp))
-            VariableBold(
-                text = "Добавьте фотографию профиля",
-                fontSize = 35.sp,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(80.dp))
-
-            Box(
+    LoadingScreenWrapper(isLoading = isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = R.drawable.background_auth),
+                contentDescription = null,
                 modifier = Modifier
-                    .size(300.dp)
-                    .clip(CircleShape)
-                    .background(color = Color.White)
-                    .border(2.dp, greyLight, CircleShape)
-                    .clickable {
-                        imagePickerLauncher.launch("image/*")
-                    },
-                contentAlignment = Alignment.Center
+                    .fillMaxSize()
+                    .offset(x = 0.dp, y = (-60).dp),
+                contentScale = ContentScale.Crop
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (selectedImageUri.value == null) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Добавить фото",
-                        tint = Color.Gray,
-                        modifier = Modifier.size(70.dp)
-                    )
-                } else {
-                    AsyncImage(
-                        model = selectedImageUri.value,
-                        contentDescription = "Выбранное изображение",
-                        modifier = Modifier
-                            .size(300.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
+                Spacer(modifier = Modifier.height(70.dp))
+                VariableBold(
+                    text = "Добавьте фотографию профиля",
+                    fontSize = 35.sp,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(80.dp))
+
+                Box(
+                    modifier = Modifier
+                        .size(300.dp)
+                        .clip(CircleShape)
+                        .background(color = Color.White)
+                        .border(2.dp, greyLight, CircleShape)
+                        .clickable {
+                            imagePickerLauncher.launch("image/*")
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (selectedImageUri.value == null) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Добавить фото",
+                            tint = Color.Gray,
+                            modifier = Modifier.size(70.dp)
+                        )
+                    } else {
+                        AsyncImage(
+                            model = selectedImageUri.value,
+                            contentDescription = "Выбранное изображение",
+                            modifier = Modifier
+                                .size(300.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                 }
+
+                Spacer(modifier = Modifier.height(80.dp))
+                StartButton(
+                    text = "Продолжить",
+                    onClick = {
+                        viewModel.addProfilePhoto(context)
+                        viewModel.saveJwtToStorage()
+                    }
+                )
+                Spacer(Modifier.height(10.dp))
+
+                Text(
+                    text = "Пропустить",
+                    textDecoration = TextDecoration.Underline,
+                    fontSize = 16.sp,
+                    fontFamily = RobotoFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.clickable {
+                        viewModel.saveJwtToStorage()
+                    }
+                )
             }
-
-            Spacer(modifier = Modifier.height(80.dp))
-            StartButton(
-                text = "Продолжить",
-                onClick = {
-                    viewModel.addProfilePhoto(context)
-                    viewModel.saveJwtToStorage()
-                }
-            )
-            Spacer(Modifier.height(10.dp))
-
-            Text(
-                text = "Пропустить",
-                textDecoration = TextDecoration.Underline,
-                fontSize = 16.sp,
-                fontFamily = RobotoFontFamily,
-                fontWeight = FontWeight.Medium,
-                color = Color.Black,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.clickable {
-                    viewModel.saveJwtToStorage()
-                }
-            )
         }
     }
 }
