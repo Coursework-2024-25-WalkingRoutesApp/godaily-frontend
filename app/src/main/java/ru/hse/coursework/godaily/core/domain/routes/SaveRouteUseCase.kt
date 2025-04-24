@@ -2,7 +2,10 @@ package ru.hse.coursework.godaily.core.domain.routes
 
 import android.net.Uri
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import coil3.ImageLoader
 import com.yandex.mapkit.geometry.Point
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.network.ApiService
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
@@ -18,7 +21,8 @@ class SaveRouteUseCase @Inject constructor(
     private val api: ApiService,
     private val routeYandexService: RouteYandexService,
     private val photoConverterService: PhotoConverterService,
-    private val safeApiCaller: SafeApiCaller
+    private val safeApiCaller: SafeApiCaller,
+    private val imageLoader: ImageLoader
 ) {
     suspend fun execute(
         id: UUID?,
@@ -27,18 +31,37 @@ class SaveRouteUseCase @Inject constructor(
         startPoint: String,
         endPoint: String,
         imageUri: Uri?,
+        photoUrl: String?,
         isDraft: Boolean,
         routePoints: SnapshotStateList<TitledPoint>,
         categories: Set<Int>,
     ): ApiCallResult<String> {
         val route = routeYandexService.createRoute(titledPointsToPoints(routePoints))
+        var routePreview: String? = null
 
         val duration = route?.let { routeYandexService.getRouteDuration(it) } ?: 0.toDouble()
         val length = route?.let { routeYandexService.getRouteLength(it) } ?: 0.toDouble()
 
-        val routePreview = imageUri?.let {
+        val routePreviewMultipart = imageUri?.let {
             photoConverterService.uriToMultipart(it)
         }
+        routePreviewMultipart?.let { multipart ->
+            val typePart = "route".toRequestBody("text/plain".toMediaType())
+            val photoUrlPart = photoUrl
+                ?.takeIf { it.isNotBlank() }
+                ?.toRequestBody("text/plain".toMediaType())
+
+            val savePhotoResult = safeApiCaller.safeApiCall {
+                api.uploadPhoto(multipart, typePart, photoUrlPart)
+            }
+
+            if (savePhotoResult is ApiCallResult.Success) {
+                routePreview = savePhotoResult.data
+            }
+        }
+
+        imageLoader.memoryCache?.clear()
+        imageLoader.diskCache?.clear()
 
         return safeApiCaller.safeApiCall {
             api.addRoute(
@@ -50,12 +73,11 @@ class SaveRouteUseCase @Inject constructor(
                     length = length,
                     startPoint = startPoint,
                     endPoint = endPoint,
-                    routePreview = "",
+                    routePreview = routePreview,
                     isDraft = isDraft,
                     routeCoordinate = titledPointsToRouteCoordinate(routePoints, id),
                     categories = categoriesToDto(id, categories)
                 ),
-                photo = routePreview
             )
         }
     }

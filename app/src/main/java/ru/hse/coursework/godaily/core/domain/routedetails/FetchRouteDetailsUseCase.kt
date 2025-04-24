@@ -14,7 +14,6 @@ class FetchRouteDetailsUseCase @Inject constructor(
     private val safeApiCaller: SafeApiCaller
 ) {
     suspend fun execute(routeId: UUID): ApiCallResult<Any> {
-        //TODO хардкод
         val routePageDTOResponse = safeApiCaller.safeApiCall {
             api.getRouteDetails(
                 routeId = routeId,

@@ -13,9 +13,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.ImageLoader
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
@@ -23,6 +25,7 @@ import java.util.UUID
 
 @Composable
 fun RouteToContinueGrid(
+    imageLoader: ImageLoader,
     routes: List<RouteCardDto>,
     modifier: Modifier = Modifier,
     onRouteClick: (RouteCardDto) -> Unit
@@ -54,7 +57,8 @@ fun RouteToContinueGrid(
                     title = route.routeName ?: "Название",
                     imageResUrl = route.routePreview ?: "",
                     modifier = Modifier.padding(end = 8.dp),
-                    onCardClick = { onRouteClick(route) }
+                    onCardClick = { onRouteClick(route) },
+                    imageLoader = imageLoader
                 )
             }
         }
@@ -102,6 +106,7 @@ fun PreviewRouteToContinueGrid() {
     )
     RouteToContinueGrid(
         routes = sampleRoutes,
-        onRouteClick = {}
+        onRouteClick = {},
+        imageLoader = ImageLoader(LocalContext.current)
     )
 }

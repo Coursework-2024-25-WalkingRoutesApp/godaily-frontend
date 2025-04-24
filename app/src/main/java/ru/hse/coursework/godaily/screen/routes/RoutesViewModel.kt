@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil3.ImageLoader
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
@@ -23,7 +24,8 @@ class RoutesViewModel @Inject constructor(
     private val fetchDraftsUseCase: FetchDraftsUseCase,
     private val uuidService: UuidService,
     private val errorHandler: ErrorHandler,
-    private val trackingService: TrackingService
+    private val trackingService: TrackingService,
+    val imageLoader: ImageLoader
 ) : ViewModel() {
 
     val isLoading = mutableStateOf(false)

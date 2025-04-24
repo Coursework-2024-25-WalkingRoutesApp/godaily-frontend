@@ -52,7 +52,8 @@ fun DraftsScreen(
                     onRouteClick = { route ->
                         createViewModel.clear()
                         navController.navigate(NavigationItem.RouteCreationOnMap.route + "/${route.id}")
-                    }
+                    },
+                    imageLoader = viewModel.imageLoader
                 )
             }
         }

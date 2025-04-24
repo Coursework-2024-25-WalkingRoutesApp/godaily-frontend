@@ -12,8 +12,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.ImageLoader
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.data.model.RouteDto
@@ -21,6 +23,7 @@ import java.util.UUID
 
 @Composable
 fun RouteVerticalGrid(
+    imageLoader: ImageLoader,
     routes: List<RouteCardDto>,
     onRouteClick: (RouteCardDto) -> Unit,
     modifier: Modifier = Modifier
@@ -57,7 +60,8 @@ fun RouteVerticalGrid(
                         onCardClick = { onRouteClick(route) },
                         modifier = Modifier
                             .weight(1f)
-                            .padding(bottom = 13.dp)
+                            .padding(bottom = 13.dp),
+                        imageLoader = imageLoader
                     )
                 }
 
@@ -239,5 +243,9 @@ fun PreviewRouteVerticalGrid() {
             )
         )
     )
-    RouteVerticalGrid(routes = sampleRoutes, onRouteClick = {})
+    RouteVerticalGrid(
+        routes = sampleRoutes,
+        onRouteClick = {},
+        imageLoader = ImageLoader(LocalContext.current)
+    )
 }

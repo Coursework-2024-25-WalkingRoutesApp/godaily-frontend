@@ -2,6 +2,7 @@ package ru.hse.coursework.godaily.core.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import coil3.ImageLoader
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,6 +52,12 @@ object AppModule {
         jwtManager: JwtManager
     ): ErrorHandler {
         return ErrorHandler(context, jwtManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideImageLoader(@ApplicationContext context: Context): ImageLoader {
+        return ImageLoader.Builder(context).build()
     }
 
     @Provides

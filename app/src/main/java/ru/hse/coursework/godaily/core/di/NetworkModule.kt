@@ -16,7 +16,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import ru.hse.coursework.godaily.core.data.network.ApiService
-import ru.hse.coursework.godaily.core.data.network.FakeApiService
 import ru.hse.coursework.godaily.core.security.JwtManager
 import javax.inject.Singleton
 

@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil3.ImageLoader
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
@@ -29,7 +29,8 @@ class HomeViewModel @Inject constructor(
     private val filterRoutesUseCase: FilterRoutesUseCase,
     private val sortRoutesUseCase: SortRoutesUseCase,
     private val errorHandler: ErrorHandler,
-    private val trackingService: TrackingService
+    private val trackingService: TrackingService,
+    val imageLoader: ImageLoader
 ) : ViewModel() {
 
     val isLoading = mutableStateOf(false)

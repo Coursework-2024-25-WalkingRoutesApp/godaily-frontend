@@ -2,6 +2,7 @@ package ru.hse.coursework.godaily.core.data.network
 
 import com.yandex.mapkit.geometry.Point
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
@@ -195,14 +196,23 @@ class FakeApiService : ApiService {
         return Response.success("Данные успешно сохранены")
     }
 
+    override suspend fun saveUserPhoto(photoUrl: String): Response<String> {
+        return Response.success("Данные успешно сохранены")
+    }
+
     override suspend fun saveUserEditedName(newUsername: String): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 
-    override suspend fun addRoute(
-        routeDto: RouteDto,
-        photo: MultipartBody.Part?
+    override suspend fun uploadPhoto(
+        photo: MultipartBody.Part,
+        type: RequestBody,
+        photoUrl: RequestBody?
     ): Response<String> {
+        return Response.success("Данные успешно сохранены")
+    }
+
+    override suspend fun addRoute(routeDto: RouteDto): Response<String> {
         return Response.success("Данные успешно сохранены")
     }
 

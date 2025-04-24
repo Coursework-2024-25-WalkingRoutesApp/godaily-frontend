@@ -17,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.ImageLoader
 import coil3.compose.rememberAsyncImagePainter
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.VariableLight
@@ -28,6 +30,7 @@ import ru.hse.coursework.godaily.ui.components.atoms.VariableMedium
 
 @Composable
 fun UserProfile(
+    imageLoader: ImageLoader,
     userName: String,
     onEditProfileClick: () -> Unit,
     profilePictureUrl: String = ""
@@ -39,6 +42,7 @@ fun UserProfile(
         Image(
             painter = rememberAsyncImagePainter(
                 model = profilePictureUrl,
+                imageLoader = imageLoader,
                 error = painterResource(R.drawable.avatar_default)
             ),
             contentDescription = "User Profile Picture",
@@ -81,6 +85,7 @@ fun UserProfile(
 fun UserProfilePreview() {
     UserProfile(
         userName = "Иван",
-        onEditProfileClick = {}
+        onEditProfileClick = {},
+        imageLoader = ImageLoader(LocalContext.current)
     )
 }

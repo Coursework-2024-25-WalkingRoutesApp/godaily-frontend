@@ -17,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.ImageLoader
 import coil3.compose.rememberAsyncImagePainter
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.VariableLight
@@ -28,6 +30,7 @@ import ru.hse.coursework.godaily.ui.theme.greyDark
 
 @Composable
 fun ReviewCard(
+    imageLoader: ImageLoader,
     userName: String,
     photoUrl: String,
     date: String,
@@ -43,6 +46,7 @@ fun ReviewCard(
                 Image(
                     painter = rememberAsyncImagePainter(
                         model = photoUrl,
+                        imageLoader = imageLoader,
                         error = painterResource(R.drawable.avatar_default)
                     ),
                     contentDescription = "User Photo",
@@ -93,6 +97,7 @@ fun ReviewCard(
 @Composable
 fun ReviewCardPreview() {
     ReviewCard(
+        imageLoader = ImageLoader(LocalContext.current),
         userName = "Игорь",
         photoUrl = "",
         date = "11 апреля",

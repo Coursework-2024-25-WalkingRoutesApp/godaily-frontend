@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil3.ImageLoader
 import com.yandex.mapkit.geometry.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -41,7 +42,8 @@ class RouteDetailsViewModel @Inject constructor(
     private val saveRouteSessionUseCase: SaveRouteSessionUseCase,
     private val uuidService: UuidService,
     private val routeYandexService: RouteYandexService,
-    private val errorHandler: ErrorHandler
+    private val errorHandler: ErrorHandler,
+    val imageLoader: ImageLoader
 ) : ViewModel() {
 
     val isLoading = mutableStateOf(false)

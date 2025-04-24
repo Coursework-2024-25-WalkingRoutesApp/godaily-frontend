@@ -58,7 +58,8 @@ fun FavouriteRoutesScreen(
                         viewModel.trackRouteDetailsOpen(route.id, route.routeName)
                         routeDetailsViewModel.clear()
                         navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
-                    }
+                    },
+                    imageLoader = viewModel.imageLoader
                 )
             }
         }

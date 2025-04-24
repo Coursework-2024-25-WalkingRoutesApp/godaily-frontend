@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil3.ImageLoader
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
@@ -28,7 +29,8 @@ class ProfileViewModel @Inject constructor(
     private val saveUserPhotoUseCase: SaveUserPhotoUseCase,
     private val jwtManager: JwtManager,
     private val errorHandler: ErrorHandler,
-    private val trackingService: TrackingService
+    private val trackingService: TrackingService,
+    val imageLoader: ImageLoader
 ) : ViewModel() {
 
     val isLoading = mutableStateOf(false)
@@ -68,9 +70,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun saveNewUserData(context: Context) {
+    fun saveNewUserData(context: Context, onComplete: () -> Unit) {
         viewModelScope.launch {
             isLoading.value = true
+
             editedUserName.value.takeIf { it.isNotEmpty() }?.let {
                 val nameResultResponse = saveUserEditedNameUseCase.execute(it)
                 if (nameResultResponse is ApiCallResult.Error) {
@@ -80,17 +83,21 @@ class ProfileViewModel @Inject constructor(
                 }
             }
 
-            selectedImageUri.value?.let {
-                val photoResultResponse = saveUserPhotoUseCase.execute(it)
+            selectedImageUri.value?.let { uri ->
+                val photoResultResponse = saveUserPhotoUseCase.execute(
+                    uri,
+                    profilePictureUrl.value.takeIf { it.isNotEmpty() }
+                )
                 if (photoResultResponse is ApiCallResult.Error) {
                     errorHandler.handleError(photoResultResponse)
-                } else if (photoResultResponse is ApiCallResult.Success) {
-                    //TODO фото заменить
                 }
             }
+
             isLoading.value = false
+            onComplete()
         }
     }
+
 
     fun trackRouteDetailsOpen(routeId: UUID?, routeName: String?) {
         trackingService.trackRouteDetailsOpen(routeId, routeName)

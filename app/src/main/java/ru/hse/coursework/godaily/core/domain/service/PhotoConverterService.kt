@@ -2,6 +2,7 @@ package ru.hse.coursework.godaily.core.domain.service
 
 import android.content.Context
 import android.net.Uri
+import android.webkit.MimeTypeMap
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -21,21 +22,6 @@ class PhotoConverterService @Inject constructor(
         }
     }
 
-//    suspend fun uriToByteArray(uri: Uri): ByteArray? {
-//        return withContext(Dispatchers.IO) {
-//            try {
-//                val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
-//                inputStream?.use {
-//                    //TODO
-//                    println("блабла" + it.readBytes())
-//                    it.readBytes()
-//                }
-//            } catch (e: Exception) {
-//                null
-//            }
-//        }
-//    }
-
     fun uriToMultipart(uri: Uri): MultipartBody.Part? {
         return try {
             val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
@@ -44,14 +30,22 @@ class PhotoConverterService @Inject constructor(
                 file.outputStream().use { output ->
                     stream.copyTo(output)
                 }
-                val mimeType = context.contentResolver.getType(uri)
+                val mimeType = getMimeType(uri) ?: "image/jpeg"
 
-                val requestFile = file.asRequestBody(mimeType?.toMediaTypeOrNull())
+                val requestFile = file.asRequestBody(mimeType.toMediaTypeOrNull())
                 MultipartBody.Part.createFormData("photo", file.name, requestFile)
             }
         } catch (e: Exception) {
             null
         }
     }
+
+    private fun getMimeType(uri: Uri): String? {
+        return context.contentResolver.getType(uri)
+            ?: MimeTypeMap.getFileExtensionFromUrl(uri.toString())?.let { ext ->
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext.lowercase())
+            }
+    }
+
 
 }

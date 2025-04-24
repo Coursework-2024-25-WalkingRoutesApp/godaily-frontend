@@ -21,9 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.ImageLoader
 import coil3.compose.rememberAsyncImagePainter
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.RouteDestinations
@@ -33,6 +35,7 @@ import ru.hse.coursework.godaily.ui.components.organisms.ReviewBox
 
 @Composable
 fun RateRouteCard(
+    imageLoader: ImageLoader,
     title: String,
     startPoint: String,
     endPoint: String,
@@ -49,6 +52,7 @@ fun RateRouteCard(
         Image(
             painter = rememberAsyncImagePainter(
                 model = imageUrl,
+                imageLoader = imageLoader,
                 error = painterResource(R.drawable.route_to_continue_default)
             ),
             contentDescription = null,
@@ -114,6 +118,7 @@ fun RateRouteCard(
 @Composable
 fun RateRouteCardPreview() {
     RateRouteCard(
+        imageLoader = ImageLoader(LocalContext.current),
         title = "Измайловский Кремль",
         startPoint = "р-он. Измайлово",
         endPoint = "Измайловское шоссе, 73",

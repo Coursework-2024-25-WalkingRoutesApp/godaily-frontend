@@ -134,7 +134,7 @@ fun AddPhotoScreen(
                 StartButton(
                     text = "Продолжить",
                     onClick = {
-                        viewModel.addProfilePhoto(context)
+                        viewModel.addProfilePhoto()
                         viewModel.saveJwtToStorage()
                     }
                 )

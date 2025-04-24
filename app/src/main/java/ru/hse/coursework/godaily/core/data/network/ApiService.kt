@@ -1,6 +1,7 @@
 package ru.hse.coursework.godaily.core.data.network
 
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -43,18 +44,31 @@ interface ApiService {
         @Part photo: MultipartBody.Part?
     ): Response<String>
 
-    // Сохранение информации о пользователе
+    // Сохранение имени пользователя
     @PUT(USER_BASE_PATH_URL + UPDATE_USERNAME_URL)
     suspend fun saveUserEditedName(
         @Query("newUsername") newUsername: String,
     ): Response<String>
 
-    // Сохранение маршрута
+    // Сохранение фото пользователя
+    @PUT(USER_BASE_PATH_URL + UPDATE_USER_PHOTO_URL)
+    suspend fun saveUserPhoto(
+        @Query("photoUrl") photoUrl: String,
+    ): Response<String>
+
+    //Сохранение фото
     @Multipart
+    @PUT(PHOTO_BASE_PATH_URL + UPLOAD_PHOTO_URL)
+    suspend fun uploadPhoto(
+        @Part photo: MultipartBody.Part,
+        @Part("type") type: RequestBody,
+        @Part("photoUrl") photoUrl: RequestBody?
+    ): Response<String>
+
+    // Сохранение маршрута
     @POST(ROUTE_BASE_PATH_URL + ADD_ROUTE_URL)
     suspend fun addRoute(
-        @Part("routeDto") routeDto: RouteDto,
-        @Part photo: MultipartBody.Part?
+        @Body routeDto: RouteDto,
     ): Response<String>
 
     // Получение черновиков пользователя

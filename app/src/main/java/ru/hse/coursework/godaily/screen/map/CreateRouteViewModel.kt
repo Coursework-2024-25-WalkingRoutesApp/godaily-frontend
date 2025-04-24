@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil3.ImageLoader
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.hse.coursework.godaily.core.data.model.RouteDto
@@ -28,7 +29,8 @@ class CreateRouteViewModel @Inject constructor(
     private val fetchRouteDetailsUseCase: FetchRouteDetailsUseCase,
     private val uuidService: UuidService,
     private val photoConverterService: PhotoConverterService,
-    private val errorHandler: ErrorHandler
+    private val errorHandler: ErrorHandler,
+    val imageLoader: ImageLoader
 ) : ViewModel() {
 
     val isLoading = mutableStateOf(false)
@@ -41,6 +43,7 @@ class CreateRouteViewModel @Inject constructor(
     val routePoints = mutableStateListOf<TitledPoint>()
     val chosenCategories: MutableState<Set<Int>> = mutableStateOf(setOf())
     val selectedImageUri: MutableState<Uri?> = mutableStateOf(null)
+    val routePreviewUrl: MutableState<String?> = mutableStateOf(null)
     val showPublishWarningDialog: MutableState<Boolean> = mutableStateOf(false)
     val showNewPublishDialog: MutableState<Boolean> = mutableStateOf(false)
     val showAddPointTitleDialog: MutableState<Boolean> = mutableStateOf(false)
@@ -58,6 +61,7 @@ class CreateRouteViewModel @Inject constructor(
         routePoints.clear()
         chosenCategories.value = setOf()
         selectedImageUri.value = null
+        routePreviewUrl.value = null
         showPublishWarningDialog.value = false
         showNewPublishDialog.value = false
         showAddPointTitleDialog.value = false
@@ -90,6 +94,8 @@ class CreateRouteViewModel @Inject constructor(
                             routeResponse.data.route.categories?.let {
                                 chosenCategories.value = convertCategories(it)
                             }
+
+                            routePreviewUrl.value = routeResponse.data.route.routePreview
 
                             selectedImageUri.value =
                                 photoConverterService.urlToUri(routeResponse.data.route.routePreview)
@@ -164,7 +170,8 @@ class CreateRouteViewModel @Inject constructor(
             imageUri = selectedImageUri.value,
             isDraft = isDraft,
             routePoints = routePoints,
-            categories = chosenCategories.value
+            categories = chosenCategories.value,
+            photoUrl = routePreviewUrl.value
         )
         isLoading.value = false
 

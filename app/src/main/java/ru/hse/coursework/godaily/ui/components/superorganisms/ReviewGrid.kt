@@ -8,8 +8,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.ImageLoader
 import ru.hse.coursework.godaily.core.data.model.ReviewDto
 import ru.hse.coursework.godaily.ui.components.organisms.ReviewCard
 import java.time.LocalDateTime
@@ -18,6 +20,7 @@ import java.util.UUID
 
 @Composable
 fun ReviewGrid(
+    imageLoader: ImageLoader,
     reviews: List<ReviewDto.ReviewInfoDto>,
     modifier: Modifier = Modifier
 ) {
@@ -34,7 +37,8 @@ fun ReviewGrid(
                 photoUrl = review.userPhotoUrl ?: "",
                 date = formatDate(review.createdAt),
                 mark = review.rating,
-                reviewText = review.reviewText ?: ""
+                reviewText = review.reviewText ?: "",
+                imageLoader = imageLoader
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -85,5 +89,5 @@ fun ReviewGridPreview() {
         )
     )
 
-    ReviewGrid(reviews = sampleReviews)
+    ReviewGrid(reviews = sampleReviews, imageLoader = ImageLoader(LocalContext.current))
 }

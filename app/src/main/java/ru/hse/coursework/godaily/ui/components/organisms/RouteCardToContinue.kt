@@ -15,9 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.ImageLoader
 import coil3.compose.rememberAsyncImagePainter
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.ui.components.atoms.RouteNameSmall
@@ -26,6 +28,7 @@ import ru.hse.coursework.godaily.ui.theme.purpleDark
 
 @Composable
 fun RouteCardToContinue(
+    imageLoader: ImageLoader,
     distance: String,
     title: String,
     imageResUrl: String,
@@ -42,6 +45,7 @@ fun RouteCardToContinue(
             Image(
                 painter = rememberAsyncImagePainter(
                     model = imageResUrl,
+                    imageLoader = imageLoader,
                     error = painterResource(R.drawable.route_to_continue_default)
                 ),
                 contentDescription = null,
@@ -90,6 +94,7 @@ fun RouteCardToContinue(
 @Preview(showBackground = true)
 fun RouteCardToContinuePreview() {
     RouteCardToContinue(
+        imageLoader = ImageLoader(LocalContext.current),
         distance = "4.6 км",
         title = "Историческое Измайлово",
         imageResUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlKC_brTH0YllYbrNf3gtJ6dSyGoDhI4eD-g&s",

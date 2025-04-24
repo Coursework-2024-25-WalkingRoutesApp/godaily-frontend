@@ -155,8 +155,9 @@ fun EditProfileScreen(
             ) {
                 StartButton(
                     onClick = {
-                        viewModel.saveNewUserData(context)
-                        navController.popBackStack()
+                        viewModel.saveNewUserData(context) {
+                            navController.popBackStack()
+                        }
                     },
                     text = "Сохранить"
                 )

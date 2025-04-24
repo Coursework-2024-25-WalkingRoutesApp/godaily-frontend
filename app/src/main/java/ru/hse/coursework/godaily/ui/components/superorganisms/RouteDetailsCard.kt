@@ -10,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.ImageLoader
 import ru.hse.coursework.godaily.core.data.model.RouteDto
 import ru.hse.coursework.godaily.core.data.model.RoutePageDto
 import ru.hse.coursework.godaily.ui.components.organisms.RouteImageForDetailsCard
@@ -23,20 +25,22 @@ import java.util.UUID
 
 @Composable
 fun RouteDetailsCard(
+    imageLoader: ImageLoader,
     route: RoutePageDto,
     isFavourite: MutableState<Boolean>,
     onBackClick: () -> Unit,
     onMapClick: () -> Unit,
     onFavouriteToggle: (Boolean) -> Unit,
-    modifier: Modifier = Modifier // Добавляем параметр модификатора
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier // Используем переданный модификатор
+        modifier = modifier
     ) {
         RouteImageForDetailsCard(
             route = route,
             onBackClick = onBackClick,
-            onMapClick = onMapClick
+            onMapClick = onMapClick,
+            imageLoader = imageLoader
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -91,5 +95,6 @@ fun RouteDetailsCardPreview() {
         onBackClick = {},
         onMapClick = {},
         onFavouriteToggle = {},
+        imageLoader = ImageLoader(LocalContext.current)
     )
 }

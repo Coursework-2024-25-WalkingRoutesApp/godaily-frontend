@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -14,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import kotlinx.coroutines.delay
 import ru.hse.coursework.godaily.screen.routedetails.RouteDetailsViewModel
 import ru.hse.coursework.godaily.ui.components.molecules.HeaderWithBackground
 import ru.hse.coursework.godaily.ui.components.organisms.NoRoutesBox
@@ -25,8 +23,6 @@ import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapp
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteToContinueGrid
 import ru.hse.coursework.godaily.ui.components.superorganisms.RouteVerticalGrid
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
-import ru.hse.coursework.godaily.ui.theme.greyLight
-import ru.hse.coursework.godaily.ui.theme.purpleDark
 
 @Composable
 fun HomeScreen(
@@ -62,7 +58,8 @@ fun HomeScreen(
                         viewModel.trackRouteDetailsOpen(route.id, route.routeName)
                         routeDetailsViewModel.clear()
                         navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
-                    }
+                    },
+                    imageLoader = viewModel.imageLoader
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -95,7 +92,8 @@ fun HomeScreen(
                     viewModel.trackRouteDetailsOpen(route.id, route.routeName)
                     routeDetailsViewModel.clear()
                     navController.navigate(NavigationItem.RouteDetails.route + "/${route.id}")
-                }
+                },
+                imageLoader = viewModel.imageLoader
             )
         }
 

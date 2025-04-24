@@ -69,7 +69,8 @@ fun RateRouteScreen(
                 endPoint = routeState.value.endPoint ?: "Конечная точка",
                 imageUrl = routeState.value.routePreview ?: "",
                 mark = markState,
-                reviewText = reviewTextState
+                reviewText = reviewTextState,
+                imageLoader = viewModel.imageLoader
             )
 
             Spacer(modifier = Modifier.weight(1f))

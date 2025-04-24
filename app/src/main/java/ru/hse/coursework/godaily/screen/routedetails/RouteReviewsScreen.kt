@@ -78,7 +78,7 @@ fun RouteReviewsScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ReviewGrid(reviews = reviews)
+            ReviewGrid(reviews = reviews, imageLoader = viewModel.imageLoader)
         }
     }
 }

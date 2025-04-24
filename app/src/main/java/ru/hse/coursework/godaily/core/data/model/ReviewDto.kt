@@ -18,7 +18,7 @@ data class ReviewDto(
         @JsonProperty("userName")
         var userName: String,
 
-        @JsonProperty("userPhotoUrl")
+        @JsonProperty("photoUrl")
         var userPhotoUrl: String?,
 
         @JsonProperty("reviewText")

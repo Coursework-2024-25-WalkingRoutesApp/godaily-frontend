@@ -30,10 +30,6 @@ class FilterRoutesUseCase @Inject constructor(
 
     private fun convertCategories(categories: Set<Int>): List<String> {
         val indexToCategoryName = mapOf(
-//            0 to "Nature",
-//            1 to "Culture",
-//            2 to "Coffee",
-//            3 to "Metro"
             0 to "Природный",
             1 to "Культурно-исторический",
             2 to "Кафе по пути",

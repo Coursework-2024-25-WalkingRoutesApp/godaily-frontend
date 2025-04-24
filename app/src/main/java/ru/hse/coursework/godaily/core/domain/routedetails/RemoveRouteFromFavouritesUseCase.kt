@@ -15,7 +15,6 @@ class RemoveRouteFromFavouritesUseCase @Inject constructor(
     ): ApiCallResult<String> {
         return safeApiCaller.safeApiCall {
             api.removeRouteFromFavorites(
-                //TODO хардкод
                 routeId = routeId
             )
         }

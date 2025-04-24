@@ -1,6 +1,5 @@
 package ru.hse.coursework.godaily.screen.auth
 
-import android.content.Context
 import android.net.Uri
 import android.util.Patterns
 import androidx.compose.runtime.mutableStateOf
@@ -98,10 +97,10 @@ class AuthViewModel @Inject constructor(
         return false
     }
 
-    fun addProfilePhoto(context: Context) {
+    fun addProfilePhoto() {
         viewModelScope.launch {
             selectedImageUri.value?.let {
-                val photoResultResponse = saveUserPhotoUseCase.execute(it)
+                val photoResultResponse = saveUserPhotoUseCase.execute(it, null)
                 if (photoResultResponse is ApiCallResult.Error) {
                     errorHandler.handleError(photoResultResponse)
                 }

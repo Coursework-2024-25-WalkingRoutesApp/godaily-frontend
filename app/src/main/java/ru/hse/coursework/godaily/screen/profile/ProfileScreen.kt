@@ -56,6 +56,7 @@ fun ProfileScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 UserProfile(
+                    imageLoader = viewModel.imageLoader,
                     userName = viewModel.userName.value,
                     profilePictureUrl = viewModel.profilePictureUrl.value,
                     onEditProfileClick = { navController.navigate(NavigationItem.EditProfile.route) }

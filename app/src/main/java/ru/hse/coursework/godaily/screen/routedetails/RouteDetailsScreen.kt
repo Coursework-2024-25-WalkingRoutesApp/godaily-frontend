@@ -59,7 +59,8 @@ fun RouteDetailsScreen(
                         }
                         viewModel.updateIsFavourite()
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    imageLoader = viewModel.imageLoader
                 )
 
                 RouteRatingForDetailsCard(
