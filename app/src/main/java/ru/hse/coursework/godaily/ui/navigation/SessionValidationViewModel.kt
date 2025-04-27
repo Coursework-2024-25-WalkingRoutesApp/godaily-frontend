@@ -24,6 +24,9 @@ class JwtViewModel @Inject constructor(
     private val _isTokenValid = MutableStateFlow<Boolean?>(null)
     val isTokenValid: StateFlow<Boolean?> = _isTokenValid.asStateFlow()
 
+    private val _isVerified = MutableStateFlow<Boolean?>(null)
+    val isVerified: StateFlow<Boolean?> = _isVerified.asStateFlow()
+
     val jwtFlow = jwtManager.jwtFlow
 
     init {
@@ -35,6 +38,8 @@ class JwtViewModel @Inject constructor(
         }
     }
 
+    //TODO разные действия при разных случаях: проблемы с JWT/верификацией
+    // Переписать
     private suspend fun checkTokenValidity() {
         val isValid = withContext(Dispatchers.IO) {
             val resultResponse = checkJwtUseCase.execute()
@@ -51,6 +56,10 @@ class JwtViewModel @Inject constructor(
             }
         }
         _isTokenValid.update { isValid }
+    }
+
+    private fun isVerified() {
+
     }
 }
 
