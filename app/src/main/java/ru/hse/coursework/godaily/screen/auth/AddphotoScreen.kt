@@ -135,7 +135,7 @@ fun AddPhotoScreen(
                     text = "Продолжить",
                     onClick = {
                         viewModel.addProfilePhoto()
-                        viewModel.saveJwtToStorage()
+                        viewModel.saveVerificationStatusToStorage()
                     }
                 )
                 Spacer(Modifier.height(10.dp))
@@ -149,7 +149,7 @@ fun AddPhotoScreen(
                     color = Color.Black,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable {
-                        viewModel.saveJwtToStorage()
+                        viewModel.saveVerificationStatusToStorage()
                     }
                 )
             }

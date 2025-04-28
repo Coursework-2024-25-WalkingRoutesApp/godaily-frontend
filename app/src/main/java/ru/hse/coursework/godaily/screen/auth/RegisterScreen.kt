@@ -98,7 +98,10 @@ fun RegisterScreen(
                         coroutineScope.launch {
                             val result = viewModel.registerUser()
                             if (result) {
-                                navController.navigate(AuthNavigationItem.AddPhotoScreen.route)
+                                val isVerified = viewModel.checkVerification()
+                                if (!isVerified) {
+                                    navController.navigate(AuthNavigationItem.VerificationScreen.route + "/register")
+                                }
                             }
                         }
 

@@ -16,7 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import ru.hse.coursework.godaily.core.data.network.ApiService
-import ru.hse.coursework.godaily.core.security.JwtManager
+import ru.hse.coursework.godaily.core.security.VerificationManager
 import javax.inject.Singleton
 
 @Module
@@ -42,9 +42,9 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttp(jwtManager: JwtManager): Call.Factory {
+    fun provideOkHttp(verificationManager: VerificationManager): Call.Factory {
         return OkHttpClient.Builder()
-            .addInterceptor(JWTInterceptor(jwtManager))
+            .addInterceptor(JWTInterceptor(verificationManager))
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     //if (BuildConfig.DEBUG) {
@@ -61,7 +61,8 @@ class NetworkModule {
         return Retrofit.Builder()
             //.baseUrl("http://10.110.92.162:8080/") //hse api_gateway
             //.baseUrl("http://10.95.81.246:8080/") //LTE api_gateway
-            .baseUrl("http://192.168.0.65:8080/") //домашний api_gateway
+            .baseUrl("http://10.255.199.246:8080/")
+            //.baseUrl("http://192.168.0.65:8080/") //домашний api_gateway
             .callFactory { okHttp.get().newCall(it) }
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(

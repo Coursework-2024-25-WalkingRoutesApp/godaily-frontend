@@ -188,6 +188,18 @@ class FakeApiService : ApiService {
         return Response.success("mock_jwt_token")
     }
 
+    override suspend fun checkVerification(): Response<Boolean> {
+        return Response.success(true)
+    }
+
+    override suspend fun sendVerificationCode(email: String): Response<String> {
+        return Response.success("true")
+    }
+
+    override suspend fun checkVerificationCode(verificationCode: String): Response<String> {
+        return Response.success("true")
+    }
+
     override suspend fun getUserInfo(): Response<Any> {
         return Response.success(fakeUser)
     }
@@ -286,8 +298,6 @@ class FakeApiService : ApiService {
     }
 
     override suspend fun getUserUnfinishedRoutes(
-        //TODO jwt: String,
-
         latitude: Double,
         longitude: Double
     ): Response<List<RouteCardDto>> {

@@ -95,7 +95,14 @@ fun LoginScreen(
                     text = "Войти",
                     onClick = {
                         coroutineScope.launch {
-                            viewModel.loginUser()
+                            val result = viewModel.loginUser()
+                            if (result) {
+                                val isVerified = viewModel.checkVerification()
+                                if (!isVerified) {
+                                    viewModel.sendCode()
+                                    navController.navigate(AuthNavigationItem.VerificationScreen.route + "/login")
+                                }
+                            }
                         }
                     }
                 )

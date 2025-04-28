@@ -9,6 +9,7 @@ import ru.hse.coursework.godaily.screen.auth.AddPhotoScreen
 import ru.hse.coursework.godaily.screen.auth.AuthViewModel
 import ru.hse.coursework.godaily.screen.auth.LoginScreen
 import ru.hse.coursework.godaily.screen.auth.RegisterScreen
+import ru.hse.coursework.godaily.screen.auth.VerificationScreen
 import ru.hse.coursework.godaily.screen.auth.WelcomeScreen
 
 @Composable
@@ -21,12 +22,19 @@ fun AuthNavigation(authNavController: NavHostController) {
             RegisterScreen(authNavController, authViewModel)
         }
         composable(AuthNavigationItem.LoginScreen.route) {
-            LoginScreen(authNavController)
+            authViewModel.clear()
+            LoginScreen(authNavController, authViewModel)
         }
         composable(AuthNavigationItem.AddPhotoScreen.route) {
             AddPhotoScreen(authNavController, authViewModel)
         }
-        composable(AuthNavigationItem.WelcomeScreen.route) { // 🔥 Добавляем WelcomeScreen
+        composable(AuthNavigationItem.VerificationScreen.route + "/{type}") { backStackEntry ->
+            val type = backStackEntry.arguments?.getString("type")
+            if (type != null) {
+                VerificationScreen(authNavController, type, authViewModel)
+            }
+        }
+        composable(AuthNavigationItem.WelcomeScreen.route) {
             WelcomeScreen(authNavController)
         }
     }

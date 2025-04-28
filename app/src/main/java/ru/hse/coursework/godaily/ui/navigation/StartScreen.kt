@@ -7,13 +7,20 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun StartScreen(
-    jwtViewModel: JwtViewModel = hiltViewModel()
+    sessionValidationViewModel: SessionValidationViewModel = hiltViewModel()
 ) {
     val navController = rememberNavController()
-    val isTokenValid = jwtViewModel.isTokenValid.collectAsState()
+    val isTokenValid = sessionValidationViewModel.isTokenValid.collectAsState()
+    val isVerified = sessionValidationViewModel.isVerified.collectAsState()
 
-    when (isTokenValid.value) {
-        true -> MainScreen(navController)
-        else -> AuthNavigation(navController)
+    if (isTokenValid.value == true && isVerified.value == true) {
+        MainScreen(navController)
+    } else {
+        AuthNavigation(navController)
     }
+
+//    when (isTokenValid.value) {
+//        true -> MainScreen(navController)
+//        else -> AuthNavigation(navController)
+//    }
 }

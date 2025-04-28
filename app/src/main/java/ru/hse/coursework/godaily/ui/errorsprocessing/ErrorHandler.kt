@@ -4,24 +4,36 @@ import android.content.Context
 import android.util.Log
 import io.appmetrica.analytics.AppMetrica
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
-import ru.hse.coursework.godaily.core.security.JwtManager
+import ru.hse.coursework.godaily.core.security.VerificationManager
 import ru.hse.coursework.godaily.ui.notification.ToastManager
 import javax.inject.Inject
 
 class ErrorHandler @Inject constructor(
     private val context: Context,
-    private val jwtManager: JwtManager
+    private val verificationManager: VerificationManager
 ) {
     private companion object {
         const val TAG = "ErrorHandler"
     }
 
     fun handleError(error: ApiCallResult.Error) {
-        AppMetrica.reportError(error.message ?: "", error.throwable)
+        val errorMessage = when {
+            !error.message.isNullOrBlank() -> error.message
+            error.throwable?.message?.isNotBlank() == true -> error.throwable.message
+            else -> "Unknown error occurred"
+        }
+
+        val fullMessage = buildString {
+            append("Error: ")
+            append(errorMessage)
+            error.throwable?.let { append(" | Exception: ${it.javaClass.simpleName}") }
+        }
+
+        AppMetrica.reportError(fullMessage, error.throwable ?: Exception(fullMessage))
 
         logError(error)
 
-        showErrorMessage(error)
+        showErrorMessage(error.copy(message = errorMessage))
     }
 
     private fun logError(error: ApiCallResult.Error) {
@@ -40,15 +52,18 @@ class ErrorHandler @Inject constructor(
             401 -> {
                 Log.w(TAG, "Unauthorized access attempt")
                 toastManager.showToast("Ошибка доступа: ${error.message}")
-                jwtManager.clearJwt()
+                verificationManager.clearJwt()
+                verificationManager.clearVerificationStatus()
             }
 
             498 -> {
                 Log.i(TAG, "Token expired, clearing JWT")
                 toastManager.showToast("Ваша сессия истекла. Зайдите в приложение заново")
-                jwtManager.clearJwt()
+                verificationManager.clearJwt()
+                verificationManager.clearVerificationStatus()
             }
 
+            //TODO убрать
             else -> {
                 Log.w(TAG, "Unexpected error occurred")
                 toastManager.showToast("Возникла ошибка: ${error.message}")

@@ -12,7 +12,7 @@ import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
 import ru.hse.coursework.godaily.core.domain.location.LocationService
 import ru.hse.coursework.godaily.core.domain.service.UuidService
-import ru.hse.coursework.godaily.core.security.JwtManager
+import ru.hse.coursework.godaily.core.security.VerificationManager
 import ru.hse.coursework.godaily.core.tracking.TrackingService
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
 import javax.inject.Singleton
@@ -49,9 +49,9 @@ object AppModule {
     @Singleton
     fun provideErrorHandler(
         @ApplicationContext context: Context,
-        jwtManager: JwtManager
+        verificationManager: VerificationManager
     ): ErrorHandler {
-        return ErrorHandler(context, jwtManager)
+        return ErrorHandler(context, verificationManager)
     }
 
     @Provides

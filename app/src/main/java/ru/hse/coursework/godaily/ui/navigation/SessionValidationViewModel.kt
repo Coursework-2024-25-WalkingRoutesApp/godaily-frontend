@@ -12,14 +12,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.hse.coursework.godaily.core.data.model.UserDto
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
+import ru.hse.coursework.godaily.core.domain.authorization.CheckEmailVerificationUseCase
 import ru.hse.coursework.godaily.core.domain.authorization.CheckJwtUseCase
-import ru.hse.coursework.godaily.core.security.JwtManager
+import ru.hse.coursework.godaily.core.security.VerificationManager
 import javax.inject.Inject
 
 @HiltViewModel
-class JwtViewModel @Inject constructor(
+class SessionValidationViewModel @Inject constructor(
     private val checkJwtUseCase: CheckJwtUseCase,
-    private val jwtManager: JwtManager
+    private val checkEmailVerificationUseCase: CheckEmailVerificationUseCase,
+    private val verificationManager: VerificationManager
 ) : ViewModel() {
     private val _isTokenValid = MutableStateFlow<Boolean?>(null)
     val isTokenValid: StateFlow<Boolean?> = _isTokenValid.asStateFlow()
@@ -27,19 +29,25 @@ class JwtViewModel @Inject constructor(
     private val _isVerified = MutableStateFlow<Boolean?>(null)
     val isVerified: StateFlow<Boolean?> = _isVerified.asStateFlow()
 
-    val jwtFlow = jwtManager.jwtFlow
+    val jwtFlow = verificationManager.jwtFlow
+    val verificationFlow = verificationManager.verificationFlow
 
     init {
         viewModelScope.launch {
-            jwtFlow.collect { jwt ->
-                jwt?.let { checkTokenValidity() }
-                    ?: _isTokenValid.update { false }
+            launch {
+                jwtFlow.collect { jwt ->
+                    jwt?.let { checkTokenValidity() }
+                        ?: _isTokenValid.update { false }
+                }
+            }
+            launch {
+                verificationFlow.collect {
+                    checkVerification()
+                }
             }
         }
     }
 
-    //TODO разные действия при разных случаях: проблемы с JWT/верификацией
-    // Переписать
     private suspend fun checkTokenValidity() {
         val isValid = withContext(Dispatchers.IO) {
             val resultResponse = checkJwtUseCase.execute()
@@ -50,7 +58,7 @@ class JwtViewModel @Inject constructor(
                 }
 
                 is ApiCallResult.Error -> {
-                    jwtManager.clearJwt()
+                    verificationManager.clearJwt()
                     false
                 }
             }
@@ -58,8 +66,29 @@ class JwtViewModel @Inject constructor(
         _isTokenValid.update { isValid }
     }
 
-    private fun isVerified() {
+    private suspend fun checkVerification() {
+        val isVerified = withContext(Dispatchers.IO) {
+            val resultResponse = checkEmailVerificationUseCase.execute()
+            when (resultResponse) {
+                is ApiCallResult.Success -> {
+                    if (resultResponse.data) {
+                        verificationManager.saveVerificationStatus(true)
+                        true
+                    } else {
+                        verificationManager.clearVerificationStatus()
+                        false
+                    }
 
+                }
+
+                is ApiCallResult.Error -> {
+                    verificationManager.clearVerificationStatus()
+                    false
+                }
+            }
+        }
+
+        _isVerified.update { isVerified }
     }
 }
 

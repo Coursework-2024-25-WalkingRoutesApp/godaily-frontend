@@ -7,14 +7,15 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class JwtManager @Inject constructor(
+class VerificationManager @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
 
     private val _jwtFlow = MutableStateFlow(sharedPreferences.getString(JWT_KEY, null))
     val jwtFlow: StateFlow<String?> = _jwtFlow
 
-    private val _verificationFlow = MutableStateFlow(sharedPreferences.getBoolean(VERIFICATION_KEY, false))
+    private val _verificationFlow =
+        MutableStateFlow(sharedPreferences.getBoolean(VERIFICATION_KEY, false))
     val verificationFlow: StateFlow<Boolean> = _verificationFlow
 
     fun saveJwt(jwt: String) {

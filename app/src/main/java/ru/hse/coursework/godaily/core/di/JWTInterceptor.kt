@@ -5,16 +5,16 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 
-import ru.hse.coursework.godaily.core.security.JwtManager
+import ru.hse.coursework.godaily.core.security.VerificationManager
 
 class JWTInterceptor(
-    private val jwtManager: JwtManager
+    private val verificationManager: VerificationManager
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
 
-        val jwt = runBlocking { jwtManager.jwtFlow.value }
+        val jwt = runBlocking { verificationManager.jwtFlow.value }
 
         val modifiedRequest = if (jwt != null) {
             originalRequest.newBuilder()

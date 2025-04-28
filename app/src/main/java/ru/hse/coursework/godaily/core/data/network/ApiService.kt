@@ -34,11 +34,22 @@ interface ApiService {
         @Query("password") password: String
     ): Response<String>
 
+    @GET(USER_BASE_PATH_URL + CHECK_VERIFIED_URL)
+    suspend fun checkVerification(): Response<Boolean>
+
+    @PUT(USER_BASE_PATH_URL + SEND_VERIFICATION_CODE_URL)
+    suspend fun sendVerificationCode(
+        @Query("email") email: String
+    ): Response<String>
+
+    @GET(USER_BASE_PATH_URL + CHECK_VERIFICATION_CODE_URL)
+    suspend fun checkVerificationCode(
+        @Query("verificationCode") verificationCode: String
+    ): Response<String>
+
     @GET(USER_BASE_PATH_URL + GET_USER_INFO_URL)
     suspend fun getUserInfo(): Response<Any>
 
-    //TODO
-    // Сохранение информации о пользователе
     @Multipart
     suspend fun saveUserPhoto(
         @Part photo: MultipartBody.Part?

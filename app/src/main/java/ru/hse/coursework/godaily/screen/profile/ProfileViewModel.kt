@@ -16,7 +16,7 @@ import ru.hse.coursework.godaily.core.domain.profile.FetchProfileInfoUseCase
 import ru.hse.coursework.godaily.core.domain.profile.ProfileInfo
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserEditedNameUseCase
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserPhotoUseCase
-import ru.hse.coursework.godaily.core.security.JwtManager
+import ru.hse.coursework.godaily.core.security.VerificationManager
 import ru.hse.coursework.godaily.core.tracking.TrackingService
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
 import java.util.UUID
@@ -27,7 +27,7 @@ class ProfileViewModel @Inject constructor(
     private val fetchProfileInfoUseCase: FetchProfileInfoUseCase,
     private val saveUserEditedNameUseCase: SaveUserEditedNameUseCase,
     private val saveUserPhotoUseCase: SaveUserPhotoUseCase,
-    private val jwtManager: JwtManager,
+    private val verificationManager: VerificationManager,
     private val errorHandler: ErrorHandler,
     private val trackingService: TrackingService,
     val imageLoader: ImageLoader
@@ -104,7 +104,8 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun exit() {
-        jwtManager.clearJwt()
+        verificationManager.clearJwt()
+        verificationManager.clearVerificationStatus()
     }
 }
 
