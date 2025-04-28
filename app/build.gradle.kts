@@ -98,17 +98,17 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3:1.3.1")
-    implementation("androidx.navigation:navigation-compose:2.8.5")
+    implementation("androidx.compose.material3:material3:1.3.2")
+    implementation("androidx.navigation:navigation-compose:2.8.9")
     implementation("androidx.compose.ui:ui-text")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.1")
     implementation("androidx.compose.material:material-icons-core:1.7.8")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
     //Jackson
     implementation("com.squareup.retrofit2:converter-jackson:2.11.0")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.1")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.3")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3")
 
 
     // Kotlinx Serialization
@@ -119,7 +119,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
 
     //DataStore
-    implementation("androidx.datastore:datastore-preferences:1.1.3")
+    implementation("androidx.datastore:datastore-preferences:1.1.5")
 
     //Coil
     implementation("io.coil-kt.coil3:coil-compose:3.0.4")
