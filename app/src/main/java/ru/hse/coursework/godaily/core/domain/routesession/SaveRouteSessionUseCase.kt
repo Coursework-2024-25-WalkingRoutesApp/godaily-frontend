@@ -4,14 +4,12 @@ import ru.hse.coursework.godaily.core.data.model.RouteSessionDto
 import ru.hse.coursework.godaily.core.data.network.ApiService
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
 import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
-import ru.hse.coursework.godaily.core.domain.service.UuidService
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
 class SaveRouteSessionUseCase @Inject constructor(
     private val api: ApiService,
-    private val uuidService: UuidService,
     private val safeApiCaller: SafeApiCaller
 ) {
     suspend fun execute(

@@ -11,6 +11,8 @@ import dagger.hilt.components.SingletonComponent
 import ru.hse.coursework.godaily.R
 import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
 import ru.hse.coursework.godaily.core.domain.location.LocationService
+import ru.hse.coursework.godaily.core.domain.service.CropProfilePhotoService
+import ru.hse.coursework.godaily.core.domain.service.CropRoutePreviewService
 import ru.hse.coursework.godaily.core.domain.service.UuidService
 import ru.hse.coursework.godaily.core.security.VerificationManager
 import ru.hse.coursework.godaily.core.tracking.TrackingService
@@ -58,6 +60,18 @@ object AppModule {
     @Singleton
     fun provideImageLoader(@ApplicationContext context: Context): ImageLoader {
         return ImageLoader.Builder(context).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCropProfilePhotoService(): CropProfilePhotoService {
+        return CropProfilePhotoService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCropRoutePreviewService(): CropRoutePreviewService {
+        return CropRoutePreviewService()
     }
 
     @Provides

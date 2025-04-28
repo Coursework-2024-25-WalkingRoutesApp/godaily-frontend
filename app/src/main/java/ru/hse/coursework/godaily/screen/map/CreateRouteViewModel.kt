@@ -16,6 +16,7 @@ import ru.hse.coursework.godaily.core.domain.routedetails.FetchRouteDetailsUseCa
 import ru.hse.coursework.godaily.core.domain.routedetails.RouteDetails
 import ru.hse.coursework.godaily.core.domain.routes.SaveRouteUseCase
 import ru.hse.coursework.godaily.core.domain.routesession.TitledPoint
+import ru.hse.coursework.godaily.core.domain.service.CropRoutePreviewService
 import ru.hse.coursework.godaily.core.domain.service.PhotoConverterService
 import ru.hse.coursework.godaily.core.domain.service.UuidService
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
@@ -30,7 +31,8 @@ class CreateRouteViewModel @Inject constructor(
     private val uuidService: UuidService,
     private val photoConverterService: PhotoConverterService,
     private val errorHandler: ErrorHandler,
-    val imageLoader: ImageLoader
+    val imageLoader: ImageLoader,
+    val cropRoutePreviewService: CropRoutePreviewService,
 ) : ViewModel() {
 
     val isLoading = mutableStateOf(false)
@@ -106,11 +108,6 @@ class CreateRouteViewModel @Inject constructor(
             }
         }
         isDataLoaded.value = true
-    }
-
-
-    fun updateRouteTitle(routeTitleValue: String) {
-        routeTitle.value = routeTitleValue
     }
 
     private fun convertCategories(categories: List<RouteDto.Category>): Set<Int> {

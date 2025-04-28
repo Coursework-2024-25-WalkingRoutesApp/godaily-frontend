@@ -169,12 +169,6 @@ data class BoundingBox(
             (minLat + maxLat) / 2,
             (minLon + maxLon) / 2
         )
-
-    val latitudeDelta: Double
-        get() = maxLat - minLat
-
-    val longitudeDelta: Double
-        get() = maxLon - minLon
 }
 
 

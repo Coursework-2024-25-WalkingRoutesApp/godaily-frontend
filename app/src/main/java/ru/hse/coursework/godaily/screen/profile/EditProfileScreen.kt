@@ -69,7 +69,7 @@ fun EditProfileScreen(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri: Uri? ->
             uri?.let {
-                val fileSizeInBytes = CropProfilePhotoService().getImageSize(context, it)
+                val fileSizeInBytes = viewModel.cropProfilePhotoService.getImageSize(context, it)
                 val maxSizeInBytes = 20 * 1024 * 1024
 
                 if (fileSizeInBytes > maxSizeInBytes) {
@@ -82,13 +82,6 @@ fun EditProfileScreen(
     )
 
     LoadingScreenWrapper(isLoading = isLoading) {
-//        val imagePickerLauncher = rememberLauncherForActivityResult(
-//            contract = ActivityResultContracts.GetContent(),
-//            onResult = { uri: Uri? ->
-//                uri?.let { CropProfilePhotoService().startCrop(it, context, cropLauncher) }
-//            }
-//        )
-
         LaunchedEffect(Unit) {
             viewModel.loadUserData()
         }
@@ -123,7 +116,6 @@ fun EditProfileScreen(
                 ) {
                     CustomTextField(
                         text = viewModel.editedUserName,
-                        onValueChange = {},
                         placeholder = "Имя пользователя",
                         isRequired = true,
                         maxLength = 30

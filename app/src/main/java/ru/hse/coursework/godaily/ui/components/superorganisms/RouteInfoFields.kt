@@ -24,28 +24,27 @@ fun RouteInfoFields(
 ) {
     CustomTextField(
         text = title,
-        onValueChange = {},
         placeholder = "Название маршрута",
         isRequired = true,
         maxLength = 30
     )
+    Spacer(modifier = Modifier.height(10.dp))
     CustomTextField(
         text = description,
-        onValueChange = {},
         placeholder = "Описание маршрута",
         isRequired = false,
         maxLength = 1000
     )
+    Spacer(modifier = Modifier.height(10.dp))
     CustomTextField(
         text = startPoint,
-        onValueChange = {},
         placeholder = "Стартовая точка",
         isRequired = true,
         maxLength = 30
     )
+    Spacer(modifier = Modifier.height(10.dp))
     CustomTextField(
         text = endPoint,
-        onValueChange = {},
         placeholder = "Финишная точка",
         isRequired = true,
         maxLength = 30

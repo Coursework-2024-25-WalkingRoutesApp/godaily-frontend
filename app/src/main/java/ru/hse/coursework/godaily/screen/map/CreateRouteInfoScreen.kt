@@ -78,7 +78,6 @@ fun CreateRouteInfoScreen(
         }
     )
 
-    //TODO во всех сервисах с фото пересмотреть di
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri: Uri? ->
@@ -89,7 +88,7 @@ fun CreateRouteInfoScreen(
                 if (fileSizeInBytes > maxSizeInBytes) {
                     ToastManager(context).showToast("Файл слишком большой. Максимальный размер 20 МБ.")
                 } else {
-                    CropRoutePreviewService().startCrop(it, context, cropLauncher)
+                    viewModel.cropRoutePreviewService.startCrop(it, context, cropLauncher)
                 }
             }
         }

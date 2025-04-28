@@ -1,5 +1,6 @@
 package ru.hse.coursework.godaily.ui.navigation
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -10,6 +11,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -30,6 +32,7 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavigationItem.Profile
     )
 
+    //todo
     NavigationBar(
         containerColor = Color.White,
         modifier = Modifier.height(50.dp)
@@ -40,6 +43,7 @@ fun BottomNavigationBar(navController: NavController) {
         items.forEach { item ->
             NavigationBarItem(
                 selected = currentRoute == item.route,
+                modifier = Modifier.align(Alignment.CenterVertically),
                 onClick = {
                     navController.navigate(item.route)
                 },
@@ -58,7 +62,6 @@ fun BottomNavigationBar(navController: NavController) {
 
         }
     }
-
 }
 
 

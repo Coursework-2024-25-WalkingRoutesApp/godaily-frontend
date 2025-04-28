@@ -68,13 +68,6 @@ fun AddPhotoScreen(
         }
     )
 
-//    val imagePickerLauncher = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.GetContent(),
-//        onResult = { uri: Uri? ->
-//            uri?.let { CropProfilePhotoService().startCrop(it, context, cropLauncher) }
-//        }
-//    )
-
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri: Uri? ->
@@ -85,7 +78,7 @@ fun AddPhotoScreen(
                 if (fileSizeInBytes > maxSizeInBytes) {
                     ToastManager(context).showToast("Файл слишком большой. Максимальный размер 20 МБ.")
                 } else {
-                    CropProfilePhotoService().startCrop(it, context, cropLauncher)
+                    viewModel.cropProfilePhotoService.startCrop(it, context, cropLauncher)
                 }
             }
         }

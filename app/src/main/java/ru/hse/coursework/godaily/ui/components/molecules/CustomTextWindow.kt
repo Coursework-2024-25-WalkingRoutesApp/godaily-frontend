@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyDark
+import ru.hse.coursework.godaily.ui.theme.greyLight
 import ru.hse.coursework.godaily.ui.theme.purpleDark
 
 @Composable
@@ -60,7 +61,7 @@ fun CustomTextWindow(
             textStyle = TextStyle(
                 fontFamily = RobotoFontFamily,
                 fontWeight = FontWeight.Light,
-                fontSize = 15.sp,
+                fontSize = 17.sp,
                 color = black,
             ),
             modifier = Modifier
@@ -72,7 +73,7 @@ fun CustomTextWindow(
                     style = TextStyle(
                         fontFamily = RobotoFontFamily,
                         fontWeight = FontWeight.Light,
-                        fontSize = 15.sp,
+                        fontSize = 17.sp,
                         color = greyDark
                     )
                 )
@@ -81,6 +82,7 @@ fun CustomTextWindow(
             colors = TextFieldDefaults.colors().copy(
                 focusedIndicatorColor = purpleDark,
                 cursorColor = black,
+                unfocusedIndicatorColor = greyLight,
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent
             ),

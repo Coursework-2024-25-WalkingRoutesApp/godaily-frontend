@@ -41,7 +41,7 @@ fun AddPointTitleDialog(
         Dialog(onDismissRequest = {}) {
             Box(
                 modifier = Modifier
-                    .size(width = 338.dp, height = 450.dp)
+                    .size(width = 338.dp, height = 463.dp)
                     .background(Color.White, shape = RoundedCornerShape(8.dp))
                     .padding(top = 25.dp, bottom = 20.dp),
                 contentAlignment = Alignment.TopCenter
@@ -64,9 +64,10 @@ fun AddPointTitleDialog(
                             textAlign = TextAlign.Start
                         )
 
+                        Spacer(modifier = Modifier.height(13.dp))
+
                         CustomTextField(
                             text = title,
-                            onValueChange = { title.value = it },
                             placeholder = "Название",
                             isRequired = true,
                         )

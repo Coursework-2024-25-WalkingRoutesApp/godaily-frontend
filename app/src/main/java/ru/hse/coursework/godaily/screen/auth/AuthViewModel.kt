@@ -17,6 +17,7 @@ import ru.hse.coursework.godaily.core.domain.authorization.LoginUserUseCase
 import ru.hse.coursework.godaily.core.domain.authorization.RegisterUserUseCase
 import ru.hse.coursework.godaily.core.domain.authorization.SendVerificationCodeUseCase
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserPhotoUseCase
+import ru.hse.coursework.godaily.core.domain.service.CropProfilePhotoService
 import ru.hse.coursework.godaily.core.security.VerificationManager
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
 import javax.inject.Inject
@@ -30,7 +31,8 @@ class AuthViewModel @Inject constructor(
     private val checkEmailVerificationUseCase: CheckEmailVerificationUseCase,
     private val checkVerificationCodeUseCase: CheckVerificationCodeUseCase,
     private val sendVerificationCodeUseCase: SendVerificationCodeUseCase,
-    private val errorHandler: ErrorHandler
+    private val errorHandler: ErrorHandler,
+    val cropProfilePhotoService: CropProfilePhotoService,
 ) : ViewModel() {
 
     val isLoading = mutableStateOf(false)

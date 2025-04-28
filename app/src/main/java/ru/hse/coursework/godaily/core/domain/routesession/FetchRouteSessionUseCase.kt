@@ -4,14 +4,12 @@ import com.yandex.mapkit.geometry.Point
 import ru.hse.coursework.godaily.core.data.network.ApiService
 import ru.hse.coursework.godaily.core.domain.apiprocessing.ApiCallResult
 import ru.hse.coursework.godaily.core.domain.apiprocessing.SafeApiCaller
-import ru.hse.coursework.godaily.core.domain.service.UuidService
 import java.util.UUID
 import javax.inject.Inject
 
 class FetchRouteSessionUseCase @Inject constructor(
     private val api: ApiService,
     private val safeApiCaller: SafeApiCaller,
-    private val uuidService: UuidService
 ) {
     suspend fun execute(routeId: UUID): ApiCallResult<Any> {
         //TODO хардкод

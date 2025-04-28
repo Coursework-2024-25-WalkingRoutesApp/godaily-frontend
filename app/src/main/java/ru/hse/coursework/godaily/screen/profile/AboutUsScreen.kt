@@ -81,7 +81,15 @@ fun AboutUsScreen(
                         url = "mailto:aevsyukov_1@edu.hse.ru",
                         onClick = ::openLink
                     )
-                    Spacer(Modifier.height(15.dp))
+                    Spacer(Modifier.height(30.dp))
+                    VariableMedium(text = "Задать вопросы о приложении", fontSize = 20.sp)
+                    Spacer(Modifier.height(20.dp))
+                    ClickableTextLink(
+                        text = "godaily.appnotification@gmail.com",
+                        url = "mailto:godaily.appnotification@gmail.com",
+                        onClick = ::openLink
+                    )
+                    Spacer(Modifier.height(30.dp))
                     VariableMedium(text = "Условия использования Яндекс карт", fontSize = 20.sp)
                     Spacer(Modifier.height(20.dp))
                     ClickableTextLink(

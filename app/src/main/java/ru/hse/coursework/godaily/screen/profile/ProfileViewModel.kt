@@ -16,6 +16,7 @@ import ru.hse.coursework.godaily.core.domain.profile.FetchProfileInfoUseCase
 import ru.hse.coursework.godaily.core.domain.profile.ProfileInfo
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserEditedNameUseCase
 import ru.hse.coursework.godaily.core.domain.profile.SaveUserPhotoUseCase
+import ru.hse.coursework.godaily.core.domain.service.CropProfilePhotoService
 import ru.hse.coursework.godaily.core.security.VerificationManager
 import ru.hse.coursework.godaily.core.tracking.TrackingService
 import ru.hse.coursework.godaily.ui.errorsprocessing.ErrorHandler
@@ -30,7 +31,8 @@ class ProfileViewModel @Inject constructor(
     private val verificationManager: VerificationManager,
     private val errorHandler: ErrorHandler,
     private val trackingService: TrackingService,
-    val imageLoader: ImageLoader
+    val imageLoader: ImageLoader,
+    val cropProfilePhotoService: CropProfilePhotoService,
 ) : ViewModel() {
 
     val isLoading = mutableStateOf(false)

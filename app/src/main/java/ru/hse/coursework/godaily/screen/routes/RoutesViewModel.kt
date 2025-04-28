@@ -81,10 +81,6 @@ class RoutesViewModel @Inject constructor(
         }
     }
 
-    fun getUuid(): UUID {
-        return uuidService.getRandomUUID()
-    }
-
     fun trackRouteDetailsOpen(routeId: UUID?, routeName: String?) {
         trackingService.trackRouteDetailsOpen(routeId, routeName)
     }

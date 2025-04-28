@@ -109,22 +109,44 @@ fun YandexMapCreateRouteView(
             override fun onMapTap(map: Map, point: Point) {
                 if (isAddingPoint.value) return
 
-                isAddingPoint.value = true
-
-                val newPoint = TitledPoint(UUID.randomUUID(), point, "", "")
-                routePoints.add(newPoint)
-                selectedPoint.value = newPoint
-                updateRoute(map, routePoints, startIcon, midIcon, endIcon)
                 coroutineScope.launch {
-                    delay(800)
+                    isAddingPoint.value = true
+
+                    val newPoint = TitledPoint(UUID.randomUUID(), point, "", "")
+                    routePoints.add(newPoint)
+                    selectedPoint.value = newPoint
+                    updateRoute(map, routePoints, startIcon, midIcon, endIcon)
+
+                    delay(300)
                     showAddPointTitleDialog.value = true
-                    isAddingPoint.value = false
                 }
             }
 
             override fun onMapLongTap(map: Map, point: Point) {}
         }
     }
+
+//    val inputListener = remember(context) {
+//        object : InputListener {
+//            override fun onMapTap(map: Map, point: Point) {
+//                if (isAddingPoint.value) return
+//
+//                isAddingPoint.value = true
+//
+//                val newPoint = TitledPoint(UUID.randomUUID(), point, "", "")
+//                routePoints.add(newPoint)
+//                selectedPoint.value = newPoint
+//                updateRoute(map, routePoints, startIcon, midIcon, endIcon)
+//                coroutineScope.launch {
+//                    delay(800)
+//                    showAddPointTitleDialog.value = true
+//                    isAddingPoint.value = false
+//                }
+//            }
+//
+//            override fun onMapLongTap(map: Map, point: Point) {}
+//        }
+//    }
 
     LaunchedEffect(Unit) {
         mapView.onStart()
@@ -282,9 +304,12 @@ fun YandexMapCreateRouteView(
                     } else {
                         point.title = title
                         point.description = description
+                        isAddingPoint.value = false
                     }
                 },
-                onKeepWithNoTitleClick = {}
+                onKeepWithNoTitleClick = {
+                    isAddingPoint.value = false
+                }
             )
 
         }

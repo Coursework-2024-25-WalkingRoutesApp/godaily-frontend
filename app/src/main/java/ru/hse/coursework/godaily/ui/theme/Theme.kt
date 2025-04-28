@@ -20,14 +20,14 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
     primary = purpleDark,
-    onPrimary = Color.White,         // Текст или иконки на primary
+    onPrimary = Color.White,
     secondary = purpleLight,
-    onSecondary = Color.Black,       // Текст или иконки на secondary
+    onSecondary = Color.Black,
     tertiary = lime,
-    background = Color.White,        // Фон приложения
-    onBackground = Color.Black,      // Текст на фоне
-    surface = Color.White,           // Цвет поверхностей (карточек)
-    onSurface = Color.Black          // Текст на поверхностях
+    background = Color.White,
+    onBackground = Color.Black,
+    surface = Color.White,
+    onSurface = Color.Black
 )
 
 

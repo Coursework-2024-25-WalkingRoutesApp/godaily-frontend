@@ -16,8 +16,6 @@ class FetchProfileInfoUseCase @Inject constructor(
     private val objectMapper: ObjectMapper
 ) {
     suspend fun execute(): ApiCallResult<Any> {
-        //TODO хардкод
-        //TODO переписать потому что неправильно (см check jwt
         val userDtoResponse = safeApiCaller.safeApiCall { api.getUserInfo() }
         if (userDtoResponse !is ApiCallResult.Success) {
             return userDtoResponse
