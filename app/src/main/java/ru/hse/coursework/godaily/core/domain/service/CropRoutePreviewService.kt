@@ -1,8 +1,11 @@
 package ru.hse.coursework.godaily.core.domain.service
 
+import android.content.Context
 import android.net.Uri
+import android.provider.OpenableColumns
 import com.yalantis.ucrop.UCrop
 import java.io.File
+import java.io.FileNotFoundException
 
 class CropRoutePreviewService : CropService {
     override fun startCrop(
@@ -31,6 +34,26 @@ class CropRoutePreviewService : CropService {
             setHideBottomControls(false)
             setFreeStyleCropEnabled(false)
             setShowCropGrid(true)
+        }
+    }
+
+    fun getImageSize(context: Context, uri: Uri): Long {
+        return try {
+            context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+                val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
+                cursor.moveToFirst()
+                if (sizeIndex != -1) {
+                    cursor.getLong(sizeIndex)
+                } else {
+                    context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                        inputStream.available().toLong()
+                    } ?: 0L
+                }
+            } ?: 0L
+        } catch (e: FileNotFoundException) {
+            0L
+        } catch (e: SecurityException) {
+            0L
         }
     }
 }

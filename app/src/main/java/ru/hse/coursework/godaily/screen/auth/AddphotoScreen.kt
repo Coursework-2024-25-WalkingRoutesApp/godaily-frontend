@@ -44,6 +44,7 @@ import ru.hse.coursework.godaily.core.domain.service.CropProfilePhotoService
 import ru.hse.coursework.godaily.ui.components.atoms.VariableBold
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
 import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
+import ru.hse.coursework.godaily.ui.notification.ToastManager
 import ru.hse.coursework.godaily.ui.theme.RobotoFontFamily
 import ru.hse.coursework.godaily.ui.theme.greyLight
 
@@ -67,12 +68,29 @@ fun AddPhotoScreen(
         }
     )
 
+//    val imagePickerLauncher = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.GetContent(),
+//        onResult = { uri: Uri? ->
+//            uri?.let { CropProfilePhotoService().startCrop(it, context, cropLauncher) }
+//        }
+//    )
+
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri: Uri? ->
-            uri?.let { CropProfilePhotoService().startCrop(it, context, cropLauncher) }
+            uri?.let {
+                val fileSizeInBytes = CropProfilePhotoService().getImageSize(context, it)
+                val maxSizeInBytes = 20 * 1024 * 1024
+
+                if (fileSizeInBytes > maxSizeInBytes) {
+                    ToastManager(context).showToast("Файл слишком большой. Максимальный размер 20 МБ.")
+                } else {
+                    CropProfilePhotoService().startCrop(it, context, cropLauncher)
+                }
+            }
         }
     )
+
 
     LoadingScreenWrapper(isLoading = isLoading) {
         Box(modifier = Modifier.fillMaxSize()) {

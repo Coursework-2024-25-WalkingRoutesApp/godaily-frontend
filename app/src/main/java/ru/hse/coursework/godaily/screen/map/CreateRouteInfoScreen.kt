@@ -48,6 +48,7 @@ import ru.hse.coursework.godaily.ui.components.superorganisms.RouteInfoFields
 import ru.hse.coursework.godaily.ui.components.superorganisms.Tutorial
 import ru.hse.coursework.godaily.ui.navigation.BottomNavigationItem
 import ru.hse.coursework.godaily.ui.navigation.NavigationItem
+import ru.hse.coursework.godaily.ui.notification.ToastManager
 import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyDark
 
@@ -77,10 +78,20 @@ fun CreateRouteInfoScreen(
         }
     )
 
+    //TODO во всех сервисах с фото пересмотреть di
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri: Uri? ->
-            uri?.let { CropRoutePreviewService().startCrop(it, context, cropLauncher) }
+            uri?.let {
+                val fileSizeInBytes = CropRoutePreviewService().getImageSize(context, it)
+                val maxSizeInBytes = 20 * 1024 * 1024
+
+                if (fileSizeInBytes > maxSizeInBytes) {
+                    ToastManager(context).showToast("Файл слишком большой. Максимальный размер 20 МБ.")
+                } else {
+                    CropRoutePreviewService().startCrop(it, context, cropLauncher)
+                }
+            }
         }
     )
 

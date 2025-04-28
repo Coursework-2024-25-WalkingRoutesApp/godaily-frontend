@@ -135,12 +135,14 @@ fun YandexMapNavigationView(
                                     R.drawable.geolocation
                                 )
                             )
+                            userLocationView.arrow.setIconStyle(IconStyle().apply { scale = 0.3f })
                             userLocationView.pin.setIcon(
                                 ImageProvider.fromResource(
                                     context,
                                     R.drawable.geolocation
                                 )
                             )
+                            userLocationView.pin.setIconStyle(IconStyle().apply { scale = 0.3f })
 
                             userLocationView.accuracyCircle.fillColor =
                                 ColorUtils.setAlphaComponent(
@@ -162,14 +164,14 @@ fun YandexMapNavigationView(
                 val map = view.mapWindow.map
                 if (routePoints.isNotEmpty()) {
                     map.move(
-                        CameraPosition(routePoints[0].point, 14.0f, 0.0f, 0.0f),
+                        CameraPosition(routePoints[0].point, 17.0f, 0.0f, 0.0f),
                         Animation(Animation.Type.SMOOTH, 1.5f),
                         null
                     )
                 }
                 if (passedPoints.isNotEmpty()) {
                     map.move(
-                        CameraPosition(passedPoints.last().point, 14.0f, 0.0f, 0.0f),
+                        CameraPosition(passedPoints.last().point, 17.0f, 0.0f, 0.0f),
                         Animation(Animation.Type.SMOOTH, 1.5f),
                         null
                     )

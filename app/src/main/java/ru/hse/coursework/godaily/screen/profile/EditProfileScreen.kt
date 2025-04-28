@@ -41,6 +41,7 @@ import ru.hse.coursework.godaily.ui.components.molecules.CustomTextField
 import ru.hse.coursework.godaily.ui.components.molecules.HeaderWithBackground
 import ru.hse.coursework.godaily.ui.components.molecules.StartButton
 import ru.hse.coursework.godaily.ui.components.superorganisms.LoadingScreenWrapper
+import ru.hse.coursework.godaily.ui.notification.ToastManager
 import ru.hse.coursework.godaily.ui.theme.black
 import ru.hse.coursework.godaily.ui.theme.greyDark
 
@@ -64,13 +65,29 @@ fun EditProfileScreen(
         }
     )
 
-    LoadingScreenWrapper(isLoading = isLoading) {
-        val imagePickerLauncher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.GetContent(),
-            onResult = { uri: Uri? ->
-                uri?.let { CropProfilePhotoService().startCrop(it, context, cropLauncher) }
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri: Uri? ->
+            uri?.let {
+                val fileSizeInBytes = CropProfilePhotoService().getImageSize(context, it)
+                val maxSizeInBytes = 20 * 1024 * 1024
+
+                if (fileSizeInBytes > maxSizeInBytes) {
+                    ToastManager(context).showToast("Файл слишком большой. Максимальный размер 20 МБ.")
+                } else {
+                    CropProfilePhotoService().startCrop(it, context, cropLauncher)
+                }
             }
-        )
+        }
+    )
+
+    LoadingScreenWrapper(isLoading = isLoading) {
+//        val imagePickerLauncher = rememberLauncherForActivityResult(
+//            contract = ActivityResultContracts.GetContent(),
+//            onResult = { uri: Uri? ->
+//                uri?.let { CropProfilePhotoService().startCrop(it, context, cropLauncher) }
+//            }
+//        )
 
         LaunchedEffect(Unit) {
             viewModel.loadUserData()
