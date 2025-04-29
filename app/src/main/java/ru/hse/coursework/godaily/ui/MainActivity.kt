@@ -24,19 +24,6 @@ class MainActivity : ComponentActivity() {
                     permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
         if (locationPermissionGranted) {
             ToastManager(this).showToast("Разрешение получено")
-
-
-        } else {
-            ToastManager(this).showToast(
-                "Приложение работает только с использованием геолокации",
-                Toast.LENGTH_LONG
-            )
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri: Uri = Uri.fromParts("package", packageName, null)
-            intent.data = uri
-            startActivity(intent)
-
-            finish()
         }
     }
 

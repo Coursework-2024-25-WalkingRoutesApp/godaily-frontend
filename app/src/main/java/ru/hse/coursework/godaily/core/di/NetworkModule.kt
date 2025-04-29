@@ -61,8 +61,8 @@ class NetworkModule {
         return Retrofit.Builder()
             //.baseUrl("http://10.110.92.162:8080/") //hse api_gateway
             //.baseUrl("http://10.95.81.246:8080/") //LTE api_gateway
-            //.baseUrl("http://10.255.199.246:8080/")
-            .baseUrl("http://192.168.0.65:8080/") //домашний api_gateway
+            .baseUrl("http://10.255.199.246:8080/")
+            //.baseUrl("http://192.168.0.65:8080/") //домашний api_gateway
             .callFactory { okHttp.get().newCall(it) }
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(
