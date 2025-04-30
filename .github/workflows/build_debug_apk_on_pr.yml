@@ -27,6 +27,7 @@ jobs:
         run: |
           echo "MAPKIT_API_KEY=${{ secrets.MAPKIT_API_KEY }}" >> local.properties
           echo "APPMETRICA_API_KEY=${{ secrets.APPMETRICA_API_KEY }}" >> local.properties
+          echo "SERVER_URL=${{ secrets.SERVER_URL }}" >> local.properties
 
       - name: Build APK
         run: ./gradlew assembleDebug
