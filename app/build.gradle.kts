@@ -26,6 +26,19 @@ val appMetricaApiKey: String by extra {
     value
 }
 
+val serverUrl: String by extra {
+    val properties = Properties()
+    val localPropertiesFile = project.rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { properties.load(it) }
+    }
+    val value = properties.getProperty("SERVER_URL", "")
+    if (value.isEmpty()) {
+        throw InvalidUserDataException("Server URL is not provided")
+    }
+    value
+}
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -53,6 +66,7 @@ android {
 
         buildConfigField("String", "MAPKIT_API_KEY", "\"$mapkitApiKey\"")
         buildConfigField("String", "APPMETRICA_API_KEY", "\"$appMetricaApiKey\"")
+        buildConfigField("String", "SERVER_URL", "\"$serverUrl\"")
     }
 
     buildTypes {

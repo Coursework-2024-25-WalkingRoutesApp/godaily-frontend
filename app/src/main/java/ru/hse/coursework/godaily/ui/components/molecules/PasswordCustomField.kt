@@ -45,7 +45,7 @@ fun PasswordCustomField(
     text: MutableState<String>,
     placeholder: String = "Пароль",
     description: String = "Пароль",
-    maxCharacters: Int = 20,
+    maxCharacters: Int = 40,
     shouldBeChecked: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
