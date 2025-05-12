@@ -18,9 +18,4 @@ fun StartScreen(
     } else {
         AuthNavigation(navController)
     }
-
-//    when (isTokenValid.value) {
-//        true -> MainScreen(navController)
-//        else -> AuthNavigation(navController)
-//    }
 }

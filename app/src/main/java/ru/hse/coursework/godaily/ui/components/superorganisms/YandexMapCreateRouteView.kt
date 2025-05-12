@@ -126,28 +126,6 @@ fun YandexMapCreateRouteView(
         }
     }
 
-//    val inputListener = remember(context) {
-//        object : InputListener {
-//            override fun onMapTap(map: Map, point: Point) {
-//                if (isAddingPoint.value) return
-//
-//                isAddingPoint.value = true
-//
-//                val newPoint = TitledPoint(UUID.randomUUID(), point, "", "")
-//                routePoints.add(newPoint)
-//                selectedPoint.value = newPoint
-//                updateRoute(map, routePoints, startIcon, midIcon, endIcon)
-//                coroutineScope.launch {
-//                    delay(800)
-//                    showAddPointTitleDialog.value = true
-//                    isAddingPoint.value = false
-//                }
-//            }
-//
-//            override fun onMapLongTap(map: Map, point: Point) {}
-//        }
-//    }
-
     LaunchedEffect(Unit) {
         mapView.onStart()
         MapKitFactory.getInstance().onStart()

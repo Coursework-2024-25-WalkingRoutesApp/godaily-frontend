@@ -49,7 +49,6 @@ fun RouteTitleDurationForDetailsCard(
             Spacer(modifier = Modifier.height(0.dp))
             RouteDurationInfo(duration = formatDuration(route.duration))
 
-            // Расстояние
             RouteDurationInfo(duration = formatDistance(route.length))
         }
     }
