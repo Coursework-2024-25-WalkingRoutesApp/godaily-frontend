@@ -1,6 +1,5 @@
 package ru.hse.coursework.godaily.core.domain.service
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import ru.hse.coursework.godaily.core.data.model.RouteCardDto
@@ -32,11 +31,6 @@ class SortRouteService(
                             }
 
                             is ApiCallResult.Error -> {
-                                //TODO логирование в одном месте
-                                Log.e(
-                                    "RouteSorting",
-                                    "Error fetching details for route ${route.id}: ${result.message}"
-                                )
                                 route to 0.0
                             }
                         }

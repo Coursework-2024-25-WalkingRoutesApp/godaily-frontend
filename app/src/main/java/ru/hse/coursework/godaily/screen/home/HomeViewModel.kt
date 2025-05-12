@@ -109,7 +109,6 @@ class HomeViewModel @Inject constructor(
     fun searchRoutes() {
         selectedCategories.value = setOf()
         selectedSortOption.value = 0
-        //TODO хардкод
         chosenSortOptionText.value = "Ближе ко мне"
 
         viewModelScope.launch {

@@ -31,7 +31,6 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavigationItem.Profile
     )
 
-    //todo
     NavigationBar(
         containerColor = Color.White,
         modifier = Modifier.height(50.dp)

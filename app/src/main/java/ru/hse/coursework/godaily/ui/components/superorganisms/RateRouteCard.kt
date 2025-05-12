@@ -66,7 +66,6 @@ fun RateRouteCard(
 
         Column(
             modifier = Modifier
-            //.padding(horizontal = 16.dp)
         ) {
             RouteNameBig(text = title)
 

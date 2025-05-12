@@ -63,7 +63,6 @@ class ErrorHandler @Inject constructor(
                 verificationManager.clearVerificationStatus()
             }
 
-            //TODO убрать
             else -> {
                 Log.w(TAG, "Unexpected error occurred")
                 toastManager.showToast("Возникла ошибка: ${error.message}")
